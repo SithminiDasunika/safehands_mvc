@@ -1,0 +1,683 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f7fa;
+    color: #1f2937;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================
+   PAGE
+========================================= */
+
+.edit-patient-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 35px 45px 60px;
+}
+
+
+/* =========================================
+   BREADCRUMB
+========================================= */
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+.breadcrumb a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb strong {
+    color: #374151;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+    color: #111827;
+}
+
+.page-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.edit-layout {
+    display: grid;
+    grid-template-columns: 290px 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.patient-sidebar {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    position: sticky;
+    top: 25px;
+}
+
+.patient-preview {
+    text-align: center;
+    padding: 30px 20px 25px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.patient-photo-wrapper {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+    position: relative;
+}
+
+.patient-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e5e7eb;
+    border: 4px solid #ffffff;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+}
+
+.photo-overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.patient-photo-wrapper:hover .photo-overlay {
+    opacity: 1;
+}
+
+.change-photo-btn {
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.patient-preview h2 {
+    margin: 0;
+    font-size: 21px;
+    color: #111827;
+}
+
+.patient-relation {
+    margin: 6px 0 12px;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.care-status {
+    display: inline-block;
+    padding: 6px 11px;
+    background: #ecfdf5;
+    color: #047857;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   PROFILE STATS
+========================================= */
+
+.profile-stats {
+    padding: 24px;
+}
+
+.profile-stats h3 {
+    margin: 0 0 18px;
+    font-size: 16px;
+    color: #111827;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.stat-item strong {
+    font-size: 13px;
+    color: #374151;
+}
+
+
+/* =========================================
+   FORM CARDS
+========================================= */
+
+.edit-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 30px;
+}
+
+.section-header {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    padding-bottom: 24px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #edf0f3;
+}
+
+.section-number {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #eff6ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.section-header h2 {
+    margin: 0 0 5px;
+    font-size: 19px;
+    color: #111827;
+}
+
+.section-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 21px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 11px 13px;
+    background: #ffffff;
+    color: #111827;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input,
+.form-group select {
+    height: 44px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 95px;
+    line-height: 1.5;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================
+   CONDITIONS
+========================================= */
+
+.condition-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.condition-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    padding: 7px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.condition-tag button {
+    border: none;
+    background: transparent;
+    color: #1d4ed8;
+    font-size: 17px;
+    line-height: 1;
+    padding: 0;
+}
+
+.add-condition {
+    display: flex;
+    gap: 10px;
+}
+
+.add-condition input {
+    flex: 1;
+    height: 42px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+}
+
+.add-condition input:focus {
+    border-color: #2563eb;
+}
+
+.add-condition button {
+    height: 42px;
+    padding: 0 15px;
+    border: 1px solid #2563eb;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   DOCUMENTS
+========================================= */
+
+.documents-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.document-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.document-icon {
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    color: #374151;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.document-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.document-info strong {
+    display: block;
+    color: #111827;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.document-info span {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.document-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.document-btn {
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.replace-btn {
+    color: #2563eb;
+}
+
+.remove-btn {
+    color: #dc2626;
+}
+
+
+/* =========================================
+   UPLOAD
+========================================= */
+
+.upload-area {
+    margin-top: 18px;
+    padding: 22px;
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.upload-btn {
+    border: none;
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.upload-area p {
+    margin: 10px 0 0;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   FORM ACTIONS
+========================================= */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 5px;
+}
+
+.btn {
+    height: 45px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-reset {
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+}
+
+.btn-cancel {
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+}
+
+.btn-save {
+    border: 1px solid #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.btn-save:hover {
+    background: #1d4ed8;
+}
+
+.btn-reset:hover,
+.btn-cancel:hover {
+    background: #f9fafb;
+}
+
+
+/* =========================================
+   SUCCESS NOTIFICATION
+========================================= */
+
+.success-notification {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    width: 390px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #bbf7d0;
+    border-left: 5px solid #16a34a;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 9999;
+    transform: translateX(450px);
+    transition: transform 0.3s ease;
+}
+
+.success-notification.show {
+    transform: translateX(0);
+}
+
+.success-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #dcfce7;
+    color: #15803d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.success-notification strong {
+    display: block;
+    color: #166534;
+    font-size: 13px;
+    margin-bottom: 3px;
+}
+
+.success-notification span {
+    display: block;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.success-notification > button {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-size: 20px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+    .edit-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .patient-sidebar {
+        position: static;
+    }
+
+    .patient-preview {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .patient-photo-wrapper {
+        margin: 0;
+    }
+
+    .patient-preview h2 {
+        width: auto;
+    }
+
+    .profile-stats {
+        display: none;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .edit-patient-page {
+        padding: 25px 15px 40px;
+    }
+
+    .form-card {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: auto;
+    }
+
+    .add-condition {
+        flex-direction: column;
+    }
+
+    .document-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .document-actions {
+        width: 100%;
+        margin-left: 60px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .success-notification {
+        left: 15px;
+        right: 15px;
+        width: auto;
+    }
+
+}

@@ -10,33 +10,35 @@ class App
 
     protected array $params = [];
 
-
     public function __construct()
     {
         $url = $this->parseUrl();
 
-
         /*
-         * =========================================
-         * CONTROLLER
-         * =========================================
-         */
+        |--------------------------------------------------------------------------
+        | CONTROLLER
+        |--------------------------------------------------------------------------
+        */
 
         if (!empty($url[0])) {
 
-            /*
-             * Convert URL controller name
-             *
-             * forgot-password
-             *        ↓
-             * ForgotPasswordController
-             *
-             * register
-             *        ↓
-             * RegisterController
-             */
-
             $controllerPart = $url[0];
+
+            /*
+             * Convert URL controller names:
+             *
+             * caregiver
+             *      ↓
+             * CaregiverController
+             *
+             * care-reports
+             *      ↓
+             * CareReportsController
+             *
+             * payment-history
+             *      ↓
+             * PaymentHistoryController
+             */
 
             $controllerName =
                 str_replace(
@@ -51,46 +53,37 @@ class App
                     )
                 ) . 'Controller';
 
-
             $controllerFile =
                 __DIR__ .
                 '/../Controllers/' .
                 $controllerName .
                 '.php';
 
-
-            /*
-             * Controller exists
-             */
-
             if (file_exists($controllerFile)) {
 
-                $this->controllerName =
-                    $controllerName;
+                $this->controllerName = $controllerName;
 
                 require_once $controllerFile;
 
             } else {
 
                 /*
-                 * Controller doesn't exist
-                 * Use HomeController
+                 * Controller does not exist.
+                 * Use HomeController.
                  */
 
-                $this->controllerName =
-                    'HomeController';
+                $this->controllerName = 'HomeController';
 
                 require_once
                     __DIR__ .
                     '/../Controllers/HomeController.php';
             }
 
-
         } else {
 
             /*
-             * No URL
-             * Load HomeController
+             * No controller specified.
+             * Use HomeController.
              */
 
             require_once
@@ -100,51 +93,86 @@ class App
 
 
         /*
-         * =========================================
-         * CREATE CONTROLLER
-         * =========================================
-         */
+        |--------------------------------------------------------------------------
+        | CREATE CONTROLLER
+        |--------------------------------------------------------------------------
+        */
 
         $this->controller =
             new $this->controllerName;
 
 
         /*
-         * =========================================
-         * METHOD
-         * =========================================
-         */
+        |--------------------------------------------------------------------------
+        | METHOD
+        |--------------------------------------------------------------------------
+        */
 
         if (isset($url[1])) {
+
+            $methodPart = $url[1];
+
+            /*
+             * Convert URL method names:
+             *
+             * family-payment
+             *      ↓
+             * familyPayment
+             *
+             * process-payment
+             *      ↓
+             * processPayment
+             *
+             * payment-success
+             *      ↓
+             * paymentSuccess
+             */
+
+            $method =
+                lcfirst(
+                    str_replace(
+                        ' ',
+                        '',
+                        ucwords(
+                            str_replace(
+                                '-',
+                                ' ',
+                                $methodPart
+                            )
+                        )
+                    )
+                );
 
             if (
                 method_exists(
                     $this->controller,
-                    $url[1]
+                    $method
                 )
             ) {
 
-                $this->method =
-                    $url[1];
+                $this->method = $method;
             }
         }
 
 
         /*
-         * =========================================
-         * PARAMETERS
-         * =========================================
-         */
+        |--------------------------------------------------------------------------
+        | PARAMETERS
+        |--------------------------------------------------------------------------
+        */
 
         $this->params =
-            array_slice($url, 2);
+            array_slice(
+                $url,
+                2
+            );
 
 
         /*
-         * =========================================
-         * CALL CONTROLLER METHOD
-         * =========================================
-         */
+        |--------------------------------------------------------------------------
+        | CALL CONTROLLER METHOD
+        |--------------------------------------------------------------------------
+        */
 
         call_user_func_array(
             [
@@ -157,10 +185,10 @@ class App
 
 
     /*
-     * =========================================
-     * PARSE URL
-     * =========================================
-     */
+    |--------------------------------------------------------------------------
+    | PARSE URL
+    |--------------------------------------------------------------------------
+    */
 
     private function parseUrl(): array
     {
@@ -172,11 +200,10 @@ class App
                     '/'
                 );
 
-
             if ($url === '') {
+
                 return [];
             }
-
 
             return explode(
                 '/',
@@ -186,7 +213,6 @@ class App
                 )
             );
         }
-
 
         return [];
     }

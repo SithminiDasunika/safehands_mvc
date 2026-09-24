@@ -1,0 +1,803 @@
+/* =========================================================
+   SAFEHANDS - CAREGIVER REGISTRATION
+   MVC-compatible stylesheet
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f8fc;
+    color: #26344a;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.main-header {
+    width: 100%;
+    min-height: 70px;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    padding: 0 7%;
+    justify-content: space-between;
+}
+
+.header-container {
+    width: 100%;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo,
+.brand {
+    font-size: 21px;
+    font-weight: 700;
+    color: #2563eb;
+    white-space: nowrap;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-left: auto;
+    margin-right: 35px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #667085;
+    font-size: 13px;
+    padding: 25px 0;
+    transition: 0.2s ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #2563eb;
+}
+
+.main-nav a.active {
+    font-weight: 700;
+    border-bottom: 2px solid #2563eb;
+}
+
+.login-link,
+.login-button {
+    text-decoration: none;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    padding: 8px 19px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: 0.2s ease;
+}
+
+.login-link:hover,
+.login-button:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page-main {
+    width: 100%;
+}
+
+.page-container {
+    width: 640px;
+    max-width: 92%;
+    margin: 30px auto 45px;
+}
+
+.breadcrumb {
+    font-size: 11px;
+    color: #8a94a6;
+    margin-bottom: 8px;
+}
+
+.breadcrumb a {
+    color: #667085;
+}
+
+.breadcrumb a:hover {
+    color: #2563eb;
+}
+
+.breadcrumb span {
+    margin: 0 5px;
+}
+
+.breadcrumb strong {
+    color: #475467;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.page-heading {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.page-heading .small-title,
+.page-heading .heading-label {
+    display: block;
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+}
+
+.page-heading h1 {
+    color: #2563eb;
+    font-size: 25px;
+    line-height: 1.25;
+    margin-bottom: 7px;
+}
+
+.page-heading p {
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.page-heading .page-description {
+    color: #667085;
+}
+
+
+/* =========================================================
+   PROGRESS STEPS
+========================================================= */
+
+.progress-container,
+.progress-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    width: 100%;
+}
+
+.progress-step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #a0a8b5;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.progress-step.active {
+    color: #2563eb;
+}
+
+.progress-step.completed {
+    color: #198754;
+}
+
+.step-number,
+.step-circle {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    background: #edf0f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.progress-step.active .step-number,
+.progress-step.active .step-circle {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.progress-step.completed .step-number,
+.progress-step.completed .step-circle {
+    background: #198754;
+    color: #ffffff;
+}
+
+.step-text,
+.step-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.step-text small,
+.step-info small {
+    font-size: 8px;
+    color: currentColor;
+    opacity: 0.85;
+}
+
+.step-text strong,
+.step-info strong {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.progress-line {
+    width: 35px;
+    height: 1px;
+    background: #dce1e8;
+    margin: 0 10px;
+}
+
+.progress-line.completed-line {
+    background: #198754;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.form-card,
+.registration-form {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 7px;
+    padding: 20px 23px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.form-card-content {
+    width: 100%;
+}
+
+.section-title,
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.section-icon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 6px;
+    background: #edf3ff;
+    color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.section-title h2,
+.section-heading h2 {
+    color: #344054;
+    font-size: 13px;
+    margin: 0;
+}
+
+.section-heading p {
+    margin-top: 3px;
+    color: #8a94a6;
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.error-message,
+.message.error-message {
+    background: #fff1f1;
+    color: #b42318;
+    border: 1px solid #fecdca;
+    border-radius: 5px;
+    padding: 9px 11px;
+    font-size: 10px;
+    margin-bottom: 15px;
+}
+
+.success-message,
+.message.success-message {
+    background: #ecfdf3;
+    color: #087f5b;
+    border: 1px solid #abefc6;
+    border-radius: 5px;
+    padding: 9px 11px;
+    font-size: 10px;
+    margin-bottom: 15px;
+}
+
+
+/* =========================================================
+   FORM LAYOUT
+========================================================= */
+
+.form-section {
+    padding-bottom: 19px;
+    margin-bottom: 19px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+    margin-bottom: 14px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-bottom: 14px;
+}
+
+.form-grid .form-group {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #475467;
+    margin-bottom: 6px;
+}
+
+.form-group label span,
+.form-group label .required {
+    color: #d92d20;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #d5dae2;
+    border-radius: 5px;
+    padding: 9px 10px;
+    font-size: 11px;
+    color: #344054;
+    background: #ffffff;
+    outline: none;
+    font-family: inherit;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input {
+    height: 34px;
+}
+
+.form-group select {
+    height: 34px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 70px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #a1a8b3;
+}
+
+
+/* =========================================================
+   RADIO / GENDER
+========================================================= */
+
+.gender-options {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 34px;
+}
+
+.radio-option {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 6px;
+    margin: 0 !important;
+    color: #667085 !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    cursor: pointer;
+}
+
+.radio-option input {
+    width: 13px !important;
+    height: 13px !important;
+    margin: 0;
+    accent-color: #2563eb;
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-wrapper input {
+    padding-right: 50px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    font-size: 9px;
+    cursor: pointer;
+    padding: 3px;
+}
+
+.password-toggle:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions,
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2px;
+}
+
+.cancel-button,
+.cancel-btn,
+.next-button,
+.next-btn {
+    min-height: 34px;
+    padding: 0 19px;
+    border-radius: 5px;
+    font-size: 11px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+.cancel-button,
+.cancel-btn {
+    background: #ffffff;
+    border: 1px solid #d5dae2;
+    color: #667085;
+}
+
+.cancel-button:hover,
+.cancel-btn:hover {
+    background: #f5f6f8;
+}
+
+.next-button,
+.next-btn {
+    background: #2563eb;
+    border: 1px solid #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25);
+}
+
+.next-button:hover,
+.next-btn:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.next-button span {
+    margin-left: 7px;
+}
+
+
+/* =========================================================
+   WHY JOIN SAFEHANDS
+========================================================= */
+
+.why-card,
+.why-safehands {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 18px;
+    min-height: 125px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.why-content,
+.why-text {
+    background: #2563eb;
+    color: #ffffff;
+    padding: 17px 20px;
+}
+
+.why-content h2,
+.why-text h2 {
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.why-content p {
+    font-size: 10px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.why-content ul,
+.why-text ul {
+    padding-left: 15px;
+}
+
+.why-content li,
+.why-text li {
+    font-size: 9px;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.why-image {
+    overflow: hidden;
+    background: #e9eef8;
+}
+
+.why-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    background: #ffffff;
+    border-top: 1px solid #e6e8ec;
+    min-height: 70px;
+    padding: 15px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #8a94a6;
+    font-size: 9px;
+}
+
+.footer-logo {
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #8a94a6;
+    text-decoration: none;
+    font-size: 9px;
+}
+
+.footer-links a:hover {
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .main-header {
+        padding: 0 4%;
+    }
+
+    .main-nav {
+        gap: 15px;
+        margin-right: 15px;
+    }
+
+    .main-nav a {
+        font-size: 11px;
+    }
+
+    .login-link,
+    .login-button {
+        padding: 7px 13px;
+        font-size: 11px;
+    }
+
+    .progress-container,
+    .progress-wrapper {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .progress-line {
+        width: 25px;
+        margin: 0 5px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .main-header,
+    .header-container {
+        min-height: auto;
+    }
+
+    .main-header {
+        padding: 15px 5%;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .header-container {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .main-nav {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin: 0;
+        gap: 18px;
+    }
+
+    .main-nav a {
+        padding: 5px 0;
+        font-size: 10px;
+    }
+
+    .page-container {
+        width: 94%;
+        max-width: 94%;
+        margin-top: 20px;
+    }
+
+    .page-heading h1 {
+        font-size: 21px;
+    }
+
+    .progress-container,
+    .progress-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .progress-step {
+        justify-content: flex-start;
+    }
+
+    .progress-line {
+        width: 1px;
+        height: 15px;
+        margin: 0 0 0 12px;
+    }
+
+    .form-card,
+    .registration-form {
+        padding: 17px 15px;
+    }
+
+    .form-grid,
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .gender-options {
+        flex-wrap: wrap;
+    }
+
+    .form-actions,
+    .form-buttons {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .cancel-button,
+    .cancel-btn,
+    .next-button,
+    .next-btn {
+        width: 100%;
+    }
+
+    .why-card,
+    .why-safehands {
+        grid-template-columns: 1fr;
+    }
+
+    .why-image {
+        height: 160px;
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}

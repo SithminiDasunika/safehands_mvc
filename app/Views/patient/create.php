@@ -314,7 +314,7 @@
 
     <form
         id="patientForm"
-        action="#"
+        action="/safehands_mvc/patient/store"
         method="POST"
         enctype="multipart/form-data"
         novalidate

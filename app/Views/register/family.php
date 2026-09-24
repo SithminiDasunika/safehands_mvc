@@ -1,474 +1,1220 @@
-<!-- TOP NAVIGATION -->
-<header class="top-navbar">
+<?php
 
-    <nav class="navbar">
+$step = $step ?? 1;
 
-        <!-- Logo -->
-        <a href="/safehands_mvc/" class="logo">
-            SafeHands
-        </a>
+$errors = $errors ?? [];
 
+$old = $old ?? [];
 
-        <!-- Navigation -->
-        <div class="nav-links">
+$registration = $registration ?? [];
 
-            <a href="/safehands_mvc/">
-                Home
-            </a>
+$payment = $payment ?? [];
 
-            <a href="/safehands_mvc/#about">
-                About
-            </a>
+$registrationFee = $registrationFee ?? 1000;
 
-            <a href="/safehands_mvc/#services">
-                Services
-            </a>
+?>
 
-            <a href="/safehands_mvc/caregivers">
-                Find Caregivers
-            </a>
+<div class="family-registration-page">
 
-            <a href="/safehands_mvc/#contact">
-                Contact
-            </a>
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-        </div>
+    <header class="registration-header">
 
+        <div class="registration-header-inner">
 
-        <!-- Right buttons -->
-        <div class="nav-actions">
+        <a
+    href="/safehands_mvc/"
+    class="brand"
+>
+    <span class="brand-name">
+        SafeHands
+    </span>
+</a>
+
 
             <a
                 href="/safehands_mvc/login"
                 class="login-link"
             >
-                Login
-            </a>
 
-            <a
-                href="/safehands_mvc/register"
-                class="register-link"
-            >
-                Register
+                Already have an account?
+
+                <strong>
+                    Sign in
+                </strong>
+
             </a>
 
         </div>
 
-    </nav>
-
-</header>
+    </header>
 
 
-<!-- MAIN -->
-<main class="family-main">
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="registration-main">
+
+        <div class="registration-wrapper">
 
 
-    <!-- LEFT SIDE : FORM -->
-    <section class="family-form-section">
+            <!-- INTRO -->
 
-        <div class="family-form-wrapper">
+            <div class="registration-intro">
 
-
-            <!-- Breadcrumb -->
-            <nav class="breadcrumb">
-
-                <a href="/safehands_mvc/register">
-                    Register
-                </a>
-
-                <span>›</span>
-
-                <span class="active">
-                    Family Member
+                <span class="eyebrow">
+                    FAMILY MEMBER REGISTRATION
                 </span>
 
-            </nav>
+                <h1>
+                    Create your SafeHands account
+                </h1>
+
+                <p>
+                    Register as a Family Member to manage your
+                    caregiving needs and connect with trusted
+                    caregivers.
+                </p>
+
+            </div>
 
 
-            <!-- Heading -->
-            <h1>
-                Create Your Family Member Account
-            </h1>
+            <!-- =================================================
+                 STEPPER
+            ================================================== -->
+
+            <div class="stepper">
 
 
-            <p class="page-description">
-                Create your account to find trusted caregivers,
-                manage patient profiles, book caregiving services,
-                and receive daily care updates.
-            </p>
+                <!-- STEP 1 -->
 
-
-            <!-- FORM CARD -->
-            <div class="form-card">
-
-                <form
-                    action="/safehands_mvc/register/family"
-                    method="POST"
+                <div
+                    class="step <?= $step >= 1 ? 'active' : '' ?> <?= $step > 1 ? 'completed' : '' ?>"
                 >
 
+                    <div class="step-circle">
 
-                    <!-- FULL NAME -->
-                    <div class="form-group">
+                        <?php if ($step > 1): ?>
 
-                        <label for="full_name">
-                            Full Name *
-                        </label>
+                            ✓
 
-                        <input
-                            type="text"
-                            id="full_name"
-                            name="full_name"
-                            placeholder="Enter your full name"
-                            required
-                        >
+                        <?php else: ?>
+
+                            1
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="step-info">
+
+                        <span class="step-number">
+                            STEP 01
+                        </span>
+
+                        <span class="step-title">
+                            Personal Details
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="step-line <?= $step > 1 ? 'completed' : '' ?>"
+                ></div>
+
+
+                <!-- STEP 2 -->
+
+                <div
+                    class="step <?= $step >= 2 ? 'active' : '' ?> <?= $step > 2 ? 'completed' : '' ?>"
+                >
+
+                    <div class="step-circle">
+
+                        <?php if ($step > 2): ?>
+
+                            ✓
+
+                        <?php else: ?>
+
+                            2
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="step-info">
+
+                        <span class="step-number">
+                            STEP 02
+                        </span>
+
+                        <span class="step-title">
+                            Payment
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="step-line <?= $step > 2 ? 'completed' : '' ?>"
+                ></div>
+
+
+                <!-- STEP 3 -->
+
+                <div
+                    class="step <?= $step >= 3 ? 'active' : '' ?>"
+                >
+
+                    <div class="step-circle">
+
+                        <?php if ($step >= 3): ?>
+
+                            ✓
+
+                        <?php else: ?>
+
+                            3
+
+                        <?php endif; ?>
+
+                    </div>
+
+                    <div class="step-info">
+
+                        <span class="step-number">
+                            STEP 03
+                        </span>
+
+                        <span class="step-title">
+                            Complete
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ERRORS
+            ================================================== -->
+
+            <?php if (!empty($errors)): ?>
+
+                <div class="error-container">
+
+                    <div class="error-icon">
+                        !
+                    </div>
+
+                    <div class="error-content">
+
+                        <strong>
+                            Please check the following:
+                        </strong>
+
+                        <ul>
+
+                            <?php foreach ($errors as $error): ?>
+
+                                <li>
+                                    <?= htmlspecialchars($error) ?>
+                                </li>
+
+                            <?php endforeach; ?>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            <?php endif; ?>
+
+
+            <!-- =================================================
+                 STEP 1
+            ================================================== -->
+
+            <?php if ($step === 1): ?>
+
+                <section class="registration-card">
+
+                    <div class="card-heading">
+
+                        <span class="section-label">
+                            STEP 01
+                        </span>
+
+                        <h2>
+                            Personal Details
+                        </h2>
+
+                        <p>
+                            Enter your personal information to create
+                            your Family Member account.
+                        </p>
 
                     </div>
 
 
-                    <!-- NIC + PHONE -->
-                    <div class="two-column">
+                    <form
+                        method="POST"
+                        action="/safehands_mvc/register/family"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="action"
+                            value="continue_payment"
+                        >
 
 
-                        <!-- NIC -->
-                        <div class="form-group">
+                        <div class="form-grid">
 
-                            <label for="nic">
-                                National Identity Card (NIC) *
-                            </label>
 
-                            <input
-                                type="text"
-                                id="nic"
-                                name="nic"
-                                placeholder="Enter your NIC"
-                                required
-                            >
+                            <!-- FULL NAME -->
+
+                            <div class="form-group full-width">
+
+                                <label for="full_name">
+                                    Full Name
+                                    <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="full_name"
+                                    name="full_name"
+                                    placeholder="Enter your full name"
+                                    value="<?= htmlspecialchars(
+                                        $old['full_name'] ?? ''
+                                    ) ?>"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- NIC -->
+
+                            <div class="form-group">
+
+                                <label for="nic">
+                                    National Identity Card (NIC)
+                                    <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="nic"
+                                    name="nic"
+                                    placeholder="Enter your NIC number"
+                                    value="<?= htmlspecialchars(
+                                        $old['nic'] ?? ''
+                                    ) ?>"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- PHONE -->
+
+                            <div class="form-group">
+
+                                <label for="phone">
+                                    Phone Number
+                                    <span>*</span>
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    placeholder="Enter your phone number"
+                                    value="<?= htmlspecialchars(
+                                        $old['phone'] ?? ''
+                                    ) ?>"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- EMAIL -->
+
+                            <div class="form-group full-width">
+
+                                <label for="email">
+                                    Email Address
+                                    <span>*</span>
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email address"
+                                    value="<?= htmlspecialchars(
+                                        $old['email'] ?? ''
+                                    ) ?>"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ADDRESS -->
+
+                            <div class="form-group full-width">
+
+                                <label for="address">
+                                    Home Address
+                                    <span>*</span>
+                                </label>
+
+                                <textarea
+                                    id="address"
+                                    name="address"
+                                    rows="3"
+                                    placeholder="Enter your complete home address"
+                                    required
+                                ><?= htmlspecialchars(
+                                    $old['address'] ?? ''
+                                ) ?></textarea>
+
+                            </div>
+
+
+                            <!-- PASSWORD -->
+
+                            <div class="form-group">
+
+                                <label for="password">
+                                    Password
+                                    <span>*</span>
+                                </label>
+
+                                <div class="password-wrapper">
+
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        placeholder="Create a password"
+                                        required
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="password-toggle"
+                                        data-target="password"
+                                    >
+                                        Show
+                                    </button>
+
+                                </div>
+
+                                <small>
+                                    Minimum 8 characters
+                                </small>
+
+                            </div>
+
+
+                            <!-- CONFIRM PASSWORD -->
+
+                            <div class="form-group">
+
+                                <label for="confirm_password">
+                                    Confirm Password
+                                    <span>*</span>
+                                </label>
+
+                                <div class="password-wrapper">
+
+                                    <input
+                                        type="password"
+                                        id="confirm_password"
+                                        name="confirm_password"
+                                        placeholder="Confirm your password"
+                                        required
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="password-toggle"
+                                        data-target="confirm_password"
+                                    >
+                                        Show
+                                    </button>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
 
-                        <!-- PHONE -->
-                        <div class="form-group">
+                        <!-- TERMS -->
 
-                            <label for="phone">
-                                Phone Number *
+                        <div class="terms-section">
+
+                            <label class="checkbox-label">
+
+                                <input
+                                    type="checkbox"
+                                    name="terms"
+                                    value="1"
+                                    <?= isset($old['terms']) ? 'checked' : '' ?>
+                                    required
+                                >
+
+                                <span class="custom-checkbox"></span>
+
+                                <span class="checkbox-text">
+
+                                    I agree to the
+                                    <a href="#">
+                                        Terms & Conditions
+                                    </a>
+                                    and
+                                    <a href="#">
+                                        Privacy Policy
+                                    </a>.
+
+                                </span>
+
                             </label>
-
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                placeholder="+94 77 123 4567"
-                                required
-                            >
 
                         </div>
 
-                    </div>
+
+                        <!-- FEE -->
+
+                        <div class="fee-card">
+
+                            <div class="fee-card-left">
+
+                                <div class="fee-icon">
+                                    LKR
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        One-time registration fee
+                                    </strong>
+
+                                    <p>
+                                        Required to activate your
+                                        Family Member account.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="fee-amount">
+
+                                LKR
+                                <?= number_format(
+                                    $registrationFee,
+                                    2
+                                ) ?>
+
+                            </div>
+
+                        </div>
 
 
-                    <!-- EMAIL -->
-                    <div class="form-group">
+                        <!-- BUTTON -->
 
-                        <label for="email">
-                            Email Address *
-                        </label>
+                        <div class="form-actions">
 
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Enter your email address"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- HOME ADDRESS -->
-                    <div class="form-group">
-
-                        <label for="address">
-                            Home Address *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="address"
-                            name="address"
-                            placeholder="Street name, City, Zip code"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- PASSWORD + CONFIRM PASSWORD -->
-                    <div class="two-column">
-
-
-                        <!-- PASSWORD -->
-                        <div class="form-group">
-
-                            <label for="password">
-                                Password *
-                            </label>
-
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Enter password"
-                                minlength="8"
-                                required
+                            <button
+                                type="submit"
+                                class="primary-button"
                             >
 
-                            <p class="input-help">
-                                Password must contain at least 8 characters.
+                                Continue to Payment
+
+                                <span class="button-arrow">
+                                    →
+                                </span>
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+
+            <!-- =================================================
+                 STEP 2
+            ================================================== -->
+
+            <?php elseif ($step === 2): ?>
+
+                <section class="payment-section">
+
+
+                    <!-- PAYMENT CARD -->
+
+                    <div class="payment-card-main">
+
+                        <div class="card-heading">
+
+                            <span class="section-label">
+                                STEP 02
+                            </span>
+
+                            <h2>
+                                Complete Payment
+                            </h2>
+
+                            <p>
+                                Enter your card details to complete
+                                your one-time registration payment.
                             </p>
 
                         </div>
 
 
-                        <!-- CONFIRM PASSWORD -->
-                        <div class="form-group">
-
-                            <label for="confirm_password">
-                                Confirm Password *
-                            </label>
+                        <form
+                            method="POST"
+                            action="/safehands_mvc/register/family"
+                        >
 
                             <input
-                                type="password"
-                                id="confirm_password"
-                                name="confirm_password"
-                                placeholder="Re-enter password"
-                                minlength="8"
-                                required
+                                type="hidden"
+                                name="action"
+                                value="process_payment"
                             >
+
+
+                            <!-- CARD NAME -->
+
+                            <div class="form-group">
+
+                                <label for="card_name">
+                                    Cardholder Name
+                                    <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="card_name"
+                                    name="card_name"
+                                    placeholder="Name as shown on card"
+                                    value="<?= htmlspecialchars(
+                                        $old['card_name'] ?? ''
+                                    ) ?>"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- CARD NUMBER -->
+
+                            <div class="form-group">
+
+                                <label for="card_number">
+                                    Card Number
+                                    <span>*</span>
+                                </label>
+
+                                <div class="card-input-wrapper">
+
+                                    <input
+                                        type="text"
+                                        id="card_number"
+                                        name="card_number"
+                                        placeholder="1234 5678 9012 3456"
+                                        maxlength="19"
+                                        inputmode="numeric"
+                                        value="<?= htmlspecialchars(
+                                            $old['card_number'] ?? ''
+                                        ) ?>"
+                                        required
+                                    >
+
+                                    <span class="card-type">
+                                        CARD
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- EXPIRY + CVV -->
+
+                            <div class="payment-fields-row">
+
+                                <div class="form-group">
+
+                                    <label for="expiry">
+                                        Expiry Date
+                                        <span>*</span>
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="expiry"
+                                        name="expiry"
+                                        placeholder="MM/YY"
+                                        maxlength="5"
+                                        inputmode="numeric"
+                                        value="<?= htmlspecialchars(
+                                            $old['expiry'] ?? ''
+                                        ) ?>"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="cvv">
+                                        CVV
+                                        <span>*</span>
+                                    </label>
+
+                                    <input
+                                        type="password"
+                                        id="cvv"
+                                        name="cvv"
+                                        placeholder="123"
+                                        maxlength="4"
+                                        inputmode="numeric"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- SECURITY -->
+
+                            <div class="secure-payment">
+
+                                <div class="secure-icon">
+                                    ✓
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Secure Payment
+                                    </strong>
+
+                                    <p>
+                                        Your card details are used only
+                                        to process this payment and are
+                                        not stored by SafeHands.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BUTTONS -->
+
+                            <div class="payment-actions">
+
+                                <button
+                                    type="button"
+                                    class="secondary-button"
+                                    onclick="history.back()"
+                                >
+                                    ← Back
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="primary-button"
+                                >
+
+                                    Pay LKR
+                                    <?= number_format(
+                                        $registrationFee,
+                                        2
+                                    ) ?>
+
+                                    <span class="button-arrow">
+                                        →
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+
+                    <!-- SUMMARY -->
+
+                    <aside class="payment-summary">
+
+                        <div class="summary-card">
+
+                            <div class="summary-heading">
+
+                                <span class="section-label">
+                                    ORDER SUMMARY
+                                </span>
+
+                                <h3>
+                                    Registration
+                                </h3>
+
+                            </div>
+
+
+                            <div class="summary-account">
+
+                                <div class="account-icon">
+                                    F
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        Family Member
+                                    </strong>
+
+                                    <span>
+                                        SafeHands Account
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="summary-divider"></div>
+
+
+                            <div class="summary-row">
+
+                                <span>
+                                    Registration Fee
+                                </span>
+
+                                <strong>
+                                    LKR
+                                    <?= number_format(
+                                        $registrationFee,
+                                        2
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-row">
+
+                                <span>
+                                    Processing Fee
+                                </span>
+
+                                <strong>
+                                    LKR 0.00
+                                </strong>
+
+                            </div>
+
+
+                            <div class="summary-divider"></div>
+
+
+                            <div class="summary-total">
+
+                                <span>
+                                    Total
+                                </span>
+
+                                <strong>
+                                    LKR
+                                    <?= number_format(
+                                        $registrationFee,
+                                        2
+                                    ) ?>
+                                </strong>
+
+                            </div>
 
                         </div>
 
-                    </div>
+
+                        <div class="activation-info">
+
+                            <div class="activation-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Account Activation
+                                </strong>
+
+                                <p>
+                                    Your account will be activated
+                                    after the payment is successfully
+                                    completed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </aside>
+
+                </section>
 
 
-                    <!-- TERMS -->
-                    <div class="terms">
+            <!-- =================================================
+                 STEP 3
+            ================================================== -->
 
-                        <input
-                            type="checkbox"
-                            id="terms"
-                            name="terms"
-                            required
-                        >
+            <?php elseif ($step === 3): ?>
 
-                        <label for="terms">
+                <section class="success-section">
 
-                            I agree to the
+                    <div class="success-card">
 
-                            <a href="#">
-                                Terms & Conditions
-                            </a>
+                        <div class="success-icon">
+                            ✓
+                        </div>
 
-                            and
+                        <span class="success-label">
+                            REGISTRATION COMPLETE
+                        </span>
 
-                            <a href="#">
-                                Privacy Policy
-                            </a>.
+                        <h2>
+                            Welcome to SafeHands
+                        </h2>
 
-                        </label>
-
-                    </div>
-
-
-                    <!-- SUBMIT -->
-                    <div class="submit-section">
-
-                        <button
-                            type="submit"
-                            class="create-account-button"
-                        >
-                            Create Account
-                        </button>
-
-
-                        <p class="login-text">
-
-                            Already have an account?
-
-                            <a href="/safehands_mvc/login">
-                                Login
-                            </a>
-
+                        <p class="success-description">
+                            Your Family Member registration has been
+                            completed successfully.
                         </p>
 
+
+                        <div class="success-details">
+
+                            <div class="success-detail-row">
+
+                                <span>
+                                    Account Type
+                                </span>
+
+                                <strong>
+                                    Family Member
+                                </strong>
+
+                            </div>
+
+
+                            <div class="success-detail-row">
+
+                                <span>
+                                    Full Name
+                                </span>
+
+                                <strong>
+                                    <?= htmlspecialchars(
+                                        $registration['full_name'] ?? 'N/A'
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+
+                            <div class="success-detail-row">
+
+                                <span>
+                                    Email
+                                </span>
+
+                                <strong>
+                                    <?= htmlspecialchars(
+                                        $registration['email'] ?? 'N/A'
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+
+                            <div class="success-detail-row">
+
+                                <span>
+                                    Amount Paid
+                                </span>
+
+                                <strong>
+                                    LKR
+                                    <?= number_format(
+                                        $payment['amount'] ??
+                                        $registrationFee,
+                                        2
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+
+                            <div class="success-detail-row">
+
+                                <span>
+                                    Payment Status
+                                </span>
+
+                                <strong class="paid-status">
+                                    Paid
+                                </strong>
+
+                            </div>
+
+
+                            <div class="success-detail-row">
+
+                                <span>
+                                    Transaction ID
+                                </span>
+
+                                <strong>
+                                    <?= htmlspecialchars(
+                                        $payment['transaction_id'] ?? 'N/A'
+                                    ) ?>
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="success-notice">
+
+                            <div class="success-notice-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Account Activated
+                                </strong>
+
+                                <p>
+                                    Your Family Member account has
+                                    been successfully activated.
+                                    You can now sign in to SafeHands.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <a
+                            href="/safehands_mvc/login"
+                            class="primary-button success-button"
+                        >
+
+                            Continue to Login
+
+                            <span>
+                                →
+                            </span>
+
+                        </a>
+
                     </div>
 
+                </section>
 
-                </form>
-
-            </div>
-
-        </div>
-
-    </section>
+            <?php endif; ?>
 
 
+            <!-- FOOTER -->
 
-    <!-- RIGHT SIDE : IMAGE -->
-    <section class="family-image-section">
+            <footer class="registration-footer">
 
-
-        <!-- Image -->
-        <img
-            src="/safehands_mvc/public/assets/images/caregiver.jpg"
-            alt="Caregiver helping senior"
-            class="family-image"
-        >
-
-
-        <!-- Overlay -->
-        <div class="image-overlay"></div>
-
-
-        <!-- Quote -->
-        <div class="quote-container">
-
-            <div class="quote-card">
-
-                <div class="quote-symbol">
-                    "
-                </div>
-
-                <p class="quote-text">
-                    "Finding trusted care for your loved ones
-                    has never been easier."
+                <p>
+                    SafeHands Caregiver Service Management System
                 </p>
 
+                <span>
+                    Secure Registration
+                </span>
 
-                <div class="certified-section">
-
-                    <div class="verified-icon">
-                        ✓
-                    </div>
-
-                    <div>
-
-                        <p class="certified-title">
-                            SafeHands Certified
-                        </p>
-
-                        <p class="certified-subtitle">
-                            Trusted by 10,000+ families
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
+            </footer>
 
         </div>
 
-    </section>
+    </main>
 
-</main>
-
-
-<!-- FOOTER -->
-<footer class="family-footer">
-
-    <div class="footer-grid">
+</div>
 
 
-        <!-- Brand -->
-        <div class="footer-brand">
+<script>
 
-            <h3>
-                SafeHands
-            </h3>
+/* =========================================================
+   PASSWORD SHOW / HIDE
+   ========================================================= */
 
-            <p>
-                Professional healthcare SaaS providing
-                clinical-grade care solutions for families
-                and institutions.
-            </p>
+document
+    .querySelectorAll('.password-toggle')
+    .forEach(function (button) {
 
-        </div>
+        button.addEventListener('click', function () {
 
+            const target =
+                document.getElementById(
+                    button.dataset.target
+                );
 
-        <!-- Quick Links -->
-        <div class="footer-column">
+            if (!target) {
+                return;
+            }
 
-            <h4>
-                Quick Links
-            </h4>
+            if (target.type === 'password') {
 
-            <a href="/safehands_mvc/#services">
-                Services
-            </a>
+                target.type = 'text';
 
-            <a href="/safehands_mvc/caregivers">
-                Find Caregivers
-            </a>
+                button.textContent = 'Hide';
 
-            <a href="/safehands_mvc/#contact">
-                Contact Support
-            </a>
+            } else {
 
-        </div>
+                target.type = 'password';
 
+                button.textContent = 'Show';
+            }
 
-        <!-- Legal -->
-        <div class="footer-column">
+        });
 
-            <h4>
-                Legal
-            </h4>
-
-            <a href="#">
-                Privacy Policy
-            </a>
-
-            <a href="#">
-                Terms of Service
-            </a>
-
-            <a href="#">
-                Cookie Settings
-            </a>
-
-        </div>
+    });
 
 
-        <!-- Social -->
-        <div class="footer-column">
+/* =========================================================
+   CARD NUMBER FORMAT
+   ========================================================= */
 
-            <h4>
-                Social
-            </h4>
+const cardNumber =
+    document.getElementById('card_number');
 
-            <div class="social-links">
+if (cardNumber) {
 
-                <a href="#">
-                    f
-                </a>
+    cardNumber.addEventListener(
+        'input',
+        function () {
 
-                <a href="#">
-                    ◎
-                </a>
+            let value =
+                this.value.replace(/\D/g, '');
 
-                <a href="#">
-                    💬
-                </a>
+            value =
+                value.substring(0, 16);
 
-            </div>
+            let formatted = '';
 
-            <p class="copyright">
-                © 2024 SafeHands. All rights reserved.
-            </p>
+            for (
+                let i = 0;
+                i < value.length;
+                i++
+            ) {
 
-        </div>
+                if (
+                    i > 0 &&
+                    i % 4 === 0
+                ) {
+                    formatted += ' ';
+                }
 
-    </div>
+                formatted += value[i];
+            }
 
-</footer>
+            this.value = formatted;
+        }
+    );
+}
+
+
+/* =========================================================
+   EXPIRY FORMAT
+   ========================================================= */
+
+const expiry =
+    document.getElementById('expiry');
+
+if (expiry) {
+
+    expiry.addEventListener(
+        'input',
+        function () {
+
+            let value =
+                this.value.replace(/\D/g, '');
+
+            value =
+                value.substring(0, 4);
+
+            if (value.length > 2) {
+
+                value =
+                    value.substring(0, 2) +
+                    '/' +
+                    value.substring(2);
+            }
+
+            this.value = value;
+        }
+    );
+}
+
+
+/* =========================================================
+   CVV
+   ========================================================= */
+
+const cvv =
+    document.getElementById('cvv');
+
+if (cvv) {
+
+    cvv.addEventListener(
+        'input',
+        function () {
+
+            this.value =
+                this.value
+                    .replace(/\D/g, '')
+                    .substring(0, 4);
+
+        }
+    );
+}
+
+</script>

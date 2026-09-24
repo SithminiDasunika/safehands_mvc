@@ -17,7 +17,6 @@ class Database
         );
 
         if ($this->connection->connect_error) {
-
             die(
                 'Database connection failed: ' .
                 $this->connection->connect_error

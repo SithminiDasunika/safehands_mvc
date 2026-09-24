@@ -19,14 +19,14 @@ $reports = $reports ?? [];
 
         <div class="nav-left">
 
-            <a href="#" class="brand">
+            <a href="/safehands_mvc/family" class="brand">
                 SafeHands
             </a>
 
 
             <div class="nav-links">
 
-                <a href="#">
+                <a href="/safehands_mvc/family">
                     Dashboard
                 </a>
 
@@ -34,11 +34,11 @@ $reports = $reports ?? [];
                     Patients
                 </a>
 
-                <a href="#">
+                <a href="/safehands_mvc/caregiver">
                     Find Caregivers
                 </a>
 
-                <a href="#">
+                <a href="/safehands_mvc/booking">
                     My Bookings
                 </a>
 
@@ -81,7 +81,7 @@ $reports = $reports ?? [];
 
         <nav class="breadcrumb">
 
-            <a href="#">
+            <a href="/safehands_mvc/family">
                 Dashboard
             </a>
 
@@ -116,23 +116,17 @@ $reports = $reports ?? [];
             </div>
 
 
-            <button
-                type="button"
+            <a
+                href="/safehands_mvc/patient/create"
                 class="add-patient-button"
                 id="addPatientButton"
             >
-            <a
-    href="/safehands_mvc/patient/create"
-    class="add-patient-button"
->
-    <span class="plus-icon">
-        +
-    </span>
+                <span class="plus-icon">
+                    +
+                </span>
 
-    Add Patient
-</a>
-
-            </button>
+                Add Patient
+            </a>
 
         </div>
 
@@ -314,12 +308,12 @@ $reports = $reports ?? [];
                         class="patient-card"
                         data-patient-name="<?= htmlspecialchars(
                             strtolower(
-                                $patient['name']
+                                ($patient['name'] ?? '')
                             )
                         ) ?>"
                         data-patient-relationship="<?= htmlspecialchars(
                             strtolower(
-                                $patient['relationship']
+                                ($patient['relationship'] ?? '')
                             )
                         ) ?>"
                     >
@@ -340,7 +334,7 @@ $reports = $reports ?? [];
                                             $patient['image']
                                         ) ?>"
                                         alt="<?= htmlspecialchars(
-                                            $patient['name']
+                                            ($patient['name'] ?? '')
                                         ) ?>"
                                     >
 
@@ -351,7 +345,7 @@ $reports = $reports ?? [];
 
                                     <h3>
                                         <?= htmlspecialchars(
-                                            $patient['name']
+                                            ($patient['name'] ?? '')
                                         ) ?>
                                     </h3>
 
@@ -359,7 +353,7 @@ $reports = $reports ?? [];
                                     <p>
 
                                         <?= htmlspecialchars(
-                                            $patient['relationship']
+                                            ($patient['relationship'] ?? '')
                                         ) ?>
 
                                         •
@@ -416,26 +410,28 @@ $reports = $reports ?? [];
                             <!-- Status -->
 
                             <?php if (
-                                $patient['status_type']
-                                === 'active'
+                                $patient['status_type'] === 'active'
                             ): ?>
 
                                 <span class="status-badge active">
-
                                     <span class="status-dot"></span>
-
                                     Currently Receiving Care
+                                </span>
 
+                            <?php elseif (
+                                $patient['status_type'] === 'scheduled'
+                            ): ?>
+
+                                <span class="status-badge scheduled">
+                                    <span class="status-dot"></span>
+                                    Care Scheduled
                                 </span>
 
                             <?php else: ?>
 
                                 <span class="status-badge scheduled">
-
                                     <span class="status-dot"></span>
-
-                                    Care Scheduled
-
+                                    Registered Patient
                                 </span>
 
                             <?php endif; ?>
@@ -497,36 +493,20 @@ $reports = $reports ?? [];
                         <div class="patient-card-actions">
 
 
-                            <button
-                                type="button"
+                            <a
+                                href="/safehands_mvc/patient/profile/<?= (int) $patient['patient_id'] ?>"
                                 class="card-button secondary view-profile-button"
-                                data-patient="<?= htmlspecialchars(
-                                    $patient['name']
-                                ) ?>"
                             >
+                                View Profile
+                            </a>
+
+
                             <a
-    href="/safehands_mvc/patient/profile"
-    class="card-button secondary view-profile-button"
->
-    View Profile
-</a>
-                            </button>
-
-
-                            <button
-                                type="button"
+                                href="/safehands_mvc/care-reports/patient/<?= (int) $patient['patient_id'] ?>"
                                 class="card-button primary report-button"
-                                data-patient="<?= htmlspecialchars(
-                                    $patient['name']
-                                ) ?>"
                             >
-                            <a
-    href="/safehands_mvc/care-reports"
-    class="card-button primary report-button"
->
-    Daily Care Reports
-</a>
-                            </button>
+                                Daily Care Reports
+                            </a>
 
 
                         </div>
@@ -540,12 +520,14 @@ $reports = $reports ?? [];
 
                 <!-- No results -->
 
-                <div
-                    id="noPatientsMessage"
-                    class="no-results"
-                >
-                    No patients found.
-                </div>
+                <?php if (empty($patients)): ?>
+                    <div
+                        id="noPatientsMessage"
+                        class="no-results"
+                    >
+                        No patients found.
+                    </div>
+                <?php endif; ?>
 
 
             </div>
@@ -577,7 +559,7 @@ $reports = $reports ?? [];
 
 
                 <a
-                    href="#"
+                    href="/safehands_mvc/care-reports"
                     id="viewAllReports"
                     class="view-all-reports"
                 >

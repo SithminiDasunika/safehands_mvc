@@ -1,54 +1,63 @@
 <?php
 
-$patient = [
-    'name' => 'Mr. Silva',
-    'full_name' => 'Fernando Silva',
-    'dob' => '1952-05-14',
-    'gender' => 'Male',
-    'blood_group' => 'A+',
-    'nic' => '521342678V',
-    'relationship' => 'Father',
-    'phone' => '+94 77 123 4567',
-    'address' => '42/A, Hospital Road, Colombo 07, Sri Lanka',
-    'allergies' => 'Penicillin, Peanuts',
-    'mobility' => 'Walking Assistance',
-    'medications' => 'Metformin 500mg (Daily), Lisinopril 10mg (Daily), Baby Aspirin 81mg (Daily)',
-    'special_care' => '',
-    'dietary' => 'Low sodium, low sugar intake recommended.',
-    'doctor_notes' => 'Stable condition. Needs regular monitoring of blood glucose levels twice a day.',
-    'emergency_name' => 'Mrs. Silva (Daughter-in-law)',
-    'emergency_relationship' => 'Daughter-in-law',
-    'emergency_phone' => '+94 77 987 6543',
-    'emergency_alt_phone' => '+94 11 234 5678'
-];
+$patient = $patient ?? [];
 
-$conditions = [
-    'Hypertension',
-    'Type 2 Diabetes'
-];
+$patientId = (int) ($patient['patient_id'] ?? 0);
 
-$documents = [
-    [
-        'name' => 'Medical Reports - 2023.pdf',
-        'date' => 'Oct 05, 2023',
-        'size' => '2.4 MB',
-        'type' => 'DOC'
-    ],
-    [
-        'name' => 'Doctor Prescriptions.pdf',
-        'date' => 'Sep 18, 2023',
-        'size' => '1.1 MB',
-        'type' => 'RX'
-    ],
-    [
-        'name' => 'Lab Reports - Blood Work.pdf',
-        'date' => 'Aug 22, 2023',
-        'size' => '3.8 MB',
-        'type' => 'LAB'
-    ]
-];
+$patientName = $patient['full_name'] ?? '';
+$patientDob = $patient['date_of_birth'] ?? '';
+$patientGender = $patient['gender'] ?? '';
+$patientBloodGroup = $patient['blood_group'] ?? '';
+$patientNic = $patient['nic'] ?? '';
+$patientRelationship = $patient['relationship'] ?? '';
+$patientPhone = $patient['phone'] ?? '';
+$patientAddress = $patient['address'] ?? '';
+$patientAllergies = $patient['allergies'] ?? '';
+$patientMobility = $patient['mobility_status'] ?? '';
+$patientMedications = $patient['current_medications'] ?? '';
+$patientSpecialCare = $patient['special_care_requirements'] ?? '';
+$patientDietary = $patient['dietary_restrictions'] ?? '';
+$patientDoctorNotes = $patient['doctors_notes'] ?? '';
+$patientEmergencyName = $patient['emergency_contact_name'] ?? '';
+$patientEmergencyRelationship = $patient['emergency_contact_relationship'] ?? '';
+$patientEmergencyPhone = $patient['emergency_contact_phone'] ?? '';
+$patientEmergencyAltPhone = $patient['emergency_alternative_phone'] ?? '';
+$patientPhoto = $patient['profile_photo'] ?? '';
+
+$conditions = [];
+
+if (!empty($patient['medical_conditions'])) {
+    $conditions = preg_split(
+        '/[\\r\\n,]+/',
+        $patient['medical_conditions']
+    );
+
+    $conditions = array_values(
+        array_filter(
+            array_map('trim', $conditions)
+        )
+    );
+}
+
+$documents = [];
+
+if (!empty($patient['medical_document'])) {
+    $documentPath = $patient['medical_document'];
+    $documentName = basename($documentPath);
+
+    $documents[] = [
+        'name' => $documentName,
+        'date' => !empty($patient['updated_at'])
+            ? date('M d, Y', strtotime($patient['updated_at']))
+            : '',
+        'size' => '',
+        'type' => 'DOC',
+        'path' => $documentPath
+    ];
+}
 
 ?>
+
 
 <div class="edit-patient-page">
 
@@ -69,7 +78,7 @@ $documents = [
     <div class="breadcrumb">
         <a href="#">Patients</a>
         <span>/</span>
-        <span><?= htmlspecialchars($patient['name']) ?></span>
+        <span><?= htmlspecialchars($patientName) ?></span>
         <span>/</span>
         <strong>Edit Profile</strong>
     </div>
@@ -90,7 +99,9 @@ $documents = [
     </div>
 
 
-    <form id="editPatientForm">
+    <form id="editPatientForm" action="/safehands_mvc/patient/update/<?= $patientId ?>" method="POST" enctype="multipart/form-data">
+
+        <input type="hidden" name="patient_id" value="<?= $patientId ?>">
 
         <div class="edit-layout">
 
@@ -106,7 +117,7 @@ $documents = [
 
                         <img
                             id="patientPhotoPreview"
-                            src="/safehands_mvc/public/assets/images/default-patient.png"
+                            src="<?= htmlspecialchars($patientPhoto ?: "/safehands_mvc/public/assets/images/default-patient.png") ?>"
                             alt="Patient Photo"
                             class="patient-photo"
                         >
@@ -119,6 +130,7 @@ $documents = [
 
                     <input
                         type="file"
+                        name="profile_photo"
                         id="patientPhoto"
                         accept=".jpg,.jpeg,.png"
                         hidden
@@ -133,14 +145,14 @@ $documents = [
                     </button>
 
 
-                    <h2><?= htmlspecialchars($patient['name']) ?></h2>
+                    <h2><?= htmlspecialchars($patientName) ?></h2>
 
                     <p class="patient-relation">
-                        <?= htmlspecialchars($patient['relationship']) ?>
+                        <?= htmlspecialchars($patientRelationship) ?>
                     </p>
 
                     <span class="care-status">
-                        Currently Receiving Care
+                        Patient Profile
                     </span>
 
                 </div>
@@ -159,7 +171,9 @@ $documents = [
                         </span>
 
                         <strong>
-                            Oct 12, 2023
+                            <?= !empty($patient['updated_at'])
+                                ? htmlspecialchars(date('M d, Y', strtotime($patient['updated_at'])))
+                                : 'Not available' ?>
                         </strong>
 
                     </div>
@@ -172,7 +186,7 @@ $documents = [
                         </span>
 
                         <strong>
-                            Premium
+                            Registered
                         </strong>
 
                     </div>
@@ -226,7 +240,7 @@ $documents = [
                                 type="text"
                                 id="full_name"
                                 name="full_name"
-                                value="<?= htmlspecialchars($patient['full_name']) ?>"
+                                value="<?= htmlspecialchars($patientName) ?>"
                             >
 
                         </div>
@@ -244,7 +258,7 @@ $documents = [
                                 type="date"
                                 id="dob"
                                 name="dob"
-                                value="<?= htmlspecialchars($patient['dob']) ?>"
+                                value="<?= htmlspecialchars($patientDob) ?>"
                             >
 
                         </div>
@@ -261,17 +275,17 @@ $documents = [
                             <select id="gender" name="gender">
 
                                 <option value="Male"
-                                    <?= $patient['gender'] === 'Male' ? 'selected' : '' ?>>
+                                    <?= $patientGender === 'Male' ? 'selected' : '' ?>>
                                     Male
                                 </option>
 
                                 <option value="Female"
-                                    <?= $patient['gender'] === 'Female' ? 'selected' : '' ?>>
+                                    <?= $patientGender === 'Female' ? 'selected' : '' ?>>
                                     Female
                                 </option>
 
                                 <option value="Other"
-                                    <?= $patient['gender'] === 'Other' ? 'selected' : '' ?>>
+                                    <?= $patientGender === 'Other' ? 'selected' : '' ?>>
                                     Other
                                 </option>
 
@@ -303,7 +317,7 @@ $documents = [
 
                                     <option
                                         value="<?= $blood ?>"
-                                        <?= $patient['blood_group'] === $blood ? 'selected' : '' ?>
+                                        <?= $patientBloodGroup === $blood ? 'selected' : '' ?>
                                     >
                                         <?= $blood ?>
                                     </option>
@@ -327,7 +341,7 @@ $documents = [
                                 type="text"
                                 id="nic"
                                 name="nic"
-                                value="<?= htmlspecialchars($patient['nic']) ?>"
+                                value="<?= htmlspecialchars($patientNic) ?>"
                             >
 
                         </div>
@@ -364,7 +378,7 @@ $documents = [
 
                                     <option
                                         value="<?= $relationship ?>"
-                                        <?= $patient['relationship'] === $relationship ? 'selected' : '' ?>
+                                        <?= $patientRelationship === $relationship ? 'selected' : '' ?>
                                     >
                                         <?= $relationship ?>
                                     </option>
@@ -388,7 +402,7 @@ $documents = [
                                 type="tel"
                                 id="phone"
                                 name="phone"
-                                value="<?= htmlspecialchars($patient['phone']) ?>"
+                                value="<?= htmlspecialchars($patientPhone) ?>"
                             >
 
                         </div>
@@ -406,7 +420,7 @@ $documents = [
                                 id="address"
                                 name="address"
                                 rows="4"
-                            ><?= htmlspecialchars($patient['address']) ?></textarea>
+                            ><?= htmlspecialchars($patientAddress) ?></textarea>
 
                         </div>
 
@@ -508,7 +522,7 @@ $documents = [
                                 type="text"
                                 id="allergies"
                                 name="allergies"
-                                value="<?= htmlspecialchars($patient['allergies']) ?>"
+                                value="<?= htmlspecialchars($patientAllergies) ?>"
                             >
 
                         </div>
@@ -529,28 +543,28 @@ $documents = [
 
                                 <option
                                     value="Independent"
-                                    <?= $patient['mobility'] === 'Independent' ? 'selected' : '' ?>
+                                    <?= $patientMobility === 'Independent' ? 'selected' : '' ?>
                                 >
                                     Independent
                                 </option>
 
                                 <option
                                     value="Walking Assistance"
-                                    <?= $patient['mobility'] === 'Walking Assistance' ? 'selected' : '' ?>
+                                    <?= $patientMobility === 'Walking Assistance' ? 'selected' : '' ?>
                                 >
                                     Walking Assistance
                                 </option>
 
                                 <option
                                     value="Wheelchair User"
-                                    <?= $patient['mobility'] === 'Wheelchair User' ? 'selected' : '' ?>
+                                    <?= $patientMobility === 'Wheelchair User' ? 'selected' : '' ?>
                                 >
                                     Wheelchair User
                                 </option>
 
                                 <option
                                     value="Bedridden"
-                                    <?= $patient['mobility'] === 'Bedridden' ? 'selected' : '' ?>
+                                    <?= $patientMobility === 'Bedridden' ? 'selected' : '' ?>
                                 >
                                     Bedridden
                                 </option>
@@ -572,7 +586,7 @@ $documents = [
                                 id="medications"
                                 name="medications"
                                 rows="4"
-                            ><?= htmlspecialchars($patient['medications']) ?></textarea>
+                            ><?= htmlspecialchars($patientMedications) ?></textarea>
 
                         </div>
 
@@ -589,7 +603,7 @@ $documents = [
                                 id="special_care"
                                 name="special_care"
                                 rows="4"
-                            ><?= htmlspecialchars($patient['special_care']) ?></textarea>
+                            ><?= htmlspecialchars($patientSpecialCare) ?></textarea>
 
                         </div>
 
@@ -606,7 +620,7 @@ $documents = [
                                 id="dietary"
                                 name="dietary"
                                 rows="4"
-                            ><?= htmlspecialchars($patient['dietary']) ?></textarea>
+                            ><?= htmlspecialchars($patientDietary) ?></textarea>
 
                         </div>
 
@@ -623,7 +637,7 @@ $documents = [
                                 id="doctor_notes"
                                 name="doctor_notes"
                                 rows="5"
-                            ><?= htmlspecialchars($patient['doctor_notes']) ?></textarea>
+                            ><?= htmlspecialchars($patientDoctorNotes) ?></textarea>
 
                         </div>
 
@@ -670,7 +684,7 @@ $documents = [
                                 type="text"
                                 id="emergency_name"
                                 name="emergency_name"
-                                value="<?= htmlspecialchars($patient['emergency_name']) ?>"
+                                value="<?= htmlspecialchars($patientEmergencyName) ?>"
                             >
 
                         </div>
@@ -705,7 +719,7 @@ $documents = [
 
                                     <option
                                         value="<?= $relationship ?>"
-                                        <?= $patient['emergency_relationship'] === $relationship ? 'selected' : '' ?>
+                                        <?= $patientEmergencyRelationship === $relationship ? 'selected' : '' ?>
                                     >
                                         <?= $relationship ?>
                                     </option>
@@ -727,7 +741,7 @@ $documents = [
                                 type="tel"
                                 id="emergency_phone"
                                 name="emergency_phone"
-                                value="<?= htmlspecialchars($patient['emergency_phone']) ?>"
+                                value="<?= htmlspecialchars($patientEmergencyPhone) ?>"
                             >
 
                         </div>
@@ -743,7 +757,7 @@ $documents = [
                                 type="tel"
                                 id="emergency_alt_phone"
                                 name="emergency_alt_phone"
-                                value="<?= htmlspecialchars($patient['emergency_alt_phone']) ?>"
+                                value="<?= htmlspecialchars($patientEmergencyAltPhone) ?>"
                             >
 
                         </div>
@@ -837,6 +851,7 @@ $documents = [
 
                         <input
                             type="file"
+                            name="medical_document"
                             id="newDocument"
                             accept=".pdf,.jpg,.jpeg,.png"
                             hidden
@@ -851,7 +866,7 @@ $documents = [
                         </button>
 
                         <p>
-                            PDF, JPG, JPEG or PNG. Maximum file size: 10MB.
+                            PDF, JPG, JPEG or PNG. Maximum file size: 5MB.
                         </p>
 
                     </div>

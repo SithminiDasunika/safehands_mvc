@@ -1,84 +1,36 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title><?= htmlspecialchars($title ?? 'SafeHands') ?></title>
 
-    <title>
-        <?= htmlspecialchars($title ?? 'SafeHands') ?>
-    </title>
-
-
-    <!-- =====================================================
-         FAMILY DASHBOARD CSS
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/family.css"
-    >
-
-
-    <!-- =====================================================
-         ADD PATIENT CSS
-    ====================================================== -->
-
+    <!-- Patient/Profile styles first -->
     <link
         rel="stylesheet"
         href="/safehands_mvc/public/assets/css/patient.css"
     >
-
-
-    <!-- =====================================================
-         PATIENT PROFILE CSS
-    ====================================================== -->
 
     <link
         rel="stylesheet"
         href="/safehands_mvc/public/assets/css/profile.css"
     >
 
+    <!-- Dashboard CSS LAST -->
+    <link
+        rel="stylesheet"
+        href="/safehands_mvc/public/assets/css/family.css?v=<?= time() ?>"
+    >
 </head>
-
 
 <body>
 
     <?= $content ?>
 
-
-    <!-- =====================================================
-         FAMILY DASHBOARD JS
-    ====================================================== -->
-
-    <script
-        src="/safehands_mvc/public/assets/js/family.js"
-    ></script>
-
-
-    <!-- =====================================================
-         ADD PATIENT JS
-    ====================================================== -->
-
-    <script
-        src="/safehands_mvc/public/assets/js/patient.js"
-    ></script>
-
-
-    <!-- =====================================================
-         PATIENT PROFILE JS
-    ====================================================== -->
-
-    <script
-        src="/safehands_mvc/public/assets/js/profile.js"
-    ></script>
+    <script src="/safehands_mvc/public/assets/js/family.js"></script>
+    <script src="/safehands_mvc/public/assets/js/patient.js"></script>
+    <script src="/safehands_mvc/public/assets/js/profile.js"></script>
 
 </body>
-
 </html>

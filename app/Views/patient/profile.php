@@ -1,914 +1,206 @@
 <?php
-
-$patient = [
-    'display_name' => 'Mr. Silva',
-    'full_name' => 'Mr. Ananda Silva',
-    'age' => 78,
-    'gender' => 'Male',
-    'blood_group' => 'A+',
-    'relationship' => 'Father',
-    'dob' => '12 May 1948',
-    'nic' => '481324567V',
-    'phone' => '+94 77 123 4567',
-    'address' => 'No. 45, Flower Road, Colombo 07',
-    'status' => 'Currently Receiving Care',
-
-    'weight' => '68',
-    'blood_pressure' => '130/85',
-    'last_check' => '10 June 2026',
-
-    'conditions' => [
-        'Hypertension',
-        'Mild Arthritis'
-    ],
-
-    'allergies' => 'Penicillin',
-
-    'medications' =>
-        'Lisinopril 10mg daily (Morning)',
-
-    'mobility' =>
-        'Independent with walking cane',
-
-    'special_care' => [
-        'Strict low salt diet (DASH diet compliant)',
-        'Assist with light morning stretches for arthritis management',
-        'Monitor fluid intake throughout the day'
-    ],
-
-    'emergency' => [
-        'name' => 'Sithmini Silva',
-        'relationship' => 'Daughter',
-        'phone' => '+94 77 987 6543',
-        'alternative_phone' => '+94 11 234 5678'
-    ]
-];
-
-$care_history = [
-    [
-        'date' => '08 July 2026',
-        'caregiver' => 'Nadeesha Perera',
-        'duration' => '4 Hours',
-        'status' => 'Completed'
-    ],
-    [
-        'date' => '05 July 2026',
-        'caregiver' => 'Sunil Jayasuriya',
-        'duration' => '8 Hours',
-        'status' => 'Completed'
-    ]
-];
-
-$documents = [
-    [
-        'icon' => 'PDF',
-        'name' => 'Medical Report - June 2026',
-        'details' => 'Uploaded 12 June • 2.4 MB'
-    ],
-    [
-        'icon' => 'Rx',
-        'name' => 'Doctor Prescription - Cardiac',
-        'details' => 'Uploaded 02 May • 1.1 MB'
-    ],
-    [
-        'icon' => 'LAB',
-        'name' => 'Lab Results - Blood Work',
-        'details' => 'Uploaded 28 Apr • 4.5 MB'
-    ]
-];
-
+// Extracted from controller data binding
+$patient = $data['patient'] ?? [];
 ?>
 
 <div class="profile-page">
-
     <main class="profile-container">
 
         <!-- Breadcrumb -->
         <nav class="profile-breadcrumb">
-
             <span>Dashboard</span>
-
             <span class="breadcrumb-arrow">›</span>
-
             <span>Patients</span>
-
             <span class="breadcrumb-arrow">›</span>
-
-            <span class="current">
-                Patient Profile
-            </span>
-
+            <span class="current">Patient Profile</span>
         </nav>
-
 
         <!-- Patient Header -->
         <section class="profile-header">
-
             <div class="patient-heading">
-
                 <div class="patient-photo">
-
-                    <div class="patient-photo-placeholder">
-                        AS
-                    </div>
-
+                    <?php if (!empty($patient['profile_photo'])): ?>
+                        <img src="/safehands_mvc/<?= htmlspecialchars($patient['profile_photo']) ?>" alt="Profile Photo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                    <?php else: ?>
+                        <div class="patient-photo-placeholder">
+                            <?= htmlspecialchars(strtoupper(substr($patient['full_name'] ?? 'P', 0, 2))) ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
-
 
                 <div class="patient-heading-info">
-
                     <div class="patient-title-row">
-
-                        <h1>
-                            <?= htmlspecialchars($patient['display_name']) ?>
-                        </h1>
-
+                        <h1><?= htmlspecialchars($patient['full_name'] ?? 'N/A') ?></h1>
                         <span class="care-status">
-                            <?= htmlspecialchars($patient['status']) ?>
+                            <?= htmlspecialchars($patient['mobility_status'] ?? 'Active') ?>
                         </span>
-
                     </div>
 
-
                     <p>
-
-                        Age:
-                        <?= htmlspecialchars($patient['age']) ?>
-
+                        Age: <?= htmlspecialchars($patient['age'] ?? 'N/A') ?>
                         <span>•</span>
-
-                        Gender:
-                        <?= htmlspecialchars($patient['gender']) ?>
-
+                        Gender: <?= htmlspecialchars($patient['gender'] ?? 'N/A') ?>
                         <span>•</span>
-
-                        Blood Group:
-                        <?= htmlspecialchars($patient['blood_group']) ?>
-
+                        Blood Group: <?= htmlspecialchars($patient['blood_group'] ?? 'N/A') ?>
                         <span>•</span>
-
-                        Relationship:
-                        <?= htmlspecialchars($patient['relationship']) ?>
-
+                        Relationship: <?= htmlspecialchars($patient['relationship'] ?? 'N/A') ?>
                     </p>
-
                 </div>
-
             </div>
-
 
             <div class="profile-header-actions">
-
-                <button
-                    type="button"
-                    class="btn btn-outline"
-                    data-action="edit-profile"
-                >
-                <a
-    href="/safehands_mvc/patient/edit"
-   
->
-    Edit Patient Profile
-</a>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-action="medical-history"
-                >
+                <a href="/safehands_mvc/patient/edit/<?= $patient['patient_id'] ?>" class="btn btn-outline">
+                    Edit Patient Profile
+                </a>
+                <button type="button" class="btn btn-primary" data-action="medical-history">
                     View Medical History
                 </button>
-
             </div>
-
         </section>
-
 
         <!-- Main Grid -->
         <div class="profile-grid">
-
-
             <!-- LEFT COLUMN -->
             <div class="profile-left">
-
-
                 <!-- About Patient -->
                 <section class="profile-card">
-
-                    <h2>
-
-                        <span class="section-icon">
-                            P
-                        </span>
-
-                        About Patient
-
-                    </h2>
-
-
+                    <h2><span class="section-icon">P</span> About Patient</h2>
                     <div class="info-list">
-
-
                         <div class="info-item">
-
-                            <span>
-                                Full Name
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars($patient['full_name']) ?>
-                            </strong>
-
+                            <span>Full Name</span>
+                            <strong><?= htmlspecialchars($patient['full_name'] ?? '') ?></strong>
                         </div>
-
-
                         <div class="info-item">
-
-                            <span>
-                                Date of Birth
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars($patient['dob']) ?>
-                            </strong>
-
+                            <span>Date of Birth</span>
+                            <strong><?= htmlspecialchars($patient['date_of_birth'] ?? '') ?></strong>
                         </div>
-
-
                         <div class="info-item">
-
-                            <span>
-                                NIC Number
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars($patient['nic']) ?>
-                            </strong>
-
+                            <span>NIC Number</span>
+                            <strong><?= htmlspecialchars($patient['nic'] ?? '') ?></strong>
                         </div>
-
-
                         <div class="info-item">
-
-                            <span>
-                                Phone
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars($patient['phone']) ?>
-                            </strong>
-
+                            <span>Phone</span>
+                            <strong><?= htmlspecialchars($patient['phone'] ?? '') ?></strong>
                         </div>
-
-
                         <div class="info-item">
-
-                            <span>
-                                Address
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars($patient['address']) ?>
-                            </strong>
-
+                            <span>Address</span>
+                            <strong><?= htmlspecialchars($patient['address'] ?? '') ?></strong>
                         </div>
-
                     </div>
-
                 </section>
-
-
 
                 <!-- Emergency Contact -->
                 <section class="profile-card emergency-card">
-
-                    <h2>
-
-                        <span class="section-icon emergency-icon">
-                            !
-                        </span>
-
-                        Emergency Contact
-
-                    </h2>
-
-
+                    <h2><span class="section-icon emergency-icon">!</span> Emergency Contact</h2>
                     <div class="emergency-list">
-
-
                         <div>
-
-                            <span>
-                                Name
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars(
-                                    $patient['emergency']['name']
-                                ) ?>
-                            </strong>
-
+                            <span>Name</span>
+                            <strong><?= htmlspecialchars($patient['emergency_contact_name'] ?? 'N/A') ?></strong>
                         </div>
-
-
                         <div>
-
-                            <span>
-                                Relationship
-                            </span>
-
-                            <strong>
-                                <?= htmlspecialchars(
-                                    $patient['emergency']['relationship']
-                                ) ?>
-                            </strong>
-
+                            <span>Relationship</span>
+                            <strong><?= htmlspecialchars($patient['emergency_contact_relationship'] ?? 'N/A') ?></strong>
                         </div>
-
-
                         <div>
-
-                            <span>
-                                Primary Phone
-                            </span>
-
-                            <strong class="phone-highlight">
-
-                                <?= htmlspecialchars(
-                                    $patient['emergency']['phone']
-                                ) ?>
-
-                            </strong>
-
+                            <span>Primary Phone</span>
+                            <strong class="phone-highlight"><?= htmlspecialchars($patient['emergency_contact_phone'] ?? 'N/A') ?></strong>
                         </div>
-
-
                         <div>
-
-                            <span>
-                                Alt Phone
-                            </span>
-
-                            <strong>
-
-                                <?= htmlspecialchars(
-                                    $patient['emergency']['alternative_phone']
-                                ) ?>
-
-                            </strong>
-
+                            <span>Alt Phone</span>
+                            <strong><?= htmlspecialchars($patient['emergency_alternative_phone'] ?? 'N/A') ?></strong>
                         </div>
-
                     </div>
-
                 </section>
-
             </div>
-
-
 
             <!-- RIGHT COLUMN -->
             <div class="profile-right">
-
-
                 <!-- Vitals -->
                 <section class="vitals-grid">
-
-
                     <div class="vital-card">
-
-                        <span class="vital-icon">
-                            KG
-                        </span>
-
-                        <span class="vital-label">
-                            Weight
-                        </span>
-
-                        <strong>
-
-                            <?= htmlspecialchars($patient['weight']) ?>
-
-                            <small>
-                                kg
-                            </small>
-
-                        </strong>
-
+                        <span class="vital-icon">KG</span>
+                        <span class="vital-label">Weight</span>
+                        <strong><?= htmlspecialchars($patient['weight'] ?? '-') ?> <small>kg</small></strong>
                     </div>
-
-
                     <div class="vital-card">
-
-                        <span class="vital-icon heart">
-                            ♥
-                        </span>
-
-                        <span class="vital-label">
-                            BP
-                        </span>
-
-                        <strong>
-
-                            <?= htmlspecialchars(
-                                $patient['blood_pressure']
-                            ) ?>
-
-                            <small>
-                                mmHg
-                            </small>
-
-                        </strong>
-
+                        <span class="vital-icon heart">♥</span>
+                        <span class="vital-label">BP</span>
+                        <strong><?= htmlspecialchars($patient['blood_pressure'] ?? '-') ?> <small>mmHg</small></strong>
                     </div>
-
-
                     <div class="vital-card">
-
-                        <span class="vital-icon warning">
-                            +
-                        </span>
-
-                        <span class="vital-label">
-                            Condition
-                        </span>
-
-                        <strong class="truncate">
-                            Hypertension
-                        </strong>
-
+                        <span class="vital-icon warning">+</span>
+                        <span class="vital-label">Mobility</span>
+                        <strong class="truncate"><?= htmlspecialchars($patient['mobility_status'] ?? '-') ?></strong>
                     </div>
-
-
                     <div class="vital-card">
-
-                        <span class="vital-icon calendar">
-                            ▣
-                        </span>
-
-                        <span class="vital-label">
-                            Last Check
-                        </span>
-
-                        <strong class="small-value">
-
-                            <?= htmlspecialchars(
-                                $patient['last_check']
-                            ) ?>
-
-                        </strong>
-
+                        <span class="vital-icon calendar">▣</span>
+                        <span class="vital-label">Updated At</span>
+                        <strong class="small-value"><?= date('d M Y', strtotime($patient['updated_at'] ?? 'now')) ?></strong>
                     </div>
-
                 </section>
-
-
 
                 <!-- Medical Information -->
                 <section class="profile-card medical-card">
-
-                    <h2>
-
-                        <span class="section-icon">
-                            +
-                        </span>
-
-                        Medical Information
-
-                    </h2>
-
-
+                    <h2><span class="section-icon">+</span> Medical Information</h2>
                     <div class="medical-grid">
-
-
                         <div>
-
-                            <span class="field-label">
-                                Active Conditions
-                            </span>
-
+                            <span class="field-label">Active Conditions</span>
                             <div class="tag-list">
-
-                                <?php foreach (
-                                    $patient['conditions']
-                                    as $condition
-                                ): ?>
-
-                                    <span class="condition-tag">
-
-                                        <?= htmlspecialchars(
-                                            $condition
-                                        ) ?>
-
-                                    </span>
-
-                                <?php endforeach; ?>
-
+                                <?php if (!empty($patient['medical_conditions'])): ?>
+                                    <?php foreach ((array)$patient['medical_conditions'] as $condition): ?>
+                                        <span class="condition-tag"><?= htmlspecialchars($condition) ?></span>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p>None</p>
+                                <?php endif; ?>
                             </div>
-
                         </div>
-
 
                         <div>
-
-                            <span class="field-label danger-label">
-                                Allergies
-                            </span>
-
-                            <p class="danger-text">
-
-                                <?= htmlspecialchars(
-                                    $patient['allergies']
-                                ) ?>
-
-                            </p>
-
+                            <span class="field-label danger-label">Allergies</span>
+                            <p class="danger-text"><?= htmlspecialchars($patient['allergies'] ?? 'None') ?></p>
                         </div>
-
 
                         <div>
-
-                            <span class="field-label">
-                                Current Medications
-                            </span>
-
-                            <p>
-
-                                <?= htmlspecialchars(
-                                    $patient['medications']
-                                ) ?>
-
-                            </p>
-
+                            <span class="field-label">Current Medications</span>
+                            <p><?= htmlspecialchars($patient['current_medications'] ?? 'None') ?></p>
                         </div>
-
 
                         <div>
-
-                            <span class="field-label">
-                                Mobility
-                            </span>
-
-                            <p>
-
-                                <?= htmlspecialchars(
-                                    $patient['mobility']
-                                ) ?>
-
-                            </p>
-
+                            <span class="field-label">Dietary Restrictions</span>
+                            <p><?= htmlspecialchars($patient['dietary_restrictions'] ?? 'None') ?></p>
                         </div>
-
 
                         <div class="full-width">
-
-                            <span class="field-label">
-                                Special Care Instructions
-                            </span>
-
-
+                            <span class="field-label">Special Care Instructions</span>
                             <ul class="care-list">
-
-                                <?php foreach (
-                                    $patient['special_care']
-                                    as $instruction
-                                ): ?>
-
-                                    <li>
-
-                                        <?= htmlspecialchars(
-                                            $instruction
-                                        ) ?>
-
-                                    </li>
-
-                                <?php endforeach; ?>
-
+                                <?php if (!empty($patient['special_care_requirements'])): ?>
+                                    <?php foreach ((array)$patient['special_care_requirements'] as $instruction): ?>
+                                        <li><?= htmlspecialchars($instruction) ?></li>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <li>No special instructions specified.</li>
+                                <?php endif; ?>
                             </ul>
-
                         </div>
-
                     </div>
-
                 </section>
-
-
-
-                <!-- Care History -->
-                <section class="profile-card history-card">
-
-
-                    <div class="card-heading-row">
-
-                        <h2>
-
-                            <span class="section-icon">
-                                ↺
-                            </span>
-
-                            Care History &amp; Reports
-
-                        </h2>
-
-
-                        <button
-                            type="button"
-                            class="text-button"
-                            data-action="view-history"
-                        >
-                            View All History
-                        </button>
-
-                    </div>
-
-
-                    <div class="table-wrapper">
-
-                        <table class="history-table">
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>Date</th>
-
-                                    <th>Caregiver</th>
-
-                                    <th>Duration</th>
-
-                                    <th>Status</th>
-
-                                    <th>Action</th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody>
-
-                                <?php foreach (
-                                    $care_history
-                                    as $history
-                                ): ?>
-
-                                    <tr>
-
-                                        <td>
-                                            <?= htmlspecialchars(
-                                                $history['date']
-                                            ) ?>
-                                        </td>
-
-                                        <td>
-                                            <strong>
-                                                <?= htmlspecialchars(
-                                                    $history['caregiver']
-                                                ) ?>
-                                            </strong>
-                                        </td>
-
-                                        <td>
-                                            <?= htmlspecialchars(
-                                                $history['duration']
-                                            ) ?>
-                                        </td>
-
-                                        <td>
-
-                                            <span class="completed-badge">
-
-                                                <?= htmlspecialchars(
-                                                    $history['status']
-                                                ) ?>
-
-                                            </span>
-
-                                        </td>
-
-                                        <td class="table-action">
-
-                                            <button
-                                                type="button"
-                                                class="text-button report-button"
-                                            >
-                                                View Report
-                                            </button>
-
-                                        </td>
-
-                                    </tr>
-
-                                <?php endforeach; ?>
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-
-                    <div class="report-snippet">
-
-                        <span class="field-label">
-                            Recent Report Snippet
-                        </span>
-
-                        <p>
-
-                            "Patient was cooperative during the
-                            morning session. Completed 15 mins of
-                            light stretches. Medication adherence
-                            was perfect. Appetite was good for lunch.
-                            Slight swelling noticed in ankles."
-                            - Nadeesha P.
-
-                        </p>
-
-                    </div>
-
-                </section>
-
-
-
-                <!-- Documents -->
-                <section class="profile-card documents-card">
-
-                    <h2>
-
-                        <span class="section-icon">
-                            D
-                        </span>
-
-                        Important Documents
-
-                    </h2>
-
-
-                    <div class="documents-list">
-
-                        <?php foreach (
-                            $documents
-                            as $document
-                        ): ?>
-
-                            <div class="document-item">
-
-
-                                <div class="document-info">
-
-                                    <span class="document-icon">
-
-                                        <?= htmlspecialchars(
-                                            $document['icon']
-                                        ) ?>
-
-                                    </span>
-
-
-                                    <div>
-
-                                        <strong>
-
-                                            <?= htmlspecialchars(
-                                                $document['name']
-                                            ) ?>
-
-                                        </strong>
-
-                                        <span>
-
-                                            <?= htmlspecialchars(
-                                                $document['details']
-                                            ) ?>
-
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="document-actions">
-
-                                    <button
-                                        type="button"
-                                        class="icon-button document-view"
-                                    >
-                                        View
-                                    </button>
-
-                                    <button
-                                        type="button"
-                                        class="icon-button document-download"
-                                    >
-                                        Download
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        <?php endforeach; ?>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="upload-button"
-                        data-action="upload-document"
-                    >
-
-                        <span>+</span>
-
-                        Upload New Document
-
-                    </button>
-
-
-                    <input
-                        type="file"
-                        id="documentUpload"
-                        hidden
-                        accept=".pdf,.jpg,.jpeg,.png"
-                    >
-
-                </section>
-
             </div>
-
         </div>
-
-
 
         <!-- Bottom Actions -->
         <section class="bottom-actions">
-
             <div>
-
-                <h2>
-                    Need to schedule more care?
-                </h2>
-
-                <p>
-                    Ensure Mr. Silva receives continuous
-                    professional attention.
-                </p>
-
+                <h2>Need to schedule more care?</h2>
+                <p>Ensure continuous professional attention.</p>
             </div>
-
-
             <div class="bottom-action-buttons">
-
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    data-action="book-caregiver"
-                >
-                <a
-    href="/safehands_mvc/caregiver"
-    class="btn btn-primary"
->
-    Book Caregiver
-</a>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="btn btn-outline"
-                    data-action="edit-profile"
-                >
-                <a
-    href="/safehands_mvc/patient/edit"
-    
->
-    Edit Patient Profile
-</a>
-                </button>
-
-
-                <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-action="delete-patient"
-                >
-                    Delete Patient
-                </button>
-
+                <a href="/safehands_mvc/caregiver" class="btn btn-primary">Book Caregiver</a>
+                <a href="/safehands_mvc/patient/edit/<?= $patient['patient_id'] ?>" class="btn btn-outline">Edit Patient Profile</a>
+                <form action="/safehands_mvc/patient/delete/<?= $patient['patient_id'] ?>" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this patient?');">
+                    <button type="submit" class="btn btn-danger">Delete Patient</button>
+                </form>
             </div>
-
         </section>
-
     </main>
-
-
-    <div
-        id="profileToast"
-        class="profile-toast"
-    ></div>
-
 </div>

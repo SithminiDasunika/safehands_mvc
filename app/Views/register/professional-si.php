@@ -1,226 +1,70 @@
-<!DOCTYPE html>
-<html class="light" lang="si">
+ <!DOCTYPE html>
+<html lang="si">
 
 <head>
-
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>වෘත්තීය තොරතුරු - SafeHands</title>
 
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Material Symbols -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block"
-        rel="stylesheet">
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-
-    <script>
-
-        tailwind.config = {
-
-            darkMode: "class",
-
-            theme: {
-
-                extend: {
-
-                    colors: {
-
-                        "on-primary-container": "#eeefff",
-                        "on-background": "#111c2d",
-                        "surface": "#f9f9ff",
-                        "primary-container": "#2563eb",
-                        "primary": "#004ac6",
-                        "on-surface-variant": "#434655",
-                        "surface-container-low": "#f0f3ff",
-                        "on-tertiary": "#ffffff",
-                        "surface-muted": "#F8FAFC",
-                        "on-tertiary-container": "#ffede6",
-                        "error": "#ba1a1a",
-                        "primary-fixed": "#dbe1ff",
-                        "surface-container-lowest": "#ffffff",
-                        "outline": "#737686",
-                        "on-surface": "#111c2d",
-                        "surface-container": "#e7eeff",
-                        "surface-container-high": "#dee8ff",
-                        "surface-container-highest": "#d8e3fb",
-                        "outline-variant": "#c3c6d7",
-                        "status-success": "#025747"
-                    },
-
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-
-                    spacing: {
-                        "margin-mobile": "16px",
-                        "margin-desktop": "40px"
-                    },
-
-                    fontFamily: {
-                        "label-md": ["Inter"],
-                        "body-md": ["Inter"],
-                        "display-lg": ["Inter"],
-                        "headline-md": ["Inter"],
-                        "body-lg": ["Inter"]
-                    },
-
-                    fontSize: {
-
-                        "label-md": [
-                            "14px",
-                            {
-                                lineHeight: "20px",
-                                letterSpacing: "0.01em",
-                                fontWeight: "500"
-                            }
-                        ],
-
-                        "body-md": [
-                            "16px",
-                            {
-                                lineHeight: "24px",
-                                fontWeight: "400"
-                            }
-                        ],
-
-                        "display-lg": [
-                            "48px",
-                            {
-                                lineHeight: "56px",
-                                letterSpacing: "-0.02em",
-                                fontWeight: "700"
-                            }
-                        ],
-
-                        "headline-md": [
-                            "24px",
-                            {
-                                lineHeight: "32px",
-                                fontWeight: "600"
-                            }
-                        ],
-
-                        "body-lg": [
-                            "18px",
-                            {
-                                lineHeight: "28px",
-                                fontWeight: "400"
-                            }
-                        ]
-                    }
-                }
-            }
-        };
-
-    </script>
-
-
-    <link
-        rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/caregiver-register.css">
-
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/professional.css">
 </head>
 
-
-<body class="bg-surface text-on-background min-h-screen flex flex-col">
-
+<body>
 
     <!-- =====================================================
          NAVIGATION
     ====================================================== -->
 
-    <header
-        class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop h-16 bg-surface-container-lowest shadow-sm border-b border-subtle">
+    <header class="site-header">
 
-        <div class="flex items-center gap-2">
-
-            <span
-                class="font-headline-md text-headline-md font-bold text-primary">
-
-                SafeHands
-
-            </span>
-
+        <div class="logo">
+            SafeHands
         </div>
 
+        <nav class="main-navigation">
 
-        <nav class="hidden md:flex items-center gap-8">
-
-            <a
-                class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#">
+            <a href="#">
                 රැකියා සොයන්න
             </a>
 
-            <a
-                class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#">
+            <a href="#">
                 සම්පත්
             </a>
 
-            <a
-                class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors"
-                href="#">
+            <a href="#">
                 අප ගැන
             </a>
 
-            <a
-                class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-1"
-                href="/safehands_mvc/register.php">
-
+            <a href="/safehands_mvc/register.php" class="active-nav">
                 ලියාපදිංචි වන්න
-
             </a>
 
         </nav>
 
+        <div class="nav-right">
 
-        <!-- Language + Login -->
-
-        <div class="flex items-center gap-4">
-
-
-            <div class="flex items-center gap-2 font-label-md text-label-md">
+            <div class="language-switcher">
 
                 <a
-                    href="/safehands_mvc/register/professional"
-                    class="text-on-surface-variant hover:text-primary transition-all">
-
+                    href="/safehands_mvc/register/professional">
                     English
-
                 </a>
 
-                <span class="text-outline-variant">|</span>
+                <span>|</span>
 
                 <a
                     href="/safehands_mvc/register/professionalSi"
-                    class="text-primary font-bold hover:text-primary transition-all">
-
+                    class="active-language">
                     සිංහල
-
                 </a>
 
             </div>
 
-
             <a
                 href="/safehands_mvc/login/login.php"
-                class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container transition-all">
-
-                ඇතුල් වන්න
-
+                class="login-button">
+                Login
             </a>
 
         </div>
@@ -229,134 +73,97 @@
 
 
     <!-- =====================================================
-         MAIN
+         MAIN CONTENT
     ====================================================== -->
 
-    <main
-        class="flex-grow pt-24 pb-16 px-margin-mobile md:px-margin-desktop bg-surface">
+    <main class="main-content">
 
-        <div class="max-w-[800px] mx-auto">
-
+        <div class="content-container">
 
             <!-- Breadcrumb -->
 
-            <nav
-                class="flex items-center gap-2 mb-6 text-on-surface-variant font-label-md text-label-md">
+            <nav class="breadcrumb">
 
-                <a
-                    class="hover:text-primary transition-colors"
-                    href="/safehands_mvc/register.php">
-
+                <a href="/safehands_mvc/register.php">
                     ලියාපදිංචි වන්න
-
                 </a>
 
-                <span class="material-symbols-outlined text-sm">
-                    chevron_right
-                </span>
+                <span class="breadcrumb-arrow">›</span>
 
-                <span class="font-bold text-on-background">
-
-                    රැකවරණ සේවකයෙකු වන්න
-
+                <span class="breadcrumb-current">
+                    රැකවරණ සේවා සපයන්නෙකු වන්න
                 </span>
 
             </nav>
 
 
-            <!-- Heading -->
+            <!-- Page Heading -->
 
-            <div class="mb-12">
+            <div class="page-header">
 
-                <h1
-                    class="font-display-lg text-display-lg text-primary mb-2">
-
-                    SafeHands රැකවරණ සේවකයෙකු වන්න
-
+                <h1>
+                    SafeHands රැකවරණ සේවා සපයන්නෙකු වන්න
                 </h1>
 
-
-                <p
-                    class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-
-                    සත්‍යාපිත රැකවරණ සේවකයෙකු ලෙස අයදුම් කිරීමට සහ අප සමඟ ඔබේ වෘත්තීය ගමන ආරම්භ කිරීමට පහත පියවර සම්පූර්ණ කරන්න.
-
+                <p>
+                    සත්‍යාපිත රැකවරණ සේවා සපයන්නෙකු ලෙස අයදුම් කිරීමට
+                    පහත පියවර සම්පූර්ණ කර අප සමඟ ඔබේ වෘත්තීය ගමන ආරම්භ කරන්න.
                 </p>
 
             </div>
 
 
             <!-- =================================================
-                 STEPS
+                 STEP INDICATOR
             ================================================== -->
 
-            <div
-                class="mb-12 flex flex-col md:flex-row items-center gap-4">
+            <div class="step-indicator">
 
+                <!-- STEP 1 - COMPLETED -->
 
-                <!-- STEP 1 -->
+                <div class="progress-step completed-step">
 
-                <div
-                    class="flex flex-1 items-center gap-3 p-4 bg-status-success rounded-xl text-on-primary shadow-md">
-
-                    <div
-                        class="w-8 h-8 rounded-full bg-on-primary text-status-success flex items-center justify-center font-bold">
-
-                        <span class="material-symbols-outlined text-sm">
-                            check
-                        </span>
-
+                    <div class="step-number">
+                        ✓
                     </div>
 
-                    <span class="font-label-md text-label-md">
+                    <span>
                         පුද්ගලික තොරතුරු
                     </span>
 
                 </div>
 
 
-                <div
-                    class="hidden md:block w-8 h-[2px] bg-outline-variant">
-                </div>
+                <div class="step-line"></div>
 
 
-                <!-- STEP 2 -->
+                <!-- STEP 2 - ACTIVE -->
 
-                <div
-                    class="flex flex-1 items-center gap-3 p-4 bg-primary-container rounded-xl text-on-primary-container shadow-md">
+                <div class="progress-step active-step">
 
-                    <div
-                        class="w-8 h-8 rounded-full bg-on-primary-container text-primary flex items-center justify-center font-bold">
-
+                    <div class="step-number">
                         2
-
                     </div>
 
-                    <span class="font-label-md text-label-md">
+                    <span>
                         වෘත්තීය තොරතුරු
                     </span>
 
                 </div>
 
 
-                <div
-                    class="hidden md:block w-8 h-[2px] bg-outline-variant">
-                </div>
+                <div class="step-line"></div>
 
 
-                <!-- STEP 3 -->
+                <!-- STEP 3 - PENDING -->
 
-                <div
-                    class="flex flex-1 items-center gap-3 p-4 bg-surface-container-high rounded-xl text-on-surface-variant shadow-sm">
+                <div class="progress-step pending-step">
 
-                    <div
-                        class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold">
-
+                    <div class="step-number">
                         3
-
                     </div>
 
-                    <span class="font-label-md text-label-md">
+                    <span>
                         සත්‍යාපනය
                     </span>
 
@@ -366,57 +173,45 @@
 
 
             <!-- =================================================
-                 FORM
+                 FORM CARD
             ================================================== -->
 
-            <div
-                class="bg-surface-container-lowest border border-subtle rounded-xl shadow-sm overflow-hidden">
+            <div class="form-card">
 
-                <div class="p-8 md:p-12">
-
+                <div class="form-card-content">
 
                     <form
                         action="/safehands_mvc/register/saveProfessional"
                         method="POST"
                         enctype="multipart/form-data"
-                        class="space-y-8">
+                        class="professional-form">
 
 
-                        <!-- Professional Details -->
+                        <!-- =================================================
+                             PROFESSIONAL DETAILS
+                        ================================================== -->
 
-                        <div>
+                        <div class="form-section">
 
-                            <h3
-                                class="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2">
-
-                                <span
-                                    class="material-symbols-outlined text-primary">
-                                    work
-                                </span>
-
+                            <h3 class="section-title">
+                                <span class="section-icon">💼</span>
                                 වෘත්තීය තොරතුරු
-
                             </h3>
 
 
-                            <div
-                                class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="form-grid">
 
+                                <!-- Highest Qualification -->
 
-                                <!-- Qualification -->
+                                <div class="form-group">
 
-                                <div class="flex flex-col gap-2">
-
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="highest_qualification">
                                         ඉහළම අධ්‍යාපන සුදුසුකම *
-
                                     </label>
 
                                     <select
+                                        id="highest_qualification"
                                         name="highest_qualification"
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary"
                                         required>
 
                                         <option value="">
@@ -428,7 +223,7 @@
                                         </option>
 
                                         <option value="BSc Nursing">
-                                            BSc හෙද උපාධිය
+                                            හෙද BSc උපාධිය
                                         </option>
 
                                         <option value="Caregiving Certificate">
@@ -444,44 +239,38 @@
                                 </div>
 
 
-                                <!-- Experience -->
+                                <!-- Years of Experience -->
 
-                                <div class="flex flex-col gap-2">
+                                <div class="form-group">
 
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="years_experience">
                                         සේවා පළපුරුද්ද (වසර) *
-
                                     </label>
 
                                     <input
+                                        id="years_experience"
                                         type="number"
                                         name="years_experience"
                                         min="0"
-                                        placeholder="උදා: 5"
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary"
+                                        placeholder="උදා. 5"
                                         required>
 
                                 </div>
 
 
-                                <!-- Certifications -->
+                                <!-- Professional Certifications -->
 
-                                <div class="flex flex-col gap-2">
+                                <div class="form-group">
 
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="professional_certification">
                                         වෘත්තීය සහතික *
-
                                     </label>
 
                                     <input
+                                        id="professional_certification"
                                         type="text"
                                         name="professional_certification"
-                                        placeholder="උදා: CPR, First Aid"
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary"
+                                        placeholder="උදා. CPR, First Aid"
                                         required>
 
                                 </div>
@@ -489,20 +278,17 @@
 
                                 <!-- Languages -->
 
-                                <div class="flex flex-col gap-2">
+                                <div class="form-group">
 
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="languages">
                                         කතා කරන භාෂා *
-
                                     </label>
 
                                     <input
+                                        id="languages"
                                         type="text"
                                         name="languages"
-                                        placeholder="උදා: සිංහල, ඉංග්‍රීසි"
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary"
+                                        placeholder="උදා. English, Sinhala"
                                         required>
 
                                 </div>
@@ -510,62 +296,52 @@
 
                                 <!-- Service Areas -->
 
-                                <div class="flex flex-col gap-2">
+                                <div class="form-group">
 
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="service_areas">
                                         සේවා ප්‍රදේශ / දිස්ත්‍රික්ක *
-
                                     </label>
 
                                     <input
+                                        id="service_areas"
                                         type="text"
                                         name="service_areas"
-                                        placeholder="උදා: කොළඹ, ගම්පහ"
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary"
+                                        placeholder="උදා. කොළඹ, ගම්පහ"
                                         required>
 
                                 </div>
 
 
-                                <!-- Daily Rate -->
+                                <!-- Expected Daily Rate -->
 
-                                <div class="flex flex-col gap-2">
+                                <div class="form-group">
 
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="expected_daily_rate">
                                         අපේක්ෂිත දෛනික ගාස්තුව (විකල්ප)
-
                                     </label>
 
                                     <input
+                                        id="expected_daily_rate"
                                         type="text"
                                         name="expected_daily_rate"
-                                        placeholder="උදා: රු. 5,000"
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary">
+                                        placeholder="උදා. රු. 5,000">
 
                                 </div>
 
 
                                 <!-- Biography -->
 
-                                <div
-                                    class="flex flex-col gap-2 md:col-span-2">
+                                <div class="form-group full-width">
 
-                                    <label
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <label for="description">
                                         කෙටි වෘත්තීය හැඳින්වීම *
-
                                     </label>
 
                                     <textarea
+                                        id="description"
                                         name="description"
                                         rows="4"
-                                        placeholder="ඔබගේ පළපුරුද්ද සහ රැකවරණ සේවාව සඳහා ඇති කැමැත්ත පිළිබඳව අපට කියන්න..."
-                                        class="block w-full rounded-lg border-subtle text-sm text-on-surface-variant focus:ring-primary"
+                                        placeholder="ඔබගේ පළපුරුද්ද සහ රැකවරණ සේවය පිළිබඳ උනන්දුව ගැන අපට කියන්න..."
                                         required></textarea>
 
                                 </div>
@@ -575,46 +351,30 @@
                         </div>
 
 
-                        <!-- Profile Photo -->
+                        <!-- =================================================
+                             PROFILE PHOTO
+                        ================================================== -->
 
-                        <div class="pt-8 border-t border-subtle">
+                        <div class="form-section photo-section">
 
-                            <h3
-                                class="font-headline-md text-headline-md text-on-background mb-6 flex items-center gap-2">
-
-                                <span
-                                    class="material-symbols-outlined text-primary">
-                                    account_circle
-                                </span>
-
+                            <h3 class="section-title">
+                                <span class="section-icon">◉</span>
                                 පැතිකඩ ඡායාරූපය
-
                             </h3>
 
 
-                            <div
-                                class="border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center gap-4 bg-surface-muted hover:bg-surface-container-low transition-colors">
+                            <div class="upload-area">
 
+                                <span class="upload-icon">☁</span>
 
-                                <span
-                                    class="material-symbols-outlined text-4xl text-outline">
-                                    cloud_upload
-                                </span>
+                                <div class="upload-text">
 
-
-                                <div class="text-center">
-
-                                    <p
-                                        class="font-label-md text-label-md text-on-background">
-
+                                    <p>
                                         උඩුගත කිරීමට ක්ලික් කරන්න හෝ ඇද දමන්න
-
                                     </p>
 
-                                    <p class="text-sm text-on-surface-variant">
-
+                                    <p>
                                         PNG, JPG හෝ GIF (උපරිම 2MB)
-
                                     </p>
 
                                 </div>
@@ -624,14 +384,14 @@
                                     type="file"
                                     name="profile_photo"
                                     id="profile-photo-upload"
-                                    class="hidden"
+                                    class="file-input"
                                     accept="image/png,image/jpeg,image/gif,image/webp">
 
 
                                 <button
                                     type="button"
-                                    class="px-4 py-2 bg-primary-container text-on-primary-container rounded-full text-sm font-semibold hover:bg-primary-fixed transition-colors"
-                                    onclick="document.getElementById('profile-photo-upload').click()">
+                                    class="select-file-button"
+                                    id="select-file-button">
 
                                     ගොනුව තෝරන්න
 
@@ -640,7 +400,7 @@
 
                                 <p
                                     id="selected-file-name"
-                                    class="text-sm text-primary hidden">
+                                    class="selected-file-name hidden">
                                 </p>
 
                             </div>
@@ -648,39 +408,35 @@
                         </div>
 
 
-                        <!-- Buttons -->
+                        <!-- =================================================
+                             ACTION BUTTONS
+                        ================================================== -->
 
-                        <div
-                            class="pt-12 flex flex-col-reverse md:flex-row justify-end gap-4">
-
+                        <div class="form-actions">
 
                             <!-- BACK -->
- <button
-    type="button"
-    onclick="window.location.href='/safehands_mvc/register/caregiverSi'"
-    class="h-12 px-8 rounded-xl border border-subtle text-on-surface-variant font-label-md text-label-md hover:bg-surface-muted transition-all flex items-center justify-center">
 
-    <span class="material-symbols-outlined text-sm mr-1">
-        arrow_back
-    </span>
+                            <a
+                                href="/safehands_mvc/register/caregiverSi"
+                                class="back-button">
 
-    ආපසු
-</button>
+                                <span>←</span>
+                                ආපසු
+
+                            </a>
 
 
-                            <!-- SAVE -->
- <button
-    type="button"
-    onclick="window.location.href='/safehands_mvc/register/verificationSi'"
-    class="h-12 px-12 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:opacity-90 shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2">
+                            <!-- SAVE & CONTINUE -->
 
-    ඉදිරියට
+                            <button
+                                type="submit"
+                                class="save-button">
 
-    <span class="material-symbols-outlined text-sm">
-        arrow_forward
-    </span>
+                                සුරකින්න සහ ඉදිරියට යන්න
 
-</button>
+                                <span>→</span>
+
+                            </button>
 
                         </div>
 
@@ -691,72 +447,42 @@
             </div>
 
 
-            <!-- WHY SAFEHANDS -->
+            <!-- =================================================
+                 WHY JOIN SAFEHANDS
+            ================================================== -->
 
-            <div
-                class="mt-12 bg-primary-container rounded-xl overflow-hidden shadow-xl flex flex-col md:flex-row items-center">
+            <div class="why-safehands">
 
+                <div class="why-content">
 
-                <div
-                    class="md:w-1/2 p-8 md:p-12 text-on-primary-container">
-
-                    <h4
-                        class="font-headline-md text-headline-md mb-4">
-
+                    <h4>
                         SafeHands සමඟ එක්වන්නේ ඇයි?
-
                     </h4>
 
 
-                    <ul
-                        class="space-y-4 font-body-md text-body-md">
+                    <ul>
 
-
-                        <li class="flex items-start gap-3">
-
-                            <span
-                                class="material-symbols-outlined text-on-tertiary-container">
-
-                                check_circle
-
-                            </span>
-
+                        <li>
+                            <span class="check-icon">✓</span>
                             <span>
-                                බැංකු හරහා සෘජු ගෙවීම් සමඟ තරඟකාරී වැටුප්.
+                                සෘජු බැංකු මාරු කිරීම් සමඟ තරඟකාරී ගෙවීම්.
                             </span>
-
                         </li>
 
 
-                        <li class="flex items-start gap-3">
-
-                            <span
-                                class="material-symbols-outlined text-on-tertiary-container">
-
-                                check_circle
-
-                            </span>
-
+                        <li>
+                            <span class="check-icon">✓</span>
                             <span>
                                 ඔබේ ජීවන රටාවට ගැළපෙන නම්‍යශීලී කාලසටහනක්.
                             </span>
-
                         </li>
 
 
-                        <li class="flex items-start gap-3">
-
-                            <span
-                                class="material-symbols-outlined text-on-tertiary-container">
-
-                                check_circle
-
-                            </span>
-
+                        <li>
+                            <span class="check-icon">✓</span>
                             <span>
-                                අඛණ්ඩ සෞඛ්‍ය සේවා පුහුණු මොඩියුල සඳහා ප්‍රවේශය.
+                                අඛණ්ඩ සෞඛ්‍ය සේවා පුහුණු මොඩියුල වෙත ප්‍රවේශය.
                             </span>
-
                         </li>
 
                     </ul>
@@ -764,12 +490,10 @@
                 </div>
 
 
-                <div
-                    class="md:w-1/2 w-full h-64 md:h-80 overflow-hidden">
+                <div class="why-image">
 
                     <img
-                        class="w-full h-full object-cover"
-                        alt="වෘත්තීය රැකවරණ සේවකයෙකු"
+                        alt="වෘත්තීය රැකවරණ සේවා සපයන්නෙක්"
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDIzMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyyE6mCqkISP4R-5aKyFf26H3yR0-wlXziyQcTc">
 
                 </div>
@@ -781,56 +505,41 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
-    <footer
-        class="w-full py-8 px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-4 bg-surface-muted border-t border-subtle">
+    <footer class="site-footer">
 
-        <div
-            class="flex flex-col gap-1 items-center md:items-start">
+        <div class="footer-brand">
 
-            <span
-                class="font-headline-md text-headline-md font-bold text-primary">
-
+            <span>
                 SafeHands
-
             </span>
 
-            <p
-                class="font-body-md text-body-md text-on-surface-variant opacity-90">
-
+            <p>
                 © 2024 SafeHands Healthcare Services.
-                සියලු හිමිකම් ඇවිරිණි.
-
+                සියලුම හිමිකම් ඇවිරිණි.
             </p>
 
         </div>
 
 
-        <div
-            class="flex flex-wrap justify-center gap-6">
+        <div class="footer-links">
 
-            <a
-                class="font-body-md text-body-md text-on-surface-variant hover:underline hover:text-primary"
-                href="#">
-                පෞද්ගලිකත්ව ප්‍රතිපත්තිය
+            <a href="#">
+                රහස්‍යතා ප්‍රතිපත්තිය
             </a>
 
-            <a
-                class="font-body-md text-body-md text-on-surface-variant hover:underline hover:text-primary"
-                href="#">
+            <a href="#">
                 සේවා කොන්දේසි
             </a>
 
-            <a
-                class="font-body-md text-body-md text-on-surface-variant hover:underline hover:text-primary"
-                href="#">
+            <a href="#">
                 උපකාරක මධ්‍යස්ථානය
             </a>
 
-            <a
-                class="font-body-md text-body-md text-on-surface-variant hover:underline hover:text-primary"
-                href="#">
+            <a href="#">
                 සහාය අමතන්න
             </a>
 
@@ -839,72 +548,7 @@
     </footer>
 
 
-    <!-- FILE NAME DISPLAY -->
-
-    <script>
-
-        const profileInput =
-            document.getElementById('profile-photo-upload');
-
-        const selectedFileName =
-            document.getElementById('selected-file-name');
-
-
-        profileInput.addEventListener('change', function () {
-
-            if (this.files.length > 0) {
-
-                selectedFileName.textContent =
-                    'තෝරාගත් ගොනුව: ' + this.files[0].name;
-
-                selectedFileName.classList.remove('hidden');
-
-            } else {
-
-                selectedFileName.classList.add('hidden');
-
-            }
-
-        });
-
-
-        // Focus effects
-
-        const inputs =
-            document.querySelectorAll(
-                'input:not([type="file"]), select, textarea'
-            );
-
-
-        inputs.forEach(function (input) {
-
-            input.addEventListener('focus', function () {
-
-                const label =
-                    this.parentElement.querySelector('label');
-
-                if (label) {
-                    label.classList.add('text-primary');
-                }
-
-            });
-
-
-            input.addEventListener('blur', function () {
-
-                const label =
-                    this.parentElement.querySelector('label');
-
-                if (label) {
-                    label.classList.remove('text-primary');
-                }
-
-            });
-
-        });
-
-    </script>
+    <script src="/safehands_mvc/public/assets/js/professional.js"></script>
 
 </body>
-
 </html>

@@ -66,4 +66,43 @@ public function availability(int $id): void
         'caregivers'
     );
 }
+public function manageAvailability(): void
+{
+    $data = [
+        'title' => 'Manage Availability | SafeHands',
+        'caregiverName' => 'Aditya Mendis',
+        'availability' => [
+            [
+                'id' => 1,
+                'date' => '2026-09-25',
+                'shift' => 'Morning',
+                'status' => 'Available'
+            ],
+            [
+                'id' => 2,
+                'date' => '2026-09-25',
+                'shift' => 'Evening',
+                'status' => 'Booked'
+            ],
+            [
+                'id' => 3,
+                'date' => '2026-09-26',
+                'shift' => 'Afternoon',
+                'status' => 'Off Duty'
+            ],
+            [
+                'id' => 4,
+                'date' => '2026-09-28',
+                'shift' => 'Morning',
+                'status' => 'Available'
+            ]
+        ]
+    ];
+
+    $this->view(
+        'caregivers/caregiver-availability',
+        $data,
+        'caregivers'
+    );
+}
 }

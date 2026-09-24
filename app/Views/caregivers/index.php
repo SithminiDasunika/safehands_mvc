@@ -127,21 +127,31 @@
                         Any District
                     </option>
 
-                    <option value="Central Business District">
-                        Central Business
-                    </option>
-
-                    <option value="West Coast District">
-                        West Coast
-                    </option>
-
-                    <option value="Green Valley District">
-                        Green Valley
-                    </option>
-
-                    <option value="North Ridge District">
-                        North Ridge
-                    </option>
+                <option value="Colombo District">Colombo</option>
+<option value="Gampaha District">Gampaha</option>
+<option value="Kalutara District">Kalutara</option>
+<option value="Kandy District">Kandy</option>
+<option value="Matale District">Matale</option>
+<option value="Nuwara Eliya District">Nuwara Eliya</option>
+<option value="Galle District">Galle</option>
+<option value="Matara District">Matara</option>
+<option value="Hambantota District">Hambantota</option>
+<option value="Jaffna District">Jaffna</option>
+<option value="Kilinochchi District">Kilinochchi</option>
+<option value="Mannar District">Mannar</option>
+<option value="Mullaitivu District">Mullaitivu</option>
+<option value="Vavuniya District">Vavuniya</option>
+<option value="Batticaloa District">Batticaloa</option>
+<option value="Ampara District">Ampara</option>
+<option value="Trincomalee District">Trincomalee</option>
+<option value="Kurunegala District">Kurunegala</option>
+<option value="Puttalam District">Puttalam</option>
+<option value="Anuradhapura District">Anuradhapura</option>
+<option value="Polonnaruwa District">Polonnaruwa</option>
+<option value="Badulla District">Badulla</option>
+<option value="Monaragala District">Monaragala</option>
+<option value="Ratnapura District">Ratnapura</option>
+<option value="Kegalle District">Kegalle</option>
 
                 </select>
 

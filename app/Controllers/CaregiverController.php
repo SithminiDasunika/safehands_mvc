@@ -19,7 +19,6 @@ class CaregiverController extends Controller
             'caregivers'
         );
     }
-<<<<<<< HEAD
 
     public function profile(int $id): void
 {
@@ -67,6 +66,4 @@ public function availability(int $id): void
         'caregivers'
     );
 }
-=======
->>>>>>> origin/main
 }

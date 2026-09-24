@@ -6,7 +6,7 @@ return [
  
     'port' => 3306, 
  
-    'database' => 'safehands_db', 
+    'database' => 'safehands_mvc_db', 
  
     'username' => 'root', 
  

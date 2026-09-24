@@ -164,7 +164,12 @@ $documents = [
                     class="btn btn-outline"
                     data-action="edit-profile"
                 >
-                    Edit Profile
+                <a
+    href="/safehands_mvc/patient/edit"
+   
+>
+    Edit Patient Profile
+</a>
                 </button>
 
 
@@ -863,7 +868,12 @@ $documents = [
                     class="btn btn-primary"
                     data-action="book-caregiver"
                 >
-                    Book Caregiver
+                <a
+    href="/safehands_mvc/caregiver"
+    class="btn btn-primary"
+>
+    Book Caregiver
+</a>
                 </button>
 
 
@@ -872,7 +882,12 @@ $documents = [
                     class="btn btn-outline"
                     data-action="edit-profile"
                 >
-                    Edit Patient Profile
+                <a
+    href="/safehands_mvc/patient/edit"
+    
+>
+    Edit Patient Profile
+</a>
                 </button>
 
 

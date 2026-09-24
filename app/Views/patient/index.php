@@ -121,12 +121,16 @@ $reports = $reports ?? [];
                 class="add-patient-button"
                 id="addPatientButton"
             >
+            <a
+    href="/safehands_mvc/patient/create"
+    class="add-patient-button"
+>
+    <span class="plus-icon">
+        +
+    </span>
 
-                <span class="plus-icon">
-                    +
-                </span>
-
-                Add Patient
+    Add Patient
+</a>
 
             </button>
 
@@ -500,7 +504,12 @@ $reports = $reports ?? [];
                                     $patient['name']
                                 ) ?>"
                             >
-                                View Profile
+                            <a
+    href="/safehands_mvc/patient/profile"
+    class="card-button secondary view-profile-button"
+>
+    View Profile
+</a>
                             </button>
 
 
@@ -511,7 +520,12 @@ $reports = $reports ?? [];
                                     $patient['name']
                                 ) ?>"
                             >
-                                Daily Care Reports
+                            <a
+    href="/safehands_mvc/care-reports"
+    class="card-button primary report-button"
+>
+    Daily Care Reports
+</a>
                             </button>
 
 

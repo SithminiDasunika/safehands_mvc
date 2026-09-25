@@ -24,7 +24,7 @@ $caregiver = $caregiver ?? [];
             <nav style="display:flex; gap:24px;">
                 <a href="/safehands_mvc/caregiver/dashboard" style="text-decoration:none; color:var(--on-surface-variant); font-weight:500;">Dashboard</a>
                 <a href="#" style="text-decoration:none; color:var(--primary); font-weight:700; border-bottom:2px solid var(--primary); padding-bottom:4px;">My Schedule</a>
-                <a href="#" style="text-decoration:none; color:var(--on-surface-variant); font-weight:500;">Availability</a>
+               
             </nav>
         </div>
         <div style="display:flex; align-items:center; gap:16px;">

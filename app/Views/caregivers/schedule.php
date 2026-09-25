@@ -48,26 +48,7 @@ $title = $title ?? 'My Schedule | SafeHands';
                     My Schedule
                 </a>
 
-                <a
-                    href="/safehands_mvc/caregiver/manageAvailability"
-                    class="nav-link"
-                >
-                    Availability
-                </a>
-
-                <a
-                    href="/safehands_mvc/caregiver/earnings"
-                    class="nav-link"
-                >
-                    Earnings
-                </a>
-
-                <a
-                    href="/safehands_mvc/caregiver/notifications"
-                    class="nav-link"
-                >
-                    Notifications
-                </a>
+                 
 
             </nav>
 
@@ -75,13 +56,7 @@ $title = $title ?? 'My Schedule | SafeHands';
 
         <div class="navbar-right">
 
-            <a
-                href="/safehands_mvc/caregiver/notifications"
-                class="notification-button"
-                aria-label="Notifications"
-            >
-                🔔
-            </a>
+             
 
             <div class="profile-avatar">
                 C

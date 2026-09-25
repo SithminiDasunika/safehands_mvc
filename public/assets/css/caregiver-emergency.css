@@ -1,0 +1,729 @@
+/* =========================================================
+   SAFEHANDS - EMERGENCY CONTACT PAGE
+   Plain CSS - No Frameworks
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f8f6;
+    color: #26352d;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.emergency-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.emergency-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e4ebe7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    z-index: 100;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    min-height: 72px;
+
+    padding: 0 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: #198754;
+    font-size: 22px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+.brand-icon {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: #198754;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.emergency-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    color: #506057;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.nav-link:hover {
+    background: #edf7f1;
+    color: #198754;
+}
+
+.emergency-nav-active {
+    background: #e9f7ef;
+    color: #198754;
+}
+
+.nav-call-icon {
+    font-size: 17px;
+}
+
+.logout-link {
+    color: #59645e;
+}
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+.mobile-menu-button {
+    display: none;
+
+    border: none;
+    background: #edf7f1;
+    color: #198754;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+.mobile-navigation {
+    display: none;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.emergency-main {
+    flex: 1;
+
+    padding: 45px 20px 60px;
+}
+
+.emergency-container {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.page-heading {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+
+    margin-bottom: 25px;
+}
+
+.heading-icon {
+    width: 54px;
+    height: 54px;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    background: #198754;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+
+    box-shadow: 0 5px 15px rgba(25, 135, 84, 0.18);
+}
+
+.page-heading h1 {
+    color: #26352d;
+    font-size: 27px;
+    line-height: 1.25;
+
+    margin-bottom: 5px;
+}
+
+.page-heading p {
+    color: #718078;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   EMERGENCY CARD
+========================================================= */
+
+.emergency-card {
+    background: #ffffff;
+
+    border: 1px solid #e3ebe6;
+    border-radius: 15px;
+
+    padding: 30px;
+
+    box-shadow: 0 5px 20px rgba(32, 65, 48, 0.06);
+}
+
+.card-header {
+    margin-bottom: 25px;
+}
+
+.card-header h2 {
+    color: #26352d;
+    font-size: 20px;
+    margin-bottom: 7px;
+}
+
+.card-header p {
+    color: #718078;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #34433a;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group select {
+    width: 100%;
+
+    min-height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid #ccd9d1;
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #34433a;
+
+    font-size: 14px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.form-group select:focus {
+    border-color: #198754;
+
+    box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.10);
+}
+
+
+/* =========================================================
+   CONTACT RESULT
+========================================================= */
+
+.contact-result {
+    min-height: 210px;
+
+    border: 1px solid #e5ece8;
+    border-radius: 12px;
+
+    background: #f9fbfa;
+
+    padding: 25px;
+}
+
+
+/* Empty state */
+
+.empty-state {
+    min-height: 155px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 12px;
+
+    border-radius: 50%;
+
+    background: #e9f7ef;
+    color: #198754;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+.empty-state h3 {
+    color: #34433a;
+
+    font-size: 16px;
+
+    margin-bottom: 7px;
+}
+
+.empty-state p {
+    max-width: 450px;
+
+    color: #78857e;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   SELECTED CONTACT
+========================================================= */
+
+.selected-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.selected-contact-icon {
+    width: 55px;
+    height: 55px;
+
+    margin-bottom: 12px;
+
+    border-radius: 50%;
+
+    background: #198754;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+}
+
+.selected-contact h3 {
+    color: #26352d;
+    font-size: 19px;
+
+    margin-bottom: 8px;
+}
+
+.contact-number {
+    color: #198754;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    margin-bottom: 18px;
+}
+
+.call-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-width: 145px;
+
+    padding: 12px 22px;
+
+    border-radius: 8px;
+
+    background: #198754;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+.call-button:hover {
+    background: #157347;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   NOTICE
+========================================================= */
+
+.emergency-notice {
+    margin-top: 20px;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+
+    padding: 17px 18px;
+
+    background: #fffaf0;
+
+    border: 1px solid #f0dfb4;
+    border-radius: 10px;
+}
+
+.notice-icon {
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e7b83c;
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+}
+
+.notice-content strong {
+    display: block;
+
+    color: #6d5518;
+
+    font-size: 14px;
+
+    margin-bottom: 4px;
+}
+
+.notice-content p {
+    color: #806d3c;
+
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-section {
+    margin-top: 25px;
+}
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 11px 17px;
+
+    border: 1px solid #ccd9d1;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #506057;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.back-button:hover {
+    border-color: #198754;
+    color: #198754;
+    background: #f5fbf7;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.emergency-footer {
+    padding: 20px;
+
+    border-top: 1px solid #e4ebe7;
+
+    background: #ffffff;
+
+    text-align: center;
+}
+
+.emergency-footer p {
+    color: #7b8780;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .header-container {
+        padding: 0 20px;
+    }
+
+    .emergency-nav {
+        gap: 2px;
+    }
+
+    .nav-link {
+        padding: 9px 10px;
+        font-size: 13px;
+    }
+
+    .emergency-main {
+        padding-top: 35px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .header-container {
+        min-height: 64px;
+        padding: 0 16px;
+    }
+
+    .brand {
+        font-size: 20px;
+    }
+
+    .brand-icon {
+        width: 31px;
+        height: 31px;
+        font-size: 15px;
+    }
+
+    /* Hide desktop navigation */
+    .emergency-nav {
+        display: none;
+    }
+
+    /* Show mobile menu */
+    .mobile-menu-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-navigation {
+        background: #ffffff;
+
+        border-top: 1px solid #e8eee9;
+
+        padding: 8px 16px 15px;
+    }
+
+    .mobile-navigation.open {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mobile-navigation a {
+        padding: 13px 12px;
+
+        border-radius: 7px;
+
+        color: #506057;
+
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .mobile-navigation a:hover {
+        background: #edf7f1;
+        color: #198754;
+    }
+
+    .mobile-navigation .mobile-active {
+        background: #e9f7ef;
+        color: #198754;
+    }
+
+
+    .emergency-main {
+        padding: 28px 14px 45px;
+    }
+
+    .page-heading {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .heading-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 11px;
+        font-size: 21px;
+    }
+
+    .page-heading h1 {
+        font-size: 21px;
+    }
+
+    .page-heading p {
+        font-size: 13px;
+    }
+
+    .emergency-card {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .card-header h2 {
+        font-size: 18px;
+    }
+
+    .contact-result {
+        padding: 18px 12px;
+    }
+
+    .contact-number {
+        font-size: 21px;
+    }
+
+    .call-button {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    .emergency-notice {
+        padding: 14px;
+    }
+
+    .back-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .page-heading h1 {
+        font-size: 19px;
+    }
+
+    .page-heading p {
+        font-size: 12px;
+    }
+
+    .emergency-card {
+        padding: 17px 13px;
+    }
+
+    .contact-number {
+        font-size: 19px;
+    }
+}

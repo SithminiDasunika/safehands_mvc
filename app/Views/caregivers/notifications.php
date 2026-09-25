@@ -38,17 +38,7 @@ $title = $data['title'] ?? 'Notifications | SafeHands';
                 Dashboard
             </a>
 
-            <a href="/safehands_mvc/caregiver/schedule">
-                My Schedule
-            </a>
-
-            <a href="/safehands_mvc/caregiver/manageAvailability">
-                Availability
-            </a>
-
-            <a href="/safehands_mvc/caregiver/earnings">
-                Earnings
-            </a>
+            
 
             <a
                 href="/safehands_mvc/caregiver/notifications"
@@ -61,14 +51,7 @@ $title = $data['title'] ?? 'Notifications | SafeHands';
 
         <div class="header-right">
 
-            <button
-                type="button"
-                class="notification-icon-button"
-                aria-label="Notifications"
-            >
-                🔔
-                <span class="notification-dot"></span>
-            </button>
+           
 
             <div class="caregiver-user">
 

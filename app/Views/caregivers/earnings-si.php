@@ -42,17 +42,13 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
 
         <nav class="desktop-nav">
 
-            <a href="/safehands_mvc/caregiver/dashboard">
+            <a href="/safehands_mvc/caregiver/dashboardSi">
                 උපකරණ පුවරුව
             </a>
 
-            <a href="/safehands_mvc/caregiver/scheduleSi">
-                මගේ උපලේඛනය
-            </a>
+            
 
-            <a href="/safehands_mvc/caregiver/manageAvailabilitySi">
-                ලබා ගත හැකි වේලාව
-            </a>
+           
 
             <a
                 href="/safehands_mvc/caregiver/earnings"
@@ -61,9 +57,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 ආදායම්
             </a>
 
-            <a href="/safehands_mvc/caregiver/notificationsSi">
-                දැනුම්දීම්
-            </a>
+            
 
         </nav>
 

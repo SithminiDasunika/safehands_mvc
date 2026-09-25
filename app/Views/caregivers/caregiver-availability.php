@@ -61,13 +61,11 @@ $availability = $availability ?? [];
             id="availabilityNav"
         >
 
-            <a href="#">
+            <a href="/safehands_mvc/caregiver/dashboard">
                 Dashboard
             </a>
 
-            <a href="#">
-                My Schedule
-            </a>
+            
 
             <a
                 href="/safehands_mvc/caregiver/manageAvailability"
@@ -76,13 +74,7 @@ $availability = $availability ?? [];
                 Availability
             </a>
 
-            <a href="#">
-                Profile
-            </a>
-
-            <a href="#">
-                Earnings
-            </a>
+             
 
         </nav>
 
@@ -91,14 +83,7 @@ $availability = $availability ?? [];
 
         <div class="availability-actions">
 
-            <button
-                type="button"
-                class="notification-btn"
-                id="notificationButton"
-                aria-label="Notifications"
-            >
-                🔔
-            </button>
+             
 
 
             <div class="profile-menu">

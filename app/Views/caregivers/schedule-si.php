@@ -47,27 +47,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                 >
                     මගේ උපලේඛනය
                 </a>
-
-                <a
-                    href="/safehands_mvc/caregiver/manageAvailabilitySi"
-                    class="nav-link"
-                >
-                    ලබා ගත හැකි වේලාව
-                </a>
-
-                <a
-                    href="/safehands_mvc/caregiver/earningsSi"
-                    class="nav-link"
-                >
-                    ආදායම්
-                </a>
-
-                <a
-                    href="/safehands_mvc/caregiver/notificationsSi"
-                    class="nav-link"
-                >
-                    දැනුම්දීම්
-                </a>
+ 
 
             </nav>
 

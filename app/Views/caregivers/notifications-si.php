@@ -38,17 +38,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
                 උපකරණ පුවරුව
             </a>
 
-            <a href="/safehands_mvc/caregiver/scheduleSi">
-                මගේ උපලේඛනය
-            </a>
-
-            <a href="/safehands_mvc/caregiver/manageලබා ගත හැකි වේලාවSi">
-                ලබා ගත හැකි වේලාව
-            </a>
-
-            <a href="/safehands_mvc/caregiver/earningsSi">
-                ආදායම්
-            </a>
+             
 
             <a
                 href="/safehands_mvc/caregiver/notificationsSi"

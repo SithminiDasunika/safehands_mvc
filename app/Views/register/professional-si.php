@@ -323,7 +323,7 @@
                                     <input
                                         id="expected_daily_rate"
                                         type="text"
-                                        name="expected_daily_rate"
+                                         name="daily_rate"
                                         placeholder="උදා. රු. 5,000">
 
                                 </div>
@@ -339,7 +339,7 @@
 
                                     <textarea
                                         id="description"
-                                        name="description"
+                                        name="biography"
                                         rows="4"
                                         placeholder="ඔබගේ පළපුරුද්ද සහ රැකවරණ සේවය පිළිබඳ උනන්දුව ගැන අපට කියන්න..."
                                         required></textarea>

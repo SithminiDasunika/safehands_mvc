@@ -4,12 +4,12 @@ return [
  
     'host' => 'localhost', 
  
-    'port' => 8889, 
+    'port' => 3306, 
  
 'database' => 'safehands_mvc_db',
 
     'username' => 'root', 
  
-    'password' => 'root'
+    'password' => ''
  
 ];

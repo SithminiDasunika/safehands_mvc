@@ -216,7 +216,8 @@
 
                                     <input
                                         type="text"
-                                        placeholder="උදා: අංජලී පෙරේරා">
+                                        placeholder="උදා: අංජලී පෙරේරා"
+                                        name="full_name">
 
                                 </div>
 
@@ -230,7 +231,8 @@
 
                                     <input
                                         type="text"
-                                        placeholder="9xxxxxxxxV">
+                                        placeholder="9xxxxxxxxV"
+                                         name="nic">
 
                                 </div>
 
@@ -242,7 +244,11 @@
                                         උපන් දිනය
                                     </label>
 
-                                    <input type="date">
+                                      <input
+    type="date"
+    id="date_of_birth"
+    name="date_of_birth"
+    required>
 
                                 </div>
 
@@ -254,7 +260,7 @@
                                         ස්ත්‍රී / පුරුෂ භාවය
                                     </label>
 
-                                    <select>
+                                    <select name="gender" required>
 
                                         <option value="">
                                             ස්ත්‍රී / පුරුෂ භාවය තෝරන්න
@@ -306,7 +312,8 @@
 
                                     <input
                                         type="tel"
-                                        placeholder="+94 7x xxx xxxx">
+                                        placeholder="+94 7x xxx xxxx"
+                                        name="phone">
 
                                 </div>
 
@@ -320,7 +327,8 @@
 
                                     <input
                                         type="email"
-                                        placeholder="anjali@example.com">
+                                        placeholder="anjali@example.com"
+                                        name="email">
 
                                 </div>
 
@@ -334,7 +342,8 @@
 
                                     <textarea
                                         rows="2"
-                                        placeholder="වීථිය, නගරය, තැපැල් කේතය"></textarea>
+                                        placeholder="වීථිය, නගරය, තැපැල් කේතය"
+                                        name="address"></textarea>
 
                                 </div>
 
@@ -346,7 +355,7 @@
                                         දිස්ත්‍රික්කය
                                     </label>
 
-                                    <select>
+                                    <select name="district">
 
                                         <option value="">
                                             දිස්ත්‍රික්කය තෝරන්න
@@ -402,7 +411,8 @@
 
                                     <input
                                         type="password"
-                                        placeholder="අවම අක්ෂර 8ක්">
+                                        placeholder="අවම අක්ෂර 8ක්" name="password"
+    required>
 
                                 </div>
 
@@ -416,7 +426,9 @@
 
                                     <input
                                         type="password"
-                                        placeholder="මුරපදය නැවත ඇතුළත් කරන්න">
+                                        placeholder="මුරපදය නැවත ඇතුළත් කරන්න"
+                                        name="confirm_password"
+    required>
 
                                 </div>
 
@@ -430,7 +442,7 @@
 
                             <button
                                 class="cancel-button"
-                                type="button">
+                                type="reset">
 
                                 අවලංගු කරන්න
 
@@ -438,7 +450,7 @@
 
 
                             <button
-                                type="button"
+                                type="submit"
                                 onclick="window.location.href='/safehands_mvc/register/professionalSi'"
                                 class="next-button">
 

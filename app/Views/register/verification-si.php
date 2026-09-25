@@ -134,12 +134,11 @@
 
                 <div class="form-actions">
                     <a href="/safehands_mvc/register/professionalSi" class="back-button">← ආපසු</a>
-                    <button
-    type="button"
-    class="submit-button"
-    onclick="window.location.href='/safehands_mvc/register/successSi'">
+                <button
+    type="submit"
+    class="submit-button">
     අයදුම්පත ඉදිරිපත් කරන්න <span>→</span>
-</button> 
+</button>
                 </div>
 
             </form>

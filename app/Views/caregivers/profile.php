@@ -110,10 +110,7 @@ $image = $caregiver['image'] ?? '';
                         <div class="profile-title-row">
                             <h1><?= htmlspecialchars($name) ?></h1>
 
-                            <span class="verified-badge">
-                                <span class="verified-icon">✓</span>
-                                Verified
-                            </span>
+                             
                         </div>
 
                         <p class="specialization">

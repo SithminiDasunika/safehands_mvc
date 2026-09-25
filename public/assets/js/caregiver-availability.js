@@ -267,63 +267,32 @@ document.addEventListener("DOMContentLoaded", function () {
        Add Availability
        ========================= */
 
-    if (availabilityForm) {
+     /* =========================
+   Add Availability
+   ========================= */
 
-        availabilityForm.addEventListener(
-            "submit",
-            function (event) {
+if (availabilityForm) {
 
+    availabilityForm.addEventListener(
+        "submit",
+        function (event) {
+
+            const date = dateInput.value;
+            const shift = shiftInput.value;
+            const status = statusInput.value;
+
+            if (!date || !shift || !status) {
                 event.preventDefault();
 
-                const date =
-                    dateInput.value;
-
-                const shift =
-                    shiftInput.value;
-
-                const status =
-                    statusInput.value;
-
-                if (!date || !shift || !status) {
-                    alert("Please complete all fields.");
-                    return;
-                }
-
-                const duplicate =
-                    availabilityData.some(function (item) {
-
-                        return (
-                            item.date === date &&
-                            item.shift === shift
-                        );
-                    });
-
-                if (duplicate) {
-
-                    alert(
-                        "This shift already exists for the selected date."
-                    );
-
-                    return;
-                }
-
-                availabilityData.push({
-                    id: Date.now(),
-                    date: date,
-                    shift: shift,
-                    status: status
-                });
-
-                availabilityForm.reset();
-
-                renderCalendar();
-                renderRecords();
-                updateSummary();
-
-                alert("Availability added successfully.");
+                alert("Please complete all fields.");
+                return;
             }
-        );
-    }
+
+            // Allow the form to submit normally
+            // to the PHP controller.
+        }
+    );
+}
 
 
     /* =========================
@@ -447,66 +416,90 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function editAvailability(id) {
 
-        const item =
-            availabilityData.find(function (entry) {
+    const item =
+        availabilityData.find(function (entry) {
+            return Number(entry.id) === Number(id);
+        });
 
-                return entry.id === id;
-            });
-
-        if (!item) {
-            return;
-        }
-
-        if (item.status === "Booked") {
-
-            alert(
-                "Booked availability cannot be modified."
-            );
-
-            return;
-        }
-
-        const newDate =
-            prompt(
-                "Enter new date (YYYY-MM-DD):",
-                item.date
-            );
-
-        if (!newDate) {
-            return;
-        }
-
-        const newShift =
-            prompt(
-                "Enter shift (Morning, Afternoon, Evening):",
-                item.shift
-            );
-
-        if (!newShift) {
-            return;
-        }
-
-        const newStatus =
-            prompt(
-                "Enter status (Available, Booked, Off Duty):",
-                item.status
-            );
-
-        if (!newStatus) {
-            return;
-        }
-
-        item.date = newDate;
-        item.shift = newShift;
-        item.status = newStatus;
-
-        renderCalendar();
-        renderRecords();
-        updateSummary();
-
-        alert("Availability updated successfully.");
+    if (!item) {
+        return;
     }
 
+    if (item.status === "Booked") {
+        alert("Booked availability cannot be modified.");
+        return;
+    }
+
+    const newDate =
+        prompt(
+            "Enter new date (YYYY-MM-DD):",
+            item.date
+        );
+
+    if (!newDate) {
+        return;
+    }
+
+    const newShift =
+        prompt(
+            "Enter shift (Morning, Afternoon, Evening):",
+            item.shift
+        );
+
+    if (!newShift) {
+        return;
+    }
+
+    const newStatus =
+        prompt(
+            "Enter status (Available, Booked, Off Duty):",
+            item.status
+        );
+
+    if (!newStatus) {
+        return;
+    }
+
+    // Create a form dynamically
+    const form = document.createElement("form");
+
+    form.method = "POST";
+    form.action = "/safehands_mvc/caregiver/updateAvailability";
+
+    // Availability ID
+    const idInput = document.createElement("input");
+    idInput.type = "hidden";
+    idInput.name = "availabilityId";
+    idInput.value = id;
+
+    // Date
+    const dateInput = document.createElement("input");
+    dateInput.type = "hidden";
+    dateInput.name = "availabilityDate";
+    dateInput.value = newDate;
+
+    // Shift
+    const shiftInput = document.createElement("input");
+    shiftInput.type = "hidden";
+    shiftInput.name = "availabilityShift";
+    shiftInput.value = newShift;
+
+    // Status
+    const statusInput = document.createElement("input");
+    statusInput.type = "hidden";
+    statusInput.name = "availabilityStatus";
+    statusInput.value = newStatus;
+
+    form.appendChild(idInput);
+    form.appendChild(dateInput);
+    form.appendChild(shiftInput);
+    form.appendChild(statusInput);
+
+    document.body.appendChild(form);
+
+    // Submit to PHP controller
+    form.submit();
+}
 
     /* =========================
        Delete Availability
@@ -514,44 +507,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function deleteAvailability(id) {
 
-        const item =
-            availabilityData.find(function (entry) {
+    const item =
+        availabilityData.find(function (entry) {
+            return Number(entry.id) === Number(id);
+        });
 
-                return entry.id === id;
-            });
-
-        if (!item) {
-            return;
-        }
-
-        if (item.status === "Booked") {
-
-            alert(
-                "Booked availability cannot be deleted."
-            );
-
-            return;
-        }
-
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete this availability?"
-            );
-
-        if (!confirmed) {
-            return;
-        }
-
-        availabilityData =
-            availabilityData.filter(function (entry) {
-
-                return entry.id !== id;
-            });
-
-        renderCalendar();
-        renderRecords();
-        updateSummary();
+    if (!item) {
+        return;
     }
+
+    if (item.status === "Booked") {
+        alert("Booked availability cannot be deleted.");
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this availability?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const form = document.createElement("form");
+
+    form.method = "POST";
+    form.action = "/safehands_mvc/caregiver/deleteAvailability";
+
+    const idInput = document.createElement("input");
+
+    idInput.type = "hidden";
+    idInput.name = "availabilityId";
+    idInput.value = id;
+
+    form.appendChild(idInput);
+
+    document.body.appendChild(form);
+
+    form.submit();
+}
 
 
     /* =========================

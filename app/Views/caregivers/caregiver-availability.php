@@ -61,28 +61,26 @@ $availability = $availability ?? [];
             id="availabilityNav"
         >
 
-            <a href="#">
-                Dashboard
-            </a>
+              <a href="/safehands_mvc/caregiver/dashboard">
+    Dashboard
+</a>
 
-            <a href="#">
-                My Schedule
-            </a>
+<a href="/safehands_mvc/caregiver/schedule">
+    My Schedule
+</a>
 
-            <a
-                href="/safehands_mvc/caregiver/manageAvailability"
-                class="active"
-            >
-                Availability
-            </a>
+<a href="/safehands_mvc/caregiver/manageAvailability">
+    Availability
+</a>
 
-            <a href="#">
-                Profile
-            </a>
+<a href="/safehands_mvc/caregiver/earnings">
+    Earnings
+</a>
 
-            <a href="#">
-                Earnings
-            </a>
+<a href="/safehands_mvc/caregiver/notifications">
+    Notifications
+</a>
+         
 
         </nav>
 
@@ -91,14 +89,7 @@ $availability = $availability ?? [];
 
         <div class="availability-actions">
 
-            <button
-                type="button"
-                class="notification-btn"
-                id="notificationButton"
-                aria-label="Notifications"
-            >
-                🔔
-            </button>
+           
 
 
             <div class="profile-menu">
@@ -319,11 +310,12 @@ $availability = $availability ?? [];
                 Add Availability
             </h2>
 
-
-            <form
-                id="availabilityForm"
-                class="availability-form"
-            >
+ <form
+    id="availabilityForm"
+    class="availability-form"
+    action="/safehands_mvc/caregiver/createAvailability"
+    method="POST"
+>
 
                 <!-- Date -->
 

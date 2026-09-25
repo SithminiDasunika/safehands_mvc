@@ -1,0 +1,929 @@
+/* =========================================================
+   SAFEHANDS CAREGIVER REGISTRATION
+   Normal CSS - No Tailwind / No Framework
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f9f9ff;
+    color: #111c2d;
+    min-height: 100vh;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 64px;
+    z-index: 1000;
+
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 40px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #004ac6;
+    white-space: nowrap;
+}
+
+
+/* Main navigation */
+
+.main-navigation {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-left: auto;
+    margin-right: 32px;
+}
+
+.main-navigation a {
+    font-size: 14px;
+    font-weight: 500;
+    color: #434655;
+
+    transition:
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.main-navigation a:hover {
+    color: #004ac6;
+}
+
+.main-navigation a.active {
+    color: #004ac6;
+    font-weight: 700;
+
+    border-bottom: 2px solid #004ac6;
+    padding-bottom: 4px;
+}
+
+
+/* Right side */
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.language-switcher a {
+    color: #434655;
+    transition: color 0.2s ease;
+}
+
+.language-switcher a:hover {
+    color: #004ac6;
+}
+
+.language-switcher .active-language {
+    color: #004ac6;
+    font-weight: 700;
+}
+
+.language-switcher span {
+    color: #737686;
+}
+
+.login-link {
+    color: #004ac6;
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+.login-link:hover {
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content {
+    min-height: calc(100vh - 64px);
+
+    padding: 96px 40px 64px;
+
+    background: #f9f9ff;
+}
+
+.content-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 24px;
+
+    font-size: 14px;
+    color: #434655;
+}
+
+.breadcrumb a:hover {
+    color: #004ac6;
+}
+
+.breadcrumb-arrow {
+    color: #737686;
+    font-size: 20px;
+}
+
+.breadcrumb-current {
+    color: #111c2d;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
+    margin-bottom: 48px;
+}
+
+.page-header h1 {
+    margin-bottom: 8px;
+
+    color: #004ac6;
+
+    font-size: 42px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.page-header p {
+    max-width: 700px;
+
+    color: #434655;
+
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   PROGRESS INDICATOR
+========================================================= */
+
+.progress-container {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 48px;
+}
+
+.progress-step {
+    flex: 1;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 16px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.active-step {
+    background: #2563eb;
+    color: #ffffff;
+
+    box-shadow:
+        0 4px 10px rgba(37, 99, 235, 0.18);
+}
+
+.inactive-step {
+    background: #e7eeff;
+    color: #434655;
+
+    opacity: 0.65;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #737686;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.active-step .step-number {
+    background: #ffffff;
+    color: #004ac6;
+}
+
+.step-line {
+    width: 32px;
+    height: 2px;
+    flex-shrink: 0;
+
+    background: #c3c6d7;
+}
+
+
+/* =========================================================
+   REGISTRATION CARD
+========================================================= */
+
+.registration-card {
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.registration-content {
+    padding: 48px;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 32px;
+}
+
+.form-section {
+    width: 100%;
+}
+
+.separated-section {
+    padding-top: 32px;
+
+    border-top: 1px solid #f1f5f9;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 24px;
+
+    color: #111c2d;
+
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.section-icon {
+    font-size: 22px;
+}
+
+
+/* =========================================================
+   FORM GRID
+========================================================= */
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    column-gap: 32px;
+    row-gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    color: #111c2d;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: color 0.2s ease;
+}
+
+.form-group label.label-focused {
+    color: #004ac6;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    border: 1px solid #f1f5f9;
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    color: #111c2d;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.form-group input,
+.form-group select {
+    height: 48px;
+
+    padding: 0 16px;
+}
+
+.form-group textarea {
+    min-height: 90px;
+
+    padding: 14px 16px;
+
+    resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #737686;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #004ac6;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 4px rgba(0, 74, 198, 0.10);
+}
+
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 16px;
+
+    padding-top: 48px;
+}
+
+.cancel-button,
+.next-button {
+    height: 48px;
+
+    padding: 0 32px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.cancel-button {
+    background: #ffffff;
+
+    border: 1px solid #f1f5f9;
+
+    color: #434655;
+}
+
+.cancel-button:hover {
+    background: #f8fafc;
+}
+
+.next-button {
+    min-width: 140px;
+
+    border: none;
+
+    background: #004ac6;
+
+    color: #ffffff;
+}
+
+.next-button:hover {
+    background: #2563eb;
+}
+
+
+/* =========================================================
+   WHY JOIN SAFEHANDS
+========================================================= */
+
+.why-safehands {
+    display: flex;
+    align-items: stretch;
+
+    margin-top: 48px;
+
+    overflow: hidden;
+
+    background: #2563eb;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.10);
+}
+
+.why-content {
+    width: 50%;
+
+    padding: 48px;
+
+    color: #ffffff;
+}
+
+.why-content h4 {
+    margin-bottom: 20px;
+
+    font-size: 24px;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+.why-content ul {
+    display: flex;
+    flex-direction: column;
+
+    gap: 16px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.why-content li {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.check-icon {
+    flex-shrink: 0;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    color: #ffede6;
+}
+
+.why-image {
+    width: 50%;
+    min-height: 320px;
+
+    overflow: hidden;
+}
+
+.why-image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+    width: 100%;
+
+    background: #f8fafc;
+
+    border-top: 1px solid #f1f5f9;
+
+    padding: 32px 40px;
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+.footer-brand > span {
+    color: #004ac6;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.footer-brand p {
+    color: #434655;
+
+    font-size: 14px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    gap: 24px;
+}
+
+.footer-links a {
+    color: #434655;
+
+    font-size: 14px;
+
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #004ac6;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .nav-container {
+        padding: 0 24px;
+    }
+
+    .main-navigation {
+        gap: 18px;
+        margin-right: 18px;
+    }
+
+    .main-content {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .registration-content {
+        padding: 32px;
+    }
+
+    .page-header h1 {
+        font-size: 36px;
+    }
+
+    .why-content {
+        padding: 32px;
+    }
+
+    .site-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .site-header {
+        height: auto;
+
+        position: relative;
+    }
+
+    .nav-container {
+        min-height: 64px;
+
+        flex-wrap: wrap;
+
+        padding: 14px 16px;
+
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .main-navigation {
+        order: 3;
+
+        width: 100%;
+
+        justify-content: center;
+
+        margin: 0;
+
+        gap: 16px;
+
+        overflow-x: auto;
+    }
+
+    .main-navigation a {
+        white-space: nowrap;
+        font-size: 13px;
+    }
+
+    .nav-right {
+        margin-left: auto;
+
+        gap: 10px;
+    }
+
+    .language-switcher {
+        font-size: 12px;
+    }
+
+    .login-link {
+        font-size: 13px;
+    }
+
+
+    .main-content {
+        padding: 32px 16px 48px;
+    }
+
+    .breadcrumb {
+        margin-bottom: 20px;
+    }
+
+    .page-header {
+        margin-bottom: 32px;
+    }
+
+    .page-header h1 {
+        font-size: 30px;
+    }
+
+    .page-header p {
+        font-size: 16px;
+    }
+
+
+    /* Progress becomes vertical */
+
+    .progress-container {
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 8px;
+
+        margin-bottom: 32px;
+    }
+
+    .progress-step {
+        width: 100%;
+    }
+
+    .step-line {
+        display: none;
+    }
+
+
+    /* Form */
+
+    .registration-content {
+        padding: 24px 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .section-title {
+        font-size: 21px;
+    }
+
+
+    /* Buttons */
+
+    .form-actions {
+        flex-direction: column-reverse;
+
+        padding-top: 32px;
+    }
+
+    .cancel-button,
+    .next-button {
+        width: 100%;
+    }
+
+
+    /* Why SafeHands */
+
+    .why-safehands {
+        flex-direction: column;
+    }
+
+    .why-content {
+        width: 100%;
+
+        padding: 28px 24px;
+    }
+
+    .why-image {
+        width: 100%;
+        min-height: 220px;
+    }
+
+
+    /* Footer */
+
+    .site-footer {
+        padding: 28px 16px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+
+        text-align: center;
+    }
+
+    .footer-brand {
+        align-items: center;
+    }
+
+    .footer-links {
+        gap: 14px 20px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .nav-container {
+        align-items: flex-start;
+    }
+
+    .nav-right {
+        width: 100%;
+
+        justify-content: space-between;
+
+        margin-left: 0;
+    }
+
+    .main-navigation {
+        justify-content: flex-start;
+    }
+
+    .page-header h1 {
+        font-size: 27px;
+    }
+
+    .registration-content {
+        padding: 20px 14px;
+    }
+
+    .why-content {
+        padding: 24px 18px;
+    }
+
+}

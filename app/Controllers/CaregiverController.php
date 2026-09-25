@@ -17,6 +17,55 @@ class CaregiverController extends Controller
             'caregivers'
         );
     }
+    public function dashboardSi(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (
+        !isset($_SESSION['caregiver_logged_in']) ||
+        $_SESSION['caregiver_logged_in'] !== true
+    ) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'රැකවරණ සේවා සපයන්නාගේ උපකරණ පුවරුව | SafeHands'
+    ];
+
+    $this->view(
+        'caregivers/dashboard-si',
+        $data,
+        'caregivers'
+    );
+}
+
+public function scheduleSi(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (
+        !isset($_SESSION['caregiver_logged_in']) ||
+        $_SESSION['caregiver_logged_in'] !== true
+    ) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'මගේ උපලේඛනය | SafeHands'
+    ];
+
+    $this->view(
+        'caregivers/schedule-si',
+        $data,
+        'caregivers'
+    );
+}
 public function schedule(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -65,6 +114,30 @@ public function earnings(): void
         'caregivers'
     );
 }
+public function earningsSi(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (
+        !isset($_SESSION['caregiver_logged_in']) ||
+        $_SESSION['caregiver_logged_in'] !== true
+    ) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'මගේ ආදායම | SafeHands'
+    ];
+
+    $this->view(
+        'caregivers/earnings-si',
+        $data,
+        'caregivers'
+    );
+}
 public function notifications(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -85,6 +158,30 @@ public function notifications(): void
 
     $this->view(
         'caregivers/notifications',
+        $data,
+        'caregivers'
+    );
+}
+public function notificationsSi(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (
+        !isset($_SESSION['caregiver_logged_in']) ||
+        $_SESSION['caregiver_logged_in'] !== true
+    ) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'දැනුම්දීම් | SafeHands'
+    ];
+
+    $this->view(
+        'caregivers/notifications-si',
         $data,
         'caregivers'
     );
@@ -205,6 +302,45 @@ $availability = $availabilityModel->getByCaregiver($caregiverId);
 
     $this->view(
         'caregivers/caregiver-availability',
+        $data,
+        'caregivers'
+    );
+}
+public function manageAvailabilitySi(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (
+        !isset($_SESSION['caregiver_logged_in']) ||
+        $_SESSION['caregiver_logged_in'] !== true
+    ) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $availabilityModel = $this->model('CaregiverAvailability');
+
+    $caregiverId = $availabilityModel->getCaregiverIdByUserId(
+        (int) $_SESSION['user_id']
+    );
+
+    if ($caregiverId === null) {
+        header('Location: /safehands_mvc/caregiver/dashboardSi');
+        exit;
+    }
+
+    $availability = $availabilityModel->getByCaregiver($caregiverId);
+
+    $data = [
+        'title' => 'ලබා ගත හැකි වේලාව | SafeHands',
+        'caregiverName' => 'රැකවරණ සේවා සපයන්නා',
+        'availability' => $availability
+    ];
+
+    $this->view(
+        'caregivers/caregiver-availability-si',
         $data,
         'caregivers'
     );

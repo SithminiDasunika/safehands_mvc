@@ -970,3 +970,25 @@ a {
         margin-left: 49px;
     }
 }
+/* Language Switcher */
+.language-switcher {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 12px;
+    white-space: nowrap;
+}
+
+.language-switcher a {
+    text-decoration: none;
+    color: #1f2937;
+    font-size: 16px;
+}
+
+.language-switcher a:hover {
+    color: #2563eb;
+}
+
+.language-switcher .active-language {
+    color: #2563eb;
+}

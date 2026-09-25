@@ -10,12 +10,12 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="si">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Caregiver Dashboard | SafeHands</title>
+    <title>රැකවරණ සේවා Dashboard | SafeHands</title>
 
     <link rel="stylesheet"
           href="/safehands_mvc/public/assets/css/caregiver-dashboard.css">
@@ -23,11 +23,11 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
 <body>
 
-<header class="dashboard-header">
+ <header class="dashboard-header">
 
     <div class="header-container">
 
-        <a href="/safehands_mvc/caregiver/dashboard"
+        <a href="/safehands_mvc/caregiver/dashboardSi"
            class="brand">
             SafeHands
         </a>
@@ -35,66 +35,78 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
         <button type="button"
                 class="mobile-menu-button"
                 id="mobileMenuButton"
-                aria-label="Open navigation">
+                aria-label="විවෘත කරන්න">
             ☰
         </button>
 
         <nav class="main-navigation" id="mainNavigation">
 
-    <a href="/safehands_mvc/caregiver/dashboard" class="nav-link active">
-        Dashboard
-    </a>
+            <a href="/safehands_mvc/caregiver/dashboard"
+               class="nav-link active">
+                උපකරණ පුවරුව
+            </a>
 
-    <a href="/safehands_mvc/caregiver/schedule" class="nav-link">
-        My Schedule
-    </a>
+            <a href="/safehands_mvc/caregiver/scheduleSi"
+               class="nav-link">
+                මගේ උපලේඛනය
+            </a>
 
-    <a href="/safehands_mvc/caregiver/manageAvailability" class="nav-link">
-        Availability
-    </a>
+            <a href="/safehands_mvc/caregiver/manageAvailabilitySi"
+               class="nav-link">
+                ලබා ගත හැකි වේලාව
+            </a>
 
-    <a href="/safehands_mvc/caregiver/earnings" class="nav-link">
-        Earnings
-    </a>
+            <a href="/safehands_mvc/caregiver/earningsSi"
+               class="nav-link">
+                ආදායම්
+            </a>
 
-    <a href="/safehands_mvc/caregiver/notifications" class="nav-link">
-        Notifications
-    </a>
+            <a href="/safehands_mvc/caregiver/notificationsSi"
+               class="nav-link">
+                දැනුම්දීම්
+            </a>
 
-</nav>
+        </nav>
 
-<div class="header-actions">
+        <div class="header-actions">
 
-    <div class="language-switcher">
-        <a href="/safehands_mvc/caregiver/dashboard"
-           class="active-language">
-            English
-        </a>
+            <!-- Language Switcher -->
+            <div class="language-switcher">
 
-        <span>|</span>
+                <a href="/safehands_mvc/caregiver/dashboard">
+                    English
+                </a>
 
-        <a href="/safehands_mvc/caregiver/dashboardSi">
-            සිංහල
-        </a>
-    </div>
+                <span>|</span>
 
-    <div class="user-menu">
+                <a href="/safehands_mvc/caregiver/dashboardSi"
+                   class="active-language">
+                    සිංහල
+                </a>
 
-        <img src="<?= htmlspecialchars($profilePhoto) ?>"
-             alt="Caregiver profile"
-             class="header-profile-image">
+            </div>
 
-        <span class="header-user-name">
-            <?= htmlspecialchars($caregiverName) ?>
-        </span>
+            <!-- Caregiver Profile -->
+            <div class="user-menu">
 
-    </div>
+                <img src="<?= htmlspecialchars($profilePhoto) ?>"
+                     alt="රැකවරණ සේවා සපයන්නාගේ පැතිකඩ"
+                     class="header-profile-image">
 
-</div>
+                <span class="header-user-name">
+                    <?= htmlspecialchars($caregiverName) ?>
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
 
 </header>
+
+        
+ 
 
 
 <main class="dashboard-main">
@@ -106,17 +118,19 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
         <section class="page-heading">
 
             <div>
-                <p class="page-label">CAREGIVER DASHBOARD</p>
+
+                <p class="page-label">රැකවරණ සේවා Dashboard</p>
 
                 <h1>
-                    Welcome back,
+                    නැවත සාදරයෙන් පිළිගනිමු,
                     <?= htmlspecialchars($caregiverName) ?>
                 </h1>
 
                 <p class="page-description">
-                    Manage your caregiver profile, availability,
-                    services and professional information.
+                    ඔබගේ රැකවරණ සේවා පැතිකඩ, ලබා ගත හැකි වේලාවන්,
+                    සේවාවන් සහ වෘත්තීය තොරතුරු කළමනාකරණය කරන්න.
                 </p>
+
             </div>
 
         </section>
@@ -131,12 +145,12 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                 <div class="profile-image-wrapper">
 
                     <img src="<?= htmlspecialchars($profilePhoto) ?>"
-                         alt="Caregiver profile"
+                         alt="රැකවරණ සේවා පැතිකඩ"
                          class="profile-image"
                          id="profilePreview">
 
                     <span class="verified-badge">
-                        ✓ Verified
+                        ✓ තහවුරු කරන ලදී
                     </span>
 
                 </div>
@@ -149,21 +163,21 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     </h2>
 
                     <p class="profile-role">
-                        Professional Caregiver
+                        වෘත්තීය රැකවරණ සේවා සපයන්නා
                     </p>
 
                     <div class="profile-meta">
 
                         <span>
-                            🎓 Professional Qualification
+                            🎓 වෘත්තීය සුදුසුකම
                         </span>
 
                         <span>
-                            💼 Experienced Caregiver
+                            💼 පළපුරුදු රැකවරණ සේවා සපයන්නා
                         </span>
 
                         <span>
-                            ⭐ 5.0 Rating
+                            ⭐ 5.0 ශ්‍රේණිගත කිරීම
                         </span>
 
                     </div>
@@ -177,13 +191,13 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                 <a href="<?= htmlspecialchars($profileUrl) ?>"
                    class="secondary-button">
-                    Preview Public Profile
+                    පොදු පැතිකඩ බලන්න
                 </a>
 
                 <button type="button"
                         class="primary-button"
                         id="editProfileButton">
-                    Edit Profile
+                    පැතිකඩ සංස්කරණය කරන්න
                 </button>
 
             </div>
@@ -198,12 +212,14 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             <div class="completion-header">
 
                 <div>
-                    <h2>Complete Your Profile</h2>
+
+                    <h2>ඔබගේ පැතිකඩ සම්පූර්ණ කරන්න</h2>
 
                     <p>
-                        Keep your professional information updated
-                        to provide accurate information to families.
+                        පවුල් සඳහා නිවැරදි තොරතුරු ලබා දීම සඳහා
+                        ඔබගේ වෘත්තීය තොරතුරු යාවත්කාලීනව තබා ගන්න.
                     </p>
+
                 </div>
 
                 <strong>75%</strong>
@@ -223,8 +239,8 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <span class="completion-icon">+</span>
 
                     <span>
-                        <strong>Add another certification</strong>
-                        <small>Improve your professional profile</small>
+                        <strong>තවත් සහතිකයක් එක් කරන්න</strong>
+                        <small>ඔබගේ වෘත්තීය පැතිකඩ වැඩිදියුණු කරන්න</small>
                     </span>
 
                 </button>
@@ -237,8 +253,8 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <span class="completion-icon">📷</span>
 
                     <span>
-                        <strong>Update profile photo</strong>
-                        <small>Use a recent professional photo</small>
+                        <strong>පැතිකඩ ඡායාරූපය යාවත්කාලීන කරන්න</strong>
+                        <small>මෑතකාලීන වෘත්තීය ඡායාරූපයක් භාවිතා කරන්න</small>
                     </span>
 
                 </button>
@@ -251,8 +267,8 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <span class="completion-icon">✓</span>
 
                     <span>
-                        <strong>Complete your skills</strong>
-                        <small>Add your caregiving skills</small>
+                        <strong>ඔබගේ කුසලතා සම්පූර්ණ කරන්න</strong>
+                        <small>ඔබගේ රැකවරණ සේවා කුසලතා එක් කරන්න</small>
                     </span>
 
                 </button>
@@ -276,25 +292,25 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <button type="button"
                             class="profile-tab active"
                             data-tab="overview">
-                        Overview
+                        දළ විශ්ලේෂණය
                     </button>
 
                     <button type="button"
                             class="profile-tab"
                             data-tab="professional">
-                        Professional Information
+                        වෘත්තීය තොරතුරු
                     </button>
 
                     <button type="button"
                             class="profile-tab"
                             data-tab="pricing">
-                        Shift Price
+                        සේවා මුර මිල
                     </button>
 
                     <button type="button"
                             class="profile-tab"
                             data-tab="documents">
-                        Documents
+                        ලේඛන
                     </button>
 
                 </div>
@@ -308,11 +324,13 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <div class="section-heading">
 
                         <div>
-                            <h2>Overview</h2>
+
+                            <h2>දළ විශ්ලේෂණය</h2>
 
                             <p>
-                                Your basic caregiver information.
+                                ඔබගේ මූලික රැකවරණ සේවා තොරතුරු.
                             </p>
+
                         </div>
 
                     </div>
@@ -322,7 +340,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item">
 
-                            <label>Full Name</label>
+                            <label>සම්පූර්ණ නම</label>
 
                             <input type="text"
                                    name="full_name"
@@ -333,7 +351,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item">
 
-                            <label>Phone Number</label>
+                            <label>දුරකථන අංකය</label>
 
                             <input type="text"
                                    name="phone"
@@ -344,7 +362,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item">
 
-                            <label>Email Address</label>
+                            <label>විද්‍යුත් තැපැල් ලිපිනය</label>
 
                             <input type="email"
                                    name="email"
@@ -355,7 +373,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item">
 
-                            <label>District</label>
+                            <label>දිස්ත්‍රික්කය</label>
 
                             <input type="text"
                                    name="district"
@@ -366,22 +384,22 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item full-width">
 
-                            <label>Languages</label>
+                            <label>භාෂා</label>
 
                             <input type="text"
                                    name="languages"
-                                   placeholder="Example: Sinhala, English, Tamil">
+                                   placeholder="උදාහරණය: සිංහල, ඉංග්‍රීසි, දෙමළ">
 
                         </div>
 
 
                         <div class="information-item full-width">
 
-                            <label>About Me</label>
+                            <label>මා ගැන</label>
 
                             <textarea name="biography"
                                       rows="5"
-                                      placeholder="Write a short professional introduction..."></textarea>
+                                      placeholder="කෙටි වෘත්තීය හැඳින්වීමක් ලියන්න..."></textarea>
 
                         </div>
 
@@ -398,12 +416,14 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <div class="section-heading">
 
                         <div>
-                            <h2>Professional Information</h2>
+
+                            <h2>වෘත්තීය තොරතුරු</h2>
 
                             <p>
-                                Manage your professional qualifications
-                                and caregiving skills.
+                                ඔබගේ වෘත්තීය සුදුසුකම් සහ
+                                රැකවරණ සේවා කුසලතා කළමනාකරණය කරන්න.
                             </p>
+
                         </div>
 
                     </div>
@@ -413,29 +433,29 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item full-width">
 
-                            <label>Professional Summary</label>
+                            <label>වෘත්තීය සාරාංශය</label>
 
                             <textarea name="professional_summary"
                                       rows="5"
-                                      placeholder="Describe your professional experience..."></textarea>
+                                      placeholder="ඔබගේ වෘත්තීය පළපුරුද්ද විස්තර කරන්න..."></textarea>
 
                         </div>
 
 
                         <div class="information-item">
 
-                            <label>Highest Qualification</label>
+                            <label>ඉහළම අධ්‍යාපන සුදුසුකම</label>
 
                             <input type="text"
                                    name="highest_qualification"
-                                   placeholder="Enter qualification">
+                                   placeholder="සුදුසුකම ඇතුළත් කරන්න">
 
                         </div>
 
 
                         <div class="information-item">
 
-                            <label>Years of Experience</label>
+                            <label>පළපුරුද්දේ වසර ගණන</label>
 
                             <input type="number"
                                    name="years_experience"
@@ -447,53 +467,53 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                         <div class="information-item">
 
-                            <label>Skills</label>
+                            <label>කුසලතා</label>
 
                             <input type="text"
                                    name="skills"
-                                   placeholder="Elder care, First Aid, etc.">
+                                   placeholder="වැඩිහිටි සත්කාරය, ප්‍රථමාධාර ආදිය">
 
                         </div>
 
 
                         <div class="information-item">
 
-                            <label>Languages Spoken</label>
+                            <label>කතා කරන භාෂා</label>
 
                             <input type="text"
                                    name="professional_languages"
-                                   placeholder="Sinhala, English">
+                                   placeholder="සිංහල, ඉංග්‍රීසි">
 
                         </div>
 
 
                         <div class="information-item">
 
-                            <label>Specialization</label>
+                            <label>විශේෂීකරණය</label>
 
                             <input type="text"
                                    name="specialization"
-                                   placeholder="Example: Elderly Care">
+                                   placeholder="උදාහරණය: වැඩිහිටි සත්කාරය">
 
                         </div>
 
 
                         <div class="information-item">
 
-                            <label>Availability Status</label>
+                            <label>ලබා ගත හැකි තත්ත්වය</label>
 
                             <select name="availability_status">
 
                                 <option value="Available">
-                                    Available
+                                    ලබා ගත හැක
                                 </option>
 
                                 <option value="Partially Available">
-                                    Partially Available
+                                    අර්ධ වශයෙන් ලබා ගත හැක
                                 </option>
 
                                 <option value="Unavailable">
-                                    Unavailable
+                                    ලබා ගත නොහැක
                                 </option>
 
                             </select>
@@ -513,12 +533,14 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <div class="section-heading">
 
                         <div>
-                            <h2>Shift Price</h2>
+
+                            <h2>සේවා මුර මිල</h2>
 
                             <p>
-                                Set and update your caregiving service
-                                prices for different shifts.
+                                විවිධ සේවා මුර සඳහා ඔබගේ
+                                රැකවරණ සේවා මිල ගණන් සකස් කර යාවත්කාලීන කරන්න.
                             </p>
+
                         </div>
 
                     </div>
@@ -529,7 +551,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                         <div class="pricing-card">
 
                             <div class="pricing-header">
-                                <h3>Morning</h3>
+                                <h3>උදෑසන</h3>
                                 <span>6:00 AM - 12:00 PM</span>
                             </div>
 
@@ -542,7 +564,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                                        min="0"
                                        placeholder="0.00">
 
-                                <span>/ shift</span>
+                                <span>/ සේවා මුරය</span>
 
                             </div>
 
@@ -552,7 +574,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                         <div class="pricing-card">
 
                             <div class="pricing-header">
-                                <h3>Afternoon</h3>
+                                <h3>දහවල්</h3>
                                 <span>12:00 PM - 6:00 PM</span>
                             </div>
 
@@ -565,7 +587,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                                        min="0"
                                        placeholder="0.00">
 
-                                <span>/ shift</span>
+                                <span>/ සේවා මුරය</span>
 
                             </div>
 
@@ -575,7 +597,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                         <div class="pricing-card">
 
                             <div class="pricing-header">
-                                <h3>Evening</h3>
+                                <h3>සවස</h3>
                                 <span>6:00 PM - 12:00 AM</span>
                             </div>
 
@@ -588,7 +610,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                                        min="0"
                                        placeholder="0.00">
 
-                                <span>/ shift</span>
+                                <span>/ සේවා මුරය</span>
 
                             </div>
 
@@ -607,11 +629,13 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <div class="section-heading">
 
                         <div>
-                            <h2>Documents</h2>
+
+                            <h2>ලේඛන</h2>
 
                             <p>
-                                View your submitted verification documents.
+                                ඔබ ඉදිරිපත් කළ සත්‍යාපන ලේඛන බලන්න.
                             </p>
+
                         </div>
 
                     </div>
@@ -632,13 +656,13 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                                 </strong>
 
                                 <span>
-                                    Submitted during registration
+                                    ලියාපදිංචි වීමේදී ඉදිරිපත් කරන ලදී
                                 </span>
 
                             </div>
 
                             <span class="document-status">
-                                Verified
+                                තහවුරු කරන ලදී
                             </span>
 
                         </div>
@@ -653,17 +677,17 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                             <div class="document-information">
 
                                 <strong>
-                                    Qualification Certificate
+                                    සුදුසුකම් සහතිකය
                                 </strong>
 
                                 <span>
-                                    Submitted during registration
+                                    ලියාපදිංචි වීමේදී ඉදිරිපත් කරන ලදී
                                 </span>
 
                             </div>
 
                             <span class="document-status">
-                                Verified
+                                තහවුරු කරන ලදී
                             </span>
 
                         </div>
@@ -678,17 +702,17 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                             <div class="document-information">
 
                                 <strong>
-                                    Police Clearance
+                                    පොලිස් නිෂ්කාශන සහතිකය
                                 </strong>
 
                                 <span>
-                                    Submitted during registration
+                                    ලියාපදිංචි වීමේදී ඉදිරිපත් කරන ලදී
                                 </span>
 
                             </div>
 
                             <span class="document-status">
-                                Verified
+                                තහවුරු කරන ලදී
                             </span>
 
                         </div>
@@ -699,7 +723,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <div class="upload-document">
 
                         <label for="additionalDocument">
-                            Upload Additional Document
+                            අමතර ලේඛනයක් උඩුගත කරන්න
                         </label>
 
                         <input type="file"
@@ -718,12 +742,12 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                     <button type="button"
                             class="cancel-button"
                             id="cancelChangesButton">
-                        Cancel Changes
+                        වෙනස්කම් අවලංගු කරන්න
                     </button>
 
                     <button type="submit"
                             class="primary-button">
-                        Save All Changes
+                        සියලු වෙනස්කම් සුරකින්න
                     </button>
 
                 </div>
@@ -743,32 +767,32 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                 <div class="sidebar-card">
 
-                    <h3>Quick Stats</h3>
+                    <h3>ඉක්මන් සංඛ්‍යාලේඛන</h3>
 
                     <div class="stat-item">
 
-                        <span>Completed Jobs</span>
+                        <span>සම්පූර්ණ කළ රැකියා</span>
                         <strong>0</strong>
 
                     </div>
 
                     <div class="stat-item">
 
-                        <span>Total Earnings</span>
+                        <span>මුළු ආදායම</span>
                         <strong>Rs. 0</strong>
 
                     </div>
 
                     <div class="stat-item">
 
-                        <span>Average Rating</span>
+                        <span>සාමාන්‍ය ශ්‍රේණිගත කිරීම</span>
                         <strong>5.0 ⭐</strong>
 
                     </div>
 
                     <div class="stat-item">
 
-                        <span>Profile Views</span>
+                        <span>පැතිකඩ නැරඹීම්</span>
                         <strong>0</strong>
 
                     </div>
@@ -778,11 +802,11 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                 <div class="sidebar-card visibility-card">
 
-                    <h3>Profile Visibility</h3>
+                    <h3>පැතිකඩ දෘශ්‍යතාව</h3>
 
                     <p>
-                        Your profile is currently visible to
-                        families searching for caregivers.
+                        ඔබගේ පැතිකඩ දැනට රැකවරණ සේවා සපයන්නන්
+                        සොයන පවුල් සඳහා දෘශ්‍යමාන වේ.
                     </p>
 
                     <label class="switch">
@@ -797,7 +821,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                     <span class="visibility-status"
                           id="visibilityStatus">
-                        Visible
+                        දෘශ්‍යමානයි
                     </span>
 
                 </div>
@@ -805,16 +829,16 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
                 <div class="sidebar-card support-card">
 
-                    <h3>Need Help?</h3>
+                    <h3>උදව් අවශ්‍යද?</h3>
 
                     <p>
-                        Contact SafeHands support if you need
-                        assistance with your caregiver account.
+                        ඔබගේ රැකවරණ සේවා ගිණුම සම්බන්ධයෙන්
+                        සහාය අවශ්‍ය නම් SafeHands සහාය අමතන්න.
                     </p>
 
                     <a href="/safehands_mvc/contact"
                        class="support-link">
-                        Contact Support →
+                        සහාය අමතන්න →
                     </a>
 
                 </div>

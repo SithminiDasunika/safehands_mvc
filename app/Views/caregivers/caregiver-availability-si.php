@@ -1,0 +1,506 @@
+<?php
+
+$caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන්නා';
+$availability = $availability ?? [];
+
+?>
+
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        <?= htmlspecialchars($title ?? 'ලබා ගත හැකි වේලාව | SafeHands') ?>
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/safehands_mvc/public/assets/css/caregiver-availability.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="availability-header">
+
+        <a
+            href="/safehands_mvc/caregiver/dashboardSi"
+            class="availability-logo"
+        >
+            SafeHands
+        </a>
+
+
+        <!-- Mobile Menu Button -->
+
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            id="mobileMenuButton"
+            aria-label="සංචාලනය විවෘත කරන්න"
+        >
+            ☰
+        </button>
+
+
+        <!-- Navigation -->
+
+        <nav
+            class="availability-nav"
+            id="availabilityNav"
+        >
+
+              <a href="/safehands_mvc/caregiver/dashboardSi">
+    උපකරණ පුවරුව
+</a>
+
+<a href="/safehands_mvc/caregiver/scheduleSi">
+    මගේ උපලේඛනය
+</a>
+
+<a href="/safehands_mvc/caregiver/manageAvailabilitySi">
+    ලබා ගත හැකි වේලාව
+</a>
+
+<a href="/safehands_mvc/caregiver/earningsSi">
+    ආදායම්
+</a>
+
+<a href="/safehands_mvc/caregiver/notificationsSi">
+    දැනුම්දීම්
+</a>
+         
+
+        </nav>
+
+
+        <!-- Right Side -->
+
+        <div class="availability-actions">
+
+           
+
+
+            <div class="profile-menu">
+
+                <div class="profile-icon">
+                    <?= strtoupper(substr($caregiverName, 0, 1)) ?>
+                </div>
+
+                <span class="profile-name">
+                    <?= htmlspecialchars($caregiverName) ?>
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+
+    <main class="availability-container">
+
+
+        <!-- Page Heading -->
+
+        <section class="page-heading">
+
+            <h1>
+                ලබා ගත හැකි වේලාව
+            </h1>
+
+            <p>
+                පවුලේ සාමාජිකයින්ට ඔබ සත්කාර සේවාව සඳහා ලබා ගත හැකි වේලාවන් දැකගත හැකි වන පරිදි ඔබේ ලබා ගත හැකි වේලාවන් යාවත්කාලීන කරන්න.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+             SUMMARY
+             ========================= -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <h3>
+                    Available
+                </h3>
+
+                <div
+                    class="summary-number summary-available"
+                    id="availableCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Booked
+                </h3>
+
+                <div
+                    class="summary-number summary-booked"
+                    id="bookedCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Off Duty
+                </h3>
+
+                <div
+                    class="summary-number summary-off"
+                    id="offDutyCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CALENDAR
+             ========================= -->
+
+        <section class="calendar-section">
+
+            <div class="calendar-top">
+
+                <h2
+                    class="calendar-title"
+                    id="currentMonth"
+                >
+                    September 2026
+                </h2>
+
+
+                <div class="calendar-controls">
+
+                    <button
+                        type="button"
+                        id="previousMonth"
+                    >
+                        ← පෙර
+                    </button>
+
+                    <button
+                        type="button"
+                        id="todayButton"
+                    >
+                        Today
+                    </button>
+
+                    <button
+                        type="button"
+                        id="nextMonth"
+                    >
+                        ඊළඟ →
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="calendar-grid">
+
+                <!-- Weekdays -->
+
+                <div class="calendar-weekdays">
+
+                    <div>ඉරිදා</div>
+                    <div>සඳුදා</div>
+                    <div>අඟහරුවාදා</div>
+                    <div>බදාදා</div>
+                    <div>බ්‍රහස්පතින්දා</div>
+                    <div>සිකුරාදා</div>
+                    <div>සෙනසුරාදා</div>
+
+                </div>
+
+
+                <!-- Days generated by JavaScript -->
+
+                <div
+                    class="calendar-days"
+                    id="calendarDays"
+                >
+                </div>
+
+            </div>
+
+
+            <!-- Legend -->
+
+            <div class="calendar-legend">
+
+                <div class="legend-item">
+
+                    <span class="legend-dot legend-available"></span>
+
+                    <span>
+                        Available
+                    </span>
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <span class="legend-dot legend-booked"></span>
+
+                    <span>
+                        Booked
+                    </span>
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <span class="legend-dot legend-off-duty"></span>
+
+                    <span>
+                        Off Duty
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ADD AVAILABILITY
+             ========================= -->
+
+        <section class="add-section">
+
+            <h2>
+                ලබා ගත හැකි වේලාව එක් කරන්න
+            </h2>
+
+ <form
+    id="availabilityForm"
+    class="availability-form"
+    action="/safehands_mvc/caregiver/createAvailability"
+    method="POST"
+>
+
+                <!-- Date -->
+
+                <div class="form-group">
+
+                    <label for="availabilityDate">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="availabilityDate"
+                        name="availabilityDate"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Shift -->
+
+                <div class="form-group">
+
+                    <label for="availabilityShift">
+                        Shift
+                    </label>
+
+                    <select
+                        id="availabilityShift"
+                        name="availabilityShift"
+                        required
+                    >
+
+                        <option value="">
+                            මුරය තෝරන්න
+                        </option>
+
+                        <option value="Morning">
+                            Morning
+                        </option>
+
+                        <option value="Afternoon">
+                            Afternoon
+                        </option>
+
+                        <option value="Evening">
+                            Evening
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Status -->
+
+                <div class="form-group">
+
+                    <label for="availabilityStatus">
+                        Status
+                    </label>
+
+                    <select
+                        id="availabilityStatus"
+                        name="availabilityStatus"
+                        required
+                    >
+
+                        <option value="">
+                            තත්ත්වය තෝරන්න
+                        </option>
+
+                        <option value="Available">
+                            Available
+                        </option>
+
+                        <option value="Off Duty">
+                            Off Duty
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Add Button -->
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                >
+                    + ලබා ගත හැකි වේලාව එක් කරන්න
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             AVAILABILITY RECORDS
+             ========================= -->
+
+        <section class="records-section">
+
+            <div class="records-header">
+
+                <h2>
+                    මගේ ලබා ගත හැකි වේලාවන්
+                </h2>
+
+            </div>
+
+
+            <div class="records-table-wrapper">
+
+                <table class="records-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Shift
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="recordsBody">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!--
+        Temporary availability data.
+
+        The controller sends the PHP array here.
+        JavaScript reads this data from this element.
+
+        Later this data will come from the database.
+    -->
+
+    <script
+        type="application/json"
+        id="availability-data"
+    >
+        <?= json_encode(
+            $availability,
+            JSON_HEX_TAG |
+            JSON_HEX_AMP |
+            JSON_HEX_APOS |
+            JSON_HEX_QUOT
+        ) ?>
+    </script>
+
+
+    <!-- JavaScript -->
+
+    <script
+        src="/safehands_mvc/public/assets/js/caregiver-availability.js"
+    ></script>
+
+</body>
+
+</html>

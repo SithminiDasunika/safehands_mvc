@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class CaregiverController extends Controller
 {
@@ -28,15 +28,27 @@ class CaregiverController extends Controller
     }
 
     public function profile(int $id): void
-{
-    $caregiverModel = $this->model('Caregiver');
+    {
+        $caregiverModel = $this->model('Caregiver');
 
-    $caregiver = $caregiverModel->getById($id);
+        $caregiver = $caregiverModel->getById($id);
 
-    if (!$caregiver) {
-        http_response_code(404);
-        echo 'Caregiver not found.';
-        return;
+        if (!$caregiver) {
+            http_response_code(404);
+            echo 'Caregiver not found.';
+            return;
+        }
+
+        $data = [
+            'title' => $caregiver['name'] . ' | Caregiver Profile',
+            'caregiver' => $caregiver
+        ];
+
+        $this->view(
+            'caregivers/profile',
+            $data,
+            'caregivers'
+        );
     }
 
     $isLoggedIn = isset($_SESSION['family_logged_in']) && $_SESSION['family_logged_in'] === true;
@@ -57,12 +69,22 @@ public function availability(int $id): void
 {
     $caregiverModel = $this->model('Caregiver');
 
-    $caregiver = $caregiverModel->getById($id);
+        if (!$caregiver) {
+            http_response_code(404);
+            echo 'Caregiver not found.';
+            return;
+        }
 
-    if (!$caregiver) {
-        http_response_code(404);
-        echo 'Caregiver not found.';
-        return;
+        $data = [
+            'title' => $caregiver['name'] . ' | Availability',
+            'caregiver' => $caregiver
+        ];
+
+        $this->view(
+            'caregivers/availability',
+            $data,
+            'caregivers'
+        );
     }
 
     $data = [
@@ -106,8 +128,7 @@ public function manageAvailability(): void
                 'shift' => 'Morning',
                 'status' => 'Available'
             ]
-        ]
-    ];
+        ];
 
     $this->view(
         'caregivers/caregiver-availability',

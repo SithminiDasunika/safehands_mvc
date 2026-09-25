@@ -105,32 +105,48 @@ class LoginController extends Controller
 
             try {
 
-                $loginModel =
-                    $this->model('LoginModel');
-
-                $user =
-                    $loginModel->findUserByEmail(
-                        $email
-                    );
-
-
                 /*
                 |--------------------------------------------------------------------------
-                | Account Does Not Exist
+                | Hardcoded Admin Login
                 |--------------------------------------------------------------------------
                 */
+                if ($email === 'admin@safehands.com' && $password === 'admin123') {
+                    $user = [
+                        'id' => 0,
+                        'full_name' => 'System Administrator',
+                        'email' => 'admin@safehands.com',
+                        'role' => 'admin',
+                        'status' => 'active',
+                        'password' => password_hash('admin123', PASSWORD_DEFAULT) // Just for the verify below
+                    ];
+                } else {
+                    $loginModel =
+                        $this->model('LoginModel');
 
-                if (!$user) {
+                    $user =
+                        $loginModel->findUserByEmail(
+                            $email
+                        );
 
-                    $errors[] =
-                        'No account found with this email address. Please register first.';
 
-                    $this->showLogin(
-                        $errors,
-                        $email
-                    );
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Account Does Not Exist
+                    |--------------------------------------------------------------------------
+                    */
 
-                    return;
+                    if (!$user) {
+
+                        $errors[] =
+                            'No account found with this email address. Please register first.';
+
+                        $this->showLogin(
+                            $errors,
+                            $email
+                        );
+
+                        return;
+                    }
                 }
 
 

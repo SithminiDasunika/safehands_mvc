@@ -1,8 +1,7 @@
  <?php
 
 $caregiver = $caregiver ?? [];
-
-$isLoggedIn = isset($_SESSION['user_id']);
+$isLoggedIn = $isLoggedIn ?? false;
 
 $name = $caregiver['name'] ?? 'Caregiver';
 $specialization = $caregiver['specialization'] ?? 'Caregiver';
@@ -13,6 +12,8 @@ $rating = $caregiver['rating'] ?? '0.0';
 $languages = $caregiver['languages'] ?? [];
 $description = $caregiver['description'] ?? 'No description available.';
 $image = $caregiver['image'] ?? '';
+$phone = $caregiver['phone'] ?? 'Not provided';
+$email = $caregiver['email'] ?? 'Not provided';
 
 ?>
 <!DOCTYPE html>
@@ -194,7 +195,7 @@ $image = $caregiver['image'] ?? '';
                             <span class="contact-icon">☎</span>
                             <div>
                                 <p class="detail-label">Phone Number</p>
-                                <p class="contact-value">+94 77 123 4567</p>
+                                <p class="contact-value"><?= htmlspecialchars($phone) ?></p>
                             </div>
                         </div>
 
@@ -202,7 +203,7 @@ $image = $caregiver['image'] ?? '';
                             <span class="contact-icon">✉</span>
                             <div>
                                 <p class="detail-label">Email Address</p>
-                                <p class="contact-value">caregiver@safehands.com</p>
+                                <p class="contact-value"><?= htmlspecialchars($email) ?></p>
                             </div>
                         </div>
 
@@ -210,13 +211,22 @@ $image = $caregiver['image'] ?? '';
 
                 <?php else: ?>
 
+                    <?php
+                        $maskedPhone = substr($phone, 0, 3) . ' ••• ••• •••';
+                        
+                        $emailParts = explode('@', $email);
+                        $maskedEmail = 's•••••@email.com';
+                        if (count($emailParts) === 2) {
+                            $maskedEmail = substr($emailParts[0], 0, 1) . '•••••@' . $emailParts[1];
+                        }
+                    ?>
                     <div class="contact-grid guest-contact">
 
                         <div class="contact-item">
                             <span class="contact-icon muted-icon">☎</span>
                             <div>
                                 <p class="detail-label">Phone Number</p>
-                                <p class="contact-value">+94 ••• ••• •••</p>
+                                <p class="contact-value"><?= htmlspecialchars($maskedPhone) ?></p>
                             </div>
                         </div>
 
@@ -224,7 +234,7 @@ $image = $caregiver['image'] ?? '';
                             <span class="contact-icon muted-icon">✉</span>
                             <div>
                                 <p class="detail-label">Email Address</p>
-                                <p class="contact-value">s•••••@email.com</p>
+                                <p class="contact-value"><?= htmlspecialchars($maskedEmail) ?></p>
                             </div>
                         </div>
 

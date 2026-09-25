@@ -25,28 +25,28 @@
         </div>
 
         <div class="nav-actions">
-
-            <button
-                type="button"
-                class="login-button"
-            >
-                
-                <a
-    href="/safehands_mvc/login"
-    class="login-button"
->
-    Login
-</a>
-            </button>
-
-            <button
-    type="button"
-    class="register-button"
-    onclick="window.location.href='/safehands_mvc/register'">
-
-    Register
-</button>
-
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <?php 
+                    $dashboardUrl = '/safehands_mvc/';
+                    if (isset($_SESSION['user_role'])) {
+                        if ($_SESSION['user_role'] === 'family') $dashboardUrl .= 'family';
+                        elseif ($_SESSION['user_role'] === 'caregiver') $dashboardUrl .= 'caregiver-dashboard';
+                    }
+                ?>
+                <a href="<?= $dashboardUrl ?>" class="login-button">
+                    Dashboard
+                </a>
+                <a href="/safehands_mvc/login/logout" class="register-button">
+                    Logout
+                </a>
+            <?php else: ?>
+                <a href="/safehands_mvc/login" class="login-button">
+                    Login
+                </a>
+                <a href="/safehands_mvc/register" class="register-button">
+                    Register
+                </a>
+            <?php endif; ?>
         </div>
 
     </div>

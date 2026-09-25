@@ -21,7 +21,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/care-report.css"
+        href="/safehands_mvc/public/assets/css/care-report.css?v=1790335429"
     >
 
 </head>
@@ -49,7 +49,7 @@
                         Dashboard
                     </a>
 
-                    <a href="/safehands_mvc/patients">
+                    <a href="/safehands_mvc/patient">
                         Patients
                     </a>
 
@@ -142,7 +142,7 @@
     </footer>
 
 
-    <script src="/safehands_mvc/public/assets/js/care-report.js"></script>
+    <script src="/safehands_mvc/public/assets/js/care-report.js?v=1790335429"></script>
 
 </body>
 

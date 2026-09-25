@@ -27,6 +27,12 @@ class PatientModel
     | $data is an associative array keyed by column name. Returns the new
     | patient_id on success, or false on failure.
     */
+    /**
+     * ==========================================
+     * CREATE OPERATION
+     * ==========================================
+     * Inserts a new patient record into the database.
+     */
     public function createPatient(array $data): int
     {
         $sql = 'INSERT INTO patients (
@@ -95,6 +101,12 @@ class PatientModel
     | Get a single patient by id
     |--------------------------------------------------------------------------
     */
+    /**
+     * ==========================================
+     * READ OPERATION
+     * ==========================================
+     * Retrieves a patient by ID.
+     */
     public function getPatientById(int $patientId): ?array
     {
         $stmt = $this->conn->prepare('SELECT * FROM patients WHERE patient_id = ?');
@@ -113,6 +125,12 @@ class PatientModel
     | Prevents one family account from viewing/editing another family's
     | patient by guessing the id in the URL.
     */
+    /**
+     * ==========================================
+     * READ OPERATION
+     * ==========================================
+     * Retrieves a patient belonging to a specific family.
+     */
     public function getPatientForFamily(int $patientId, int $familyUserId): ?array
     {
         $stmt = $this->conn->prepare(
@@ -131,6 +149,12 @@ class PatientModel
     | Get all patients belonging to a family member
     |--------------------------------------------------------------------------
     */
+    /**
+     * ==========================================
+     * READ OPERATION
+     * ==========================================
+     * Retrieves all patients for a specific family.
+     */
     public function getPatientsByFamilyUserId(int $familyUserId): array
     {
         $stmt = $this->conn->prepare(
@@ -150,6 +174,12 @@ class PatientModel
     | Update an existing patient
     |--------------------------------------------------------------------------
     */
+    /**
+     * ==========================================
+     * UPDATE OPERATION
+     * ==========================================
+     * Updates an existing patient record.
+     */
     public function update(int $patientId, array $data): bool
     {
         $sql = 'UPDATE patients SET
@@ -232,6 +262,12 @@ class PatientModel
     | Update only the profile photo path (used after an in-place photo swap)
     |--------------------------------------------------------------------------
     */
+    /**
+     * ==========================================
+     * UPDATE OPERATION
+     * ==========================================
+     * Updates the patient profile photo.
+     */
     public function updatePhoto(int $patientId, string $profilePhotoPath): bool
     {
         $stmt = $this->conn->prepare(
@@ -249,6 +285,12 @@ class PatientModel
     | Delete a patient, scoped to the family that owns it
     |--------------------------------------------------------------------------
     */
+    /**
+     * ==========================================
+     * DELETE OPERATION
+     * ==========================================
+     * Deletes a patient record.
+     */
     public function deletePatient(int $patientId, int $familyUserId): bool
     {
         $stmt = $this->conn->prepare(

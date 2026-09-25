@@ -21,7 +21,7 @@
                     Dashboard
                 </a>
 
-                <a href="/safehands_mvc/patients">
+                <a href="/safehands_mvc/patient">
                     Patients
                 </a>
 

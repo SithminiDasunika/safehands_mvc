@@ -688,7 +688,7 @@ $image = $caregiver['image'] ?? '';
     <div class="booking-container">
 
         <a
-            href="/safehands_mvc/caregiver/booking/<?= (int)($caregiver['id'] ?? 0) ?>"
+            href="/safehands_mvc/book-caregiver/index/<?= (int)($caregiver['id'] ?? 0) ?>"
             class="booking-button"
         >
 

@@ -75,6 +75,11 @@ class Controller
         |--------------------------------------------------------------------------
         */
 
+        if (empty($layout)) {
+            echo $content;
+            return;
+        }
+
         $layoutFile =
             __DIR__ .
             '/../Views/layouts/' .

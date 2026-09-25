@@ -208,16 +208,13 @@
                     </option>
 
                     <option>
-                        Spanish
+                        Sinhala
                     </option>
 
                     <option>
-                        Mandarin
+                        Tamil
                     </option>
 
-                    <option>
-                        French
-                    </option>
 
                 </select>
 

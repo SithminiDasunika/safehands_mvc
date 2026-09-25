@@ -38,7 +38,7 @@ $history = $history ?? [];
             </a>
 
             <a
-                href="/safehands_mvc/patients"
+                href="/safehands_mvc/patient"
                 class="nav-link"
             >
                 Patients

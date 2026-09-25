@@ -17,7 +17,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/caregivers.css"
+        href="/safehands_mvc/public/assets/css/find-caregiver.css"
     >
 
 </head>
@@ -27,7 +27,7 @@
     <?= $content ?>
 
     <script
-        src="/safehands_mvc/public/assets/js/caregivers.js"
+        src="/safehands_mvc/public/assets/js/find-caregiver.js"
     ></script>
 
 </body>

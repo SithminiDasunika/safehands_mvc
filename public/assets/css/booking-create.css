@@ -1,0 +1,369 @@
+/* Reset and Base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F8FAFC;
+    color: #111c2d;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+/* Navbar */
+.navbar {
+    background-color: white;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid #f1f5f9;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    padding: 0 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.nav-logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #2563eb;
+    text-decoration: none;
+    letter-spacing: -0.025em;
+}
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 100%;
+}
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+}
+.nav-link {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.nav-link:hover { color: #2563eb; }
+.nav-link.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Main Layout */
+.main-content {
+    flex-grow: 1;
+    padding: 3rem 40px;
+    max-width: 1024px;
+    margin: 0 auto;
+    width: 100%;
+}
+@media (max-width: 768px) {
+    .main-content { padding: 3rem 16px; }
+}
+
+/* Header */
+.page-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.page-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 1rem;
+    letter-spacing: -0.025em;
+}
+@media (min-width: 768px) {
+    .page-title { font-size: 3rem; }
+}
+.caregiver-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+.caregiver-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    border: 2px solid #eff6ff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+.caregiver-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.caregiver-name {
+    font-size: 1.125rem;
+    color: #475569;
+}
+.caregiver-name strong {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+@media (min-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .grid-form { grid-column: span 8 / span 8; }
+    .grid-sidebar { grid-column: span 4 / span 4; position: sticky; top: 6rem; }
+}
+
+/* Cards */
+.card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Form Elements */
+.select-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+.select-button:hover { border-color: #2563eb; }
+.select-button-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.select-button-content .icon { color: #2563eb; }
+.select-button-content span { font-weight: 500; color: #0f172a; }
+.select-icon-right { color: #94a3b8; transition: color 0.2s; }
+.select-button:hover .select-icon-right { color: #2563eb; }
+
+.two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+@media (min-width: 768px) {
+    .two-col-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.input-wrapper { position: relative; }
+.input-field {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    outline: none;
+    color: #0f172a;
+    font-weight: 500;
+    font-family: inherit;
+    font-size: 1rem;
+}
+.input-field:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.shift-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.shift-label {
+    flex: 1;
+    cursor: pointer;
+}
+.shift-checkbox { display: none; }
+.shift-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+}
+.shift-card:hover { background-color: #f8fafc; border-color: #2563eb; }
+.shift-card .icon { margin-bottom: 0.25rem; }
+.shift-card .text { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.05em; }
+
+/* Active Shift State */
+.shift-checkbox:checked + .shift-card {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+/* Delete Button */
+.btn-delete {
+    color: #94a3b8;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 9999px;
+    transition: all 0.2s;
+}
+.btn-delete:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Add Button */
+.btn-add {
+    width: 100%;
+    padding: 1.25rem;
+    border: 2px dashed #e2e8f0;
+    border-radius: 0.5rem;
+    background: none;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+}
+.btn-add:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    background-color: rgba(37, 99, 235, 0.05);
+}
+
+/* Summary Sidebar */
+.summary-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.summary-header {
+    padding: 1.5rem;
+    background-color: #f8fafc;
+    border-bottom: 1px solid #f1f5f9;
+}
+.summary-header h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+}
+.summary-body { padding: 1.5rem; }
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+.summary-item-title { font-weight: 600; color: #0f172a; font-size: 0.875rem; }
+.summary-item-desc { font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; }
+.summary-item-price { font-weight: 700; color: #0f172a; font-size: 0.875rem; }
+.summary-divider {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #64748b;
+}
+.summary-divider span { font-size: 0.875rem; }
+.summary-divider .price { font-weight: 500; }
+
+.summary-total {
+    background-color: #eff6ff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1.25rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.summary-total-label { font-size: 0.875rem; font-weight: 600; color: #2563eb; }
+.summary-total-price { font-size: 1.5rem; font-weight: 700; color: #2563eb; letter-spacing: -0.025em; }
+
+.btn-confirm {
+    width: 100%;
+    background-color: #2563eb;
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-weight: 700;
+    font-size: 1.125rem;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+.btn-confirm:hover { background-color: #1d4ed8; }
+.btn-confirm:active { transform: scale(0.98); }
+
+.secure-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #025747;
+}
+.secure-badge .text { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: -0.025em; }
+

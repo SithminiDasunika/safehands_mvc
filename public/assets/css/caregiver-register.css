@@ -60,7 +60,7 @@ textarea {
 .brand {
     font-size: 21px;
     font-weight: 700;
-    color: #2563eb;
+    color: #10b981;
     white-space: nowrap;
 }
 
@@ -82,19 +82,19 @@ textarea {
 
 .main-nav a:hover,
 .main-nav a.active {
-    color: #2563eb;
+    color: #10b981;
 }
 
 .main-nav a.active {
     font-weight: 700;
-    border-bottom: 2px solid #2563eb;
+    border-bottom: 2px solid #10b981;
 }
 
 .login-link,
 .login-button {
     text-decoration: none;
-    color: #2563eb;
-    border: 1px solid #2563eb;
+    color: #10b981;
+    border: 1px solid #10b981;
     padding: 8px 19px;
     border-radius: 6px;
     font-size: 13px;
@@ -104,7 +104,7 @@ textarea {
 
 .login-link:hover,
 .login-button:hover {
-    background: #2563eb;
+    background: #10b981;
     color: #ffffff;
 }
 
@@ -134,7 +134,7 @@ textarea {
 }
 
 .breadcrumb a:hover {
-    color: #2563eb;
+    color: #10b981;
 }
 
 .breadcrumb span {
@@ -158,7 +158,7 @@ textarea {
 .page-heading .small-title,
 .page-heading .heading-label {
     display: block;
-    color: #2563eb;
+    color: #10b981;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -166,7 +166,7 @@ textarea {
 }
 
 .page-heading h1 {
-    color: #2563eb;
+    color: #10b981;
     font-size: 25px;
     line-height: 1.25;
     margin-bottom: 7px;
@@ -206,7 +206,7 @@ textarea {
 }
 
 .progress-step.active {
-    color: #2563eb;
+    color: #10b981;
 }
 
 .progress-step.completed {
@@ -229,7 +229,7 @@ textarea {
 
 .progress-step.active .step-number,
 .progress-step.active .step-circle {
-    background: #2563eb;
+    background: #10b981;
     color: #ffffff;
 }
 
@@ -302,7 +302,7 @@ textarea {
     min-width: 28px;
     border-radius: 6px;
     background: #edf3ff;
-    color: #2563eb;
+    color: #10b981;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -431,7 +431,7 @@ textarea {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: #2563eb;
+    border-color: #10b981;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.08);
 }
 
@@ -468,7 +468,7 @@ textarea {
     width: 13px !important;
     height: 13px !important;
     margin: 0;
-    accent-color: #2563eb;
+    accent-color: #10b981;
 }
 
 
@@ -492,7 +492,7 @@ textarea {
     transform: translateY(-50%);
     border: none;
     background: transparent;
-    color: #2563eb;
+    color: #10b981;
     font-size: 9px;
     cursor: pointer;
     padding: 3px;
@@ -545,16 +545,16 @@ textarea {
 
 .next-button,
 .next-btn {
-    background: #2563eb;
-    border: 1px solid #2563eb;
+    background: #10b981;
+    border: 1px solid #10b981;
     color: #ffffff;
     box-shadow: 0 2px 5px rgba(37, 99, 235, 0.25);
 }
 
 .next-button:hover,
 .next-btn:hover {
-    background: #1d4ed8;
-    border-color: #1d4ed8;
+    background: #047857;
+    border-color: #047857;
 }
 
 .next-button span {
@@ -579,7 +579,7 @@ textarea {
 
 .why-content,
 .why-text {
-    background: #2563eb;
+    background: #10b981;
     color: #ffffff;
     padding: 17px 20px;
 }
@@ -638,7 +638,7 @@ footer {
 }
 
 .footer-logo {
-    color: #2563eb;
+    color: #10b981;
     font-size: 14px;
     font-weight: 700;
 }
@@ -655,7 +655,7 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #2563eb;
+    color: #10b981;
 }
 
 

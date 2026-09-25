@@ -69,7 +69,7 @@ a {
 }
 
 .brand {
-    color: #004ac6;
+    color: #059669;
     font-size: 24px;
     font-weight: 700;
     white-space: nowrap;
@@ -95,11 +95,11 @@ a {
 }
 
 .nav-link:hover {
-    color: #004ac6;
+    color: #059669;
 }
 
 .nav-link.active {
-    color: #004ac6;
+    color: #059669;
 }
 
 .nav-link.active::after {
@@ -111,7 +111,7 @@ a {
     bottom: 0;
 
     height: 2px;
-    background: #004ac6;
+    background: #059669;
 }
 
 .navbar-right {
@@ -149,10 +149,10 @@ a {
 
     border-radius: 50%;
 
-    background: #dbeafe;
-    border: 2px solid #2563eb;
+    background: #d1fae5;
+    border: 2px solid #10b981;
 
-    color: #1d4ed8;
+    color: #047857;
     font-weight: 700;
 }
 
@@ -182,11 +182,11 @@ a {
 }
 
 .breadcrumb a:hover {
-    color: #004ac6;
+    color: #059669;
 }
 
 .breadcrumb strong {
-    color: #004ac6;
+    color: #059669;
 }
 
 
@@ -260,8 +260,8 @@ a {
 
     border-radius: 50%;
 
-    background: #dbeafe;
-    color: #1d4ed8;
+    background: #d1fae5;
+    color: #047857;
 
     font-size: 18px;
     font-weight: 700;
@@ -315,7 +315,7 @@ a {
 }
 
 .primary-text {
-    color: #004ac6;
+    color: #059669;
 }
 
 .detail-small {
@@ -368,7 +368,7 @@ a {
     align-items: center;
     justify-content: center;
 
-    color: #004ac6;
+    color: #059669;
     font-size: 17px;
     font-weight: 700;
 }
@@ -420,7 +420,7 @@ a {
 }
 
 .checkbox-option:hover {
-    color: #004ac6;
+    color: #059669;
 }
 
 .checkbox-option input {
@@ -429,7 +429,7 @@ a {
 
     flex-shrink: 0;
 
-    accent-color: #004ac6;
+    accent-color: #059669;
 
     cursor: pointer;
 }
@@ -506,7 +506,7 @@ input[type="text"]:focus,
 input[type="time"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #2563eb;
+    border-color: #10b981;
 
     box-shadow:
         0 0 0 3px rgba(37, 99, 235, 0.12);
@@ -551,9 +551,9 @@ textarea::placeholder {
 }
 
 .status-button.active {
-    background: #eff6ff;
-    border-color: #2563eb;
-    color: #004ac6;
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #059669;
     font-weight: 700;
 }
 
@@ -645,8 +645,8 @@ textarea::placeholder {
 
 .upload-zone:hover,
 .upload-zone.dragover {
-    background: #eff6ff;
-    border-color: #2563eb;
+    background: #ecfdf5;
+    border-color: #10b981;
 }
 
 .upload-icon {
@@ -661,8 +661,8 @@ textarea::placeholder {
 
     border-radius: 50%;
 
-    background: #dbeafe;
-    color: #2563eb;
+    background: #d1fae5;
+    color: #10b981;
 
     font-size: 25px;
     font-weight: 700;
@@ -722,9 +722,9 @@ textarea::placeholder {
 .confirmation-box {
     padding: 20px;
 
-    background: #eff6ff;
+    background: #ecfdf5;
 
-    border: 1px solid #bfdbfe;
+    border: 1px solid #a7f3d0;
     border-radius: 12px;
 }
 
@@ -744,7 +744,7 @@ textarea::placeholder {
 
     flex-shrink: 0;
 
-    accent-color: #004ac6;
+    accent-color: #059669;
 
     cursor: pointer;
 }
@@ -754,7 +754,7 @@ textarea::placeholder {
 
     margin-bottom: 4px;
 
-    color: #004ac6;
+    color: #059669;
     font-size: 14px;
 }
 
@@ -805,8 +805,8 @@ textarea::placeholder {
 }
 
 .primary-button {
-    background: #004ac6;
-    border: 1px solid #004ac6;
+    background: #059669;
+    border: 1px solid #059669;
 
     color: #ffffff;
 
@@ -923,7 +923,7 @@ textarea::placeholder {
 .footer-brand {
     margin-bottom: 5px;
 
-    color: #004ac6;
+    color: #059669;
     font-size: 20px;
     font-weight: 700;
 }
@@ -945,7 +945,7 @@ textarea::placeholder {
 }
 
 .footer-links a:hover {
-    color: #004ac6;
+    color: #059669;
 }
 
 

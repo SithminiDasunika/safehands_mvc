@@ -37,26 +37,16 @@
 
 
         <nav class="main-nav">
-
-            <a href="/safehands_mvc/family">
-                Dashboard
-            </a>
-
-            <a href="/safehands_mvc/patients">
-                Patients
-            </a>
-
-            <a href="/safehands_mvc/caregiver">
-                Find Caregivers
-            </a>
-
-            <a
-                href="/safehands_mvc/bookings"
-                class="active"
-            >
-                My Bookings
-            </a>
-
+            <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
+                <a href="/safehands_mvc/caregiver/dashboard">Dashboard</a>
+                <a href="/safehands_mvc/caregiver/schedule">Schedule</a>
+                <a href="/safehands_mvc/bookings" class="active">Booking Requests</a>
+            <?php else: ?>
+                <a href="/safehands_mvc/family">Dashboard</a>
+                <a href="/safehands_mvc/patient">Patients</a>
+                <a href="/safehands_mvc/caregiver">Find Caregivers</a>
+                <a href="/safehands_mvc/bookings" class="active">My Bookings</a>
+            <?php endif; ?>
         </nav>
 
 

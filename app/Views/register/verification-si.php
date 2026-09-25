@@ -61,6 +61,13 @@
         </section>
 
         <section class="form-card">
+            <?php if (!empty($errors)): ?>
+                <div class="form-errors">
+                    <?php foreach ($errors as $error): ?>
+                        <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
             <form action="/safehands_mvc/register/verificationSubmit" method="POST" enctype="multipart/form-data" class="verification-form">
 
                 <div class="form-section">
@@ -135,11 +142,10 @@
                 <div class="form-actions">
                     <a href="/safehands_mvc/register/professionalSi" class="back-button">← ආපසු</a>
                     <button
-    type="button"
-    class="submit-button"
-    onclick="window.location.href='/safehands_mvc/register/successSi'">
-    අයදුම්පත ඉදිරිපත් කරන්න <span>→</span>
-</button> 
+                        type="submit"
+                        class="submit-button">
+                        අයදුම්පත ඉදිරිපත් කරන්න <span>→</span>
+                    </button> 
                 </div>
 
             </form>

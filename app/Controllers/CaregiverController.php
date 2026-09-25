@@ -2,6 +2,13 @@
 
 class CaregiverController extends Controller
 {
+    public function __construct()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
     public function index(): void
     {
         $caregiverModel = $this->model('Caregiver');
@@ -14,9 +21,9 @@ class CaregiverController extends Controller
         ];
 
         $this->view(
-            'caregivers/index',
+            'caregivers/find-caregiver',
             $data,
-            'caregivers'
+            'find-caregiver'
         );
     }
 
@@ -32,15 +39,18 @@ class CaregiverController extends Controller
         return;
     }
 
+    $isLoggedIn = isset($_SESSION['family_logged_in']) && $_SESSION['family_logged_in'] === true;
+
     $data = [
         'title' => $caregiver['name'] . ' | Caregiver Profile',
-        'caregiver' => $caregiver
+        'caregiver' => $caregiver,
+        'isLoggedIn' => $isLoggedIn
     ];
 
     $this->view(
-        'caregivers/profile',
+        'caregivers/find-caregiver-profile',
         $data,
-        'caregivers'
+        'find-caregiver'
     );
 }
 public function availability(int $id): void
@@ -61,9 +71,9 @@ public function availability(int $id): void
     ];
 
     $this->view(
-        'caregivers/availability',
+        'caregivers/find-caregiver-availability',
         $data,
-        'caregivers'
+        'find-caregiver'
     );
 }
 public function manageAvailability(): void
@@ -102,7 +112,66 @@ public function manageAvailability(): void
     $this->view(
         'caregivers/caregiver-availability',
         $data,
-        'caregivers'
+        'find-caregiver'
     );
 }
+
+public function dashboard(): void
+{
+    // Ensure only logged in caregivers can access
+    if (!isset($_SESSION['caregiver_logged_in']) || $_SESSION['caregiver_logged_in'] !== true) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'Caregiver Dashboard | SafeHands'
+    ];
+
+    $this->view(
+        'caregivers/dashboard',
+        $data,
+        'find-caregiver'
+    );
+}
+
+public function schedule(): void
+{
+    if (!isset($_SESSION['caregiver_logged_in']) || $_SESSION['caregiver_logged_in'] !== true) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'My Schedule | SafeHands'
+    ];
+    $this->view('caregivers/schedule', $data, 'find-caregiver');
+}
+
+public function earnings(): void
+{
+    if (!isset($_SESSION['caregiver_logged_in']) || $_SESSION['caregiver_logged_in'] !== true) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'Earnings | SafeHands'
+    ];
+    $this->view('caregivers/earnings', $data, 'find-caregiver');
+}
+
+public function notifications(): void
+{
+    if (!isset($_SESSION['caregiver_logged_in']) || $_SESSION['caregiver_logged_in'] !== true) {
+        header('Location: /safehands_mvc/login');
+        exit;
+    }
+
+    $data = [
+        'title' => 'Notifications | SafeHands'
+    ];
+    $this->view('caregivers/notifications', $data, 'find-caregiver');
+}
+
 }

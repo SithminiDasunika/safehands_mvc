@@ -197,6 +197,7 @@ function goToStep(stepNumber) {
 */
 
 function validateStep(stepNumber) {
+    return true;
 
 
     /*

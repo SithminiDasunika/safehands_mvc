@@ -9,7 +9,7 @@
     <!-- Patient/Profile styles first -->
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/patient.css"
+        href="/safehands_mvc/public/assets/css/patient.css?v=1790345300"
     >
 
     <link
@@ -32,7 +32,7 @@
     <?= $content ?>
 
     <script src="/safehands_mvc/public/assets/js/family.js?v=<?= time() ?>"></script>
-    <script src="/safehands_mvc/public/assets/js/patient.js?v=<?= time() ?>"></script>
+    <script src="/safehands_mvc/public/assets/js/patient.js?v=1790345723"></script>
     <script src="/safehands_mvc/public/assets/js/profile.js?v=<?= time() ?>"></script>
 
 </body>

@@ -532,7 +532,7 @@ $stats = $stats ?? [];
                         ================================== -->
 
                         <a
-                            href="/safehands_mvc/booking/details"
+                            href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
                             class="primary-button view-booking-button"
                         >
                             View Booking
@@ -653,7 +653,7 @@ $stats = $stats ?? [];
                             ================================== -->
 
                             <a
-                                href="/safehands_mvc/booking/details"
+                                href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
                                 class="primary-button view-booking-button"
                             >
                                 View Booking
@@ -693,7 +693,7 @@ $stats = $stats ?? [];
                                 ================================== -->
 
                                 <a
-                                    href="/safehands_mvc/booking/details"
+                                    href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
                                     class="primary-button view-booking-button"
                                 >
                                     View Booking

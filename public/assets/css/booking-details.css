@@ -1455,3 +1455,20 @@ a {
     }
 
 }
+.action-button.primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+.action-button.primary:hover {
+    background: var(--primary-container);
+}
+
+.action-button.danger {
+    background: #fff1f1;
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+.action-button.danger:hover {
+    background: #ffe0e0;
+}

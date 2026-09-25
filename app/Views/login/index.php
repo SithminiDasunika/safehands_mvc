@@ -171,6 +171,14 @@
 
 
             <!-- LOGIN FORM -->
+            
+            <?php if (!empty($errors)): ?>
+                <div class="form-errors" style="background-color: #fee2e2; border: 1px solid #ef4444; color: #b91c1c; padding: 12px; border-radius: 6px; margin-bottom: 20px; text-align: center;">
+                    <?php foreach ($errors as $error): ?>
+                        <p style="margin: 0; font-size: 14px;"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
             <form
                 id="loginForm"

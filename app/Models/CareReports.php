@@ -2,117 +2,317 @@
 
 class CareReports extends Model
 {
-    public function getSummary(): array
+    /*
+    |--------------------------------------------------------------------------
+    | Get all reports
+    |--------------------------------------------------------------------------
+    */
+    public function getReports(): array
     {
-        return [
-            'patient' => 'Mr. Silva',
+        $sql = "SELECT *
+                FROM care_reports
+                ORDER BY report_date DESC, report_id DESC";
 
-            'patient_image' =>
-                'https://lh3.googleusercontent.com/aida-public/AB6AXuCaYmvlAgbG6rgbkme-pm5zMEnQP24VPAec0t9mqGj2FflJgMJjtDTujRsAVHok_wsHsBQoFRyLhWd2jRr4qzRDcPcMUGiLldnUQqiwygTl_aAmfm8Hd9QdUIMzl_DXpc3uXSU2iPBrWHcRBg7OVnYMGpYYJLDyqvYwxQ8WrH_6LLWS3Lf-HdeIVfGcXWzrw1Z7Jinegz0BUq0uxW5iDXXYi3H1nNndeLpzzpKFUDz0yLY3xvnjUt94FrJRHJ2UNSMlVSQxZ21GLa8',
+        $result = $this->db->query($sql);
 
-            'caregiver' => 'Nadeesha Perera',
+        $reports = [];
 
-            'booking_id' => 'BK-2026-00125',
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
 
-            'status' => 'In Progress'
-        ];
+                if ($row['condition_status'] === 'Stable') {
+                    $statusType = 'stable';
+                } elseif ($row['condition_status'] === 'Needs Attention') {
+                    $statusType = 'attention';
+                } else {
+                    $statusType = 'followup';
+                }
+
+                $reports[] = [
+                    'id' => $row['report_id'],
+                    'date' => $row['report_date'],
+                    'shift' => $row['shift'],
+                    'status' => $row['condition_status'],
+                    'status_type' => $statusType,
+                    'caregiver' => 'Caregiver #' . $row['caregiver_id'],
+                    'image' => '',
+                    'description' => $row['notes']
+                        ?: 'Daily care report submitted.'
+                ];
+            }
+        }
+
+        return $reports;
     }
 
 
-    public function getReports(): array
+    /*
+    |--------------------------------------------------------------------------
+    | Get one report
+    |--------------------------------------------------------------------------
+    */
+    public function getReportById(int $reportId): ?array
     {
-        return [
+        $sql = "SELECT *
+                FROM care_reports
+                WHERE report_id = ?";
 
-            [
-                'date' => '18 July 2026',
-                'shift' => 'Morning Shift',
-                'status' => 'Stable',
-                'status_type' => 'stable',
+        $stmt = $this->db->prepare($sql);
 
-                'caregiver' => 'Nadeesha Perera',
+        if (!$stmt) {
+            return null;
+        }
 
-                'image' =>
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuCuOh1_Yt07yBwqmREeSrvEtFbGTraTB6eTBVkFIPuqkrTpoBr0PUA8GF6rIXtSeaxA1RuOMCEh-PewGoobf8BfXIw9G-ezNuBXP1IjqZRItaYee4uHvIJjYD8I7CIyhTSCpzdwAoSRNzDrkQ_aXOfMRLk4PDOr2ZRmKMfMd2zDndiiZLup3oZshqDK6uXDnj1PoXAlG5M8TPutJA_CeuiWRE_owkJMM06BZsVrmSO2pv-Ep927415pXf0J9WuFufTSwfVnP6U3I7o',
+        $stmt->bind_param("i", $reportId);
 
-                'description' =>
-                    'Medication administered successfully and patient remained comfortable throughout the session. Vital signs are normal and breakfast was well-received.'
-            ],
+        $stmt->execute();
 
-            [
-                'date' => '17 July 2026',
-                'shift' => 'Afternoon Shift',
-                'status' => 'Needs Attention',
-                'status_type' => 'attention',
+        $result = $stmt->get_result();
 
-                'caregiver' => 'James Wilson',
+        $report = $result->fetch_assoc();
 
-                'image' =>
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuCWAEi0rRzvXeZOi0JAABItBRZsGHSkJM2twPMuiPTYT97770Fww6zTzZz-cKKTrNVcdRUMmMMpYQpyCagiNFTZe_jdtk5HmQu9cymIXpFEwYYZ_RvG9tbNULA0A7QUKCZXcJgKxaLAFdsakHF4FggL82MsVgg5mv_tykZk010GRgGBbDmTfRHBRax-x64A9ywNZKvyOLex_zJDSbM902nes5KbJB4Iwhuba7FykGAeE59cHv53OQWqkMBjVDDgrZS3q72mU78ICSE',
+        $stmt->close();
 
-                'description' =>
-                    'Patient reported mild discomfort in the lower back area. Assisted with physiotherapy exercises. Noted a slight decrease in appetite during lunch.'
-            ],
+        return $report ?: null;
+    }
 
-            [
-                'date' => '17 July 2026',
-                'shift' => 'Evening Shift',
-                'status' => 'Follow-up Required',
-                'status_type' => 'followup',
 
-                'caregiver' => 'Sarah Mitchell',
+    /*
+    |--------------------------------------------------------------------------
+    | Create report
+    |--------------------------------------------------------------------------
+    */
+    public function createReport(array $data): bool
+    {
+        $sql = "INSERT INTO care_reports
+                (
+                    caregiver_id,
+                    patient_name,
+                    booking_id,
+                    report_date,
+                    shift,
+                    condition_status,
+                    activities,
+                    medication,
+                    meal,
+                    vitals,
+                    notes
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-                'image' =>
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuAs6_N9H2WGmXdTv-Puy7riC_ip_lx0e5ga-fNip-C25wme8QTCcY5Po-V2z3w_1H1MTyRGPEwPHdY64H5C2SYADPuhvyaDRWaP60ufS38VxIHroljVnB749Jf1AyiEGBpr-DvW5TiO7D1cZjFvcXP1QKPxSf_mlz8Gcaj-VRjVO2bF0fXYS2N3o5S-OcV7U9Uni43GXWHqhGnPVXIi8woR-VnBzwYXENjQtMbluXWQSDdh8SLyov4vtXDUUZXkGaOAzh_e28CW6CU',
+        $stmt = $this->db->prepare($sql);
 
-                'description' =>
-                    'Routine check-up completed. Recommended a follow-up with the primary physician regarding sleep pattern adjustments discussed during the session.'
-            ],
+        if (!$stmt) {
+            return false;
+        }
 
-            [
-                'date' => '16 July 2026',
-                'shift' => 'Morning Shift',
-                'status' => 'Stable',
-                'status_type' => 'stable',
+        $stmt->bind_param(
+            "issssssssss",
+            $data['caregiver_id'],
+            $data['patient_name'],
+            $data['booking_id'],
+            $data['report_date'],
+            $data['shift'],
+            $data['condition_status'],
+            $data['activities'],
+            $data['medication'],
+            $data['meal'],
+            $data['vitals'],
+            $data['notes']
+        );
 
-                'caregiver' => 'Nadeesha Perera',
+        $success = $stmt->execute();
 
-                'image' =>
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuBzAiYaR2D6rRaGGSH-RczR_IIB072opiLv4FaaJ9R1-6TeKz05tLFP7bi2AWl0ppbwxqqdW77NxMzneFxlnApx3okGEpHlN9k-tUeeXQNrW9wp99KR9E3r-LN8LtdBMNv7F4cXAgX-xeUDgT4APFuhRoO9Im-tjq0ak4v3orr-ySnvlFOfgo34QcSPlpTu-J_JnFQ8AVbh6Dxi5zoLR9PD-CDZXnH16h-SWun4La599yEMwCujo2f3QGENsqDpRNJsI_s2k_8nwXU',
+        $stmt->close();
 
-                'description' =>
-                    'Excellent session. Patient was highly active and engaged in morning walk. Blood pressure readings are within target range.'
-            ],
+        return $success;
+    }
 
-            [
-                'date' => '16 July 2026',
-                'shift' => 'Afternoon Shift',
-                'status' => 'Stable',
-                'status_type' => 'stable',
 
-                'caregiver' => 'Ryan Cooper',
+    /*
+    |--------------------------------------------------------------------------
+    | Update report
+    |--------------------------------------------------------------------------
+    */
+    public function updateReport(
+        int $reportId,
+        array $data
+    ): bool {
+        $sql = "UPDATE care_reports
+                SET
+                    caregiver_id = ?,
+                    patient_name = ?,
+                    booking_id = ?,
+                    report_date = ?,
+                    shift = ?,
+                    condition_status = ?,
+                    activities = ?,
+                    medication = ?,
+                    meal = ?,
+                    vitals = ?,
+                    notes = ?
+                WHERE report_id = ?";
 
-                'image' =>
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuB-NMDxR5JWHE71aSWg5_FjRLlizbM3kChcxQgnBR3sWgTYP8DNEQy1CPHtvK5t3n5VAlLnCfv9rUEDSXyUPPOBwQQwmnaekFxCykhgsSfgpaiv_vWJzhd1h0-3Tq6frOFs1SBN_3nE3wyVug-zjBkUGQ1Eac6mlOme887nck7FlNZ3_4LUhrEEdgkaJdjouBVCJDOZ3O0HJz_Ecs6vNLlDOxuiVP3Ea8lEuefYEpUCeHtQkgmi7JsL8JV4VIY0SoN4RqlVYMa35QY',
+        $stmt = $this->db->prepare($sql);
 
-                'description' =>
-                    'Assisted with lunch and light housekeeping. Patient spent time reading in the garden and mood was very positive throughout the afternoon.'
-            ],
+        if (!$stmt) {
+            return false;
+        }
 
-            [
-                'date' => '15 July 2026',
-                'shift' => 'Evening Shift',
-                'status' => 'Stable',
-                'status_type' => 'stable',
+        $stmt->bind_param(
+            "issssssssssi",
+            $data['caregiver_id'],
+            $data['patient_name'],
+            $data['booking_id'],
+            $data['report_date'],
+            $data['shift'],
+            $data['condition_status'],
+            $data['activities'],
+            $data['medication'],
+            $data['meal'],
+            $data['vitals'],
+            $data['notes'],
+            $reportId
+        );
 
-                'caregiver' => 'Sarah Mitchell',
+        $success = $stmt->execute();
 
-                'image' =>
-                    'https://lh3.googleusercontent.com/aida-public/AB6AXuDBw34Bl7nr9YAjrC2GuS60i70gCy7rf3_SfuGnOnO3b1cCNMxpPnIhXk0s8wZGyrj3Pqm9rCtggQFJ3VoaElzkZ15oCrrneuzWW8Hawy-rDczMIelozv6Lql8ql36devUWXqWrA5mwDQwaGpr7qgbKC_i9-GsI26U1BmXqlGCthlvPpy2eYoZDWTtfoMIVW7aTOrBAy_g_5i8OktZwla-VSroAS1JLloXDkU-MrtlmlXSu12-BkfwUEzPZabZ1A4Y4x-0z889NRvg',
+        $stmt->close();
 
-                'description' =>
-                    'Evening medication administered at 8:00 PM. Patient was settled and resting comfortably before shift end. All safety protocols followed.'
-            ]
+        return $success;
+    }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete report
+    |--------------------------------------------------------------------------
+    */
+    public function deleteReport(int $reportId): bool
+    {
+        $sql = "DELETE FROM care_reports
+                WHERE report_id = ?";
+
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            return false;
+        }
+
+        $stmt->bind_param("i", $reportId);
+
+        $success = $stmt->execute();
+
+        $stmt->close();
+
+        return $success;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get summary
+    |--------------------------------------------------------------------------
+    */
+    public function getSummary(): array
+    {
+        $summary = [
+            'total' => 0,
+            'today' => 0,
+            'attention' => 0,
+
+            // Required by care-reports/index.php
+            'patient_image' => '',
+            'patient' => 'No patient selected',
+            'caregiver' => 'No caregiver assigned',
+            'booking_id' => 'N/A',
+            'status' => 'No Reports'
         ];
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Total reports
+        |--------------------------------------------------------------------------
+        */
+        $result = $this->db->query(
+            "SELECT COUNT(*) AS total
+             FROM care_reports"
+        );
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+
+            $summary['total'] = (int)$row['total'];
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Today's reports
+        |--------------------------------------------------------------------------
+        */
+        $result = $this->db->query(
+            "SELECT COUNT(*) AS today
+             FROM care_reports
+             WHERE report_date = CURDATE()"
+        );
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+
+            $summary['today'] = (int)$row['today'];
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reports needing attention
+        |--------------------------------------------------------------------------
+        */
+        $result = $this->db->query(
+            "SELECT COUNT(*) AS attention
+             FROM care_reports
+             WHERE condition_status = 'Needs Attention'"
+        );
+
+        if ($result) {
+            $row = $result->fetch_assoc();
+
+            $summary['attention'] = (int)$row['attention'];
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get latest report
+        |--------------------------------------------------------------------------
+        */
+        $result = $this->db->query(
+            "SELECT *
+             FROM care_reports
+             ORDER BY report_date DESC, report_id DESC
+             LIMIT 1"
+        );
+
+        if ($result && $result->num_rows > 0) {
+
+            $latest = $result->fetch_assoc();
+
+            $summary['patient'] =
+                $latest['patient_name'];
+
+            $summary['caregiver'] =
+                'Caregiver #' . $latest['caregiver_id'];
+
+            $summary['booking_id'] =
+                $latest['booking_id'] ?: 'N/A';
+
+            $summary['status'] =
+                $latest['condition_status'];
+        }
+
+
+        return $summary;
     }
 }

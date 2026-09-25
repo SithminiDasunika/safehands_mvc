@@ -17,175 +17,181 @@ class CaregiverController extends Controller
             'caregivers'
         );
     }
+
     public function dashboardSi(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $data = [
+            'title' => 'රැකවරණ සේවා සපයන්නාගේ උපකරණ පුවරුව | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/dashboard-si',
+            $data,
+            'caregivers'
+        );
     }
 
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
+    public function scheduleSi(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $data = [
+            'title' => 'මගේ උපලේඛනය | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/schedule-si',
+            $data,
+            'caregivers'
+        );
     }
 
-    $data = [
-        'title' => 'රැකවරණ සේවා සපයන්නාගේ උපකරණ පුවරුව | SafeHands'
-    ];
+    public function schedule(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    $this->view(
-        'caregivers/dashboard-si',
-        $data,
-        'caregivers'
-    );
-}
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
 
-public function scheduleSi(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+        $data = [
+            'title' => 'My Schedule | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/schedule',
+            $data,
+            'caregivers'
+        );
     }
 
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
+    public function earnings(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $data = [
+            'title' => 'My Earnings | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/earnings',
+            $data,
+            'caregivers'
+        );
     }
 
-    $data = [
-        'title' => 'මගේ උපලේඛනය | SafeHands'
-    ];
+    public function earningsSi(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    $this->view(
-        'caregivers/schedule-si',
-        $data,
-        'caregivers'
-    );
-}
-public function schedule(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $data = [
+            'title' => 'මගේ ආදායම | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/earnings-si',
+            $data,
+            'caregivers'
+        );
     }
 
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
+    public function notifications(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $data = [
+            'title' => 'Notifications | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/notifications',
+            $data,
+            'caregivers'
+        );
     }
 
-    $data = [
-        'title' => 'My Schedule | SafeHands'
-    ];
+    public function notificationsSi(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    $this->view(
-        'caregivers/schedule',
-        $data,
-        'caregivers'
-    );
-}
-public function earnings(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $data = [
+            'title' => 'දැනුම්දීම් | SafeHands'
+        ];
+
+        $this->view(
+            'caregivers/notifications-si',
+            $data,
+            'caregivers'
+        );
     }
-
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
-
-    $data = [
-        'title' => 'My Earnings | SafeHands'
-    ];
-
-    $this->view(
-        'caregivers/earnings',
-        $data,
-        'caregivers'
-    );
-}
-public function earningsSi(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
-
-    $data = [
-        'title' => 'මගේ ආදායම | SafeHands'
-    ];
-
-    $this->view(
-        'caregivers/earnings-si',
-        $data,
-        'caregivers'
-    );
-}
-public function notifications(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
-
-    $data = [
-        'title' => 'Notifications | SafeHands'
-    ];
-
-    $this->view(
-        'caregivers/notifications',
-        $data,
-        'caregivers'
-    );
-}
-public function notificationsSi(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
-
-    $data = [
-        'title' => 'දැනුම්දීම් | SafeHands'
-    ];
-
-    $this->view(
-        'caregivers/notifications-si',
-        $data,
-        'caregivers'
-    );
-}
 
     /**
      * Find Caregivers
@@ -208,10 +214,6 @@ public function notificationsSi(): void
         );
     }
 
-
-    /**
-     * Caregiver Public Profile
-     */
     public function profile(int $id): void
     {
         $caregiverModel = $this->model('Caregiver');
@@ -236,10 +238,6 @@ public function notificationsSi(): void
         );
     }
 
-
-    /**
-     * Caregiver Availability - Public View
-     */
     public function availability(int $id): void
     {
         $caregiverModel = $this->model('Caregiver');
@@ -264,230 +262,230 @@ public function notificationsSi(): void
         );
     }
 
-
-    /**
-     * Caregiver Manage Availability
-     */
     public function manageAvailability(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+    {
+        $data = [
+            'title' => 'Manage Availability | SafeHands',
+            'caregiverName' => 'Aditya Mendis',
+            'availability' => [
+                [
+                    'id' => 1,
+                    'date' => '2026-09-25',
+                    'shift' => 'Morning',
+                    'status' => 'Available'
+                ],
+                [
+                    'id' => 2,
+                    'date' => '2026-09-25',
+                    'shift' => 'Evening',
+                    'status' => 'Booked'
+                ],
+                [
+                    'id' => 3,
+                    'date' => '2026-09-26',
+                    'shift' => 'Afternoon',
+                    'status' => 'Off Duty'
+                ],
+                [
+                    'id' => 4,
+                    'date' => '2026-09-28',
+                    'shift' => 'Morning',
+                    'status' => 'Available'
+                ]
+            ]
+        ];
+
+        $this->view(
+            'caregivers/caregiver-availability',
+            $data,
+            'caregivers'
+        );
     }
 
-    if (!isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true) {
+    public function manageAvailabilitySi(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        header('Location: /safehands_mvc/login');
-        exit;
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        $availabilityModel = $this->model('CaregiverAvailability');
+
+        $caregiverId = $availabilityModel->getCaregiverIdByUserId(
+            (int) $_SESSION['user_id']
+        );
+
+        if ($caregiverId === null) {
+            header('Location: /safehands_mvc/caregiver/dashboardSi');
+            exit;
+        }
+
+        $availability = $availabilityModel->getByCaregiver($caregiverId);
+
+        $data = [
+            'title' => 'ලබා ගත හැකි වේලාව | SafeHands',
+            'caregiverName' => 'රැකවරණ සේවා සපයන්නා',
+            'availability' => $availability
+        ];
+
+        $this->view(
+            'caregivers/caregiver-availability-si',
+            $data,
+            'caregivers'
+        );
     }
 
-     $availabilityModel = $this->model('CaregiverAvailability');
+    public function createAvailability(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-$caregiverId = $availabilityModel->getCaregiverIdByUserId(
-    (int) $_SESSION['user_id']
-);
+        // Check caregiver login
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
 
-if ($caregiverId === null) {
-    header('Location: /safehands_mvc/caregiver/dashboard');
-    exit;
-}
+        // Get correct caregiver profile ID
+        $availabilityModel = $this->model('CaregiverAvailability');
 
-$availability = $availabilityModel->getByCaregiver($caregiverId);
+        $caregiverId = $availabilityModel->getCaregiverIdByUserId(
+            (int) $_SESSION['user_id']
+        );
 
-    $data = [
-        'title' => 'Manage Availability | SafeHands',
-        'caregiverName' => 'Caregiver',
-        'availability' => $availability
-    ];
+        if ($caregiverId === null) {
+            header('Location: /safehands_mvc/caregiver/dashboard');
+            exit;
+        }
 
-    $this->view(
-        'caregivers/caregiver-availability',
-        $data,
-        'caregivers'
-    );
-}
-public function manageAvailabilitySi(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+        // Get form values
+        $date = trim($_POST['availabilityDate'] ?? '');
+        $shift = trim($_POST['availabilityShift'] ?? '');
+        $status = trim($_POST['availabilityStatus'] ?? '');
 
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
+        // Basic validation
+        if ($date === '' || $shift === '' || $status === '') {
+            header('Location: /safehands_mvc/caregiver/manageAvailability');
+            exit;
+        }
 
-    $availabilityModel = $this->model('CaregiverAvailability');
+        // Save to database
+        $success = $availabilityModel->create(
+            $caregiverId,
+            $date,
+            $shift,
+            $status
+        );
 
-    $caregiverId = $availabilityModel->getCaregiverIdByUserId(
-        (int) $_SESSION['user_id']
-    );
-
-    if ($caregiverId === null) {
-        header('Location: /safehands_mvc/caregiver/dashboardSi');
-        exit;
-    }
-
-    $availability = $availabilityModel->getByCaregiver($caregiverId);
-
-    $data = [
-        'title' => 'ලබා ගත හැකි වේලාව | SafeHands',
-        'caregiverName' => 'රැකවරණ සේවා සපයන්නා',
-        'availability' => $availability
-    ];
-
-    $this->view(
-        'caregivers/caregiver-availability-si',
-        $data,
-        'caregivers'
-    );
-}
- public function createAvailability(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    // Check caregiver login
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
-
-    // Get correct caregiver profile ID
-    $availabilityModel = $this->model('CaregiverAvailability');
-
-    $caregiverId = $availabilityModel->getCaregiverIdByUserId(
-        (int) $_SESSION['user_id']
-    );
-
-    if ($caregiverId === null) {
-        header('Location: /safehands_mvc/caregiver/dashboard');
-        exit;
-    }
-
-    // Get form values
-    $date = trim($_POST['availabilityDate'] ?? '');
-    $shift = trim($_POST['availabilityShift'] ?? '');
-    $status = trim($_POST['availabilityStatus'] ?? '');
-
-    // Basic validation
-    if ($date === '' || $shift === '' || $status === '') {
+        // Return to availability page
         header('Location: /safehands_mvc/caregiver/manageAvailability');
         exit;
     }
 
-    // Save to database
-    $success = $availabilityModel->create(
-        $caregiverId,
-        $date,
-        $shift,
-        $status
-    );
+    public function updateAvailability(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    // Return to availability page
-    header('Location: /safehands_mvc/caregiver/manageAvailability');
-    exit;
-}
-public function updateAvailability(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+        // Check caregiver login
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
 
-    // Check caregiver login
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
+        // Get the correct caregiver profile ID
+        $availabilityModel = $this->model('CaregiverAvailability');
 
-    // Get the correct caregiver profile ID
-    $availabilityModel = $this->model('CaregiverAvailability');
+        $caregiverId = $availabilityModel->getCaregiverIdByUserId(
+            (int) $_SESSION['user_id']
+        );
 
-    $caregiverId = $availabilityModel->getCaregiverIdByUserId(
-        (int) $_SESSION['user_id']
-    );
+        if ($caregiverId === null) {
+            header('Location: /safehands_mvc/caregiver/dashboard');
+            exit;
+        }
 
-    if ($caregiverId === null) {
-        header('Location: /safehands_mvc/caregiver/dashboard');
-        exit;
-    }
+        // Get form values
+        $id = (int) ($_POST['availabilityId'] ?? 0);
+        $date = trim($_POST['availabilityDate'] ?? '');
+        $shift = trim($_POST['availabilityShift'] ?? '');
+        $status = trim($_POST['availabilityStatus'] ?? '');
 
-    // Get form values
-    $id = (int) ($_POST['availabilityId'] ?? 0);
-    $date = trim($_POST['availabilityDate'] ?? '');
-    $shift = trim($_POST['availabilityShift'] ?? '');
-    $status = trim($_POST['availabilityStatus'] ?? '');
+        // Basic validation
+        if (
+            $id <= 0 ||
+            $date === '' ||
+            $shift === '' ||
+            $status === ''
+        ) {
+            header('Location: /safehands_mvc/caregiver/manageAvailability');
+            exit;
+        }
 
-    // Basic validation
-    if (
-        $id <= 0 ||
-        $date === '' ||
-        $shift === '' ||
-        $status === ''
-    ) {
+        // Update database
+        $availabilityModel->update(
+            $id,
+            $caregiverId,
+            $date,
+            $shift,
+            $status
+        );
+
+        // Return to availability page
         header('Location: /safehands_mvc/caregiver/manageAvailability');
         exit;
     }
 
-    // Update database
-    $availabilityModel->update(
-        $id,
-        $caregiverId,
-        $date,
-        $shift,
-        $status
-    );
+    public function deleteAvailability(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-    // Return to availability page
-    header('Location: /safehands_mvc/caregiver/manageAvailability');
-    exit;
-} 
+        if (
+            !isset($_SESSION['caregiver_logged_in']) ||
+            $_SESSION['caregiver_logged_in'] !== true
+        ) {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
 
-public function deleteAvailability(): void
-{
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
+        $availabilityModel = $this->model('CaregiverAvailability');
 
-    if (
-        !isset($_SESSION['caregiver_logged_in']) ||
-        $_SESSION['caregiver_logged_in'] !== true
-    ) {
-        header('Location: /safehands_mvc/login');
-        exit;
-    }
+        $caregiverId = $availabilityModel->getCaregiverIdByUserId(
+            (int) $_SESSION['user_id']
+        );
 
-    $availabilityModel = $this->model('CaregiverAvailability');
+        if ($caregiverId === null) {
+            header('Location: /safehands_mvc/caregiver/dashboard');
+            exit;
+        }
 
-    $caregiverId = $availabilityModel->getCaregiverIdByUserId(
-        (int) $_SESSION['user_id']
-    );
+        $id = (int) ($_POST['availabilityId'] ?? 0);
 
-    if ($caregiverId === null) {
-        header('Location: /safehands_mvc/caregiver/dashboard');
-        exit;
-    }
+        if ($id <= 0) {
+            header('Location: /safehands_mvc/caregiver/manageAvailability');
+            exit;
+        }
 
-    $id = (int) ($_POST['availabilityId'] ?? 0);
+        $availabilityModel->delete($id, $caregiverId);
 
-    if ($id <= 0) {
         header('Location: /safehands_mvc/caregiver/manageAvailability');
         exit;
     }
-
-    $availabilityModel->delete($id, $caregiverId);
-
-    header('Location: /safehands_mvc/caregiver/manageAvailability');
-    exit;
-}
 }

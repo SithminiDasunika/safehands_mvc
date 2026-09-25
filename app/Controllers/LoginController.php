@@ -167,8 +167,13 @@ class LoginController extends Controller
 
                 if ($user['status'] === 'pending') {
 
-                    $errors[] =
-                        'Your account is still pending. Please complete the registration process.';
+                    if ($user['role'] === 'caregiver') {
+                        $errors[] =
+                            'Your account is pending admin approval. You cannot access the dashboard yet.';
+                    } else {
+                        $errors[] =
+                            'Your account is still pending. Please complete the registration process.';
+                    }
 
                     $this->showLogin(
                         $errors,

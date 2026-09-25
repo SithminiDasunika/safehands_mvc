@@ -22,15 +22,18 @@
         rel="stylesheet"
         href="/safehands_mvc/public/assets/css/family.css?v=<?= time() ?>"
     >
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
     <?= $content ?>
 
-    <script src="/safehands_mvc/public/assets/js/family.js"></script>
-    <script src="/safehands_mvc/public/assets/js/patient.js"></script>
-    <script src="/safehands_mvc/public/assets/js/profile.js"></script>
+    <script src="/safehands_mvc/public/assets/js/family.js?v=<?= time() ?>"></script>
+    <script src="/safehands_mvc/public/assets/js/patient.js?v=<?= time() ?>"></script>
+    <script src="/safehands_mvc/public/assets/js/profile.js?v=<?= time() ?>"></script>
 
 </body>
 </html>

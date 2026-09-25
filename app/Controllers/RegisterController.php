@@ -1,10 +1,10 @@
- <?php
+<?php
 
 class RegisterController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Session
+    | Start Session
     |--------------------------------------------------------------------------
     */
 
@@ -1417,7 +1417,7 @@ public function saveProfessional(): void
                     'Professional Caregiver Registration',
 
                 'css' =>
-                    'caregiver-register.css',
+                    'caregiver-register.css.',
 
                 'errors' =>
                     $errors,
@@ -1597,7 +1597,7 @@ public function verificationSi(): void
             'Caregiver Verification',
 
         'css' =>
-            'caregiver-register.css',
+            'caregiver-register.css.',
 
         'errors' =>
             []

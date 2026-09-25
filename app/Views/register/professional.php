@@ -323,7 +323,7 @@
                                     <input
                                         id="expected_daily_rate"
                                         type="text"
-                                         name="daily_rate"
+                                        name="expected_daily_rate"
                                         placeholder="e.g. Rs. 5,000">
 
                                 </div>
@@ -339,7 +339,7 @@
 
                                     <textarea
                                         id="description"
-                                         name="biography"
+                                        name="description"
                                         rows="4"
                                         placeholder="Tell us about your experience and passion for caregiving..."
                                         required></textarea>

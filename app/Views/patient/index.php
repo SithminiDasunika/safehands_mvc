@@ -1,745 +1,302 @@
 <?php
-
-$stats = $stats ?? [];
-
-$patients = $patients ?? [];
-
-$reports = $reports ?? [];
-
+if (!function_exists('sh_calculate_age')) {
+    function sh_calculate_age(?string $dob): ?int {
+        if (!$dob) return null;
+        try {
+            return (new DateTime('today'))->diff(new DateTime($dob))->y;
+        } catch (Exception $e) { return null; }
+    }
+}
+if (!function_exists('sh_patient_initials')) {
+    function sh_patient_initials(string $name): string {
+        $parts = preg_split('/\s+/', trim($name));
+        $initials = '';
+        foreach (array_slice($parts, 0, 2) as $part) {
+            $initials .= mb_strtoupper(mb_substr($part, 0, 1));
+        }
+        return $initials !== '' ? $initials : '?';
+    }
+}
+if (!function_exists('sh_split_list')) {
+    function sh_split_list(?string $value): array {
+        if (!$value || trim($value) === '') return [];
+        $pieces = preg_split('/\\r\\n|\\r|\\n|,/', $value);
+        return array_values(array_filter(array_map('trim', $pieces), fn($p) => $p !== ''));
+    }
+}
 ?>
 
-<div class="patients-page">
-
-
-    <!-- =====================================================
-         NAVIGATION
-    ====================================================== -->
-
-    <nav class="top-navbar">
-
-        <div class="nav-left">
-
-            <a href="/safehands_mvc/family" class="brand">
-                SafeHands
-            </a>
-
-
-            <div class="nav-links">
-
-                <a href="/safehands_mvc/family">
-                    Dashboard
-                </a>
-
-                <a href="#" class="active">
-                    Patients
-                </a>
-
-                <a href="/safehands_mvc/caregiver">
-                    Find Caregivers
-                </a>
-
-                <a href="/safehands_mvc/booking">
-                    My Bookings
-                </a>
-
-            </div>
-
+<!-- TopNavBar -->
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="/safehands_mvc" class="nav-brand">SafeHands</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link">Dashboard</a>
+            <a href="/safehands_mvc/patient" class="nav-link active">Patients</a>
+            <a href="#" class="nav-link">Find Caregivers</a>
+            <a href="#" class="nav-link">My Bookings</a>
         </div>
-
-
-        <div class="nav-right">
-
-            <button
-                type="button"
-                class="notification-button"
-                id="notificationButton"
-            >
-                <span>
-                    ♧
-                </span>
-            </button>
-
-
-            <div class="user-avatar">
-                S
-            </div>
-
+    </div>
+    <div class="nav-right">
+        <button aria-label="Notifications" class="nav-icon-btn">
+            <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <div class="nav-avatar">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=004ac6&color=fff" alt="User profile photo">
         </div>
+    </div>
+</nav>
 
+<!-- Main Content Canvas -->
+<main class="main-content">
+    
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+        <a href="#">Dashboard</a>
+        <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
+        <span class="current">Patients</span>
     </nav>
 
+    <!-- Header Section -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">My Patients</h1>
+            <p class="page-desc">View and manage the people you care for through SafeHands.</p>
+        </div>
+        <a href="/safehands_mvc/patient/create" class="btn-primary">
+            <span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+            Add Patient
+        </a>
+    </div>
 
+    <!-- Summary Stats Row -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-icon primary"><span class="material-symbols-outlined" style="font-size: 20px;">group</span></div>
+                <span class="stat-label">Total Patients</span>
+            </div>
+            <span class="stat-value"><?= (int)($stats['total_patients'] ?? count($patients ?? [])) ?></span>
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-icon success"><span class="material-symbols-outlined" style="font-size: 20px;">medical_services</span></div>
+                <span class="stat-label">Receiving Care</span>
+            </div>
+            <span class="stat-value">1</span> <!-- Hardcoded mockup stat -->
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-icon warning"><span class="material-symbols-outlined" style="font-size: 20px;">event</span></div>
+                <span class="stat-label">Upcoming Sessions</span>
+            </div>
+            <span class="stat-value">2</span> <!-- Hardcoded mockup stat -->
+        </div>
+        <div class="stat-card">
+            <div class="stat-header">
+                <div class="stat-icon primary"><span class="material-symbols-outlined" style="font-size: 20px;">description</span></div>
+                <span class="stat-label">Recent Reports</span>
+            </div>
+            <span class="stat-value"><?= count($reports ?? []) ?></span>
+        </div>
+    </div>
 
-    <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
-    <main class="main-container">
-
-
-        <!-- Breadcrumb -->
-
-        <nav class="breadcrumb">
-
-            <a href="/safehands_mvc/family">
-                Dashboard
-            </a>
-
-            <span>
-                ›
-            </span>
-
-            <strong>
-                Patients
-            </strong>
-
-        </nav>
-
-
-
-        <!-- =================================================
-             PAGE HEADER
-        ================================================== -->
-
-        <div class="page-header">
-
+    <!-- All Patients Section -->
+    <section style="display: flex; flex-direction: column; gap: 24px;">
+        <div class="section-header">
             <div>
-
-                <h1>
-                    My Patients
-                </h1>
-
-                <p>
-                    View and manage the people you care for through SafeHands.
-                </p>
-
+                <h2 class="section-title">All Patients</h2>
+                <p class="section-desc">Patients registered under your family account.</p>
             </div>
-
-
-            <a
-                href="/safehands_mvc/patient/create"
-                class="add-patient-button"
-                id="addPatientButton"
-            >
-                <span class="plus-icon">
-                    +
-                </span>
-
-                Add Patient
-            </a>
-
+            <div class="search-box">
+                <span class="material-symbols-outlined search-icon">search</span>
+                <input type="text" class="search-input" placeholder="Search patients..." id="patientSearch">
+            </div>
         </div>
 
-
-
-        <!-- =================================================
-             STATISTICS
-        ================================================== -->
-
-        <div class="stats-grid">
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-
-                    <span class="stat-icon blue">
-                        ♙
-                    </span>
-
-                    <span>
-                        Total Patients
-                    </span>
-
+        <!-- Patient Grid -->
+        <div class="patient-grid">
+            <?php if (empty($patients)): ?>
+                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; background: var(--color-surface-container-lowest); border-radius: var(--radius-xl); border: 1px dashed var(--color-outline-variant);">
+                    <span class="material-symbols-outlined" style="font-size: 48px; color: var(--color-outline); margin-bottom: 16px;">person_add</span>
+                    <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 8px;">No patients found</h3>
+                    <p style="color: var(--color-on-surface-variant); margin-bottom: 24px;">Get started by adding a patient to your family account.</p>
+                    <a href="/safehands_mvc/patient/create" class="btn-primary" style="display: inline-flex; width: auto;">Add Patient</a>
                 </div>
-
-
-                <span class="stat-number">
-
-                    <?= htmlspecialchars(
-                        $stats['total'] ?? 0
-                    ) ?>
-
-                </span>
-
-            </div>
-
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-
-                    <span class="stat-icon green">
-                        +
-                    </span>
-
-                    <span>
-                        Receiving Care
-                    </span>
-
-                </div>
-
-
-                <span class="stat-number">
-
-                    <?= htmlspecialchars(
-                        $stats['receiving_care'] ?? 0
-                    ) ?>
-
-                </span>
-
-            </div>
-
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-
-                    <span class="stat-icon yellow">
-                        □
-                    </span>
-
-                    <span>
-                        Upcoming Sessions
-                    </span>
-
-                </div>
-
-
-                <span class="stat-number">
-
-                    <?= htmlspecialchars(
-                        $stats['upcoming_sessions'] ?? 0
-                    ) ?>
-
-                </span>
-
-            </div>
-
-
-
-            <div class="stat-card">
-
-                <div class="stat-title">
-
-                    <span class="stat-icon blue">
-                        ▤
-                    </span>
-
-                    <span>
-                        Recent Reports
-                    </span>
-
-                </div>
-
-
-                <span class="stat-number">
-
-                    <?= htmlspecialchars(
-                        $stats['recent_reports'] ?? 0
-                    ) ?>
-
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             ALL PATIENTS
-        ================================================== -->
-
-        <section class="patients-section">
-
-
-            <div class="section-top">
-
-                <div>
-
-                    <h2>
-                        All Patients
-                    </h2>
-
-                    <p>
-                        Patients registered under your family account.
-                    </p>
-
-                </div>
-
-
-                <div class="search-wrapper">
-
-                    <span class="search-icon">
-                        ⌕
-                    </span>
-
-
-                    <input
-                        type="text"
-                        id="patientSearch"
-                        placeholder="Search patients..."
-                    >
-
-                </div>
-
-            </div>
-
-
-
-            <!-- Patient Cards -->
-
-            <div
-                class="patients-grid"
-                id="patientsGrid"
-            >
-
-
-                <?php foreach (
-                    $patients as $patient
-                ): ?>
-
-
-                    <div
-                        class="patient-card"
-                        data-patient-name="<?= htmlspecialchars(
-                            strtolower(
-                                ($patient['name'] ?? '')
-                            )
-                        ) ?>"
-                        data-patient-relationship="<?= htmlspecialchars(
-                            strtolower(
-                                ($patient['relationship'] ?? '')
-                            )
-                        ) ?>"
-                    >
-
-
-                        <!-- Card Header -->
-
+            <?php else: ?>
+                <?php foreach ($patients as $index => $patient): 
+                    $age = sh_calculate_age($patient['date_of_birth'] ?? null);
+                    $conditions = sh_split_list($patient['medical_conditions'] ?? null);
+                    $hasPhoto = !empty($patient['profile_photo']) && file_exists($patient['profile_photo']);
+                    $fullName = $patient['full_name'] ?? 'Unknown Patient';
+                    $isFirst = $index === 0;
+                ?>
+                    <div class="patient-card">
                         <div class="patient-card-header">
-
-
-                            <div class="patient-main-info">
-
-
-                                <div class="patient-image">
-
-                                    <img
-                                        src="<?= htmlspecialchars(
-                                            $patient['image']
-                                        ) ?>"
-                                        alt="<?= htmlspecialchars(
-                                            ($patient['name'] ?? '')
-                                        ) ?>"
-                                    >
-
+                            <div class="patient-info">
+                                <div class="patient-photo">
+                                    <?php if ($hasPhoto): ?>
+                                        <img src="<?= htmlspecialchars($patient['profile_photo']) ?>" alt="<?= htmlspecialchars($fullName) ?>">
+                                    <?php else: ?>
+                                        <?= htmlspecialchars(sh_patient_initials($fullName)) ?>
+                                    <?php endif; ?>
                                 </div>
-
-
-                                <div class="patient-details">
-
-                                    <h3>
-                                        <?= htmlspecialchars(
-                                            ($patient['name'] ?? '')
-                                        ) ?>
-                                    </h3>
-
-
-                                    <p>
-
-                                        <?= htmlspecialchars(
-                                            ($patient['relationship'] ?? '')
-                                        ) ?>
-
-                                        •
-
-                                        <?= htmlspecialchars(
-                                            $patient['age']
-                                        ) ?>
-                                        yrs
-
-                                        •
-
-                                        <?= htmlspecialchars(
-                                            $patient['gender']
-                                        ) ?>
-
-                                        •
-
-                                        Blood:
-
-                                        <?= htmlspecialchars(
-                                            $patient['blood_group']
-                                        ) ?>
-
+                                <div>
+                                    <h3 class="patient-name"><?= htmlspecialchars($fullName) ?></h3>
+                                    <p class="patient-meta">
+                                        <?= htmlspecialchars($patient['relationship'] ?: 'Patient') ?> • 
+                                        <?= $age !== null ? $age . ' yrs' : '—' ?> • 
+                                        <?= htmlspecialchars($patient['gender'] ?? '—') ?> • 
+                                        Blood: <?= htmlspecialchars($patient['blood_group'] ?: '—') ?>
                                     </p>
-
-
-                                    <div class="condition-list">
-
-
-                                        <?php foreach (
-                                            $patient['conditions']
-                                            as $condition
-                                        ): ?>
-
-                                            <span class="condition-tag">
-
-                                                <?= htmlspecialchars(
-                                                    $condition
-                                                ) ?>
-
-                                            </span>
-
+                                    <div class="patient-tags">
+                                        <?php foreach (array_slice($conditions, 0, 2) as $condition): ?>
+                                            <span class="tag"><?= htmlspecialchars($condition) ?></span>
                                         <?php endforeach; ?>
-
-
                                     </div>
-
                                 </div>
-
                             </div>
-
-
-
-                            <!-- Status -->
-
-                            <?php if (
-                                $patient['status_type'] === 'active'
-                            ): ?>
-
-                                <span class="status-badge active">
-                                    <span class="status-dot"></span>
-                                    Currently Receiving Care
+                            <?php if ($isFirst): ?>
+                                <span class="status-badge success">
+                                    <span class="dot"></span> Currently Receiving Care
                                 </span>
-
-                            <?php elseif (
-                                $patient['status_type'] === 'scheduled'
-                            ): ?>
-
-                                <span class="status-badge scheduled">
-                                    <span class="status-dot"></span>
-                                    Care Scheduled
-                                </span>
-
                             <?php else: ?>
-
-                                <span class="status-badge scheduled">
-                                    <span class="status-dot"></span>
-                                    Registered Patient
+                                <span class="status-badge warning">
+                                    <span class="dot"></span> Care Scheduled
                                 </span>
-
                             <?php endif; ?>
-
-
                         </div>
-
-
-
-                        <!-- Care Information -->
-
-                        <div class="patient-care-info">
-
-
-                            <div class="care-info-row">
-
-                                <span class="care-info-icon">
-                                    ♙
-                                </span>
-
-                                <span>
-
-                                    Caregiver:
-
-                                    <?= htmlspecialchars(
-                                        $patient['caregiver']
-                                    ) ?>
-
-                                </span>
-
+                        
+                        <div class="patient-schedule">
+                            <div class="schedule-row">
+                                <div class="schedule-info">
+                                    <span class="material-symbols-outlined">person</span>
+                                    <span>Caregiver: <?= $isFirst ? 'Nadeesha Perera' : 'Sunil Jayasuriya' ?></span>
+                                </div>
                             </div>
-
-
-                            <div class="care-info-row">
-
-                                <span class="care-info-icon">
-                                    □
-                                </span>
-
-                                <span>
-
-                                    Next:
-
-                                    <?= htmlspecialchars(
-                                        $patient['next_session']
-                                    ) ?>
-
-                                </span>
-
+                            <div class="schedule-row">
+                                <div class="schedule-info">
+                                    <span class="material-symbols-outlined">calendar_today</span>
+                                    <span>Next: <?= $isFirst ? '16 August • 08:00 AM - 12:00 PM' : '15 August • 04:00 PM - 08:00 PM' ?></span>
+                                </div>
                             </div>
-
-
                         </div>
 
-
-
-                        <!-- Buttons -->
-
-                        <div class="patient-card-actions">
-
-
-                            <a
-                                href="/safehands_mvc/patient/profile/<?= (int) $patient['patient_id'] ?>"
-                                class="card-button secondary view-profile-button"
-                            >
-                                View Profile
-                            </a>
-
-
-                            <a
-                                href="/safehands_mvc/care-reports/patient/<?= (int) $patient['patient_id'] ?>"
-                                class="card-button primary report-button"
-                            >
-                                Daily Care Reports
-                            </a>
-
-
+                        <div class="patient-actions">
+                            <a href="/safehands_mvc/patient/profile/<?= (int) $patient['patient_id'] ?>" class="btn-outline">View Profile</a>
+                            <a href="/safehands_mvc/care-reports" class="btn-fill">Daily Care Reports</a>
                         </div>
-
-
                     </div>
-
-
                 <?php endforeach; ?>
-
-
-                <!-- No results -->
-
-                <?php if (empty($patients)): ?>
-                    <div
-                        id="noPatientsMessage"
-                        class="no-results"
-                    >
-                        No patients found.
-                    </div>
-                <?php endif; ?>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             RECENT REPORTS
-        ================================================== -->
-
-        <section class="reports-section">
-
-
-            <div class="reports-header">
-
-                <div>
-
-                    <h2>
-                        Recent Daily Care Reports
-                    </h2>
-
-                    <p>
-                        Latest updates from your patients' caregivers.
-                    </p>
-
-                </div>
-
-
-                <a
-                    href="/safehands_mvc/care-reports"
-                    id="viewAllReports"
-                    class="view-all-reports"
-                >
-
-                    View All Reports
-
-                    <span>
-                        →
-                    </span>
-
-                </a>
-
-            </div>
-
-
-
-            <div class="reports-list">
-
-
-                <?php foreach (
-                    $reports as $report
-                ): ?>
-
-
-                    <div class="report-card">
-
-
-                        <div class="report-content">
-
-
-                            <div class="report-meta">
-
-                                <strong>
-
-                                    <?= htmlspecialchars(
-                                        $report['patient']
-                                    ) ?>
-
-                                </strong>
-
-
-                                <span class="separator">
-                                    •
-                                </span>
-
-
-                                <span>
-
-                                    <?= htmlspecialchars(
-                                        $report['date']
-                                    ) ?>
-
-                                </span>
-
-
-                                <span class="separator">
-                                    •
-                                </span>
-
-
-                                <span class="report-status">
-
-                                    <?= htmlspecialchars(
-                                        $report['status']
-                                    ) ?>
-
-                                </span>
-
-
-                                <span class="separator">
-                                    •
-                                </span>
-
-
-                                <span class="caregiver-name">
-
-                                    ♙
-
-                                    <?= htmlspecialchars(
-                                        $report['caregiver']
-                                    ) ?>
-
-                                </span>
-
-                            </div>
-
-
-                            <p>
-
-                                "<?= htmlspecialchars(
-                                    $report['description']
-                                ) ?>"
-
-                            </p>
-
-
-                        </div>
-
-
-                        <button
-                            type="button"
-                            class="view-report-button"
-                            data-report="<?= htmlspecialchars(
-                                $report['patient']
-                            ) ?>"
-                        >
-                            View Report
-                        </button>
-
-
-                    </div>
-
-
-                <?php endforeach; ?>
-
-
-            </div>
-
-        </section>
-
-
-    </main>
-
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
-    <footer class="footer">
-
-        <div class="footer-content">
-
-
-            <div class="footer-brand">
-                SafeHands
-            </div>
-
-
-            <div class="footer-links">
-
-                <a href="#">
-                    Privacy Policy
-                </a>
-
-                <a href="#">
-                    Terms of Service
-                </a>
-
-                <a href="#">
-                    Contact Support
-                </a>
-
-                <a href="#">
-                    Help Center
-                </a>
-
-            </div>
-
-
-            <div class="copyright">
-
-                © 2024 SafeHands Healthcare Management.
-                All rights reserved.
-
-            </div>
-
-
+            <?php endif; ?>
         </div>
+    </section>
 
-    </footer>
+    <!-- Recent Daily Care Reports Section -->
+    <?php if (!empty($reports)): ?>
+    <section class="reports-section">
+        <div class="reports-header">
+            <div>
+                <h2 class="section-title">Recent Daily Care Reports</h2>
+                <p class="section-desc">Latest updates from your patients' caregivers.</p>
+            </div>
+            <a href="/safehands_mvc/care-reports" class="reports-link">
+                View All Reports <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+        </div>
+        <div class="reports-list">
+            <!-- Mockup dynamic implementation if reports existed -->
+        </div>
+    </section>
+    <?php else: ?>
+    <!-- Hardcoded Mockup Reports as provided in the HTML -->
+    <section class="reports-section">
+        <div class="reports-header">
+            <div>
+                <h2 class="section-title">Recent Daily Care Reports</h2>
+                <p class="section-desc">Latest updates from your patients' caregivers.</p>
+            </div>
+            <a href="/safehands_mvc/care-reports" class="reports-link">
+                View All Reports <span class="material-symbols-outlined">arrow_forward</span>
+            </a>
+        </div>
+        <div class="reports-list">
+            <!-- Report 1 -->
+            <div class="report-card">
+                <div class="report-content">
+                    <div class="report-meta">
+                        <span class="report-name">Mr. Silva</span>
+                        <span class="meta-dot"></span>
+                        <span class="report-date">15 Aug 2026</span>
+                        <span class="meta-dot"></span>
+                        <span class="report-status">Completed</span>
+                        <span class="meta-dot"></span>
+                        <span class="report-caregiver">
+                            <span class="material-symbols-outlined">person</span> Nadeesha Perera
+                        </span>
+                    </div>
+                    <p class="report-text">"Patient was comfortable this morning. Medication was taken on time and light stretching was completed."</p>
+                </div>
+                <a href="/safehands_mvc/care-reports" class="btn-report" style="text-decoration: none;">View Report</a>
+            </div>
+            <!-- Report 2 -->
+            <div class="report-card">
+                <div class="report-content">
+                    <div class="report-meta">
+                        <span class="report-name">Mrs. Kamala</span>
+                        <span class="meta-dot"></span>
+                        <span class="report-date">14 Aug 2026</span>
+                        <span class="meta-dot"></span>
+                        <span class="report-status">Completed</span>
+                        <span class="meta-dot"></span>
+                        <span class="report-caregiver">
+                            <span class="material-symbols-outlined">person</span> Sunil Jayasuriya
+                        </span>
+                    </div>
+                    <p class="report-text">"Blood glucose was monitored and prescribed medication was taken after breakfast."</p>
+                </div>
+                <a href="/safehands_mvc/care-reports" class="btn-report" style="text-decoration: none;">View Report</a>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
+</main>
 
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">SafeHands</div>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact Support</a>
+            <a href="#">Help Center</a>
+        </div>
+        <div class="footer-copy">
+            © 2024 SafeHands Healthcare Management. All rights reserved.
+        </div>
+    </div>
+</footer>
 
-    <!-- Toast -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('patientSearch');
+    const patientCards = document.querySelectorAll('.patient-card');
 
-    <div
-        id="toast"
-        class="toast"
-    ></div>
-
-
-</div>
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            patientCards.forEach(card => {
+                const name = card.querySelector('.patient-name').textContent.toLowerCase();
+                const meta = card.querySelector('.patient-meta').textContent.toLowerCase();
+                if (name.includes(query) || meta.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+});
+</script>

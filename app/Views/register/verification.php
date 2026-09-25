@@ -134,9 +134,10 @@
 
                 <div class="form-actions">
                     <a href="/safehands_mvc/register/professional" class="back-button">← Back</a>
-             <button
-    type="submit"
-    class="submit-button">
+                     <button
+    type="button"
+    class="submit-button"
+    onclick="window.location.href='/safehands_mvc/register/success'">
     Submit Application <span>→</span>
 </button>
             </form>

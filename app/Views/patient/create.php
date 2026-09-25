@@ -21,29 +21,6 @@
 
                 <a
                     href="/safehands_mvc/family"
-                    clas<?php
-// SafeHands - Add New Patient
-// Frontend-only version.
-// Backend/database connection will be added later.
-?>
-
-<header class="top-nav">
-
-    <div class="nav-container">
-
-        <div class="nav-left">
-
-            <a
-                href="/safehands_mvc/family"
-                class="brand"
-            >
-                SafeHands
-            </a>
-
-            <nav class="nav-links">
-
-                <a
-                    href="/safehands_mvc/family"
                     class="nav-link"
                 >
                     Dashboard

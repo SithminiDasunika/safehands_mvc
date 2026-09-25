@@ -323,6 +323,8 @@ $availability = $availability ?? [];
             <form
                 id="availabilityForm"
                 class="availability-form"
+                method="POST"
+                action="/safehands_mvc/caregiver/createAvailability"
             >
 
                 <!-- Date -->
@@ -506,7 +508,7 @@ $availability = $availability ?? [];
     <!-- JavaScript -->
 
     <script
-        src="/safehands_mvc/public/assets/js/caregiver-availability.js"
+        src="/safehands_mvc/public/assets/js/caregiver-availability.js?v=3"
     ></script>
 
 </body>

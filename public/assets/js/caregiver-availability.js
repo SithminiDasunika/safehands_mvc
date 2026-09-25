@@ -272,55 +272,27 @@ document.addEventListener("DOMContentLoaded", function () {
         availabilityForm.addEventListener(
             "submit",
             function (event) {
-
-                event.preventDefault();
-
-                const date =
-                    dateInput.value;
-
-                const shift =
-                    shiftInput.value;
-
-                const status =
-                    statusInput.value;
+                const date = dateInput.value;
+                const shift = shiftInput.value;
+                const status = statusInput.value;
 
                 if (!date || !shift || !status) {
+                    event.preventDefault();
                     alert("Please complete all fields.");
                     return;
                 }
 
-                const duplicate =
-                    availabilityData.some(function (item) {
-
-                        return (
-                            item.date === date &&
-                            item.shift === shift
-                        );
-                    });
+                const duplicate = availabilityData.some(function (item) {
+                    return item.date === date && item.shift === shift;
+                });
 
                 if (duplicate) {
-
-                    alert(
-                        "This shift already exists for the selected date."
-                    );
-
+                    event.preventDefault();
+                    alert("This shift already exists for the selected date.");
                     return;
                 }
 
-                availabilityData.push({
-                    id: Date.now(),
-                    date: date,
-                    shift: shift,
-                    status: status
-                });
-
-                availabilityForm.reset();
-
-                renderCalendar();
-                renderRecords();
-                updateSummary();
-
-                alert("Availability added successfully.");
+                // Let the browser submit the form natively to /safehands_mvc/caregiver/createAvailability
             }
         );
     }
@@ -458,53 +430,50 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (item.status === "Booked") {
-
-            alert(
-                "Booked availability cannot be modified."
-            );
-
+            alert("Booked availability cannot be modified.");
             return;
         }
 
-        const newDate =
-            prompt(
-                "Enter new date (YYYY-MM-DD):",
-                item.date
-            );
+        const newDate = prompt("Enter new date (YYYY-MM-DD):", item.date);
+        if (!newDate) return;
 
-        if (!newDate) {
-            return;
-        }
+        const newShift = prompt("Enter shift (Morning, Afternoon, Evening):", item.shift);
+        if (!newShift) return;
 
-        const newShift =
-            prompt(
-                "Enter shift (Morning, Afternoon, Evening):",
-                item.shift
-            );
+        const newStatus = prompt("Enter status (Available, Booked, Off Duty):", item.status);
+        if (!newStatus) return;
 
-        if (!newShift) {
-            return;
-        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/safehands_mvc/caregiver/updateAvailability';
 
-        const newStatus =
-            prompt(
-                "Enter status (Available, Booked, Off Duty):",
-                item.status
-            );
+        const idInput = document.createElement('input');
+        idInput.type = 'hidden';
+        idInput.name = 'availabilityId';
+        idInput.value = id;
 
-        if (!newStatus) {
-            return;
-        }
+        const dateInput = document.createElement('input');
+        dateInput.type = 'hidden';
+        dateInput.name = 'availabilityDate';
+        dateInput.value = newDate;
 
-        item.date = newDate;
-        item.shift = newShift;
-        item.status = newStatus;
+        const shiftInput = document.createElement('input');
+        shiftInput.type = 'hidden';
+        shiftInput.name = 'availabilityShift';
+        shiftInput.value = newShift;
 
-        renderCalendar();
-        renderRecords();
-        updateSummary();
+        const statusInput = document.createElement('input');
+        statusInput.type = 'hidden';
+        statusInput.name = 'availabilityStatus';
+        statusInput.value = newStatus;
 
-        alert("Availability updated successfully.");
+        form.appendChild(idInput);
+        form.appendChild(dateInput);
+        form.appendChild(shiftInput);
+        form.appendChild(statusInput);
+
+        document.body.appendChild(form);
+        form.submit();
     }
 
 
@@ -514,43 +483,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function deleteAvailability(id) {
 
-        const item =
-            availabilityData.find(function (entry) {
+        const item = availabilityData.find(function (entry) {
+            return entry.id === id;
+        });
 
-                return entry.id === id;
-            });
-
-        if (!item) {
-            return;
-        }
+        if (!item) return;
 
         if (item.status === "Booked") {
-
-            alert(
-                "Booked availability cannot be deleted."
-            );
-
+            alert("Booked availability cannot be deleted.");
             return;
         }
 
-        const confirmed =
-            confirm(
-                "Are you sure you want to delete this availability?"
-            );
+        const confirmed = confirm("Are you sure you want to delete this availability?");
+        if (!confirmed) return;
 
-        if (!confirmed) {
-            return;
-        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/safehands_mvc/caregiver/deleteAvailability';
 
-        availabilityData =
-            availabilityData.filter(function (entry) {
+        const idInput = document.createElement('input');
+        idInput.type = 'hidden';
+        idInput.name = 'availabilityId';
+        idInput.value = id;
 
-                return entry.id !== id;
-            });
-
-        renderCalendar();
-        renderRecords();
-        updateSummary();
+        form.appendChild(idInput);
+        document.body.appendChild(form);
+        form.submit();
     }
 
 

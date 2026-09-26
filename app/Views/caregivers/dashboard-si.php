@@ -46,7 +46,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                 උපකරණ පුවරුව
             </a>
 
-            <a href="/safehands_mvc/caregiver/scheduleSi"
+            <a href="/safehands_mvc/caregiver/emergencyContactSi"
                class="nav-link">
                 මගේ උපලේඛනය
             </a>

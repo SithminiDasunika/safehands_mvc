@@ -107,169 +107,48 @@ $title = $title ?? 'Pending Reports | SafeHands';
     </section>
 
 
+    
     <!-- Reports -->
-
     <section class="reports-container">
-
-
-        <!-- Report 1 -->
-
-        <article class="report-card">
-
-            <div class="report-icon">
-                📋
+        <?php if (empty($completed)): ?>
+            <div style="padding: 24px; text-align: center; color: #6b7280; background: white; border-radius: 12px; border: 1px solid #e5e7eb;">
+                No completed care sessions found.
             </div>
+        <?php else: ?>
+            <?php foreach ($completed as $booking): ?>
+                <article class="report-card">
+                    <div class="report-icon">📋</div>
+                    <div class="report-content">
+                        <div class="report-header">
+                            <div>
+                                <h2><?= htmlspecialchars($booking['patient'] ?? 'Unknown Patient') ?></h2>
+                                <p class="report-date"><?= htmlspecialchars($booking['date'] ?? '') ?> • Completed</p>
+                            </div>
+                        </div>
 
-            <div class="report-content">
-
-                <div class="report-header">
-
-                    <div>
-
-                        <h2>
-                            Mrs. Abeywickrama
-                        </h2>
-
-                        <p class="report-date">
-                            Yesterday, 4:00 PM
-                        </p>
-
+                        <div class="report-actions" style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+                            <a href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                                View Booking
+                            </a>
+                            <?php if (!empty($booking['has_report'])): ?>
+                                <a href="/safehands_mvc/care-report/show/<?= htmlspecialchars($booking['id'] ?? '') ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                                    View Report
+                                </a>
+                                <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['id'] ?? '') ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                                    Edit Report
+                                </a>
+                            <?php else: ?>
+                                <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="complete-button">
+                                    Complete Report
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
-
-                    <span class="status-badge">
-                        Pending
-                    </span>
-
-                </div>
-
-
-                <div class="report-details">
-
-                    <div class="detail-item">
-
-                        <span class="detail-label">
-                            Service
-                        </span>
-
-                        <span class="detail-value">
-                            Daily Care Service
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail-item">
-
-                        <span class="detail-label">
-                            Report
-                        </span>
-
-                        <span class="detail-value">
-                            Daily Care Report
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="report-actions">
-
-                    <a
-                        href="/safehands_mvc/caregiver/schedule"
-                        class="complete-button"
-                    >
-                        Complete Report
-                    </a>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
-        <!-- Report 2 -->
-
-        <article class="report-card">
-
-            <div class="report-icon">
-                📋
-            </div>
-
-            <div class="report-content">
-
-                <div class="report-header">
-
-                    <div>
-
-                        <h2>
-                            Mr. Samaranayake
-                        </h2>
-
-                        <p class="report-date">
-                            Oct 22, 10:00 AM
-                        </p>
-
-                    </div>
-
-                    <span class="status-badge">
-                        Pending
-                    </span>
-
-                </div>
-
-
-                <div class="report-details">
-
-                    <div class="detail-item">
-
-                        <span class="detail-label">
-                            Service
-                        </span>
-
-                        <span class="detail-value">
-                            Daily Care Service
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail-item">
-
-                        <span class="detail-label">
-                            Report
-                        </span>
-
-                        <span class="detail-value">
-                            Daily Care Report
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="report-actions">
-
-                    <a
-                        href="/safehands_mvc/caregiver/schedule"
-                        class="complete-button"
-                    >
-                        Complete Report
-                    </a>
-
-                </div>
-
-            </div>
-
-        </article>
-
-
+                </article>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </section>
-
-
-    <!-- Information -->
+<!-- Information -->
 
     <section class="information-box">
 

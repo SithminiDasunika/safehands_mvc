@@ -448,8 +448,54 @@ public function pendingReports(): void
         exit;
     }
 
+    $userId = (int)$_SESSION['user_id'];
+    $role = $_SESSION['user_role'] ?? 'family';
+    
+    $bookingModel = $this->model('BookingModel');
+    
+    require_once __DIR__ . '/../Core/Database.php';
+    $dbInstance = new Database();
+    $conn = $dbInstance->getConnection();
+    
+    $stmt = $conn->prepare("SELECT caregiver_id FROM caregiver_profiles WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        $actualCaregiverId = $row['caregiver_id'];
+    } else {
+        $actualCaregiverId = $userId;
+    }
+    $stmt->close();
+    
+    $rawBookings = $bookingModel->getBookingsByCaregiverId($actualCaregiverId);
+    
+    $reportModel = $this->model('CareReportModel');
+    
+    $completed = [];
+    $stats = ['completed' => 0];
+
+    foreach ($rawBookings as $b) {
+        $status = strtolower($b['status']);
+        if ($status === 'completed') {
+            $stats['completed']++;
+            
+            $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
+            
+            $completed[] = [
+                'id' => $b['booking_id'],
+                'patient' => $b['patient_name'] ?? 'Unknown Patient',
+                'date' => date('M d, Y', strtotime($b['created_at'])),
+                'image' => 'https://via.placeholder.com/150',
+                'has_report' => $hasReport
+            ];
+        }
+    }
+
     $data = [
-        'title' => 'Pending Reports | SafeHands'
+        'title' => 'Pending Reports | SafeHands',
+        'stats' => $stats,
+        'completed' => $completed
     ];
 
     $this->view(
@@ -458,6 +504,7 @@ public function pendingReports(): void
         'find-caregiver'
     );
 }
+
 public function pendingReportsSi(): void
 {
     if (
@@ -468,8 +515,54 @@ public function pendingReportsSi(): void
         exit;
     }
 
+    $userId = (int)$_SESSION['user_id'];
+    $role = $_SESSION['user_role'] ?? 'family';
+    
+    $bookingModel = $this->model('BookingModel');
+    
+    require_once __DIR__ . '/../Core/Database.php';
+    $dbInstance = new Database();
+    $conn = $dbInstance->getConnection();
+    
+    $stmt = $conn->prepare("SELECT caregiver_id FROM caregiver_profiles WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        $actualCaregiverId = $row['caregiver_id'];
+    } else {
+        $actualCaregiverId = $userId;
+    }
+    $stmt->close();
+    
+    $rawBookings = $bookingModel->getBookingsByCaregiverId($actualCaregiverId);
+    
+    $reportModel = $this->model('CareReportModel');
+    
+    $completed = [];
+    $stats = ['completed' => 0];
+
+    foreach ($rawBookings as $b) {
+        $status = strtolower($b['status']);
+        if ($status === 'completed') {
+            $stats['completed']++;
+            
+            $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
+            
+            $completed[] = [
+                'id' => $b['booking_id'],
+                'patient' => $b['patient_name'] ?? 'Unknown Patient',
+                'date' => date('M d, Y', strtotime($b['created_at'])),
+                'image' => 'https://via.placeholder.com/150',
+                'has_report' => $hasReport
+            ];
+        }
+    }
+
     $data = [
-        'title' => 'පොරොත්තු වාර්තා | SafeHands'
+        'title' => 'පොරොත්තු වාර්තා | SafeHands',
+        'stats' => $stats,
+        'completed' => $completed
     ];
 
     $this->view(

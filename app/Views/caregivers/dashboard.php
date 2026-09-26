@@ -16,7 +16,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
     <title>SafeHands Caregiver Dashboard - <?= htmlspecialchars($caregiverName) ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-dashboard.css?v=1">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-dashboard.css?v=2">
 </head>
 <body>
 
@@ -83,7 +83,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             </div>
             <span class="quick-action-label">Manage Availability</span>
         </a>
-        <a href="#" class="quick-action-card">
+        <a href="/safehands_mvc/bookings/pendingReports" class="quick-action-card">
             <div class="qa-icon-wrapper bg-warning-container">
                 <span class="material-symbols-outlined" data-icon="description">description</span>
             </div>
@@ -181,84 +181,52 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
             <!-- Upcoming Bookings Table -->
             <section class="section-container">
-                <h2 class="section-title" style="margin-bottom: 1.5rem;">Upcoming Bookings</h2>
+                <h2 class="section-title" style="margin-bottom: 1.5rem;">Booking Requests</h2>
                 <div class="card card-no-pad">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Client</th>
-                                <th>Date &amp; Time</th>
+                                <th>Patient</th>
+                                <th>Date</th>
                                 <th>Status</th>
                                 <th class="text-right">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php 
+                            $hasUpcoming = false;
+                            if (!empty($bookings)):
+                                foreach($bookings as $b):
+                                    if ($b['status'] === 'completed' || $b['status'] === 'cancelled') continue;
+                                    $hasUpcoming = true;
+                            ?>
                             <tr>
                                 <td>
                                     <div class="client-info">
-                                        <div class="client-avatar">
-                                            <img alt="Mrs. Perera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN-mrLhtu09J5mZYquggVhJBAOX2H58CY4oAiU7LaWUgJnHF-pO_PKl2Zk4fk0u6I4u4Rs1ubvDVIH9AxyD5IsF_1PUTYbwNvbzfhh8QhzdRtrYRpQAeeTNPCZKOXHC9Es8ztXxa2VdyGWnhYmtznYHPNh4iz_ipsCd7ET2SauzgsA9G39BqEgG1q2ivrj7VbABuyyKi1393REWOK_VeYgWVq2tff9bhhdtYK7DkBT6npsLzngjtGaz4XFthEPmSZCrelLqBPLP3U">
-                                        </div>
-                                        <span class="client-name">Mrs. Perera</span>
+                                        <span class="client-name"><?= htmlspecialchars($b['patient_name']) ?></span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="date-time">
-                                        <span class="date">Oct 25, 2024</span>
-                                        <span class="time">09:00 AM – 1:00 PM</span>
+                                        <span class="date"><?= date('M d, Y', strtotime($b['created_at'])) ?></span>
+                                        <span class="time">Booking #<?= $b['booking_id'] ?></span>
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="status-badge uppercase">Confirmed</span>
+                                    <span class="status-badge uppercase"><?= ucfirst(htmlspecialchars($b['status'])) ?></span>
                                 </td>
                                 <td class="text-right">
-                                    <button class="action-link">Details</button>
+                                    <a href="/safehands_mvc/booking/details/<?= $b['booking_id'] ?>" class="action-link" style="text-decoration:none;">Details</a>
                                 </td>
                             </tr>
+                            <?php 
+                                endforeach;
+                            endif;
+                            if (!$hasUpcoming): ?>
                             <tr>
-                                <td>
-                                    <div class="client-info">
-                                        <div class="client-avatar">
-                                            <img alt="Mr. Fernando" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlCBP1WtHSAQwsanlr8DavO3hFVeN1C5_Q684bj1kCkPz3ipltmlaEVrr2dFTqwyQGi0Kgp1k4rdSM743YegerSmZ59htE0qAqOOOU8SnzKZg83lWMxFI28KSoH70ycW8FdszWVKEPSiqJApOLdHWCe6KOiYWVsquoQRxGHs0fd6HhiTAXmVE_rJoKcgfci7jtFFJbbF354A2NRvyJyjVWgQ5NjL3r5U9jT46iCORNzoQ5NQCPOQjitM8Su0HxxlP8j3mgV7vTl9Q">
-                                        </div>
-                                        <span class="client-name">Mr. Fernando</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="date-time">
-                                        <span class="date">Oct 26, 2024</span>
-                                        <span class="time">2:00 PM – 6:00 PM</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="status-badge uppercase">Confirmed</span>
-                                </td>
-                                <td class="text-right">
-                                    <button class="action-link">Details</button>
-                                </td>
+                                <td colspan="4" style="text-align:center; padding:20px; color:#666;">No upcoming bookings.</td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="client-info">
-                                        <div class="client-avatar">
-                                            <img alt="Ms. Jayamaha" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4IqPZ9xtIwZV6ht0HTpSv9TrvuprekRN32mthdVfVLtMzrY2CzTUs7Q0eM2mvtCR_yspxokjuBtQTsJ384dxpObn2buI_JAw2x853ex9YjCg1kNHABRl-Wz_vapOsmZw3Hoqm-kwHB3wSuIIih8AMin2LnLfuPGwLvHptukTnr1qJhd83sFP0JYZ750BFjVGPeISS6lhdC4xyJUWaUKmLYowLXZvmeHkVB79aq90XtgUUWb4Xi-hCFV863H7lhjv0OxfSG6-qN_M">
-                                        </div>
-                                        <span class="client-name">Ms. Jayamaha</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="date-time">
-                                        <span class="date">Oct 27, 2024</span>
-                                        <span class="time">10:00 AM – 2:00 PM</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="status-badge uppercase">Confirmed</span>
-                                </td>
-                                <td class="text-right">
-                                    <button class="action-link">Details</button>
-                                </td>
-                            </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -321,30 +289,46 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                 </div>
             </div>
 
-            <!-- Pending Daily Reports -->
+            <!-- Pending Daily Reports — Only completed sessions -->
             <div class="card">
                 <h3 class="side-card-title">Pending Reports</h3>
                 <div class="report-list">
-                    <div class="report-item">
-                        <div class="report-header">
+                    <?php 
+                    $hasCompleted = false;
+                    if (!empty($bookings)): 
+                        foreach($bookings as $b): 
+                            // Only show completed sessions here
+                            if ($b['status'] !== 'completed') continue;
+                            $hasCompleted = true;
+                    ?>
+                    <div class="report-item" style="border-bottom: 1px solid #eee; padding-bottom: 12px; margin-bottom: 12px;">
+                        <div class="report-header" style="margin-bottom: 8px;">
                             <div>
-                                <p class="report-name">Mrs. Abeywickrama</p>
-                                <p class="report-time">Yesterday, 4:00 PM</p>
+                                <p class="report-name"><?= htmlspecialchars($b['patient_name']) ?></p>
+                                <p class="report-time">Booking #<?= $b['booking_id'] ?> &middot; Completed</p>
                             </div>
-                            <span class="material-symbols-outlined report-icon" data-icon="pending_actions">pending_actions</span>
+                            <?php if (!empty($b['has_report'])): ?>
+                                <span class="material-symbols-outlined report-icon" data-icon="check_circle" style="color:#4CAF50;">check_circle</span>
+                            <?php else: ?>
+                                <span class="material-symbols-outlined report-icon" data-icon="pending_actions" style="color:#FF9800;">pending_actions</span>
+                            <?php endif; ?>
                         </div>
-                        <button class="btn-report">Complete Report</button>
-                    </div>
-                    <div class="report-item">
-                        <div class="report-header">
-                            <div>
-                                <p class="report-name">Mr. Samaranayake</p>
-                                <p class="report-time">Oct 22, 10:00 AM</p>
-                            </div>
-                            <span class="material-symbols-outlined report-icon" data-icon="pending_actions">pending_actions</span>
+                        <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <?php if (empty($b['has_report'])): ?>
+                                <a href="/safehands_mvc/booking/report/<?= $b['booking_id'] ?>" class="btn-report" style="text-decoration:none; text-align:center; flex:1; min-width:80px;">Submit Care Report</a>
+                            <?php else: ?>
+                                <a href="/safehands_mvc/careReport/index/<?= $b['booking_id'] ?>" class="btn-report" style="text-decoration:none; text-align:center; flex:1; min-width:50px; background:#4CAF50; color:white; border-color:#4CAF50;">View</a>
+                                <a href="/safehands_mvc/booking/report/<?= $b['booking_id'] ?>" class="btn-report" style="text-decoration:none; text-align:center; flex:1; min-width:50px;">Edit</a>
+                                <a href="/safehands_mvc/booking/deleteReport/<?= $b['booking_id'] ?>" class="btn-report" style="text-decoration:none; text-align:center; flex:1; min-width:50px; background:#f44336; color:white; border-color:#f44336;" onclick="return confirm('Are you sure you want to delete this care report?');">Delete</a>
+                            <?php endif; ?>
                         </div>
-                        <button class="btn-report">Complete Report</button>
                     </div>
+                    <?php 
+                        endforeach; 
+                    endif; 
+                    if (!$hasCompleted): ?>
+                        <p style="font-size: 14px; color: #666; padding: 8px 0;">No completed sessions yet.</p>
+                    <?php endif; ?>
                 </div>
             </div>
 

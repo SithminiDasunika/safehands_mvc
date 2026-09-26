@@ -22,24 +22,21 @@ $totalActivities = count($report['activities']);
 
     <!-- BREADCRUMB -->
     <nav class="breadcrumb" aria-label="Breadcrumbs">
-
-        <a href="/safehands_mvc/family">
-            <span class="material-icon">home</span>
-            Dashboard
-        </a>
-
-        <span class="breadcrumb-arrow">›</span>
-
-        <a href="/safehands_mvc/bookings">
-            My Bookings
-        </a>
-
-        <span class="breadcrumb-arrow">›</span>
-
-        <span class="current">
-            Daily Care Reports
-        </span>
-
+        <?php if(true || (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver')): ?>
+            <a href="/safehands_mvc/caregiver/dashboard">
+                <span class="material-icon">home</span> Dashboard
+            </a>
+            <span class="breadcrumb-arrow">›</span>
+            <span class="current">Submitted Report</span>
+        <?php else: ?>
+            <a href="/safehands_mvc/family">
+                <span class="material-icon">home</span> Dashboard
+            </a>
+            <span class="breadcrumb-arrow">›</span>
+            <a href="/safehands_mvc/bookings">My Bookings</a>
+            <span class="breadcrumb-arrow">›</span>
+            <span class="current">Daily Care Reports</span>
+        <?php endif; ?>
     </nav>
 
 
@@ -70,9 +67,19 @@ $totalActivities = count($report['activities']);
                 </div>
 
 
-                <h1>
-                    Daily Care Report
-                </h1>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h1>Daily Care Report</h1>
+                    <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
+                        <div style="display:flex; gap:12px;">
+                            <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($patient['booking_id'] ? str_replace('BKG-', '', $patient['booking_id']) : '') ?>" class="btn-action" style="padding:8px 16px; background:var(--primary); color:white; border-radius:8px; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                                <span class="material-icon">edit</span> Edit Report
+                            </a>
+                            <a href="/safehands_mvc/booking/deleteReport/<?= htmlspecialchars($patient['booking_id'] ? str_replace('BKG-', '', $patient['booking_id']) : '') ?>" class="btn-action btn-danger" style="padding:8px 16px; background:#DC362E; color:white; border-radius:8px; text-decoration:none; display:flex; align-items:center; gap:8px;" onclick="return confirm('Are you sure you want to delete this report? This action cannot be undone.');">
+                                <span class="material-icon">delete</span> Delete
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                </div>
 
 
                 <p class="report-description">
@@ -944,35 +951,27 @@ $totalActivities = count($report['activities']);
     <!-- ACTIONS -->
     <div class="report-actions">
 
-        <a
-            href="/safehands_mvc/care-reports"
-            class="back-button"
-        >
-
-            <span class="material-icon">
-                arrow_back
-            </span>
-
-            Back to care Reports
-
-        </a>
-
-
-        <div class="action-buttons">
-
-            <button
-                type="button"
-                class="contact-caregiver"
-                id="contactCaregiver"
-            >
-
-                <span class="material-icon">
-                    chat
-                </span>
-
-                Contact Caregiver
-
-            </button>
+        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
+            <a href="/safehands_mvc/bookings/pendingReports" class="back-button">
+                <span class="material-icon">arrow_back</span>
+                Back to Completed Sessions
+            </a>
+            <div class="action-buttons">
+                <button type="button" class="contact-caregiver" id="contactCaregiver">
+                    <span class="material-icon">chat</span>
+                    Contact Family Member
+                </button>
+        <?php else: ?>
+            <a href="/safehands_mvc/care-reports" class="back-button">
+                <span class="material-icon">arrow_back</span>
+                Back to care Reports
+            </a>
+            <div class="action-buttons">
+                <button type="button" class="contact-caregiver" id="contactCaregiver">
+                    <span class="material-icon">chat</span>
+                    Contact Caregiver
+                </button>
+        <?php endif; ?>
 
         </div>
 

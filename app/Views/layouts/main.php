@@ -10,7 +10,7 @@
     <title><?= htmlspecialchars($title ?? 'SafeHands') ?></title>
 
     <link rel="stylesheet"
-          href="/safehands_mvc/public/assets/css/style.css">
+          href="/safehands_mvc/public/assets/css/style.css?v=2">
 
 </head>
 

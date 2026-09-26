@@ -13,7 +13,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/caregiver-schedule.css"
+        href="/safehands_mvc/public/assets/css/caregiver-schedule.css?v=2"
     >
 </head>
 

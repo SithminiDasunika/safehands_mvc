@@ -45,9 +45,9 @@ $hasDocument = !empty($patient['medical_document']);
     
     <!-- Breadcrumb Navigation -->
     <nav class="breadcrumb">
-      <span>Dashboard</span>
+      <a href="/safehands_mvc/family" style="text-decoration: none; color: inherit;">Dashboard</a>
       <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
-      <span>Patients</span>
+      <a href="/safehands_mvc/patient" style="text-decoration: none; color: inherit;">Patients</a>
       <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
       <span class="active">Patient Profile</span>
     </nav>

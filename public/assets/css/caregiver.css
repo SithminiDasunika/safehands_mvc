@@ -70,7 +70,7 @@ textarea {
 .logo {
     font-size: 24px;
     font-weight: 700;
-    color: #059669;
+    color: #004ac6;
     white-space: nowrap;
 }
 
@@ -96,14 +96,14 @@ textarea {
 }
 
 .main-navigation a:hover {
-    color: #059669;
+    color: #004ac6;
 }
 
 .main-navigation a.active {
-    color: #059669;
+    color: #004ac6;
     font-weight: 700;
 
-    border-bottom: 2px solid #059669;
+    border-bottom: 2px solid #004ac6;
     padding-bottom: 4px;
 }
 
@@ -131,11 +131,11 @@ textarea {
 }
 
 .language-switcher a:hover {
-    color: #059669;
+    color: #004ac6;
 }
 
 .language-switcher .active-language {
-    color: #059669;
+    color: #004ac6;
     font-weight: 700;
 }
 
@@ -144,7 +144,7 @@ textarea {
 }
 
 .login-link {
-    color: #059669;
+    color: #004ac6;
     font-size: 14px;
     font-weight: 600;
 
@@ -152,7 +152,7 @@ textarea {
 }
 
 .login-link:hover {
-    color: #10b981;
+    color: #2563eb;
 }
 
 
@@ -191,7 +191,7 @@ textarea {
 }
 
 .breadcrumb a:hover {
-    color: #059669;
+    color: #004ac6;
 }
 
 .breadcrumb-arrow {
@@ -216,7 +216,7 @@ textarea {
 .page-header h1 {
     margin-bottom: 8px;
 
-    color: #059669;
+    color: #004ac6;
 
     font-size: 42px;
     line-height: 1.2;
@@ -263,7 +263,7 @@ textarea {
 }
 
 .active-step {
-    background: #10b981;
+    background: #2563eb;
     color: #ffffff;
 
     box-shadow:
@@ -298,7 +298,7 @@ textarea {
 
 .active-step .step-number {
     background: #ffffff;
-    color: #059669;
+    color: #004ac6;
 }
 
 .step-line {
@@ -406,7 +406,7 @@ textarea {
 }
 
 .form-group label.label-focused {
-    color: #059669;
+    color: #004ac6;
 }
 
 
@@ -459,7 +459,7 @@ textarea {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-    border-color: #059669;
+    border-color: #004ac6;
 
     background: #ffffff;
 
@@ -517,13 +517,13 @@ textarea {
 
     border: none;
 
-    background: #059669;
+    background: #004ac6;
 
     color: #ffffff;
 }
 
 .next-button:hover {
-    background: #10b981;
+    background: #2563eb;
 }
 
 
@@ -539,7 +539,7 @@ textarea {
 
     overflow: hidden;
 
-    background: #10b981;
+    background: #2563eb;
 
     border-radius: 12px;
 
@@ -641,7 +641,7 @@ textarea {
 }
 
 .footer-brand > span {
-    color: #059669;
+    color: #004ac6;
 
     font-size: 24px;
     font-weight: 700;
@@ -670,7 +670,7 @@ textarea {
 }
 
 .footer-links a:hover {
-    color: #059669;
+    color: #004ac6;
 }
 
 

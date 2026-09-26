@@ -85,7 +85,8 @@ class BookingModel
         $stmt = $this->conn->prepare("
             SELECT b.*, u.full_name as caregiver_name, u.email as caregiver_email, pat.full_name as patient_name
             FROM bookings b
-            JOIN users u ON b.caregiver_id = u.id
+            JOIN caregiver_profiles cp ON b.caregiver_id = cp.caregiver_id
+            JOIN users u ON cp.user_id = u.id
             JOIN patients pat ON b.patient_id = pat.patient_id
             WHERE b.family_user_id = ?
             ORDER BY b.created_at DESC
@@ -94,6 +95,13 @@ class BookingModel
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
+        foreach ($result as &$b) {
+            $stmt2 = $this->conn->prepare("SELECT * FROM booking_sessions WHERE booking_id = ? ORDER BY service_date ASC");
+            $stmt2->bind_param("i", $b['booking_id']);
+            $stmt2->execute();
+            $b['sessions'] = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt2->close();
+        }
         return $result;
     }
 

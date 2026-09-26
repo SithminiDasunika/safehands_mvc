@@ -273,9 +273,29 @@ public function dashboard(): void
         header('Location: /safehands_mvc/login');
         exit;
     }
+    
+    $bookingModel = $this->model('BookingModel');
+    $caregiverModel = $this->model('Caregiver');
+    
+    // We need caregiver_profiles.caregiver_id which maps to user_id
+    $cgProfile = $caregiverModel->getByUserId($_SESSION['user_id']);
+    $cgId = $cgProfile ? $cgProfile['id'] : $_SESSION['user_id'];
+    
+    $bookings = $bookingModel->getBookingsByCaregiverId($cgId);
+    
+    // DEBUG: remove after testing
+    error_log("CG Dashboard: user_id={$_SESSION['user_id']}, cgId={$cgId}, bookings_count=" . count($bookings));
+
+    // Also fetch care reports for each booking
+    $reportModel = $this->model('CareReportModel');
+    foreach ($bookings as &$b) {
+        $report = $reportModel->getReportByBookingId((int)$b['booking_id']);
+        $b['has_report'] = !empty($report);
+    }
 
     $data = [
-        'title' => 'Caregiver Dashboard | SafeHands'
+        'title' => 'Caregiver Dashboard | SafeHands',
+        'bookings' => $bookings
     ];
 
     $this->view(

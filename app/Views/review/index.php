@@ -1,8 +1,11 @@
 <?php
-
-$caregiver = $caregiver ?? [];
-$booking = $booking ?? [];
-
+$b = $booking ?? [];
+// Set up variables
+$cg_image = '/safehands_mvc/public/assets/images/caregiver-1.jpg'; // placeholder
+$cg_name = $b['caregiver_name'] ?? 'Caregiver';
+$cg_rating = '4.9'; 
+$cg_reviews = '124'; 
+$patient = $b['patient_name'] ?? 'Patient';
 ?>
 
 <!-- =====================================================
@@ -143,8 +146,8 @@ $booking = $booking ?? [];
                     <div class="caregiver-image-wrapper">
 
                         <img
-                            src="<?= htmlspecialchars($caregiver['image'] ?? '') ?>"
-                            alt="<?= htmlspecialchars($caregiver['name'] ?? 'Caregiver') ?>"
+                            src="<?= htmlspecialchars($cg_image) ?>"
+                            alt="<?= htmlspecialchars($cg_name) ?>"
                             class="caregiver-image"
                         >
 
@@ -159,7 +162,7 @@ $booking = $booking ?? [];
 
 
                     <h2>
-                        <?= htmlspecialchars($caregiver['name'] ?? 'SafeHands Caregiver') ?>
+                        <?= htmlspecialchars($cg_name) ?>
                     </h2>
 
 
@@ -177,11 +180,11 @@ $booking = $booking ?? [];
                         </span>
 
                         <strong>
-                            <?= htmlspecialchars($caregiver['rating'] ?? '4.9') ?>
+                            <?= htmlspecialchars($cg_rating) ?>
                         </strong>
 
                         <span>
-                            (<?= htmlspecialchars($caregiver['reviews'] ?? '124') ?> reviews)
+                            (<?= htmlspecialchars($cg_reviews) ?> reviews)
                         </span>
 
                     </div>
@@ -201,7 +204,7 @@ $booking = $booking ?? [];
                         </p>
 
                         <p class="info-value">
-                            <?= htmlspecialchars($booking['patient'] ?? 'Robert Wilson') ?>
+                            <?= htmlspecialchars($patient) ?>
                         </p>
 
                     </div>
@@ -214,7 +217,7 @@ $booking = $booking ?? [];
                         </p>
 
                         <p class="info-value">
-                            <?= htmlspecialchars($booking['reference'] ?? '#SH-882910') ?>
+                            #BK-<?= htmlspecialchars(str_pad($b['booking_id'] ?? 0, 4, '0', STR_PAD_LEFT)) ?>
                         </p>
 
                     </div>
@@ -284,10 +287,10 @@ $booking = $booking ?? [];
                      FORM
                 ================================================== -->
 
-                <form
-                    id="feedbackForm"
-                    class="feedback-form"
-                >
+                <form id="feedbackForm" class="feedback-form" method="POST" action="/safehands_mvc/review/submit">
+                    <input type="hidden" name="booking_id" value="<?= htmlspecialchars($b['booking_id'] ?? '') ?>">
+                    <input type="hidden" name="family_id" value="<?= htmlspecialchars($b['family_user_id'] ?? '') ?>">
+                    <input type="hidden" name="caregiver_id" value="<?= htmlspecialchars($b['caregiver_id'] ?? '') ?>">
 
 
                     <!-- =================================================

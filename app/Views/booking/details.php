@@ -12,7 +12,7 @@ $payment = $payment ?? [];
     <title><?= htmlspecialchars($title ?? 'Booking Details | SafeHands') ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/payment.css">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/payment.css?v=2">
     <style>
         .details-card {
             background-color: white;
@@ -275,10 +275,10 @@ $payment = $payment ?? [];
                     <a href="/safehands_mvc/payment-history" class="btn-action btn-primary">
                         <span class="material-symbols-outlined">receipt_long</span> Payment History
                     </a>
-                    <a href="/safehands_mvc/review" class="btn-action btn-warning">
+                    <a href="/safehands_mvc/review/index/<?= $booking['booking_id'] ?? '' ?>"  class="btn-action btn-warning">
                         <span class="material-symbols-outlined">star</span> Rate Session
                     </a>
-                    <a href="/safehands_mvc/complaint" class="btn-action btn-danger">
+                    <a href="/safehands_mvc/complaint/index/<?= $booking['booking_id'] ?? '' ?>"  class="btn-action btn-danger">
                         <span class="material-symbols-outlined">report_problem</span> Complaints
                     </a>
                 </div>

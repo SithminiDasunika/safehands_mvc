@@ -18,7 +18,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/booking-details.css"
+        href="/safehands_mvc/public/assets/css/booking-details.css?v=2"
     >
 
 </head>

@@ -24,7 +24,7 @@ $email = $caregiver['email'] ?? 'Not provided';
 
     <title><?= htmlspecialchars($name) ?> - Caregiver Profile | SafeHands Healthcare</title>
 
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-profile.css">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-profile.css?v=2">
 </head>
 
 <body>

@@ -15,7 +15,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/notifications.css"
+        href="/safehands_mvc/public/assets/css/notifications.css?v=2"
     >
 </head>
 

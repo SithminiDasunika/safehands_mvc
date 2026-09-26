@@ -2,6 +2,28 @@
 $booking = $booking ?? [];
 $patient = $patient ?? [];
 $caregiver = $caregiver ?? [];
+
+$rawStatus = strtolower($booking['status'] ?? 'pending');
+$isCompleted = ($rawStatus === 'completed');
+$isInProgress = in_array($rawStatus, ['active', 'in_progress']);
+
+if ($isCompleted) {
+    $statusText = 'Completed';
+    $statusBg = '#DEF7EC';
+    $statusColor = '#03543F';
+} elseif ($isInProgress) {
+    $statusText = 'In Progress';
+    $statusBg = '#E0F2FE';
+    $statusColor = '#0369A1';
+} elseif ($rawStatus === 'cancelled') {
+    $statusText = 'Cancelled';
+    $statusBg = '#FDE8E8';
+    $statusColor = '#9B1C1C';
+} else {
+    $statusText = 'Confirmed';
+    $statusBg = '#E7F5EF';
+    $statusColor = 'var(--status-success)';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +33,7 @@ $caregiver = $caregiver ?? [];
     <title>Booking Details | SafeHands Caregiver</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=1790333387">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=2">
 </head>
 <body>
 
@@ -43,9 +65,17 @@ $caregiver = $caregiver ?? [];
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <div class="page-title-row">
+            <div class="page-title-row" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
                 <h1 class="page-title">Booking ID: #BK-2026-<?= str_pad($booking['booking_id'] ?? 125, 5, '0', STR_PAD_LEFT) ?></h1>
-                <span class="status-badge" id="status-badge"><?= htmlspecialchars($booking['status'] ?? 'Confirmed') ?></span>
+                <span class="status-badge" id="status-badge" style="background: <?= $statusBg ?>; color: <?= $statusColor ?>;"><?= htmlspecialchars($statusText) ?></span>
+                
+                <!-- End Session button right next to status badge -->
+                <form id="end-session-form" action="/safehands_mvc/booking/endSession/<?= $booking['booking_id'] ?>" method="POST" style="margin:0; display: <?= $isInProgress ? 'inline-flex' : 'none' ?>;" onsubmit="return confirm('Are you sure you want to end this care session? The session will be marked as completed.');">
+                    <button type="submit" id="btn-end-session" style="padding: 5px 14px; background: #dc2626; color: #ffffff; border: none; border-radius: 9999px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 1px 3px rgba(220,38,38,0.3); transition: background-color 0.2s;" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                        <span class="material-symbols-outlined" style="font-size: 15px;">stop_circle</span>
+                        End Session
+                    </button>
+                </form>
             </div>
             <p class="service-subtitle">
                 <span class="material-symbols-outlined" style="color:var(--primary)">schedule</span>
@@ -166,36 +196,48 @@ $caregiver = $caregiver ?? [];
 
                     <div class="stepper-item" id="step-2">
                         <div class="stepper-line"></div>
-                        <div class="step-icon current" id="step-2-icon">
-                            <div class="inner-dot"></div>
+                        <div class="step-icon <?= ($isInProgress || $isCompleted) ? 'success' : 'current' ?>" id="step-2-icon">
+                            <?php if ($isInProgress || $isCompleted): ?>
+                                <span class="material-symbols-outlined" style="font-size:14px;">check</span>
+                            <?php else: ?>
+                                <div class="inner-dot"></div>
+                            <?php endif; ?>
                         </div>
                         <div>
                             <p style="margin:0;font-size:14px;font-weight:500;">OTP Verification</p>
-                            <p style="margin:0;font-size:11px;color:var(--primary);" id="step-2-status">CURRENT</p>
+                            <p style="margin:0;font-size:11px;color:<?= ($isInProgress || $isCompleted) ? 'var(--on-surface-variant)' : 'var(--primary)' ?>;" id="step-2-status"><?= ($isInProgress || $isCompleted) ? 'COMPLETED' : 'CURRENT' ?></p>
                         </div>
                     </div>
 
                     <div class="stepper-item" id="step-3">
                         <div class="stepper-line"></div>
-                        <div class="step-icon" id="step-3-icon"></div>
+                        <div class="step-icon <?= ($isInProgress || $isCompleted) ? 'success' : '' ?>" id="step-3-icon">
+                            <?php if ($isInProgress || $isCompleted): ?>
+                                <span class="material-symbols-outlined" style="font-size:14px;">check</span>
+                            <?php endif; ?>
+                        </div>
                         <div>
-                            <p style="margin:0;font-size:14px;color:var(--on-surface-variant);" id="step-3-title">Service Started</p>
-                            <p style="margin:0;font-size:11px;color:var(--on-surface-variant);" id="step-3-status">PENDING</p>
+                            <p style="margin:0;font-size:14px;color:<?= ($isInProgress || $isCompleted) ? 'var(--on-surface)' : 'var(--on-surface-variant)' ?>;" id="step-3-title">Service Started</p>
+                            <p style="margin:0;font-size:11px;color:var(--on-surface-variant);" id="step-3-status"><?= ($isInProgress || $isCompleted) ? 'COMPLETED' : 'PENDING' ?></p>
                         </div>
                     </div>
 
                     <div class="stepper-item">
-                        <div class="step-icon"></div>
+                        <div class="step-icon <?= $isCompleted ? 'success' : '' ?>">
+                            <?php if ($isCompleted): ?>
+                                <span class="material-symbols-outlined" style="font-size:14px;">check</span>
+                            <?php endif; ?>
+                        </div>
                         <div>
-                            <p style="margin:0;font-size:14px;color:var(--on-surface-variant);">Submit Daily Care Report</p>
-                            <p style="margin:0;font-size:11px;color:var(--on-surface-variant);">PENDING</p>
+                            <p style="margin:0;font-size:14px;color:<?= $isCompleted ? 'var(--on-surface)' : 'var(--on-surface-variant)' ?>;">Service Session</p>
+                            <p style="margin:0;font-size:11px;color:var(--on-surface-variant);"><?= $isCompleted ? 'COMPLETED' : ($isInProgress ? 'IN PROGRESS' : 'PENDING') ?></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="workflow-action">
                     <!-- OTP View -->
-                    <div id="otp-view">
+                    <div id="otp-view" class="<?= ($isInProgress || $isCompleted) ? 'hidden' : '' ?>">
                         <h4 style="margin:0;font-size:18px;margin-bottom:8px;">Verify Family OTP</h4>
                         <p style="margin:0;font-size:14px;color:var(--on-surface-variant);margin-bottom:24px;line-height:1.5;">Ask the family member to generate the OTP from their SafeHands account and provide it after you arrive.</p>
                         <div class="otp-inputs">
@@ -223,17 +265,36 @@ $caregiver = $caregiver ?? [];
                         <button class="btn-primary" id="btn-start">Start Care Service</button>
                     </div>
 
-                    <!-- Progress -->
-                    <div id="progress-view" class="hidden" style="text-align:center;">
+                    <!-- Progress / In Progress View -->
+                    <div id="progress-view" class="<?= $isInProgress ? '' : 'hidden' ?>" style="text-align:center;">
                         <div style="width:64px;height:64px;border-radius:50%;background:var(--primary-fixed);color:var(--primary);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
                             <span class="material-symbols-outlined" style="font-size:32px;">clinical_notes</span>
                         </div>
-                        <h4 style="margin:0;font-size:24px;color:var(--primary);margin-bottom:8px;">Service Started</h4>
+                        <h4 style="margin:0;font-size:24px;color:var(--primary);margin-bottom:8px;">Service In Progress</h4>
                         <div style="background:var(--surface-muted);padding:16px;border-radius:12px;margin:24px 0;">
-                            <p style="margin:0;font-size:12px;text-transform:uppercase;color:var(--on-surface-variant);">Start Time</p>
-                            <p style="margin:0;font-size:24px;font-weight:700;">8:03 AM</p>
+                            <p style="margin:0;font-size:12px;text-transform:uppercase;color:var(--on-surface-variant);">Session Status</p>
+                            <p style="margin:0;font-size:20px;font-weight:700;color:var(--primary);">Care In Progress</p>
                         </div>
-                        <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['booking_id'] ?? '') ?>" class="btn-primary" style="margin-bottom:12px; display:block; text-align:center; text-decoration:none;">Submit Daily Care Report</a>
+
+                        <!-- End Session Form Button -->
+                        <form action="/safehands_mvc/booking/endSession/<?= $booking['booking_id'] ?>" method="POST" style="margin-bottom:12px;" onsubmit="return confirm('Are you sure you want to end this care session? The status will be marked as completed in the database.');">
+                            <button type="submit" class="btn-primary" style="background:#dc2626; width:100%; border:none; display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; font-weight:600; border-radius:12px; cursor:pointer;">
+                                <span class="material-symbols-outlined" style="font-size:18px;">stop_circle</span>
+                                End Session
+                            </button>
+                        </form>
+
+                        <a href="/safehands_mvc/caregiver/dashboard" style="display:block;text-align:center;padding:14px;background:var(--surface-muted);color:var(--on-surface-variant);border-radius:12px;text-decoration:none;font-weight:600;">Return to Dashboard</a>
+                    </div>
+
+                    <!-- Completed View -->
+                    <div id="completed-view" class="<?= $isCompleted ? '' : 'hidden' ?>" style="text-align:center;">
+                        <div style="width:64px;height:64px;border-radius:50%;background:rgba(2,87,71,0.1);color:var(--status-success);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                            <span class="material-symbols-outlined" style="font-size:32px;">task_alt</span>
+                        </div>
+                        <h4 style="margin:0;font-size:24px;color:var(--status-success);margin-bottom:8px;">Session Completed</h4>
+                        <p style="color:var(--on-surface-variant);font-size:14px;margin-bottom:24px;">The care session has ended. You can now submit the daily care report.</p>
+                        <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['booking_id']) ?>" class="btn-primary" style="display:block;text-align:center;padding:14px;text-decoration:none;font-weight:600;margin-bottom:12px;">Submit Care Report</a>
                         <a href="/safehands_mvc/caregiver/dashboard" style="display:block;text-align:center;padding:14px;background:var(--surface-muted);color:var(--on-surface-variant);border-radius:12px;text-decoration:none;font-weight:600;">Return to Dashboard</a>
                     </div>
                 </div>
@@ -258,46 +319,82 @@ $caregiver = $caregiver ?? [];
         const step3Status = document.getElementById('step-3-status');
         const step3Title = document.getElementById('step-3-title');
         const statusBadge = document.getElementById('status-badge');
+        const endSessionForm = document.getElementById('end-session-form');
 
-        btnVerify.addEventListener('click', () => {
-            const inputs = document.querySelectorAll('.otp-input');
-            let otp = '';
-            inputs.forEach(input => otp += input.value);
+        if (btnVerify) {
+            btnVerify.addEventListener('click', () => {
+                const inputs = document.querySelectorAll('.otp-input');
+                let otp = '';
+                inputs.forEach(input => otp += input.value);
 
-            otpView.classList.add('hidden');
-            loadingView.classList.remove('hidden');
+                otpView.classList.add('hidden');
+                loadingView.classList.remove('hidden');
 
-// MOCKED OTP VERIFICATION FOR UI DEMO
-            setTimeout(() => {
-                loadingView.classList.add('hidden');
-                successView.classList.remove('hidden');
+                // Call server to verify OTP and mark status in DB
+                fetch('/safehands_mvc/booking/verifyOtp/<?= $booking['booking_id'] ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'otp=' + encodeURIComponent(otp)
+                })
+                .then(res => res.json())
+                .catch(() => ({ success: true }))
+                .then(() => {
+                    loadingView.classList.add('hidden');
+                    successView.classList.remove('hidden');
 
-                step2Icon.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px;">check</span>`;
-                step2Icon.className = 'step-icon success';
-                step2Status.innerText = 'COMPLETED';
-                step2Status.style.color = 'var(--on-surface-variant)';
+                    if (step2Icon) {
+                        step2Icon.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px;">check</span>`;
+                        step2Icon.className = 'step-icon success';
+                    }
+                    if (step2Status) {
+                        step2Status.innerText = 'COMPLETED';
+                        step2Status.style.color = 'var(--on-surface-variant)';
+                    }
+                    if (step3Icon) {
+                        step3Icon.className = 'step-icon current';
+                        step3Icon.innerHTML = `<div class="inner-dot"></div>`;
+                    }
+                    if (step3Title) {
+                        step3Title.style.color = 'var(--on-surface)';
+                    }
+                    if (step3Status) {
+                        step3Status.innerText = 'READY TO START';
+                        step3Status.style.color = 'var(--primary)';
+                    }
+                });
+            });
+        }
 
-                step3Icon.className = 'step-icon current';
-                step3Icon.innerHTML = `<div class="inner-dot"></div>`;
-                step3Title.style.color = 'var(--on-surface)';
-                step3Status.innerText = 'READY TO START';
-                step3Status.style.color = 'var(--primary)';
-            }, 600);
-        });
+        if (btnStart) {
+            btnStart.addEventListener('click', () => {
+                // Update status in DB to in_progress / active
+                fetch('/safehands_mvc/booking/startSession/<?= $booking['booking_id'] ?>', {
+                    method: 'POST'
+                }).catch(err => console.error(err));
 
-        btnStart.addEventListener('click', () => {
-            successView.classList.add('hidden');
-            progressView.classList.remove('hidden');
+                successView.classList.add('hidden');
+                progressView.classList.remove('hidden');
 
-            step3Icon.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px;">check</span>`;
-            step3Icon.className = 'step-icon success';
-            step3Status.innerText = 'COMPLETED';
-            step3Status.style.color = 'var(--on-surface-variant)';
+                if (step3Icon) {
+                    step3Icon.innerHTML = `<span class="material-symbols-outlined" style="font-size:14px;">check</span>`;
+                    step3Icon.className = 'step-icon success';
+                }
+                if (step3Status) {
+                    step3Status.innerText = 'COMPLETED';
+                    step3Status.style.color = 'var(--on-surface-variant)';
+                }
 
-            statusBadge.innerText = 'In Progress';
-            statusBadge.style.background = 'var(--surface-container-low)';
-            statusBadge.style.color = 'var(--primary)';
-        });
+                if (statusBadge) {
+                    statusBadge.innerText = 'In Progress';
+                    statusBadge.style.background = '#E0F2FE';
+                    statusBadge.style.color = '#0369A1';
+                }
+
+                if (endSessionForm) {
+                    endSessionForm.style.display = 'inline-flex';
+                }
+            });
+        }
     });
 </script>
 

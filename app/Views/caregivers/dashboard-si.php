@@ -18,7 +18,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
     <title>රැකවරණ සේවා Dashboard | SafeHands</title>
 
     <link rel="stylesheet"
-          href="/safehands_mvc/public/assets/css/caregiver-dashboard.css">
+          href="/safehands_mvc/public/assets/css/caregiver-dashboard.css?v=2">
 </head>
 
 <body>

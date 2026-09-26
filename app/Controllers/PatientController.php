@@ -33,15 +33,20 @@ class PatientController extends Controller
 
         $patients = $this->patientModel->getPatientsByFamilyUserId($familyUserId);
 
+        $careReportModel = $this->model('CareReportModel');
+        $reports = $careReportModel->getReportsByFamilyId($familyUserId);
+
+        $bookingModel = $this->model('BookingModel');
+        $bookings = $bookingModel->getBookingsByFamilyId($familyUserId);
+
         $data = [
             'title' => 'My Patients | SafeHands',
             'stats' => [
                 'total_patients' => count($patients)
             ],
             'patients' => $patients,
-            // No reports table exists yet — pass an empty list so the
-            // patient/index view's foreach over $reports doesn't error.
-            'reports' => []
+            'reports' => $reports,
+            'bookings' => $bookings
         ];
 
         $this->view(

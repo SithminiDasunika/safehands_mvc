@@ -9,18 +9,18 @@
     <!-- Patient/Profile styles first -->
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/patient.css?v=1790345300"
+        href="/safehands_mvc/public/assets/css/patient.css?v=2"
     >
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/profile.css"
+        href="/safehands_mvc/public/assets/css/profile.css?v=2"
     >
 
     <!-- Dashboard CSS LAST -->
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/family.css?v=<?= time() ?>"
+        href="/safehands_mvc/public/assets/css/family.css?v=2"
     >
 
     <!-- Material Symbols -->

@@ -16,7 +16,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/review.css"
+        href="/safehands_mvc/public/assets/css/review.css?v=2"
     >
 
 </head>

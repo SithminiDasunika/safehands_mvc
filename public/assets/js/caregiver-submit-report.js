@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const reportForm = document.getElementById('dailyReportForm');
     if(reportForm) {
         reportForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // e.preventDefault();
             const container = document.getElementById('report-form-container');
             const success = document.getElementById('success-state');
-            container.style.display = 'none';
-            success.style.display = 'flex';
+            // container.style.display = 'none';
+            // success.style.display = 'flex';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('report-form-container');
         const success = document.getElementById('success-state');
         if (container && success) {
-            container.style.display = 'none';
-            success.style.display = 'flex';
+            // container.style.display = 'none';
+            // success.style.display = 'flex';
         }
     }
 

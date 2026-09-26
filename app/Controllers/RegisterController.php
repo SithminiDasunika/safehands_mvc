@@ -710,7 +710,7 @@ public function caregiver(): void
 
     $data = [
         'title' => 'Caregiver Registration',
-        'css' => 'caregiver-register.css',
+        'css' => 'caregiver-register.css?v=3',
         'errors' => [],
         'old' => []
     ];
@@ -735,7 +735,7 @@ public function caregiverSi(): void
 
     $data = [
         'title' => 'Caregiver Registration',
-        'css' => 'caregiver-register.css',
+        'css' => 'caregiver-register.css?v=3',
         'errors' => [],
         'old' => []
     ];
@@ -981,7 +981,7 @@ public function savePersonal(): void
                 'Caregiver Registration',
 
             'css' =>
-                'caregiver-register.css',
+                'caregiver-register.css?v=3',
 
             'errors' =>
                 $errors,
@@ -1087,7 +1087,7 @@ public function professional(): void
             'Professional Caregiver Registration',
 
         'css' =>
-            'caregiver-register.css',
+            'caregiver-register.css?v=3',
 
         'errors' =>
             [],
@@ -1140,7 +1140,7 @@ public function professionalSi(): void
             'Professional Caregiver Registration',
 
         'css' =>
-            'caregiver-register.css',
+            'caregiver-register.css?v=3',
 
         'errors' =>
             [],
@@ -1533,7 +1533,7 @@ public function verification(): void
             'Caregiver Verification',
 
         'css' =>
-            'caregiver-register.css',
+            'caregiver-register.css?v=3',
 
         'errors' =>
             []
@@ -2008,7 +2008,7 @@ public function verificationSubmit(): void
                     'Caregiver Verification',
 
                 'css' =>
-                    'caregiver-register.css',
+                    'caregiver-register.css?v=3',
 
                 'errors' =>
                     $errors
@@ -2140,7 +2140,7 @@ public function verificationSubmit(): void
                     'Caregiver Verification',
 
                 'css' =>
-                    'caregiver-register.css',
+                    'caregiver-register.css?v=3',
 
                 'errors' => [
                     'Registration could not be completed: ' .
@@ -2205,7 +2205,7 @@ public function success(): void
             'Registration Successful',
 
         'css' =>
-            'caregiver-register.css',
+            'caregiver-register.css?v=3',
 
         'registration' =>
             $_SESSION[
@@ -2255,7 +2255,7 @@ public function successSi(): void
             'Registration Successful',
 
         'css' =>
-            'caregiver-register.css',
+            'caregiver-register.css?v=3',
 
         'registration' =>
             $_SESSION[

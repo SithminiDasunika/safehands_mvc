@@ -16,7 +16,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/complaint.css"
+        href="/safehands_mvc/public/assets/css/complaint.css?v=2"
     >
 
 </head>

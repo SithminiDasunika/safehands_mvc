@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafeHands - Application Submitted</title>
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/success.css">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/success.css?v=2">
 </head>
 <body>
 

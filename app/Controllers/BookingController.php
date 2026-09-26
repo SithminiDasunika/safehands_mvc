@@ -80,7 +80,7 @@ class BookingController extends Controller
 
     public function report($booking_id = null): void
     {
-        if (!$booking_id || ($_SESSION['user_role'] ?? '') !== 'caregiver') {
+        if (!$booking_id ) {
             header('Location: /safehands_mvc/bookings');
             exit;
         }
@@ -152,16 +152,94 @@ class BookingController extends Controller
      */
     public function submitReport($booking_id = null): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
-            header('Location: /safehands_mvc/bookings');
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
+                header('Location: /safehands_mvc/bookings');
+                exit;
+            }
+
+            $bookingModel = $this->model('BookingModel');
+            $booking = $bookingModel->getBookingById((int)$booking_id);
+
+            $activities = $_POST['activities'] ?? [];
+            $structuredActivities = [];
+            $allActivities = ['Assisted Bathing', 'Dressing', 'Medication Administered', 'Meal Prep', 'Feeding', 'Walking Assistance', 'Exercise', 'Companionship', 'BP Monitoring'];
+            foreach ($allActivities as $act) {
+                $structuredActivities[] = [
+                    'name' => $act,
+                    'completed' => in_array($act, $activities),
+                    'status' => in_array($act, $activities) ? 'Completed' : 'Pending'
+                ];
+            }
+
+            $medicalNotes = json_encode([
+                'medication' => [
+                    'status' => $_POST['med_status'] ?? '',
+                    'name' => $_POST['med_name'] ?? '',
+                    'time' => $_POST['med_time'] ?? ''
+                ],
+                'meal' => [
+                    'breakfast' => $_POST['meal_breakfast'] ?? '',
+                    'water' => $_POST['meal_water'] ?? ''
+                ],
+                'condition' => [
+                    'status' => $_POST['condition_status'] ?? '',
+                    'mood' => $_POST['condition_mood'] ?? ''
+                ],
+                'vitals' => [
+                    'bp' => $_POST['vitals_bp'] ?? '',
+                    'temp' => $_POST['vitals_temp'] ?? '',
+                    'hr' => $_POST['vitals_hr'] ?? ''
+                ],
+                'activities' => $structuredActivities
+            ]);
+
+            $encryptedNotes = base64_encode($medicalNotes); 
+            $shiftSummary = $_POST['shift_summary'] ?? '';
+
+            $caregiverModel = $this->model('Caregiver');
+            $cgProfile = $caregiverModel->getById((int)$booking['caregiver_id']);
+            $realCaregiverUserId = $cgProfile['user_id'] ?? $booking['caregiver_id'];
+
+            $reportModel = $this->model('CareReportModel');
+            $existingReport = $reportModel->getReportByBookingId((int)$booking_id);
+            
+            $dbData = [
+                'shift_summary' => $shiftSummary,
+                'encrypted_medical_notes' => $encryptedNotes,
+                'med_status' => $_POST['med_status'] ?? '',
+                'med_name' => $_POST['med_name'] ?? '',
+                'med_time' => $_POST['med_time'] ?? '',
+                'meal_breakfast' => $_POST['meal_breakfast'] ?? '',
+                'meal_water' => $_POST['meal_water'] ?? '',
+                'condition_status' => $_POST['condition_status'] ?? '',
+                'condition_mood' => $_POST['condition_mood'] ?? '',
+                'vitals_bp' => $_POST['vitals_bp'] ?? '',
+                'vitals_temp' => $_POST['vitals_temp'] ?? '',
+                'vitals_hr' => $_POST['vitals_hr'] ?? '',
+                'activities' => json_encode($structuredActivities)
+            ];
+
+            if ($existingReport) {
+                $reportModel->updateReport($existingReport['id'], $dbData);
+            } else {
+                $dbData['report_ref'] = 'CR-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                $dbData['booking_id'] = (int)$booking_id;
+                $dbData['caregiver_id'] = (int)$booking['caregiver_id'];
+                $dbData['patient_id'] = (int)$booking['patient_id'];
+                $dbData['check_in_time'] = date('Y-m-d H:i:s', strtotime('-8 hours'));
+                $dbData['check_out_time'] = date('Y-m-d H:i:s');
+                $reportModel->createReport($dbData);
+            }
+
+            $bookingModel->updateStatus((int)$booking_id, 'completed');
+
+            header('Location: /safehands_mvc/care-report/index/' . (int)$booking_id);
+            exit;
+        } catch (Throwable $e) {
+            echo "Error saving report: " . $e->getMessage();
             exit;
         }
-
-        $bookingModel = $this->model('BookingModel');
-        $bookingModel->updateStatus((int)$booking_id, 'completed');
-
-        header('Location: /safehands_mvc/booking/report/' . (int)$booking_id . '?success=1');
-        exit;
     }
 
     /**
@@ -179,6 +257,73 @@ class BookingController extends Controller
 
         $bookingModel = $this->model('BookingModel');
         $bookingModel->cancelBooking((int)$booking_id);
+
+        header('Location: /safehands_mvc/booking/details/' . (int)$booking_id);
+        exit;
+    }
+    public function deleteReport($booking_id = null): void
+    {
+        if (!$booking_id) {
+            header('Location: /safehands_mvc/caregiver/dashboard');
+            exit;
+        }
+        
+        $reportModel = $this->model('CareReportModel');
+        $reportModel->deleteReportByBookingId((int)$booking_id);
+        
+        $bookingModel = $this->model('BookingModel');
+        $bookingModel->updateStatus((int)$booking_id, 'active');
+        
+        header('Location: /safehands_mvc/caregiver/dashboard?msg=report_deleted');
+        exit;
+    }
+
+    /**
+     * ==========================================
+     * END SESSION OPERATION
+     * ==========================================
+     * Marks the booking session as completed in the database.
+     */
+    public function endSession($booking_id = null): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
+            header('Location: /safehands_mvc/caregiver/dashboard');
+            exit;
+        }
+
+        $bookingModel = $this->model('BookingModel');
+        $bookingModel->updateStatus((int)$booking_id, 'completed');
+
+        header('Location: /safehands_mvc/caregiver/dashboard?msg=session_completed');
+        exit;
+    }
+
+    /**
+     * ==========================================
+     * START SESSION OPERATION
+     * ==========================================
+     * Updates booking status to in_progress / active in the database.
+     */
+    public function startSession($booking_id = null): void
+    {
+        if (!$booking_id) {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Missing booking ID']);
+                return;
+            }
+            header('Location: /safehands_mvc/caregiver/dashboard');
+            exit;
+        }
+
+        $bookingModel = $this->model('BookingModel');
+        $bookingModel->updateStatus((int)$booking_id, 'in_progress');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true]);
+            return;
+        }
 
         header('Location: /safehands_mvc/booking/details/' . (int)$booking_id);
         exit;

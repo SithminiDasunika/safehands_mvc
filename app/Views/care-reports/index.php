@@ -13,21 +13,21 @@ $reports = $reports ?? [];
 
         <div class="nav-left">
 
-            <a href="#" class="brand">
+            <a href="/safehands_mvc/family" class="brand">
                 SafeHands
             </a>
 
             <div class="nav-links">
 
-                <a href="#">
+                <a href="/safehands_mvc/family">
                     Dashboard
                 </a>
 
-                <a href="#">
+                <a href="/safehands_mvc/patient">
                     Patients
                 </a>
 
-                <a href="#">
+                <a href="/safehands_mvc/caregiver">
                     Find Caregivers
                 </a>
 
@@ -76,7 +76,7 @@ $reports = $reports ?? [];
 
         <div class="breadcrumb">
 
-            <a href="#">
+            <a href="/safehands_mvc/family">
                 Dashboard
             </a>
 
@@ -351,7 +351,7 @@ $reports = $reports ?? [];
                 <div class="report-action">
 
                 <a
-    href="/safehands_mvc/care-report"
+    href="/safehands_mvc/care-report/show/<?= htmlspecialchars($report['id']) ?>"
     class="view-report-button"
 >
     View Full Report

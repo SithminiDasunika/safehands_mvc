@@ -16,7 +16,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/payment-history.css"
+        href="/safehands_mvc/public/assets/css/payment-history.css?v=2"
     >
 
 </head>

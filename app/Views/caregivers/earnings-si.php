@@ -18,7 +18,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/caregiver-earnings.css"
+        href="/safehands_mvc/public/assets/css/caregiver-earnings.css?v=2"
     >
 
 </head>

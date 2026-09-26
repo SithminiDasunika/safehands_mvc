@@ -52,7 +52,7 @@ if (!function_exists('sh_split_list')) {
     
     <!-- Breadcrumb -->
     <nav aria-label="Breadcrumb" class="breadcrumb">
-        <a href="#">Dashboard</a>
+        <a href="/safehands_mvc/family">Dashboard</a>
         <span class="material-symbols-outlined" style="font-size: 16px;">chevron_right</span>
         <span class="current">Patients</span>
     </nav>
@@ -156,30 +156,28 @@ if (!function_exists('sh_split_list')) {
                                     </div>
                                 </div>
                             </div>
-                            <?php if ($isFirst): ?>
-                                <span class="status-badge success">
-                                    <span class="dot"></span> Currently Receiving Care
-                                </span>
-                            <?php else: ?>
-                                <span class="status-badge warning">
-                                    <span class="dot"></span> Care Scheduled
-                                </span>
-                            <?php endif; ?>
-                        </div>
+                        <?php
+                            $statusLabel = 'No Active Care';
+                            $statusClass = 'warning';
+                            $hasCare = false;
+                            
+                            if (isset($bookings)) {
+                                foreach ($bookings as $b) {
+                                    if ($b['patient_id'] == $patient['patient_id']) {
+                                        if (in_array($b['status'], ['in_progress', 'active', 'confirmed', 'pending'])) {
+                                            $hasCare = true;
+                                            $statusLabel = $b['status'] == 'pending' ? 'Care Scheduled' : 'Currently Receiving Care';
+                                            $statusClass = $b['status'] == 'pending' ? 'warning' : 'success';
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        ?>
                         
-                        <div class="patient-schedule">
-                            <div class="schedule-row">
-                                <div class="schedule-info">
-                                    <span class="material-symbols-outlined">person</span>
-                                    <span>Caregiver: <?= $isFirst ? 'Nadeesha Perera' : 'Sunil Jayasuriya' ?></span>
-                                </div>
-                            </div>
-                            <div class="schedule-row">
-                                <div class="schedule-info">
-                                    <span class="material-symbols-outlined">calendar_today</span>
-                                    <span>Next: <?= $isFirst ? '16 August • 08:00 AM - 12:00 PM' : '15 August • 04:00 PM - 08:00 PM' ?></span>
-                                </div>
-                            </div>
+                            <span class="status-badge <?= $statusClass ?>">
+                                <span class="dot"></span> <?= $statusLabel ?>
+                            </span>
                         </div>
 
                         <div class="patient-actions">
@@ -193,7 +191,6 @@ if (!function_exists('sh_split_list')) {
     </section>
 
     <!-- Recent Daily Care Reports Section -->
-    <?php if (!empty($reports)): ?>
     <section class="reports-section">
         <div class="reports-header">
             <div>
@@ -205,61 +202,33 @@ if (!function_exists('sh_split_list')) {
             </a>
         </div>
         <div class="reports-list">
-            <!-- Mockup dynamic implementation if reports existed -->
+            <?php if (!empty($reports)): ?>
+                <?php foreach (array_slice($reports, 0, 3) as $report): ?>
+                    <div class="report-card">
+                        <div class="report-content">
+                            <div class="report-meta">
+                                <span class="report-name"><?= htmlspecialchars($report['patient_name']) ?></span>
+                                <span class="meta-dot"></span>
+                                <span class="report-date"><?= date('d M Y', strtotime($report['created_at'])) ?></span>
+                                <span class="meta-dot"></span>
+                                <span class="report-status"><?= htmlspecialchars($report['status'] ?? 'Completed') ?></span>
+                                <span class="meta-dot"></span>
+                                <span class="report-caregiver">
+                                    <span class="material-symbols-outlined">person</span> <?= htmlspecialchars($report['caregiver_name']) ?>
+                                </span>
+                            </div>
+                            <p class="report-text">"<?= htmlspecialchars($report['shift_summary'] ?? 'No notes provided.') ?>"</p>
+                        </div>
+                        <a href="/safehands_mvc/care-report/show/<?= htmlspecialchars($report['id']) ?>" class="btn-report" style="text-decoration: none;">View Report</a>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div style="padding: 24px; text-align: center; color: var(--color-on-surface-variant); background: var(--color-surface-container-lowest); border-radius: var(--radius-lg); border: 1px dashed var(--color-outline-variant);">
+                    No recent care reports available.
+                </div>
+            <?php endif; ?>
         </div>
     </section>
-    <?php else: ?>
-    <!-- Hardcoded Mockup Reports as provided in the HTML -->
-    <section class="reports-section">
-        <div class="reports-header">
-            <div>
-                <h2 class="section-title">Recent Daily Care Reports</h2>
-                <p class="section-desc">Latest updates from your patients' caregivers.</p>
-            </div>
-            <a href="/safehands_mvc/care-reports" class="reports-link">
-                View All Reports <span class="material-symbols-outlined">arrow_forward</span>
-            </a>
-        </div>
-        <div class="reports-list">
-            <!-- Report 1 -->
-            <div class="report-card">
-                <div class="report-content">
-                    <div class="report-meta">
-                        <span class="report-name">Mr. Silva</span>
-                        <span class="meta-dot"></span>
-                        <span class="report-date">15 Aug 2026</span>
-                        <span class="meta-dot"></span>
-                        <span class="report-status">Completed</span>
-                        <span class="meta-dot"></span>
-                        <span class="report-caregiver">
-                            <span class="material-symbols-outlined">person</span> Nadeesha Perera
-                        </span>
-                    </div>
-                    <p class="report-text">"Patient was comfortable this morning. Medication was taken on time and light stretching was completed."</p>
-                </div>
-                <a href="/safehands_mvc/care-reports" class="btn-report" style="text-decoration: none;">View Report</a>
-            </div>
-            <!-- Report 2 -->
-            <div class="report-card">
-                <div class="report-content">
-                    <div class="report-meta">
-                        <span class="report-name">Mrs. Kamala</span>
-                        <span class="meta-dot"></span>
-                        <span class="report-date">14 Aug 2026</span>
-                        <span class="meta-dot"></span>
-                        <span class="report-status">Completed</span>
-                        <span class="meta-dot"></span>
-                        <span class="report-caregiver">
-                            <span class="material-symbols-outlined">person</span> Sunil Jayasuriya
-                        </span>
-                    </div>
-                    <p class="report-text">"Blood glucose was monitored and prescribed medication was taken after breakfast."</p>
-                </div>
-                <a href="/safehands_mvc/care-reports" class="btn-report" style="text-decoration: none;">View Report</a>
-            </div>
-        </div>
-    </section>
-    <?php endif; ?>
 
 </main>
 

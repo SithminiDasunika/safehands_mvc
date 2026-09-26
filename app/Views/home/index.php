@@ -90,9 +90,9 @@
                     <span>›</span>
                 </button>
 
-                <button class="secondary-button">
+                <a href="/safehands_mvc/register/caregiver" class="secondary-button" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
                     Become a Caregiver
-                </button>
+                </a>
 
             </div>
 

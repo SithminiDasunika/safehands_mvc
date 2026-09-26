@@ -11,8 +11,8 @@ $caregiver = $caregiver ?? [];
     <title>SafeHands | Submit Daily Care Report</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=<?= time() ?>">
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-submit-report.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=2">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-submit-report.css?v=2">
 </head>
 <body>
 
@@ -167,7 +167,7 @@ $caregiver = $caregiver ?? [];
                     <div class="section-body" style="display:flex; flex-direction:column; gap:16px;">
                         <div style="display:flex; align-items:center; gap:16px;">
                             <label class="text-label-sm" style="width:120px;">Breakfast</label>
-                            <select class="form-control" style="flex:1;">
+                            <select class="form-control" name="meal_breakfast" style="flex:1;">
                                 <option>Completed</option>
                                 <option>Partially</option>
                                 <option>Refused</option>
@@ -175,7 +175,7 @@ $caregiver = $caregiver ?? [];
                         </div>
                         <div style="display:flex; align-items:center; gap:16px;">
                             <label class="text-label-sm" style="width:120px;">Water Intake</label>
-                            <select class="form-control" style="flex:1;">
+                            <select class="form-control" name="meal_water" style="flex:1;">
                                 <option>Adequate</option>
                                 <option>Moderate</option>
                                 <option>Low</option>
@@ -192,7 +192,7 @@ $caregiver = $caregiver ?? [];
                     <div class="section-body" style="display:flex; flex-direction:column; gap:16px;">
                         <div style="display:flex; align-items:center; gap:16px;">
                             <label class="text-label-sm" style="width:120px;">Condition</label>
-                            <select class="form-control" style="flex:1;">
+                            <select class="form-control" name="condition_status" style="flex:1;">
                                 <option>Stable</option>
                                 <option>Good</option>
                                 <option>Fair</option>
@@ -200,7 +200,7 @@ $caregiver = $caregiver ?? [];
                         </div>
                         <div style="display:flex; align-items:center; gap:16px;">
                             <label class="text-label-sm" style="width:120px;">Mood</label>
-                            <select class="form-control" style="flex:1;">
+                            <select class="form-control" name="condition_mood" style="flex:1;">
                                 <option>Happy</option>
                                 <option>Calm</option>
                                 <option>Irritable</option>
@@ -219,15 +219,15 @@ $caregiver = $caregiver ?? [];
                 <div class="section-body grid-3">
                     <div class="form-group">
                         <label class="text-label-sm">Blood Pressure (mmHg)</label>
-                        <input type="text" class="form-control" placeholder="e.g., 120/80">
+                        <input type="text" class="form-control" name="vitals_bp" placeholder="e.g., 120/80">
                     </div>
                     <div class="form-group">
                         <label class="text-label-sm">Temperature (°F)</label>
-                        <input type="text" class="form-control" placeholder="e.g., 98.4">
+                        <input type="text" class="form-control" name="vitals_temp" placeholder="e.g., 98.4">
                     </div>
                     <div class="form-group">
                         <label class="text-label-sm">Heart Rate (BPM)</label>
-                        <input type="text" class="form-control" placeholder="e.g., 72">
+                        <input type="text" class="form-control" name="vitals_hr" placeholder="e.g., 72">
                     </div>
                 </div>
             </section>
@@ -239,7 +239,7 @@ $caregiver = $caregiver ?? [];
                     <h2 class="text-label-sm">6. Additional Notes</h2>
                 </div>
                 <div class="section-body">
-                    <textarea class="form-control" style="width:100%; box-sizing:border-box;" rows="4" placeholder="Enter detailed observations..."></textarea>
+                    <textarea name="shift_summary" class="form-control" style="width:100%; box-sizing:border-box;" rows="4" placeholder="Enter detailed observations..."></textarea>
                 </div>
             </section>
 
@@ -254,7 +254,6 @@ $caregiver = $caregiver ?? [];
 
             <!-- Buttons -->
             <div class="form-actions">
-                <button type="button" class="btn-secondary">Save Draft</button>
                 <button type="submit" class="btn-primary">Submit Report</button>
             </div>
 
@@ -278,5 +277,88 @@ $caregiver = $caregiver ?? [];
 
 
 <script src="/safehands_mvc/public/assets/js/caregiver-submit-report.js?v=<?= time() ?>"></script>
+
+<?php if (!empty($existingData)): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const data = <?= json_encode($existingData) ?>;
+    
+    // Populate checkboxes
+    if (data.activities && Array.isArray(data.activities)) {
+        const checkboxes = document.querySelectorAll('input[name="activities[]"]');
+        checkboxes.forEach(cb => {
+            const act = data.activities.find(a => a.name === cb.value);
+            if (act && act.completed) {
+                cb.checked = true;
+            } else {
+                cb.checked = false;
+            }
+        });
+    }
+
+    // Populate selects
+    if (data.medication && data.medication.status) {
+        const medStatus = document.querySelector('select[name="med_status"]');
+        if (medStatus) medStatus.value = data.medication.status;
+    }
+    if (data.meal && data.meal.breakfast) {
+        const mealB = document.querySelector('select[name="meal_breakfast"]');
+        if (mealB) mealB.value = data.meal.breakfast;
+    }
+    if (data.meal && data.meal.water) {
+        const mealW = document.querySelector('select[name="meal_water"]');
+        if (mealW) mealW.value = data.meal.water;
+    }
+    if (data.condition && data.condition.status) {
+        const cond = document.querySelector('select[name="condition_status"]');
+        if (cond) cond.value = data.condition.status;
+    }
+    if (data.condition && data.condition.mood) {
+        const mood = document.querySelector('select[name="condition_mood"]');
+        if (mood) mood.value = data.condition.mood;
+    }
+
+    // Populate text inputs
+    if (data.medication && data.medication.name) {
+        const medName = document.querySelector('input[name="med_name"]');
+        if (medName) medName.value = data.medication.name;
+    }
+    if (data.medication && data.medication.time) {
+        const medTime = document.querySelector('input[name="med_time"]');
+        if (medTime) medTime.value = data.medication.time;
+    }
+    if (data.vitals && data.vitals.bp) {
+        const bp = document.querySelector('input[name="vitals_bp"]');
+        if (bp) bp.value = data.vitals.bp;
+    }
+    if (data.vitals && data.vitals.temp) {
+        const temp = document.querySelector('input[name="vitals_temp"]');
+        if (temp) temp.value = data.vitals.temp;
+    }
+    if (data.vitals && data.vitals.hr) {
+        const hr = document.querySelector('input[name="vitals_hr"]');
+        if (hr) hr.value = data.vitals.hr;
+    }
+
+    // Populate textarea
+    if (data.shift_summary) {
+        const notes = document.querySelector('textarea[name="shift_summary"]');
+        if (notes) notes.value = data.shift_summary;
+    }
+
+    // Change Submit button text
+    const submitBtn = document.querySelector('button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.textContent = 'Update Report';
+    }
+    
+    // Change page title
+    const headerTitle = document.querySelector('.page-header h1');
+    if (headerTitle) {
+        headerTitle.textContent = 'Update Daily Care Report';
+    }
+});
+</script>
+<?php endif; ?>
 </body>
 </html>

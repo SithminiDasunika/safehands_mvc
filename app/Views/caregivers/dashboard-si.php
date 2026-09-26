@@ -1,5 +1,5 @@
- <?php
-$caregiverName = $caregiverName ?? ($_SESSION['caregiver_name'] ?? 'රැකවරණ සේවා සපයන්නා');
+<?php
+$caregiverName = $caregiverName ?? ($_SESSION['caregiver_name'] ?? 'Caregiver');
 $caregiverId = $caregiverId ?? ($_SESSION['caregiver_id'] ?? null);
 
 $profileUrl = $caregiverId
@@ -11,1198 +11,869 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
 
 <!DOCTYPE html>
 <html lang="si">
-
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SafeHands රැකවරණ සේවා උපකරණ පුවරුව - <?= htmlspecialchars($caregiverName) ?></title>
+    <title>රැකවරණ සේවා Dashboard | SafeHands</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-dashboard.css?v=1">
+    <link rel="stylesheet"
+          href="/safehands_mvc/public/assets/css/caregiver-dashboard.css?v=2">
 </head>
 
 <body>
 
-<!-- ================= TOP NAVIGATION ================= -->
+ <header class="dashboard-header">
 
-<header class="top-nav-bar">
-    <nav class="top-nav-inner">
+    <div class="header-container">
 
-        <div class="nav-logo-area">
+        <a href="/safehands_mvc/caregiver/dashboardSi"
+           class="brand">
+            SafeHands
+        </a>
 
-            <a href="/safehands_mvc/caregiver/dashboardSi" class="nav-logo">
-                SafeHands
+        <button type="button"
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="විවෘත කරන්න">
+            ☰
+        </button>
+
+        <nav class="main-navigation" id="mainNavigation">
+
+            <a href="/safehands_mvc/caregiver/dashboard"
+               class="nav-link active">
+                උපකරණ පුවරුව
             </a>
 
-            <div class="nav-links">
+            <a href="/safehands_mvc/caregiver/scheduleSi"
+               class="nav-link">
+                මගේ උපලේඛනය
+            </a>
 
-                <!-- Dashboard -->
-                <a class="nav-link active"
-                   href="/safehands_mvc/caregiver/dashboardSi">
-                    උපකරණ පුවරුව
-                </a>
+            <a href="/safehands_mvc/caregiver/manageAvailabilitySi"
+               class="nav-link">
+                ලබා ගත හැකි වේලාව
+            </a>
 
-                <!-- Booking Requests -->
-                <a class="nav-link"
-                   href="/safehands_mvc/bookings">
-                    වෙන්කිරීම් ඉල්ලීම්
-                </a>
+            <a href="/safehands_mvc/caregiver/earningsSi"
+               class="nav-link">
+                ආදායම්
+            </a>
 
-                <!-- Availability -->
-                <a class="nav-link"
-                   href="/safehands_mvc/caregiver/manageAvailabilitySi">
-                    ලබා ගත හැකි වේලාව
-                </a>
+            <a href="/safehands_mvc/caregiver/notificationsSi"
+               class="nav-link">
+                දැනුම්දීම්
+            </a>
 
-                <!-- Earnings -->
-                <a class="nav-link"
-                   href="/safehands_mvc/caregiver/earningsSi">
-                    ආදායම්
-                </a>
+        </nav>
 
-                <!-- Notifications -->
-                <a class="nav-link"
-                   href="/safehands_mvc/caregiver/notificationsSi">
-                    දැනුම්දීම්
-                </a>
-
-            </div>
-        </div>
-
-        <div class="nav-actions">
+        <div class="header-actions">
 
             <!-- Language Switcher -->
             <div class="language-switcher">
 
-                <a href="/safehands_mvc/caregiver/dashboard"
-                   class="language-option">
+                <a href="/safehands_mvc/caregiver/dashboard">
                     English
                 </a>
 
-                <span class="language-divider">|</span>
+                <span>|</span>
 
                 <a href="/safehands_mvc/caregiver/dashboardSi"
-                   class="language-option active">
+                   class="active-language">
                     සිංහල
                 </a>
 
             </div>
 
-            <!-- Emergency Call -->
-            <a href="/safehands_mvc/caregiver/emergencyContactSi"
-               class="icon-btn"
-               title="හදිසි ඇමතුම්">
-                <span class="material-symbols-outlined">
-                    call
-                </span>
-            </a>
+            <!-- Caregiver Profile -->
+            <div class="user-menu">
 
-            <!-- Logout -->
-            <a href="/safehands_mvc/login/logout"
-               class="icon-btn"
-               title="ඉවත් වන්න">
-                <span class="material-symbols-outlined">
-                    logout
-                </span>
-            </a>
+                <img src="<?= htmlspecialchars($profilePhoto) ?>"
+                     alt="රැකවරණ සේවා සපයන්නාගේ පැතිකඩ"
+                     class="header-profile-image">
 
-            <!-- Profile -->
-            <div class="profile-avatar">
-                <img
-                    alt="රැකවරණ සේවා සපයන්නාගේ ඡායාරූපය"
-                    src="<?= htmlspecialchars($profilePhoto) ?>">
+                <span class="header-user-name">
+                    <?= htmlspecialchars($caregiverName) ?>
+                </span>
+
             </div>
 
         </div>
-
-    </nav>
-</header>
-
-
-<!-- ================= MAIN CONTENT ================= -->
-
-<main class="main-content">
-
-    <!-- Greeting Header -->
-    <header class="greeting-header">
-
-        <div>
-
-            <h1 class="greeting-title">
-                සුභ උදෑසනක්, <?= htmlspecialchars($caregiverName) ?> 👋
-            </h1>
-
-            <p class="greeting-subtitle">
-                ඔබගේ දෛනික රැකවරණ කාලසටහන, වෙන්කිරීම් සහ ආදායම් එකම ස්ථානයකින් කළමනාකරණය කරන්න.
-            </p>
-
-        </div>
-
-        <div class="date-badge">
-
-            <span class="material-symbols-outlined"
-                  data-icon="calendar_today">
-                calendar_today
-            </span>
-
-            <span>
-                <?= date('l, M j, Y') ?>
-            </span>
-
-        </div>
-
-    </header>
-
-
-    <!-- ================= QUICK ACTIONS ================= -->
-
-    <div class="quick-action-grid">
-
-        <!-- Booking Requests -->
-        <a href="/safehands_mvc/bookings"
-           class="quick-action-card">
-
-            <div class="qa-icon-wrapper bg-primary-container">
-
-                <span class="material-symbols-outlined">
-                    assignment
-                </span>
-
-            </div>
-
-            <span class="quick-action-label">
-                වෙන්කිරීම් ඉල්ලීම්
-            </span>
-
-        </a>
-
-
-        <!-- Emergency Contact -->
-        <a href="/safehands_mvc/caregiver/emergencyContactSi"
-           class="quick-action-card">
-
-            <div class="qa-icon-wrapper bg-primary-container">
-
-                <span class="material-symbols-outlined"
-                      data-icon="contact_phone">
-                    contact_phone
-                </span>
-
-            </div>
-
-            <span class="quick-action-label">
-                හදිසි සම්බන්ධතා තොරතුරු
-            </span>
-
-        </a>
-
-
-        <!-- Manage Availability -->
-        <a href="/safehands_mvc/caregiver/manageAvailabilitySi"
-           class="quick-action-card">
-
-            <div class="qa-icon-wrapper bg-secondary-container">
-
-                <span class="material-symbols-outlined"
-                      data-icon="event_note">
-                    event_note
-                </span>
-
-            </div>
-
-            <span class="quick-action-label">
-                ලබා ගත හැකි වේලාව කළමනාකරණය
-            </span>
-
-        </a>
-
-
-        <!-- Pending Reports -->
-        <a href="/safehands_mvc/caregiver/pendingReportsSi"
-           class="quick-action-card">
-
-            <div class="qa-icon-wrapper bg-warning-container">
-
-                <span class="material-symbols-outlined"
-                      data-icon="description">
-                    description
-                </span>
-
-            </div>
-
-            <span class="quick-action-label">
-                ඉතිරි වාර්තා
-            </span>
-
-        </a>
-
-
-        <!-- Earnings -->
-        <a href="/safehands_mvc/caregiver/earningsSi"
-           class="quick-action-card">
-
-            <div class="qa-icon-wrapper bg-success-container">
-
-                <span class="material-symbols-outlined"
-                      data-icon="payments">
-                    payments
-                </span>
-
-            </div>
-
-            <span class="quick-action-label">
-                ආදායම් බලන්න
-            </span>
-
-        </a>
 
     </div>
 
+</header>
 
-    <!-- ================= DASHBOARD GRID ================= -->
+        
+ 
 
-    <div class="dashboard-grid">
 
-        <!-- ================= MAIN COLUMN ================= -->
+<main class="dashboard-main">
 
-        <div class="main-column">
+    <div class="page-container">
 
+        <!-- PAGE TITLE -->
 
-            <!-- Emergency Contact Information -->
+        <section class="page-heading">
 
-            <section class="section-container">
+            <div>
 
-                <div class="section-header">
+                <p class="page-label">රැකවරණ සේවා Dashboard</p>
 
-                    <h2 class="section-title">
-                        හදිසි සම්බන්ධතා තොරතුරු
-                    </h2>
+                <h1>
+                    නැවත සාදරයෙන් පිළිගනිමු,
+                    <?= htmlspecialchars($caregiverName) ?>
+                </h1>
 
-                    <a href="/safehands_mvc/caregiver/scheduleSi"
-                       class="section-link">
-                        දින දර්ශනය බලන්න
-                    </a>
+                <p class="page-description">
+                    ඔබගේ රැකවරණ සේවා පැතිකඩ, ලබා ගත හැකි වේලාවන්,
+                    සේවාවන් සහ වෘත්තීය තොරතුරු කළමනාකරණය කරන්න.
+                </p>
 
-                </div>
+            </div>
 
+        </section>
 
-                <!-- Booking Card -->
 
-                <div class="card card-no-pad">
+        <!-- PROFILE HEADER -->
 
-                    <div class="status-indicator-left"></div>
+        <section class="profile-card">
 
-                    <div style="padding: 1.5rem;"
-                         class="schedule-card">
+            <div class="profile-main">
 
-                        <div class="client-avatar-large">
+                <div class="profile-image-wrapper">
 
-                            <img
-                                alt="සිල්වා මහතා"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6XEdrc0nXc3xIj-Kb6mR-Puo88Cks7w67ymcy3zDC66S08KwIF2Bp2iZVi6vWvt0Fy8KAKHm3tZeH_L7oWWPHpmxO8lZol5i-zjQMWtuAj4QfJenH6zN6_PKADaxCO6Rhw1e2X9eov7E6RIaIr2g1tT4EdqhaomguYkRtp9Y29W1WHDsb_Ns5-RuICOPTVYTcQu4J9OYUXXr5Zj_Yv14khK1ygw_OlYFUKjDeoMrLdVfHQzB5xFfpkC4Y179mbUq5lQk9hfcAdYY">
+                    <img src="<?= htmlspecialchars($profilePhoto) ?>"
+                         alt="රැකවරණ සේවා පැතිකඩ"
+                         class="profile-image"
+                         id="profilePreview">
 
-                        </div>
-
-
-                        <div class="schedule-details">
-
-                            <div class="schedule-header">
-
-                                <div>
-
-                                    <h3 class="schedule-title">
-                                        සිල්වා මහතා - ශල්‍යකර්මයෙන් පසු රැකවරණය
-                                    </h3>
-
-                                    <div class="schedule-meta">
-
-                                        <span class="meta-item">
-
-                                            <span
-                                                class="material-symbols-outlined"
-                                                style="font-size:18px;"
-                                                data-icon="schedule">
-                                                schedule
-                                            </span>
-
-                                            පෙ.ව. 8:00 – ප.ව. 12:00
-
-                                        </span>
-
-
-                                        <span class="meta-item">
-
-                                            <span
-                                                class="material-symbols-outlined"
-                                                style="font-size:18px;"
-                                                data-icon="location_on">
-                                                location_on
-                                            </span>
-
-                                            කොළඹ 07
-
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-                                <span class="status-badge">
-                                    තහවුරු කර ඇත
-                                </span>
-
-                            </div>
-
-
-                            <div class="action-buttons">
-
-                                <button class="btn-primary">
-                                    සේවාව ආරම්භ කරන්න
-                                </button>
-
-                                <button class="btn-outline">
-                                    විස්තර බලන්න
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- ================= AVAILABILITY SUMMARY ================= -->
-
-            <section class="section-container">
-
-                <h2 class="section-title"
-                    style="margin-bottom: 1.5rem;">
-                    ලබා ගත හැකි වේලාවන්ගේ සාරාංශය
-                </h2>
-
-
-                <div class="card">
-
-                    <div class="availability-grid">
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                සඳු
-                            </span>
-
-                            <div class="avail-box available">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="check_circle">
-                                    check_circle
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-success">
-                                ලබා ගත හැක
-                            </span>
-
-                        </div>
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                අඟ
-                            </span>
-
-                            <div class="avail-box full">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="block">
-                                    block
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-variant">
-                                සම්පූර්ණයි
-                            </span>
-
-                        </div>
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                බදා
-                            </span>
-
-                            <div class="avail-box available">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="check_circle">
-                                    check_circle
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-success">
-                                ලබා ගත හැක
-                            </span>
-
-                        </div>
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                බ්‍රහ
-                            </span>
-
-                            <div class="avail-box available">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="check_circle">
-                                    check_circle
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-success">
-                                ලබා ගත හැක
-                            </span>
-
-                        </div>
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                සිකු
-                            </span>
-
-                            <div class="avail-box available">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="check_circle">
-                                    check_circle
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-success">
-                                ලබා ගත හැක
-                            </span>
-
-                        </div>
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                සෙන
-                            </span>
-
-                            <div class="avail-box off">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="event_busy">
-                                    event_busy
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-variant">
-                                නිවාඩු
-                            </span>
-
-                        </div>
-
-
-                        <div class="avail-day">
-
-                            <span class="avail-day-name">
-                                ඉරි
-                            </span>
-
-                            <div class="avail-box off">
-
-                                <span
-                                    class="material-symbols-outlined"
-                                    data-icon="event_busy">
-                                    event_busy
-                                </span>
-
-                            </div>
-
-                            <span class="avail-status text-variant">
-                                නිවාඩු
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- ================= UPCOMING BOOKINGS ================= -->
-
-            <section class="section-container">
-
-                <h2 class="section-title"
-                    style="margin-bottom: 1.5rem;">
-                    ඉදිරි වෙන්කිරීම්
-                </h2>
-
-
-                <div class="card card-no-pad">
-
-                    <table class="table">
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    සේවාලාභියා
-                                </th>
-
-                                <th>
-                                    දිනය සහ වේලාව
-                                </th>
-
-                                <th>
-                                    තත්ත්වය
-                                </th>
-
-                                <th class="text-right">
-                                    ක්‍රියාව
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-
-                            <!-- Mrs Perera -->
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="client-info">
-
-                                        <div class="client-avatar">
-
-                                            <img
-                                                alt="පෙරේරා මහත්මිය"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN-mrLhtu09J5mZYquggVhJBAOX2H58CY4oAiU7LaWUgJnHF-pO_PKl2Zk4fk0u6I4u4Rs1ubvDVIH9AxyD5IsF_1PUTYbwNvbzfhh8QhzdRtrYRpQAeeTNPCZKOXHC9Es8ztXxa2VdyGWnhYmtznYHPNh4iz_ipsCd7ET2SauzgsA9G39BqEgG1q2ivrj7VbABuyyKi1393REWOK_VeYgWVq2tff9bhhdtYK7DkBT6npsLzngjtGaz4XFthEPmSZCrelLqBPLP3U">
-
-                                        </div>
-
-                                        <span class="client-name">
-                                            පෙරේරා මහත්මිය
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <div class="date-time">
-
-                                        <span class="date">
-                                            2024 ඔක්තෝබර් 25
-                                        </span>
-
-                                        <span class="time">
-                                            පෙ.ව. 09:00 – ප.ව. 1:00
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status-badge uppercase">
-                                        තහවුරු කර ඇත
-                                    </span>
-
-                                </td>
-
-
-                                <td class="text-right">
-
-                                    <button class="action-link">
-                                        විස්තර
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- Mr Fernando -->
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="client-info">
-
-                                        <div class="client-avatar">
-
-                                            <img
-                                                alt="ප්‍රනාන්දු මහතා"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlCBP1WtHSAQwsanlr8DavO3hFVeN1C5_Q684bj1kCkPz3ipltmlaEVrr2dFTqwyQGi0Kgp1k4rdSM743YegerSmZ59htE0qAqOOOU8SnzKZg83lWMxFI28KSoH70ycW8FdszWVKEPSiqJApOLdHWCe6KOiYWVsquoQRxGHs0fd6HhiTAXmVE_rJoKcgfci7jtFFJbbF354A2NRvyJyjVWgQ5NjL3r5U9jT46iCORNzoQ5NQCPOQjitM8Su0HxxlP8j3mgV7vTl9Q">
-
-                                        </div>
-
-                                        <span class="client-name">
-                                            ප්‍රනාන්දු මහතා
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <div class="date-time">
-
-                                        <span class="date">
-                                            2024 ඔක්තෝබර් 26
-                                        </span>
-
-                                        <span class="time">
-                                            ප.ව. 2:00 – 6:00
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status-badge uppercase">
-                                        තහවුරු කර ඇත
-                                    </span>
-
-                                </td>
-
-
-                                <td class="text-right">
-
-                                    <button class="action-link">
-                                        විස්තර
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <!-- Ms Jayamaha -->
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="client-info">
-
-                                        <div class="client-avatar">
-
-                                            <img
-                                                alt="ජයමහ මහත්මිය"
-                                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4IqPZ9xtIwZV6ht0HTpSv9TrvuprekRN32mthdVfVLtMzrY2CzTUs7Q0eM2mvtCR_yspxokjuBtQTsJ384dxpObn2buI_JAw2x853ex9YjCg1kNHABRl-Wz_vapOsmZw3Hoqm-kwHB3wSuIIih8AMin2LnLfuPGwLvHptukTnr1qJhd83sFP0JYZ750BFjVGPeISS6lhdC4xyJUWaUKmLYowLXZvmeHkVB79aq90XtgUUWb4Xi-hCFV863H7lhjv0OxfSG6-qN_M">
-
-                                        </div>
-
-                                        <span class="client-name">
-                                            ජයමහ මහත්මිය
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <div class="date-time">
-
-                                        <span class="date">
-                                            2024 ඔක්තෝබර් 27
-                                        </span>
-
-                                        <span class="time">
-                                            පෙ.ව. 10:00 – ප.ව. 2:00
-                                        </span>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status-badge uppercase">
-                                        තහවුරු කර ඇත
-                                    </span>
-
-                                </td>
-
-
-                                <td class="text-right">
-
-                                    <button class="action-link">
-                                        විස්තර
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
-        </div>
-
-
-        <!-- ================= SIDEBAR ================= -->
-
-        <div class="side-column">
-
-
-            <!-- Earnings Summary -->
-
-            <div class="card">
-
-                <div class="title-flex">
-
-                    <h3 class="side-card-title">
-                        ආදායම් සාරාංශය
-                    </h3>
-
-                    <span
-                        class="material-symbols-outlined text-primary cursor-pointer"
-                        data-icon="trending_up">
-                        trending_up
+                    <span class="verified-badge">
+                        ✓ තහවුරු කරන ලදී
                     </span>
 
                 </div>
 
 
-                <div class="earnings-grid">
+                <div class="profile-information">
 
-                    <div class="earning-box">
+                    <h2>
+                        <?= htmlspecialchars($caregiverName) ?>
+                    </h2>
 
-                        <p class="earning-label">
-                            නිදහස් කළ
-                        </p>
-
-                        <p class="earning-value text-success">
-                            LKR 42,500
-                        </p>
-
-                    </div>
-
-
-                    <div class="earning-box">
-
-                        <p class="earning-label">
-                            රඳවා ඇති
-                        </p>
-
-                        <p class="earning-value text-on-surface">
-                            LKR 8,200
-                        </p>
-
-                    </div>
-
-
-                    <div class="earning-box">
-
-                        <p class="earning-label">
-                            මෙම මාසය
-                        </p>
-
-                        <p class="earning-value text-primary">
-                            LKR 94,800
-                        </p>
-
-                    </div>
-
-
-                    <div class="earning-box">
-
-                        <p class="earning-label">
-                            සැසි
-                        </p>
-
-                        <p class="earning-value text-on-surface">
-                            24 සම්පූර්ණයි
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Performance -->
-
-            <div class="card">
-
-                <h3 class="side-card-title">
-                    කාර්යසාධනය
-                </h3>
-
-
-                <div class="perf-list">
-
-                    <div>
-
-                        <div class="perf-item">
-
-                            <span class="perf-label">
-                                ශ්‍රේණිගත කිරීම
-                            </span>
-
-                            <div class="rating-val">
-
-                                <span class="perf-value">
-                                    4.9
-                                </span>
-
-                                <span
-                                    class="material-symbols-outlined star-icon"
-                                    data-icon="star">
-                                    star
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="progress-bar-bg"
-                             style="margin-top:8px;">
-
-                            <div class="progress-bar-fill"></div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="perf-item">
-
-                        <span class="perf-label">
-                            ප්‍රතිචාර අනුපාතය
-                        </span>
-
-                        <span class="perf-value">
-                            100%
-                        </span>
-
-                    </div>
-
-
-                    <div class="perf-item">
-
-                        <span class="perf-label">
-                            සම්පූර්ණ කිරීමේ අනුපාතය
-                        </span>
-
-                        <span class="perf-value">
-                            96%
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Pending Reports -->
-
-            <div class="card">
-
-                <h3 class="side-card-title">
-                    ඉතිරි වාර්තා
-                </h3>
-
-
-                <div class="report-list">
-
-
-                    <div class="report-item">
-
-                        <div class="report-header">
-
-                            <div>
-
-                                <p class="report-name">
-                                    අබේවික්‍රම මහත්මිය
-                                </p>
-
-                                <p class="report-time">
-                                    ඊයේ, ප.ව. 4:00
-                                </p>
-
-                            </div>
-
-                            <span
-                                class="material-symbols-outlined report-icon"
-                                data-icon="pending_actions">
-                                pending_actions
-                            </span>
-
-                        </div>
-
-
-                        <button
-                            class="btn-report"
-                            onclick="window.location.href='/safehands_mvc/caregiver/scheduleSi'">
-
-                            වාර්තාව සම්පූර්ණ කරන්න
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="report-item">
-
-                        <div class="report-header">
-
-                            <div>
-
-                                <p class="report-name">
-                                    සමරනායක මහතා
-                                </p>
-
-                                <p class="report-time">
-                                    ඔක්තෝබර් 22, පෙ.ව. 10:00
-                                </p>
-
-                            </div>
-
-                            <span
-                                class="material-symbols-outlined report-icon"
-                                data-icon="pending_actions">
-                                pending_actions
-                            </span>
-
-                        </div>
-
-
-                        <button
-                            class="btn-report"
-                            onclick="window.location.href='/safehands_mvc/caregiver/scheduleSi'">
-
-                            වාර්තාව සම්පූර්ණ කරන්න
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Recent Notifications -->
-
-            <div class="card">
-
-                <h3 class="side-card-title">
-                    දැනුම්දීම්
-                </h3>
-
-
-                <div class="notif-list">
-
-
-                    <div class="notif-item border-b">
-
-                        <div class="notif-icon success">
-
-                            <span
-                                class="material-symbols-outlined"
-                                style="font-size:18px;"
-                                data-icon="check_circle">
-                                check_circle
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <p class="notif-title">
-                                ගෙවීම නිදහස් කර ඇත
-                            </p>
-
-                            <p class="notif-desc">
-                                පසුගිය සතිය සඳහා ඔබගේ ආදායම නිදහස් කර ඇත.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="notif-item">
-
-                        <div class="notif-icon primary">
-
-                            <span
-                                class="material-symbols-outlined"
-                                style="font-size:18px;"
-                                data-icon="new_releases">
-                                new_releases
-                            </span>
-
-                        </div>
-
-
-                        <div>
-
-                            <p class="notif-title">
-                                නව වෙන්කිරීමේ ඉල්ලීමක්
-                            </p>
-
-                            <p class="notif-desc">
-                                පෙරේරා මහතා ඔක්තෝබර් 30 සඳහා සේවා සැසියක් ඉල්ලා ඇත.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- Support -->
-
-            <div class="support-card">
-
-                <div class="support-content">
-
-                    <h3 class="support-title">
-                        සහාය අවශ්‍යද?
-                    </h3>
-
-                    <p class="support-desc">
-                        ඔබගේ රැකවරණ සේවා සඳහා සහාය වීමට අපගේ සහාය කණ්ඩායම පැය 24 පුරාම සූදානම්.
+                    <p class="profile-role">
+                        වෘත්තීය රැකවරණ සේවා සපයන්නා
                     </p>
 
+                    <div class="profile-meta">
 
-                    <button class="btn-support">
-
-                        <span
-                            class="material-symbols-outlined"
-                            data-icon="support_agent">
-                            support_agent
+                        <span>
+                            🎓 වෘත්තීය සුදුසුකම
                         </span>
 
-                        සහාය අමතන්න
+                        <span>
+                            💼 පළපුරුදු රැකවරණ සේවා සපයන්නා
+                        </span>
 
+                        <span>
+                            ⭐ 5.0 ශ්‍රේණිගත කිරීම
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-actions">
+
+                <a href="<?= htmlspecialchars($profileUrl) ?>"
+                   class="secondary-button">
+                    පොදු පැතිකඩ බලන්න
+                </a>
+
+                <button type="button"
+                        class="primary-button"
+                        id="editProfileButton">
+                    පැතිකඩ සංස්කරණය කරන්න
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROFILE COMPLETION -->
+
+        <section class="completion-card">
+
+            <div class="completion-header">
+
+                <div>
+
+                    <h2>ඔබගේ පැතිකඩ සම්පූර්ණ කරන්න</h2>
+
+                    <p>
+                        පවුල් සඳහා නිවැරදි තොරතුරු ලබා දීම සඳහා
+                        ඔබගේ වෘත්තීය තොරතුරු යාවත්කාලීනව තබා ගන්න.
+                    </p>
+
+                </div>
+
+                <strong>75%</strong>
+
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-value"></div>
+            </div>
+
+            <div class="completion-actions">
+
+                <button type="button"
+                        class="completion-action"
+                        id="addCertificationButton">
+
+                    <span class="completion-icon">+</span>
+
+                    <span>
+                        <strong>තවත් සහතිකයක් එක් කරන්න</strong>
+                        <small>ඔබගේ වෘත්තීය පැතිකඩ වැඩිදියුණු කරන්න</small>
+                    </span>
+
+                </button>
+
+
+                <button type="button"
+                        class="completion-action"
+                        id="updatePhotoButton">
+
+                    <span class="completion-icon">📷</span>
+
+                    <span>
+                        <strong>පැතිකඩ ඡායාරූපය යාවත්කාලීන කරන්න</strong>
+                        <small>මෑතකාලීන වෘත්තීය ඡායාරූපයක් භාවිතා කරන්න</small>
+                    </span>
+
+                </button>
+
+
+                <button type="button"
+                        class="completion-action"
+                        id="completeSkillsButton">
+
+                    <span class="completion-icon">✓</span>
+
+                    <span>
+                        <strong>ඔබගේ කුසලතා සම්පූර්ණ කරන්න</strong>
+                        <small>ඔබගේ රැකවරණ සේවා කුසලතා එක් කරන්න</small>
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- MAIN PROFILE AREA -->
+
+        <form id="caregiverProfileForm"
+              class="profile-layout">
+
+            <div class="profile-content">
+
+                <!-- TABS -->
+
+                <div class="profile-tabs">
+
+                    <button type="button"
+                            class="profile-tab active"
+                            data-tab="overview">
+                        දළ විශ්ලේෂණය
+                    </button>
+
+                    <button type="button"
+                            class="profile-tab"
+                            data-tab="professional">
+                        වෘත්තීය තොරතුරු
+                    </button>
+
+                    <button type="button"
+                            class="profile-tab"
+                            data-tab="pricing">
+                        සේවා මුර මිල
+                    </button>
+
+                    <button type="button"
+                            class="profile-tab"
+                            data-tab="documents">
+                        ලේඛන
                     </button>
 
                 </div>
 
 
-                <div class="decor-shape-1"></div>
-                <div class="decor-shape-2"></div>
+                <!-- OVERVIEW -->
+
+                <section class="tab-content active"
+                         id="overview">
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <h2>දළ විශ්ලේෂණය</h2>
+
+                            <p>
+                                ඔබගේ මූලික රැකවරණ සේවා තොරතුරු.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="information-grid">
+
+                        <div class="information-item">
+
+                            <label>සම්පූර්ණ නම</label>
+
+                            <input type="text"
+                                   name="full_name"
+                                   value="<?= htmlspecialchars($caregiverName) ?>">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>දුරකථන අංකය</label>
+
+                            <input type="text"
+                                   name="phone"
+                                   value="">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>විද්‍යුත් තැපැල් ලිපිනය</label>
+
+                            <input type="email"
+                                   name="email"
+                                   value="">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>දිස්ත්‍රික්කය</label>
+
+                            <input type="text"
+                                   name="district"
+                                   value="">
+
+                        </div>
+
+
+                        <div class="information-item full-width">
+
+                            <label>භාෂා</label>
+
+                            <input type="text"
+                                   name="languages"
+                                   placeholder="උදාහරණය: සිංහල, ඉංග්‍රීසි, දෙමළ">
+
+                        </div>
+
+
+                        <div class="information-item full-width">
+
+                            <label>මා ගැන</label>
+
+                            <textarea name="biography"
+                                      rows="5"
+                                      placeholder="කෙටි වෘත්තීය හැඳින්වීමක් ලියන්න..."></textarea>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- PROFESSIONAL INFORMATION -->
+
+                <section class="tab-content"
+                         id="professional">
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <h2>වෘත්තීය තොරතුරු</h2>
+
+                            <p>
+                                ඔබගේ වෘත්තීය සුදුසුකම් සහ
+                                රැකවරණ සේවා කුසලතා කළමනාකරණය කරන්න.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="information-grid">
+
+                        <div class="information-item full-width">
+
+                            <label>වෘත්තීය සාරාංශය</label>
+
+                            <textarea name="professional_summary"
+                                      rows="5"
+                                      placeholder="ඔබගේ වෘත්තීය පළපුරුද්ද විස්තර කරන්න..."></textarea>
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>ඉහළම අධ්‍යාපන සුදුසුකම</label>
+
+                            <input type="text"
+                                   name="highest_qualification"
+                                   placeholder="සුදුසුකම ඇතුළත් කරන්න">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>පළපුරුද්දේ වසර ගණන</label>
+
+                            <input type="number"
+                                   name="years_experience"
+                                   min="0"
+                                   value="0">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>කුසලතා</label>
+
+                            <input type="text"
+                                   name="skills"
+                                   placeholder="වැඩිහිටි සත්කාරය, ප්‍රථමාධාර ආදිය">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>කතා කරන භාෂා</label>
+
+                            <input type="text"
+                                   name="professional_languages"
+                                   placeholder="සිංහල, ඉංග්‍රීසි">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>විශේෂීකරණය</label>
+
+                            <input type="text"
+                                   name="specialization"
+                                   placeholder="උදාහරණය: වැඩිහිටි සත්කාරය">
+
+                        </div>
+
+
+                        <div class="information-item">
+
+                            <label>ලබා ගත හැකි තත්ත්වය</label>
+
+                            <select name="availability_status">
+
+                                <option value="Available">
+                                    ලබා ගත හැක
+                                </option>
+
+                                <option value="Partially Available">
+                                    අර්ධ වශයෙන් ලබා ගත හැක
+                                </option>
+
+                                <option value="Unavailable">
+                                    ලබා ගත නොහැක
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- SHIFT PRICING -->
+
+                <section class="tab-content"
+                         id="pricing">
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <h2>සේවා මුර මිල</h2>
+
+                            <p>
+                                විවිධ සේවා මුර සඳහා ඔබගේ
+                                රැකවරණ සේවා මිල ගණන් සකස් කර යාවත්කාලීන කරන්න.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="pricing-grid">
+
+                        <div class="pricing-card">
+
+                            <div class="pricing-header">
+                                <h3>උදෑසන</h3>
+                                <span>6:00 AM - 12:00 PM</span>
+                            </div>
+
+                            <div class="price-input">
+
+                                <span>Rs.</span>
+
+                                <input type="number"
+                                       name="morning_price"
+                                       min="0"
+                                       placeholder="0.00">
+
+                                <span>/ සේවා මුරය</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="pricing-card">
+
+                            <div class="pricing-header">
+                                <h3>දහවල්</h3>
+                                <span>12:00 PM - 6:00 PM</span>
+                            </div>
+
+                            <div class="price-input">
+
+                                <span>Rs.</span>
+
+                                <input type="number"
+                                       name="afternoon_price"
+                                       min="0"
+                                       placeholder="0.00">
+
+                                <span>/ සේවා මුරය</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="pricing-card">
+
+                            <div class="pricing-header">
+                                <h3>සවස</h3>
+                                <span>6:00 PM - 12:00 AM</span>
+                            </div>
+
+                            <div class="price-input">
+
+                                <span>Rs.</span>
+
+                                <input type="number"
+                                       name="evening_price"
+                                       min="0"
+                                       placeholder="0.00">
+
+                                <span>/ සේවා මුරය</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- DOCUMENTS -->
+
+                <section class="tab-content"
+                         id="documents">
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <h2>ලේඛන</h2>
+
+                            <p>
+                                ඔබ ඉදිරිපත් කළ සත්‍යාපන ලේඛන බලන්න.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="documents-list">
+
+                        <div class="document-item">
+
+                            <div class="document-icon">
+                                ✓
+                            </div>
+
+                            <div class="document-information">
+
+                                <strong>
+                                    NIC
+                                </strong>
+
+                                <span>
+                                    ලියාපදිංචි වීමේදී ඉදිරිපත් කරන ලදී
+                                </span>
+
+                            </div>
+
+                            <span class="document-status">
+                                තහවුරු කරන ලදී
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <div class="document-icon">
+                                ✓
+                            </div>
+
+                            <div class="document-information">
+
+                                <strong>
+                                    සුදුසුකම් සහතිකය
+                                </strong>
+
+                                <span>
+                                    ලියාපදිංචි වීමේදී ඉදිරිපත් කරන ලදී
+                                </span>
+
+                            </div>
+
+                            <span class="document-status">
+                                තහවුරු කරන ලදී
+                            </span>
+
+                        </div>
+
+
+                        <div class="document-item">
+
+                            <div class="document-icon">
+                                ✓
+                            </div>
+
+                            <div class="document-information">
+
+                                <strong>
+                                    පොලිස් නිෂ්කාශන සහතිකය
+                                </strong>
+
+                                <span>
+                                    ලියාපදිංචි වීමේදී ඉදිරිපත් කරන ලදී
+                                </span>
+
+                            </div>
+
+                            <span class="document-status">
+                                තහවුරු කරන ලදී
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="upload-document">
+
+                        <label for="additionalDocument">
+                            අමතර ලේඛනයක් උඩුගත කරන්න
+                        </label>
+
+                        <input type="file"
+                               id="additionalDocument"
+                               name="additional_document">
+
+                    </div>
+
+                </section>
+
+
+                <!-- ACTIONS -->
+
+                <div class="form-actions">
+
+                    <button type="button"
+                            class="cancel-button"
+                            id="cancelChangesButton">
+                        වෙනස්කම් අවලංගු කරන්න
+                    </button>
+
+                    <button type="submit"
+                            class="primary-button">
+                        සියලු වෙනස්කම් සුරකින්න
+                    </button>
+
+                </div>
+
+
+                <div class="save-message"
+                     id="saveMessage"
+                     aria-live="polite">
+                </div>
 
             </div>
 
-        </div>
+
+            <!-- SIDEBAR -->
+
+            <aside class="dashboard-sidebar">
+
+                <div class="sidebar-card">
+
+                    <h3>ඉක්මන් සංඛ්‍යාලේඛන</h3>
+
+                    <div class="stat-item">
+
+                        <span>සම්පූර්ණ කළ රැකියා</span>
+                        <strong>0</strong>
+
+                    </div>
+
+                    <div class="stat-item">
+
+                        <span>මුළු ආදායම</span>
+                        <strong>Rs. 0</strong>
+
+                    </div>
+
+                    <div class="stat-item">
+
+                        <span>සාමාන්‍ය ශ්‍රේණිගත කිරීම</span>
+                        <strong>5.0 ⭐</strong>
+
+                    </div>
+
+                    <div class="stat-item">
+
+                        <span>පැතිකඩ නැරඹීම්</span>
+                        <strong>0</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sidebar-card visibility-card">
+
+                    <h3>පැතිකඩ දෘශ්‍යතාව</h3>
+
+                    <p>
+                        ඔබගේ පැතිකඩ දැනට රැකවරණ සේවා සපයන්නන්
+                        සොයන පවුල් සඳහා දෘශ්‍යමාන වේ.
+                    </p>
+
+                    <label class="switch">
+
+                        <input type="checkbox"
+                               checked
+                               id="profileVisibility">
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                    <span class="visibility-status"
+                          id="visibilityStatus">
+                        දෘශ්‍යමානයි
+                    </span>
+
+                </div>
+
+
+                <div class="sidebar-card support-card">
+
+                    <h3>උදව් අවශ්‍යද?</h3>
+
+                    <p>
+                        ඔබගේ රැකවරණ සේවා ගිණුම සම්බන්ධයෙන්
+                        සහාය අවශ්‍ය නම් SafeHands සහාය අමතන්න.
+                    </p>
+
+                    <a href="/safehands_mvc/contact"
+                       class="support-link">
+                        සහාය අමතන්න →
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </form>
 
     </div>
 
 </main>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- HIDDEN PROFILE PHOTO INPUT -->
 
-<footer class="footer">
-
-    <div class="footer-inner">
-
-        <div class="footer-brand">
-
-            <span class="brand-name">
-                SafeHands
-            </span>
-
-            <span class="copyright">
-                © 2024 SafeHands Healthcare. සියලුම හිමිකම් ඇවිරිණි.
-            </span>
-
-        </div>
+<input type="file"
+       id="profilePhotoInput"
+       accept="image/*"
+       hidden>
 
 
-        <div class="footer-links">
+<footer class="dashboard-footer">
 
-            <a class="footer-link" href="#">
-                රහස්‍යතා ප්‍රතිපත්තිය
-            </a>
+    <div class="footer-container">
 
-            <a class="footer-link" href="#">
-                කොන්දේසි
-            </a>
-
-            <a class="footer-link" href="#">
-                උපකාරක මධ්‍යස්ථානය
-            </a>
-
-        </div>
+        <p>
+            © <?= date('Y') ?> SafeHands Caregiver Service Management System
+        </p>
 
     </div>
 
 </footer>
 
 
-<script src="/safehands_mvc/public/assets/js/caregiver-dashboard.js?v=1"></script>
+<script src="/safehands_mvc/public/assets/js/caregiver-dashboard.js"></script>
 
 </body>
 </html>

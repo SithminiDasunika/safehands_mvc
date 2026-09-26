@@ -7,7 +7,7 @@
 
     <title>Professional Information - SafeHands</title>
 
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/professional.css">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/professional.css?v=2">
 </head>
 
 <body>

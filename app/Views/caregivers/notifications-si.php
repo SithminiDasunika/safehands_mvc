@@ -15,7 +15,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/caregiver-notifications.css"
+        href="/safehands_mvc/public/assets/css/caregiver-notifications.css?v=2"
     >
 </head>
 

@@ -121,4 +121,70 @@ class BookingsController extends Controller
             );
         }
     }
+
+    /**
+     * ==========================================
+     * READ OPERATION
+     * ==========================================
+     * Fetches and displays a list of completed bookings for care reports.
+     */
+    public function pendingReports(): void
+    {
+        $userId = (int)$_SESSION['user_id'];
+        $role = $_SESSION['user_role'] ?? 'family';
+        
+        if ($role !== 'caregiver') {
+            header('Location: /safehands_mvc/dashboard');
+            exit;
+        }
+
+        $bookingModel = $this->model('BookingModel');
+        
+        require_once __DIR__ . '/../Core/Database.php';
+        $dbInstance = new Database();
+        $conn = $dbInstance->getConnection();
+        
+        $stmt = $conn->prepare("SELECT caregiver_id FROM caregiver_profiles WHERE user_id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if ($row = $res->fetch_assoc()) {
+            $actualCaregiverId = $row['caregiver_id'];
+        } else {
+            $actualCaregiverId = $userId;
+        }
+        $stmt->close();
+        
+        $rawBookings = $bookingModel->getBookingsByCaregiverId($actualCaregiverId);
+        
+        $reportModel = $this->model('CareReportModel');
+        
+        $completed = [];
+        $stats = ['completed' => 0];
+
+        foreach ($rawBookings as $b) {
+            $status = strtolower($b['status']);
+            if ($status === 'completed') {
+                $stats['completed']++;
+                
+                $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
+                
+                $completed[] = [
+                    'id' => $b['booking_id'],
+                    'patient' => $b['patient_name'] ?? 'Unknown Patient',
+                    'date' => date('M d, Y', strtotime($b['created_at'])),
+                    'image' => 'https://via.placeholder.com/150', // Placeholder
+                    'has_report' => $hasReport
+                ];
+            }
+        }
+
+        $data = [
+            'title' => 'Pending Reports | SafeHands',
+            'stats' => $stats,
+            'completed' => $completed
+        ];
+
+        $this->view('bookings/pending-reports', $data, 'bookings');
+    }
 }

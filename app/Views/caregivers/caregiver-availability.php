@@ -22,7 +22,7 @@ $availability = $availability ?? [];
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/caregiver-availability.css"
+        href="/safehands_mvc/public/assets/css/caregiver-availability.css?v=2"
     >
 </head>
 

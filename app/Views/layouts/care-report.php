@@ -21,7 +21,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/care-report.css?v=1790335429"
+        href="/safehands_mvc/public/assets/css/care-report.css?v=2"
     >
 
 </head>
@@ -35,14 +35,31 @@
 
             <div class="brand-area">
 
-                <a
-                    href="/safehands_mvc/family"
+                                <a
+                    href="<?= (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver') ? '/safehands_mvc/caregiver/dashboard' : '/safehands_mvc/family' ?>"
                     class="brand"
                 >
                     SafeHands
                 </a>
 
 
+                <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
+                <style>
+                    :root {
+                        --primary: #059669;
+                        --primary-container: #10b981;
+                        --surface-low: #f0fdf4;
+                    }
+                </style>
+                <nav class="main-nav">
+                    <a href="/safehands_mvc/caregiver/dashboard">Dashboard</a>
+                    <a href="/safehands_mvc/bookings">Booking Requests</a>
+                    <a href="/safehands_mvc/caregiver/schedule">Emergency Contact Information</a>
+                    <a href="/safehands_mvc/caregiver/manageAvailability">Availability</a>
+                    <a href="/safehands_mvc/caregiver/earnings">Earnings</a>
+                    <a href="/safehands_mvc/caregiver/notifications">Notifications</a>
+                </nav>
+                <?php else: ?>
                 <nav class="main-nav">
 
                     <a href="/safehands_mvc/family">
@@ -65,6 +82,7 @@
                     </a>
 
                 </nav>
+                <?php endif; ?>
 
             </div>
 

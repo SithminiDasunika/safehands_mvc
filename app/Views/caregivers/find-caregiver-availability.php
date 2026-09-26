@@ -30,7 +30,7 @@ $image = $caregiver['image'] ?? '';
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/availability.css"
+        href="/safehands_mvc/public/assets/css/availability.css?v=2"
     >
 
 </head>

@@ -1,8 +1,7 @@
 <?php
-
-$booking = $booking ?? [];
-$caregiver = $caregiver ?? [];
-
+$b = $booking ?? [];
+$cg = $caregiver ?? [];
+$p = $patient ?? [];
 ?>
 
 <!-- =====================================================
@@ -214,7 +213,7 @@ $caregiver = $caregiver ?? [];
                             </p>
 
                             <p class="info-value">
-                                <?= htmlspecialchars($booking['patient'] ?? 'Mr. Ananda Silva') ?>
+                                <?= htmlspecialchars($p['full_name'] ?? 'Unknown Patient') ?>
                             </p>
 
                         </div>
@@ -237,11 +236,11 @@ $caregiver = $caregiver ?? [];
                             </p>
 
                             <p class="info-value">
-                                <?= htmlspecialchars($booking['date'] ?? '15 Aug 2026') ?>
+                                <?= htmlspecialchars(!empty($b['sessions']) ? date('d M Y', strtotime($b['sessions'][0]['service_date'])) : date('d M Y', strtotime($b['created_at'] ?? 'today'))) ?>
                             </p>
 
                             <p class="info-subvalue">
-                                <?= htmlspecialchars($booking['time'] ?? '09:00 AM - 01:00 PM') ?>
+                                <?= htmlspecialchars(!empty($b['sessions']) ? ucfirst($b['sessions'][0]['shift_type']) . ' Shift' : 'Pending Shift') ?>
                             </p>
 
                         </div>
@@ -258,7 +257,7 @@ $caregiver = $caregiver ?? [];
                         </span>
 
                         <span>
-                            <?= htmlspecialchars($booking['status'] ?? 'Care Session Completed') ?>
+                            <?= htmlspecialchars(ucfirst($b['status'] ?? 'Completed')) ?>
                         </span>
 
                     </div>
@@ -305,10 +304,10 @@ $caregiver = $caregiver ?? [];
                      FORM
                 ====================================== -->
 
-                <form
-                    class="complaint-form"
-                    id="complaintForm"
-                >
+                <form class="complaint-form" id="complaintForm" method="POST" enctype="multipart/form-data" action="/safehands_mvc/complaint/submit">
+                    <input type="hidden" name="booking_id" value="<?= htmlspecialchars($b['booking_id'] ?? '') ?>">
+                    <input type="hidden" name="family_id" value="<?= htmlspecialchars($b['family_user_id'] ?? '') ?>">
+                    <input type="hidden" name="caregiver_id" value="<?= htmlspecialchars($cg['user_id'] ?? $b['caregiver_id'] ?? '') ?>">
 
 
                     <!-- =================================

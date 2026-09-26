@@ -15,7 +15,7 @@ $stats = $stats ?? [];
 
     <div class="breadcrumb">
 
-        <a href="/safehands_mvc/family">
+        <a href="/safehands_mvc/caregiver/dashboard">
             Dashboard
         </a>
 
@@ -345,32 +345,25 @@ $stats = $stats ?? [];
 
 
                     <!-- ACTIONS -->
-
                     <div class="booking-actions vertical">
 
-
                         <a
-                            href="/safehands_mvc/care-report"
-                            class="primary-button"
+                            href="/safehands_mvc/booking/details/<?= htmlspecialchars($active['booking_id'] ?? $active['id'] ?? '') ?>"
+                            class="primary-button view-booking-button"
                         >
-                            View Care Report
+                            View Booking
                         </a>
-
 
                         <button
                             type="button"
                             class="secondary-button contact-button"
                         >
-                            Contact Family
+                            Contact
                         </button>
 
                     </div>
 
                 </div>
-
-
-
-                <!-- PROGRESS -->
 
                 <div class="progress-area">
 

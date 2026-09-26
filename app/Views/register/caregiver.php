@@ -9,7 +9,7 @@
 
     <!-- Normal CSS only -->
     <link rel="stylesheet"
-          href="/safehands_mvc/public/assets/css/caregiver.css">
+          href="/safehands_mvc/public/assets/css/caregiver.css?v=2">
 </head>
 
 <body>

@@ -636,17 +636,11 @@
         }, 200);
     }
 
-    document.querySelectorAll('.view-details-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            openModal({
-                id: btn.getAttribute('data-id'),
-                patient: btn.getAttribute('data-patient'),
-                family: btn.getAttribute('data-family'),
-                caregiver: btn.getAttribute('data-caregiver'),
-                status: btn.getAttribute('data-status')
-            });
-        });
+     document.querySelectorAll('.view-details-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        window.location.href = '/safehands_mvc/admin/bookingDetails';
     });
+});
 
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
     if (modalDismissBtn) modalDismissBtn.addEventListener('click', closeModal);

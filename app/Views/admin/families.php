@@ -185,9 +185,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                             <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -217,9 +217,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                            <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -253,9 +253,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                             <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -285,9 +285,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                            <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -321,9 +321,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                             <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -357,9 +357,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                            <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -389,9 +389,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                            <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -425,9 +425,9 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
+                            <button type="button" class="btn btn-sm btn-primary-container family-view-details">
+    View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+</button>
                         </td>
                     </tr>
                 </tbody>
@@ -501,5 +501,11 @@
     if (statusFilter)   statusFilter.addEventListener('change', filterTable);
     if (districtFilter) districtFilter.addEventListener('change', filterTable);
     if (bookingFilter)  bookingFilter.addEventListener('change', filterTable);
+
+    document.querySelectorAll('.family-view-details').forEach(button => {
+    button.addEventListener('click', () => {
+        window.location.href = '/safehands_mvc/admin/familyDetails';
+    });
+});
 })();
 </script>

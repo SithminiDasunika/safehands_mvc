@@ -221,10 +221,10 @@
                         </td>
                         <td class="text-outline">25 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
                     
@@ -250,10 +250,10 @@
                         </td>
                         <td class="text-outline">24 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -279,10 +279,10 @@
                         </td>
                         <td class="text-outline">20 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -308,10 +308,10 @@
                         </td>
                         <td class="text-outline">19 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
                     
@@ -337,10 +337,10 @@
                         </td>
                         <td class="text-outline">15 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -366,10 +366,10 @@
                         </td>
                         <td class="text-outline">12 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-outline">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -395,10 +395,10 @@
                         </td>
                         <td class="text-outline">10 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
 
@@ -424,10 +424,10 @@
                         </td>
                         <td class="text-outline">05 Sep 2026</td>
                         <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                <span>View Details</span>
-                                <span class="material-symbols-outlined icon-sm">chevron_right</span>
-                            </button>
+                            <button class="btn btn-sm btn-primary-container caregiver-view-details">
+    <span>View Details</span>
+    <span class="material-symbols-outlined icon-sm">chevron_right</span>
+</button>
                         </td>
                     </tr>
                 </tbody>
@@ -448,18 +448,20 @@
         </div>
     </div>
 </div>
-
-<script>
+ <script>
 document.addEventListener('DOMContentLoaded', () => {
+
     const clearBtn = document.getElementById('clearFiltersBtn');
+
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
+
             const searchInput = document.getElementById('caregiverSearch');
             const statusSelect = document.getElementById('statusFilter');
             const districtSelect = document.getElementById('districtFilter');
             const expSelect = document.getElementById('experienceFilter');
             const qualSelect = document.getElementById('qualFilter');
-            
+
             if (searchInput) searchInput.value = '';
             if (statusSelect) statusSelect.value = 'all';
             if (districtSelect) districtSelect.value = 'all';
@@ -467,5 +469,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (qualSelect) qualSelect.value = 'all';
         });
     }
+
+    // View Caregiver Details
+    document.querySelectorAll('.caregiver-view-details').forEach(button => {
+        button.addEventListener('click', () => {
+            window.location.href = '/safehands_mvc/admin/caregiverDetails';
+        });
+    });
+
 });
 </script>

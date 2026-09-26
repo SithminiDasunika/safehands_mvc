@@ -200,6 +200,32 @@ class LoginController extends Controller
                 }
 
 
+
+                if ($user['status'] === 'rejected') {
+                    if ($user['role'] === 'caregiver') {
+                        require_once __DIR__ . '/../Core/Database.php';
+                        $dbInstance = new Database();
+                        $conn = $dbInstance->getConnection();
+                        $stmt = $conn->prepare("SELECT rejection_reason FROM caregiver_profiles WHERE user_id = ?");
+                        $stmt->bind_param("i", $user['id']);
+                        $stmt->execute();
+                        $res = $stmt->get_result();
+                        if ($row = $res->fetch_assoc()) {
+                            $_SESSION['rejection_reason'] = $row['rejection_reason'];
+                        }
+                        header('Location: /safehands_mvc/caregiver/rejected');
+                        exit;
+                    }
+                    $errors[] =
+                        'Your account application has been rejected.';
+
+                    $this->showLogin(
+                        $errors,
+                        $email
+                    );
+
+                    return;
+                }
                 if ($user['status'] === 'suspended') {
 
                     $errors[] =

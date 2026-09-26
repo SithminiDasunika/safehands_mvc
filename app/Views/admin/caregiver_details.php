@@ -32,7 +32,17 @@
             <div class="card profile-header-card">
                 <div class="profile-header-content">
                     <div class="avatar-container">
-                        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD-k8QpEe2ce7RrcQ21ODVCwioG_04uHAdia2Ikqna6CdejbpFnKomuhjOEGJZ5oKkdFjZUU7d8JKW8_sKIKDwHJHyDotVDe0Wq3x4y6rYQCZQIM9JwG2RdRf1uEtn08PHLLruLytZtbJ2ZeMcaCbzN4Byx0bSrKwk4TkAI8I0-TG3SgScwq4CMd6WMOSLgpB6aNzLBEOTebk-JwEkmw3jg7b7GERIZUo0ioTZhrKRSus8wOy677vz" alt="Sandun Rathnayake" class="avatar-lg">
+                        <?php 
+    $photo = $caregiver['profile_photo'] ?? '';
+    if (empty($photo)) {
+        $photoUrl = 'https://ui-avatars.com/api/?name='.urlencode($caregiver['full_name'] ?? 'C G').'&background=random';
+    } elseif (strpos($photo, 'http') === 0 || strpos($photo, '/') === 0) {
+        $photoUrl = $photo;
+    } else {
+        $photoUrl = '/safehands_mvc/public/' . $photo;
+    }
+?>
+                        <img src="<?= htmlspecialchars($photoUrl) ?>" alt="<?= htmlspecialchars($caregiver["full_name"] ?? "Caregiver") ?>" class="avatar-lg" style="object-fit: cover;">
                         <span class="avatar-badge-warning" id="avatarVerificationIcon">
                             <span class="material-symbols-outlined">hourglass_top</span>
                         </span>
@@ -41,11 +51,20 @@
                         <div class="profile-meta">
                             <span class="meta-label">Caregiver Profile</span>
                             <span class="meta-dot">•</span>
-                            <span class="meta-id">#CG-8822</span>
+                            <span class="meta-id">#CG-<?= str_pad($caregiver["caregiver_id"] ?? 0, 4, "0", STR_PAD_LEFT) ?></span>
                         </div>
-                        <h2 class="profile-name">Sandun Rathnayake</h2>
+                        <h2 class="profile-name"><?= htmlspecialchars($caregiver["full_name"] ?? "Caregiver") ?></h2>
                         <div class="profile-tags">
-                            <span class="tag-pill tag-warning-light" id="profileStatusPill">Pending Verification</span>
+                            <?php 
+$vs = strtolower($caregiver['verification_status'] ?? 'pending');
+if ($vs === 'verified') {
+    echo '<span class="tag-pill tag-success-light" id="profileStatusPill">Verified</span>';
+} elseif ($vs === 'rejected') {
+    echo '<span class="tag-pill tag-error-light" id="profileStatusPill">Rejected</span>';
+} else {
+    echo '<span class="tag-pill tag-warning-light" id="profileStatusPill">Pending Verification</span>';
+}
+?>
                             <span class="tag-pill tag-neutral">Registered: 24 Sep 2026</span>
                             <span class="tag-pill tag-primary-light">Geriatric & Post-Op Specialist</span>
                         </div>
@@ -53,11 +72,11 @@
                         <div class="contact-grid">
                             <div class="contact-item">
                                 <span class="material-symbols-outlined icon-primary">mail</span>
-                                <span>sandun.care@safehands.lk</span>
+                                <span><?= htmlspecialchars($caregiver["email"] ?? "") ?></span>
                             </div>
                             <div class="contact-item">
                                 <span class="material-symbols-outlined icon-primary">call</span>
-                                <span>+94 71 890 1234</span>
+                                <span><?= htmlspecialchars($caregiver["phone"] ?? "") ?></span>
                             </div>
                             <div class="contact-item">
                                 <span class="material-symbols-outlined icon-primary">location_on</span>
@@ -80,42 +99,42 @@
                 <div class="info-grid">
                     <div class="info-group">
                         <span class="info-label">Full Legal Name</span>
-                        <span class="info-value">Sandun Sampath Rathnayake</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["full_name"] ?? "Caregiver") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">National Identity Card (NIC)</span>
                         <div class="info-value-group">
-                            <span class="info-value">198824109281</span>
+                            <span class="info-value"><?= htmlspecialchars($caregiver["nic"] ?? "") ?></span>
                             <span class="material-symbols-outlined icon-success icon-sm">check_circle</span>
                         </div>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Phone Number</span>
-                        <span class="info-value">+94 71 890 1234</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["phone"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Email Address</span>
-                        <span class="info-value">sandun.care@safehands.lk</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["email"] ?? "") ?></span>
                     </div>
                     <div class="info-group full-width">
                         <span class="info-label">Residential Address</span>
-                        <span class="info-value">No. 42/B, Temple Road, Maharagama, Colombo</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["address"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Date of Birth & Age</span>
-                        <span class="info-value">14 August 1988 (Age 38)</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["date_of_birth"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Gender</span>
-                        <span class="info-value">Male</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["gender"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">District / Province</span>
-                        <span class="info-value">Colombo, Western Province</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["district"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Emergency Contact</span>
-                        <span class="info-value">Kamani Rathnayake (Spouse) · +94 77 345 8890</span>
+                        <span class="info-value">Not Provided</span>
                     </div>
                 </div>
             </div>
@@ -135,11 +154,11 @@
                 <div class="info-grid">
                     <div class="info-group">
                         <span class="info-label">Highest Qualification</span>
-                        <span class="info-value strong">Diploma in Nursing (SLITA / NAITA Accredited)</span>
+                        <span class="info-value strong"><?= htmlspecialchars($caregiver["highest_qualification"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Years of Experience</span>
-                        <span class="info-value strong">4 Years Clinical & Home Care</span>
+                        <span class="info-value strong"><?= htmlspecialchars($caregiver["years_experience"] ?? "0") ?> Years</span>
                     </div>
                     <div class="info-group full-width">
                         <span class="info-label">Certifications</span>
@@ -151,11 +170,11 @@
                     </div>
                     <div class="info-group">
                         <span class="info-label">Languages Spoken</span>
-                        <span class="info-value">Sinhala (Fluent), English (Professional Working)</span>
+                        <span class="info-value"><?= htmlspecialchars($caregiver["languages"] ?? "") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Expected Daily Rate</span>
-                        <span class="info-value text-primary strong">LKR 4,500 / 8-hour shift</span>
+                        <span class="info-value text-primary strong">LKR <?= number_format($caregiver["daily_rate"] ?? 0, 2) ?></span>
                     </div>
                     <div class="info-group full-width">
                         <span class="info-label">Service Areas</span>
@@ -168,7 +187,7 @@
                     </div>
                     <div class="info-group full-width bio-box">
                         <span class="info-label">Professional Summary & Bio</span>
-                        <p class="bio-text">"Dedicated and compassionate elderly care professional with 4+ years of specialized experience in geriatric support, vital signs monitoring, medication assistance, and post-stroke rehabilitation. Committed to patient dignity, strict hygiene, and reliable daily communication with family guardians."</p>
+                        <p class="bio-text"><?= nl2br(htmlspecialchars($caregiver["biography"] ?? "No biography provided.")) ?></p>
                     </div>
                 </div>
             </div>
@@ -187,69 +206,26 @@
                 </div>
 
                 <div class="docs-grid">
-                    <!-- Doc 1 -->
-                    <div class="doc-card">
-                        <div class="doc-header">
-                            <div class="doc-icon"><span class="material-symbols-outlined">id_card</span></div>
-                            <span class="doc-badge-success">Format: Valid NIC</span>
-                        </div>
-                        <div class="doc-info">
-                            <h4>NIC (Front)</h4>
-                            <p>National Identity Document · PNG</p>
-                            <span class="doc-meta">Uploaded: 24 Sep 2026 • 1.2 MB</span>
-                        </div>
-                        <button class="btn btn-doc" onclick="openDocPreview('NIC Front Document', '198824109281')">
-                            <span class="material-symbols-outlined">visibility</span> View Document
-                        </button>
-                    </div>
-
-                    <!-- Doc 2 -->
-                    <div class="doc-card">
-                        <div class="doc-header">
-                            <div class="doc-icon"><span class="material-symbols-outlined">badge</span></div>
-                            <span class="doc-badge-neutral">Registered Address Match</span>
-                        </div>
-                        <div class="doc-info">
-                            <h4>NIC (Back)</h4>
-                            <p>National Identity Document · PNG</p>
-                            <span class="doc-meta">Uploaded: 24 Sep 2026 • 1.1 MB</span>
-                        </div>
-                        <button class="btn btn-doc" onclick="openDocPreview('NIC Back Document', 'NIC-REV-8822')">
-                            <span class="material-symbols-outlined">visibility</span> View Document
-                        </button>
-                    </div>
-
-                    <!-- Doc 3 -->
-                    <div class="doc-card">
-                        <div class="doc-header">
-                            <div class="doc-icon"><span class="material-symbols-outlined">school</span></div>
-                            <span class="doc-badge-success">SLITA Verified</span>
-                        </div>
-                        <div class="doc-info">
-                            <h4>Qualification Certificate</h4>
-                            <p>Professional Nursing Diploma · PDF</p>
-                            <span class="doc-meta">Uploaded: 24 Sep 2026 • 2.4 MB</span>
-                        </div>
-                        <button class="btn btn-doc" onclick="openDocPreview('Qualification Certificate', 'CERT-SLITA-4091')">
-                            <span class="material-symbols-outlined">visibility</span> View Document
-                        </button>
-                    </div>
-
-                    <!-- Doc 4 -->
-                    <div class="doc-card">
-                        <div class="doc-header">
-                            <div class="doc-icon"><span class="material-symbols-outlined">verified_user</span></div>
-                            <span class="doc-badge-success">Valid until Dec 2026</span>
-                        </div>
-                        <div class="doc-info">
-                            <h4>Police Clearance Certificate</h4>
-                            <p>Sri Lanka Police CID Clearance · PDF</p>
-                            <span class="doc-meta">Issued: 12 June 2026 • 3.1 MB</span>
-                        </div>
-                        <button class="btn btn-doc" onclick="openDocPreview('Police Clearance Certificate', 'POL-CID-99120')">
-                            <span class="material-symbols-outlined">visibility</span> View Document
-                        </button>
-                    </div>
+                    <?php if (!empty($caregiver['documents'])): ?>
+                        <?php foreach ($caregiver['documents'] as $doc): ?>
+                            <div class="doc-card">
+                                <div class="doc-header">
+                                    <div class="doc-icon"><span class="material-symbols-outlined">description</span></div>
+                                    <span class="doc-badge-neutral">Document</span>
+                                </div>
+                                <div class="doc-info">
+                                    <h4><?= htmlspecialchars($doc['document_type']) ?></h4>
+                                    <p>Provided by Caregiver</p>
+                                    <span class="doc-meta">Uploaded: <?= date('d M Y', strtotime($doc['uploaded_at'])) ?></span>
+                                </div>
+                                <a href="/safehands_mvc/public/<?= htmlspecialchars($doc['file_path']) ?>" target="_blank" class="btn btn-doc" style="text-decoration:none; text-align:center;">
+                                    <span class="material-symbols-outlined">visibility</span> View Document
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p style="padding: 20px;">No documents uploaded.</p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -329,6 +305,7 @@
                 </div>
 
                 <div class="decision-actions" id="decisionActionButtons">
+                    <?php if (strtolower($caregiver['verification_status']) === 'pending'): ?>
                     <button class="btn btn-full btn-primary" onclick="toggleModal('approveModal', true)">
                         <span class="material-symbols-outlined">check_circle</span>
                         <span>Approve Caregiver</span>
@@ -337,6 +314,14 @@
                         <span class="material-symbols-outlined">cancel</span>
                         <span>Reject Caregiver</span>
                     </button>
+                    <?php else: ?>
+                    <div style="padding: 16px; background-color: #f0f3ff; border-radius: 8px; text-align: center;">
+                        <strong>Status: <?= ucfirst($caregiver['verification_status']) ?></strong>
+                        <?php if (strtolower($caregiver['verification_status']) === 'rejected'): ?>
+                            <br><small><?= htmlspecialchars($caregiver['rejection_reason']) ?></small>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="compliance-footer">
@@ -412,14 +397,18 @@
                 <span class="material-symbols-outlined">verified</span>
             </div>
             <h3>Approve Caregiver?</h3>
-            <p>Are you sure you want to approve <strong>Sandun Rathnayake</strong>? The caregiver will be marked as <span class="text-success font-medium">Verified</span> and will be allowed to use the normal caregiver dashboard and receive patient bookings.</p>
-            <div class="modal-actions">
-                <button class="btn btn-text" onclick="toggleModal('approveModal', false)">Cancel</button>
-                <button class="btn btn-primary" onclick="confirmApproval()">
-                    <span class="material-symbols-outlined">check</span>
-                    <span>Confirm Approval</span>
-                </button>
-            </div>
+            <p>Are you sure you want to approve <strong><?= htmlspecialchars($caregiver["full_name"] ?? "Caregiver") ?></strong>? The caregiver will be marked as <span class="text-success font-medium">Verified</span> and will be allowed to use the normal caregiver dashboard and receive patient bookings.</p>
+            <form action="/safehands_mvc/admin/updateCaregiverStatus" method="POST">
+                <input type="hidden" name="caregiver_id" value="<?= $caregiver['caregiver_id'] ?>">
+                <input type="hidden" name="action" value="approve">
+                <div class="modal-actions mt-16">
+                    <button type="button" class="btn btn-text" onclick="toggleModal('approveModal', false)">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="material-symbols-outlined">check</span>
+                        <span>Confirm Approval</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -431,17 +420,21 @@
             </div>
             <h3>Reject Caregiver Application</h3>
             <p>Specify the formal reason for rejecting this caregiver application. An official notification will be recorded in the system audit log and emailed to the applicant.</p>
-            <div class="form-group mt-16">
-                <label>Rejection Reason</label>
-                <textarea id="rejectionReason" class="form-control" rows="3" placeholder="e.g. Expired police clearance certificate..."></textarea>
-            </div>
-            <div class="modal-actions mt-24">
-                <button class="btn btn-text" onclick="toggleModal('rejectModal', false)">Cancel</button>
-                <button class="btn btn-error" onclick="confirmRejection()">
-                    <span class="material-symbols-outlined">close</span>
-                    <span>Confirm Rejection</span>
-                </button>
-            </div>
+            <form action="/safehands_mvc/admin/updateCaregiverStatus" method="POST">
+                <input type="hidden" name="caregiver_id" value="<?= $caregiver['caregiver_id'] ?>">
+                <input type="hidden" name="action" value="reject">
+                <div class="form-group mt-16">
+                    <label>Rejection Reason</label>
+                    <textarea name="rejection_reason" id="rejectionReason" class="form-control" rows="3" required placeholder="e.g. Expired police clearance certificate..."></textarea>
+                </div>
+                <div class="modal-actions mt-24">
+                    <button type="button" class="btn btn-text" onclick="toggleModal('rejectModal', false)">Cancel</button>
+                    <button type="submit" class="btn btn-error">
+                        <span class="material-symbols-outlined">close</span>
+                        <span>Confirm Rejection</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -482,7 +475,7 @@
             </div>
             
             <div class="modal-footer">
-                <span class="footer-note">Viewing authenticated record · Sandun Sampath Rathnayake (#CG-8822)</span>
+                <span class="footer-note">Viewing authenticated record · <?= htmlspecialchars($caregiver["full_name"] ?? "Caregiver") ?> (#CG-<?= str_pad($caregiver["caregiver_id"] ?? 0, 4, "0", STR_PAD_LEFT) ?>)</span>
                 <button class="btn btn-outline" onclick="toggleModal('docPreviewModal', false)">Close Preview</button>
             </div>
         </div>
@@ -579,7 +572,7 @@
         document.getElementById('timelineStateTime').textContent = 'Just Now · 25 Sep 2026';
         document.getElementById('timelineStateDesc').textContent = 'Full access granted to Caregiver Portal. Eligible for patient allocations.';
 
-        showToast('Sandun Rathnayake has been successfully verified.');
+        showToast('<?= htmlspecialchars($caregiver["full_name"] ?? "Caregiver") ?> has been successfully verified.');
     }
 
     function confirmRejection() {

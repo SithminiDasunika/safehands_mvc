@@ -416,4 +416,59 @@ class FamilyModel extends Model
 
         return true;
     }
+    public function getAllFamilies()
+    {
+        $sql = "
+            SELECT u.id as user_id, u.full_name, u.email, u.phone, u.nic, u.address, u.status, u.created_at, f.id as family_id
+            FROM users u
+            JOIN family_members f ON u.id = f.user_id
+            WHERE u.role = 'family'
+            ORDER BY u.created_at DESC
+        ";
+        $result = $this->db->query($sql);
+        $families = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                // Count patients
+                $patientSql = "SELECT COUNT(*) as pc FROM patients WHERE family_user_id = " . (int)$row['user_id'];
+                $pRes = $this->db->query($patientSql);
+                $row['patient_count'] = ($pRes && $pRow = $pRes->fetch_assoc()) ? $pRow['pc'] : 0;
+                $families[] = $row;
+            }
+        }
+        return $families;
+    }
+
+    public function getFamilyDetails($familyId)
+    {
+        $sql = "
+            SELECT u.id as user_id, u.full_name, u.email, u.phone, u.nic, u.address, u.status, u.created_at, f.id as family_id
+            FROM users u
+            JOIN family_members f ON u.id = f.user_id
+            WHERE f.id = ?
+        ";
+        $stmt = $this->db->prepare($sql);
+        if (!$stmt) return null;
+        $stmt->bind_param("i", $familyId);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $family = $res->fetch_assoc();
+        $stmt->close();
+
+        if ($family) {
+            $pSql = "SELECT * FROM patients WHERE family_user_id = ?";
+            $pStmt = $this->db->prepare($pSql);
+            if ($pStmt) {
+                $pStmt->bind_param("i", $family['user_id']);
+                $pStmt->execute();
+                $pRes = $pStmt->get_result();
+                $family['patients'] = [];
+                while ($pRow = $pRes->fetch_assoc()) {
+                    $family['patients'][] = $pRow;
+                }
+                $pStmt->close();
+            }
+        }
+        return $family;
+    }
 }

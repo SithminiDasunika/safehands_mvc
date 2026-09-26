@@ -633,4 +633,13 @@ public function notificationsSi(): void
     );
 }
 
+    public function rejected(): void
+    {
+        $data = [
+            'title' => 'Application Rejected | SafeHands'
+        ];
+        
+        // Use 'main' layout to get standard HTML wrapper but we added our styles to style.css
+        $this->view('caregivers/rejected', $data, 'main');
+    }
 }

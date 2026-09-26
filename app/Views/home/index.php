@@ -85,14 +85,20 @@
 
             <div class="hero-buttons">
 
-                <button class="primary-button">
-                    Find a Caregiver
-                    <span>›</span>
-                </button>
+            <button
+    type="button"
+    class="primary-button"
+    onclick="window.location.href='/safehands_mvc/caregiver'"
+>
+    Find Caregivers
+    <span>›</span>
+</button>
 
-                <a href="/safehands_mvc/register/caregiver" class="secondary-button" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
-                    Become a Caregiver
-                </a>
+<a href="/safehands_mvc/register/caregiver"
+   class="secondary-button"
+   style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+    Become a Caregiver
+</a>
 
             </div>
 
@@ -131,10 +137,10 @@
 
             <div class="hero-image-wrapper">
 
-                <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvV55U3MxvSoyYt5EMIOJsbnGQ9gpGndlAs1lrV97EdPkdHWWgz2RExuqlTjmBwITC8gJBe8Y29m_fCD1uW97zLhuXNlvikLQBUNSWAML22jRrzLjgrl0riTLWkxnl1wvwhXfDv0oUbf4EVJ1Xo4AwcXXvnvZlDl-9c6hHfQDXGqvDTSIHGgJNDVsrqCfhL-DQhC0RQeUod45RuLc_KCIWA9XUqqpMXGREGI55IDRJ1sDlCdwXcpW3DORg7c2yQtvdgDmJcukQBA"
-                    alt="Professional caregiver assisting an elderly person"
-                >
+            <img
+    src="/safehands_mvc/public/assets/images/home.png"
+    alt="Professional caregiver assisting an elderly person"
+>
 
             </div>
 

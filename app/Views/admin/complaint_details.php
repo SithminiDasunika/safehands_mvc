@@ -14,7 +14,7 @@ $evidence = $data['evidence'] ?? [];
             <div style="display:flex; align-items:center; gap:8px; font-size:12px;">
                 <span style="color:var(--outline);">Incident Dossier</span>
                 <span style="color:var(--outline-variant);">•</span>
-                <span class="badge-tag font-mono" style="background:var(--surface-container); color:var(--on-surface-variant);">ID: <?= htmlspecialchars($c[\'complaint_ref\'] ?? \'\') ?></span>
+                <span class="badge-tag font-mono" style="background:var(--surface-container); color:var(--on-surface-variant);">ID: <?= htmlspecialchars($c['complaint_ref'] ?? '') ?></span>
             </div>
         </div>
 
@@ -25,22 +25,22 @@ $evidence = $data['evidence'] ?? [];
                     <h1 style="font-size:32px; font-weight:600; margin:0;">Complaint Details</h1>
                     <div class="badge-tag" id="statusBadge" style="background-color:rgba(254, 187, 2, 0.15); color:var(--on-surface); font-weight:600; display:flex; align-items:center; gap:6px;">
                         <span class="dot-sm bg-warning" style="animation: pulse 2s infinite;"></span>
-                        <span id="statusBadgeText"><?= htmlspecialchars($c[\'status\'] ?? \'Pending\') ?></span>
+                        <span id="statusBadgeText"><?= htmlspecialchars($c['status'] ?? 'Pending') ?></span>
                     </div>
                     <div class="badge-tag" style="background:var(--error-container); color:var(--on-error-container); font-weight:600; display:flex; align-items:center; gap:6px;">
                         <span class="material-symbols-outlined icon-sm">priority_high</span>
-                        <?= htmlspecialchars($c[\'priority\'] ?? \'\') ?> Priority
+                        <?= htmlspecialchars($c['priority'] ?? '') ?> Priority
                     </div>
                 </div>
                 <div class="cd-title-meta">
                     <span style="display:flex; align-items:center; gap:6px;">
                         <span class="material-symbols-outlined icon-sm">schedule</span>
-                        Submitted: <?= date(\'d M Y, h:i A\', strtotime($c[\'created_at\'] ?? \'\')) ?>
+                        Submitted: <?= date('d M Y, h:i A', strtotime($c['created_at'] ?? '')) ?>
                     </span>
                     <span>•</span>
                     <span style="display:flex; align-items:center; gap:6px;">
                         <span class="material-symbols-outlined icon-sm">lock_clock</span>
-                        Escrow Protection: <strong class="text-error"><?= htmlspecialchars($c[\'escrow_status\'] ?? \'\') ?></strong>
+                        Escrow Protection: <strong class="text-error"><?= htmlspecialchars($c['escrow_status'] ?? '') ?></strong>
                     </span>
                 </div>
             </div>
@@ -65,7 +65,7 @@ $evidence = $data['evidence'] ?? [];
                 <div class="grid-6-col">
                     <div>
                         <span class="uppercase-label">Complaint Reference</span>
-                        <span class="font-mono" style="font-weight:600; font-size:16px;"><?= htmlspecialchars($c[\'complaint_ref\'] ?? \'\') ?></span>
+                        <span class="font-mono" style="font-weight:600; font-size:16px;"><?= htmlspecialchars($c['complaint_ref'] ?? '') ?></span>
                     </div>
                     <div>
                         <span class="uppercase-label">Category / Type</span>
@@ -236,7 +236,7 @@ $evidence = $data['evidence'] ?? [];
                         </div>
                         <div>
                             <h2 style="font-size:24px; font-weight:600; margin:0;">Complainant Statement (Verbatim)</h2>
-                            <span style="font-size:12px; color:var(--outline);">Exact verbatim narrative submitted by <?= htmlspecialchars($c[\'family_name\'] ?? \'\') ?> on <?= date(\'d M Y \a\t h:i A\', strtotime($c[\'created_at\'] ?? \'\')) ?></span>
+                            <span style="font-size:12px; color:var(--outline);">Exact verbatim narrative submitted by <?= htmlspecialchars($c['family_name'] ?? '') ?> on <?= date('d M Y \a\t h:i A', strtotime($c['created_at'] ?? '')) ?></span>
                         </div>
                     </div>
                     <span class="badge-tag font-mono text-outline" style="background:var(--surface-container);">Tamper-Proof Record</span>
@@ -469,7 +469,7 @@ $evidence = $data['evidence'] ?? [];
                 <div style="display:flex; align-items:center; gap:8px; color:var(--on-surface-variant); font-weight:600;">
                     <span class="material-symbols-outlined icon-sm">verified</span> SafeHands Healthcare Administration Protocol
                 </div>
-                <p style="margin:0; line-height:1.5;">Complaint Record #<?= htmlspecialchars($c[\'complaint_ref\'] ?? \'\') ?> • Permanent cryptographic ledger retained in compliance with Sri Lanka Healthcare Consumer Safety Guidelines (2026 Revision).</p>
+                <p style="margin:0; line-height:1.5;">Complaint Record #<?= htmlspecialchars($c['complaint_ref'] ?? '') ?> • Permanent cryptographic ledger retained in compliance with Sri Lanka Healthcare Consumer Safety Guidelines (2026 Revision).</p>
             </div>
             
         </div>
@@ -486,7 +486,7 @@ $evidence = $data['evidence'] ?? [];
                     <div class="icon-wrapper-sm text-status-success" style="background:rgba(2, 87, 71, 0.15);">
                         <span class="material-symbols-outlined">check_circle</span>
                     </div>
-                    <h3 style="margin:0; font-size:20px; font-weight:600;">Resolve Complaint #<?= htmlspecialchars($c[\'complaint_ref\'] ?? \'\') ?></h3>
+                    <h3 style="margin:0; font-size:20px; font-weight:600;">Resolve Complaint #<?= htmlspecialchars($c['complaint_ref'] ?? '') ?></h3>
                 </div>
                 <button class="btn-icon-plain" onclick="closeResolveModal()"><span class="material-symbols-outlined">close</span></button>
             </div>
@@ -535,7 +535,7 @@ $evidence = $data['evidence'] ?? [];
                     <div class="icon-wrapper-sm bg-error-container text-error">
                         <span class="material-symbols-outlined">cancel</span>
                     </div>
-                    <h3 style="margin:0; font-size:20px; font-weight:600;">Reject Complaint #<?= htmlspecialchars($c[\'complaint_ref\'] ?? \'\') ?></h3>
+                    <h3 style="margin:0; font-size:20px; font-weight:600;">Reject Complaint #<?= htmlspecialchars($c['complaint_ref'] ?? '') ?></h3>
                 </div>
                 <button class="btn-icon-plain" onclick="closeRejectModal()"><span class="material-symbols-outlined">close</span></button>
             </div>

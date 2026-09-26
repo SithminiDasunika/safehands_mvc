@@ -155,281 +155,52 @@
                     </tr>
                 </thead>
                 <tbody id="familyTableBody">
-                    <!-- Row 1 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-amber-100 text-tertiary-color">SR</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Sithmini Rathnayake</span>
-                                    <span class="id">Guardian · Primary</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1001</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">sithmini@email.com</span>
-                                <span class="contact-phone">077 123 4567</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Colombo</td>
-                        <td>
-                            <span class="booking-tag booking-active">
-                                <span class="booking-dot animate-pulse"></span> 1 Active
-                            </span>
-                        </td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 2 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-sky-100 text-secondary-color">NP</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Nimal Perera</span>
-                                    <span class="id">Guardian · Father</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1002</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">nimal@email.com</span>
-                                <span class="contact-phone">071 234 5678</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Gampaha</td>
-                        <td><span class="text-outline booking-none">0 Active</span></td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 3 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-rose-100 text-rose-color">SF</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Sanduni Fernando</span>
-                                    <span class="id">Guardian · Daughter</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1003</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">sanduni@email.com</span>
-                                <span class="contact-phone">076 987 6543</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Kandy</td>
-                        <td>
-                            <span class="booking-tag booking-active">
-                                <span class="booking-dot animate-pulse"></span> 2 Active
-                            </span>
-                        </td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 4 — Suspended -->
-                    <tr class="table-row-error">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-error-container text-error">KS</div>
-                                <div class="user-details">
-                                    <span class="name name-hover-error">Kavindu Silva</span>
-                                    <span class="id">Guardian · Son</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1004</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">kavindu@email.com</span>
-                                <span class="contact-phone">075 555 5555</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Kalutara</td>
-                        <td><span class="text-outline booking-none">0 Active</span></td>
-                        <td>
-                            <span class="status-tag status-suspended">
-                                <span class="dot-sm bg-error"></span> Suspended
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 5 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-indigo-100 text-indigo-color">KD</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Kumara Dharmasena</span>
-                                    <span class="id">Guardian · Primary</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1005</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">kumara.d@email.com</span>
-                                <span class="contact-phone">072 444 1234</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Colombo</td>
-                        <td>
-                            <span class="booking-tag booking-active">
-                                <span class="booking-dot animate-pulse"></span> 1 Active
-                            </span>
-                        </td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 6 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-teal-100 text-teal-color">AW</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Anoma Weerasinghe</span>
-                                    <span class="id">Guardian · Mother</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1006</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">anoma.w@email.com</span>
-                                <span class="contact-phone">077 888 9911</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Galle</td>
-                        <td>
-                            <span class="booking-tag booking-active">
-                                <span class="booking-dot animate-pulse"></span> 1 Active
-                            </span>
-                        </td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 7 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-purple-100 text-purple-color">RJ</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Roshan Jayawardene</span>
-                                    <span class="id">Guardian · Primary</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1007</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">roshan.j@email.com</span>
-                                <span class="contact-phone">071 999 2233</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Colombo</td>
-                        <td><span class="text-outline booking-none">0 Active</span></td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
-
-                    <!-- Row 8 -->
-                    <tr class="table-row-hover">
-                        <td>
-                            <div class="user-cell">
-                                <div class="avatar-initials bg-amber-100 text-tertiary-color">DA</div>
-                                <div class="user-details">
-                                    <span class="name name-hover">Dilrukshi Alwis</span>
-                                    <span class="id">Guardian · Spouse</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="font-mono text-outline family-id">#FM-1008</td>
-                        <td>
-                            <div class="contact-col">
-                                <span class="contact-email">dilrukshi@email.com</span>
-                                <span class="contact-phone">077 654 3210</span>
-                            </div>
-                        </td>
-                        <td class="text-on-surface-variant">Kandy</td>
-                        <td>
-                            <span class="booking-tag booking-active">
-                                <span class="booking-dot animate-pulse"></span> 1 Active
-                            </span>
-                        </td>
-                        <td>
-                            <span class="status-tag status-active">
-                                <span class="dot-sm bg-success"></span> Active
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button class="btn btn-sm btn-primary-container">
-                                View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
-                            </button>
-                        </td>
-                    </tr>
+                    <?php if (!empty($families)): ?>
+                        <?php foreach ($families as $f): ?>
+                            <tr class="table-row-hover">
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar-initials bg-amber-100 text-tertiary-color"><?= htmlspecialchars(substr($f['full_name'], 0, 2)) ?></div>
+                                        <div class="user-details">
+                                            <span class="name name-hover"><?= htmlspecialchars($f['full_name']) ?></span>
+                                            <span class="id">Guardian · Primary</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="font-mono text-outline family-id">#FM-<?= str_pad($f['family_id'], 4, '0', STR_PAD_LEFT) ?></td>
+                                <td>
+                                    <div class="contact-col">
+                                        <span class="contact-email"><?= htmlspecialchars($f['email']) ?></span>
+                                        <span class="contact-phone"><?= htmlspecialchars($f['phone']) ?></span>
+                                    </div>
+                                </td>
+                                <td class="text-on-surface-variant"><?= htmlspecialchars($f['address'] ?? 'N/A') ?></td>
+                                <td>
+                                    <?php if ($f['patient_count'] > 0): ?>
+                                    <span class="booking-tag booking-active">
+                                        <span class="booking-dot animate-pulse"></span> <?= $f['patient_count'] ?> Patient(s)
+                                    </span>
+                                    <?php else: ?>
+                                    <span class="booking-tag booking-none">
+                                        0 Patients
+                                    </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <span class="status-tag status-active">
+                                        <span class="dot-sm bg-success"></span> <?= ucfirst($f['status']) ?>
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <a href="/safehands_mvc/admin/familyDetails/<?= $f['family_id'] ?>" class="btn btn-sm btn-primary-container" style="text-decoration:none;">
+                                        View Details <span class="material-symbols-outlined icon-xs">chevron_right</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="7" style="text-align:center;">No family accounts found.</td></tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -501,5 +272,11 @@
     if (statusFilter)   statusFilter.addEventListener('change', filterTable);
     if (districtFilter) districtFilter.addEventListener('change', filterTable);
     if (bookingFilter)  bookingFilter.addEventListener('change', filterTable);
+
+    document.querySelectorAll('.family-view-details').forEach(button => {
+    button.addEventListener('click', () => {
+        window.location.href = '/safehands_mvc/admin/familyDetails';
+    });
+});
 })();
 </script>

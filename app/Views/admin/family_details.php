@@ -8,7 +8,7 @@
             </div>
             <div class="modal-title-group">
                 <h3>Suspend Family Member Account?</h3>
-                <span class="modal-id-label">Account ID: #FM-90214</span>
+                <span class="modal-id-label">Account ID: #FM-<?= str_pad($family["family_id"] ?? 0, 4, "0", STR_PAD_LEFT) ?></span>
             </div>
             <div class="modal-notice">
                 <p>Are you sure you want to suspend this account? The family member will <strong class="text-error">not be able to log in or access SafeHands services</strong> while suspended.</p>
@@ -41,14 +41,14 @@
         <span class="material-symbols-outlined bc-icon">chevron_right</span>
         <a href="/safehands_mvc/admin/families">Families</a>
         <span class="material-symbols-outlined bc-icon">chevron_right</span>
-        <span class="bc-current">Sithmini Rathnayake</span>
+        <span class="bc-current"><?= htmlspecialchars($family["full_name"] ?? "Family Member") ?></span>
     </nav>
 
     <!-- Page Header -->
     <div class="page-header fd-header">
         <div class="header-content">
             <div class="fd-title-row">
-                <h1 class="page-title">Sithmini Rathnayake</h1>
+                <h1 class="page-title"><?= htmlspecialchars($family["full_name"] ?? "Family Member") ?></h1>
                 <div class="badge-active-account">
                     <span class="ping-dot"></span>
                     <span class="ping-dot-inner"></span>
@@ -73,18 +73,18 @@
     <div class="card fd-identity-strip">
         <div class="fd-identity-left">
             <div class="fd-avatar-wrap">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMcuGMahYX5RzZKmj-oPNGvLYd1IjE01CIiApOa0ZUe4ZWAfBbE3gGRs11VropyHLNhqopLbTreLeUkbRTeoT3tZ6u-szwpHu8kWZBms7X5cmUp-txTC2i8lO4bwMEb7H3YKEFilUeULD1bexpHd_ahbr3enLvkfm37WCEyuXP3HGl7QZdJ2BXA8Pt-NC2svZpsVkCwsDGGEiPL4ON3O_v0yCEbybSRH-YB3oiB617wxCbLutlPH2n" alt="Sithmini Rathnayake" class="avatar-lg">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMcuGMahYX5RzZKmj-oPNGvLYd1IjE01CIiApOa0ZUe4ZWAfBbE3gGRs11VropyHLNhqopLbTreLeUkbRTeoT3tZ6u-szwpHu8kWZBms7X5cmUp-txTC2i8lO4bwMEb7H3YKEFilUeULD1bexpHd_ahbr3enLvkfm37WCEyuXP3HGl7QZdJ2BXA8Pt-NC2svZpsVkCwsDGGEiPL4ON3O_v0yCEbybSRH-YB3oiB617wxCbLutlPH2n" alt="<?= htmlspecialchars($family["full_name"] ?? "Family Member") ?>" class="avatar-lg">
                 <span class="avatar-badge-success-sm">
                     <span class="material-symbols-outlined">check</span>
                 </span>
             </div>
             <div class="fd-identity-info">
                 <div class="fd-name-row">
-                    <span class="fd-name">Sithmini Rathnayake</span>
+                    <span class="fd-name"><?= htmlspecialchars($family["full_name"] ?? "Family Member") ?></span>
                     <span class="tag-pill tag-neutral">Primary Guardian</span>
                 </div>
                 <div class="fd-meta-row">
-                    <span class="fd-id"><span class="material-symbols-outlined">badge</span> #FM-90214</span>
+                    <span class="fd-id"><span class="material-symbols-outlined">badge</span> #FM-<?= str_pad($family["family_id"] ?? 0, 4, "0", STR_PAD_LEFT) ?></span>
                     <span>•</span>
                     <span>Joined 12 July 2026</span>
                     <span>•</span>
@@ -188,12 +188,12 @@
                 <div class="info-grid">
                     <div class="info-group">
                         <span class="info-label">Full Legal Name</span>
-                        <span class="info-value strong">Sithmini Dilrukshi Rathnayake</span>
+                        <span class="info-value strong"><?= htmlspecialchars($family["full_name"] ?? "Family Member") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">National Identity Card (NIC)</span>
                         <div class="info-value-group">
-                            <span class="info-value strong">200312345678</span>
+                            <span class="info-value strong"><?= htmlspecialchars($family["nic"] ?? "") ?></span>
                             <span class="badge-nic-verified">VERIFIED D-REG</span>
                         </div>
                     </div>
@@ -203,11 +203,11 @@
                     </div>
                     <div class="info-group">
                         <span class="info-label">Email Address</span>
-                        <span class="info-value">sithmini.r@gmail.com</span>
+                        <span class="info-value"><?= htmlspecialchars($family["email"] ?? "") ?></span>
                     </div>
                     <div class="info-group full-width">
                         <span class="info-label">Registered Primary Residence</span>
-                        <span class="info-value">No. 45, Flower Road, Colombo 07, Western Province, Sri Lanka</span>
+                        <span class="info-value"><?= htmlspecialchars($family["address"] ?? "Not Provided") ?></span>
                     </div>
                     <div class="info-group">
                         <span class="info-label">Emergency Role</span>
@@ -236,19 +236,29 @@
                 </div>
 
                 <div class="patients-grid">
-                    <!-- Patient 1 -->
-                    <div class="patient-card">
-                        <div class="patient-header">
-                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUQ22ZDOYVL2LiPTaLd1vqz6Vg4ldtWLakrXaD8UHdyH78my0z-p2jydeumdiV3dH7Hr3aNf6oWgObvC5dupg3XeoIiL7-_RHlOw5nQqd6UrMrqL6kbc4423QavEF6IJQM3d6qhSfVtDHoebvCDiDm2BeBZ25pd5WMsA88GgRjSAviEsexDhVsLHdtOuJAvdXPD647gtVWrzshKCS6rj2n1FmJ06HFrYlupCGmHwl2vSeamj5jtdJJ" alt="Sunil Rathnayake" class="patient-avatar">
-                            <div class="patient-info">
-                                <div class="patient-name-row">
-                                    <span class="patient-name">Mr. Sunil Rathnayake</span>
-                                    <span class="patient-age">(Father, 72y)</span>
+                    <?php if (!empty($family['patients'])): ?>
+                        <?php foreach ($family['patients'] as $patient): ?>
+                            <div class="patient-card">
+                                <div class="patient-header">
+                                    <div style="width: 48px; height: 48px; border-radius: 50%; background: #e0e7ff; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; margin-right: 16px; flex-shrink: 0;">
+                                        <?= htmlspecialchars(substr($patient['full_name'], 0, 1)) ?>
+                                    </div>
+                                    <div class="patient-info">
+                                        <div class="patient-name-row">
+                                            <span class="patient-name"><?= htmlspecialchars($patient['full_name']) ?></span>
+                                            <span class="patient-age">(<?= htmlspecialchars($patient['relationship']) ?>)</span>
+                                        </div>
+                                        <span class="patient-condition tertiary-text"><?= htmlspecialchars($patient['medical_conditions']) ?></span>
+                                        <p class="patient-desc"><?= htmlspecialchars($patient['special_care_requirements'] ?? '') ?></p>
+                                    </div>
                                 </div>
-                                <span class="patient-condition tertiary-text">Post-Stroke Mobility Assistance</span>
-                                <p class="patient-desc">Physiotherapy protocol, fall risk assessment Grade 2, wheelchair transfer support.</p>
                             </div>
-                        </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p style="padding: 20px;">No patients linked to this family account yet.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
                         <div class="patient-footer">
                             <span class="patient-caregiver-active">
                                 <span class="dot-sm bg-success"></span>
@@ -504,7 +514,7 @@
             confirmBtn.innerHTML = '<span class="material-symbols-outlined icon-spin">refresh</span> Suspending...';
             setTimeout(function() {
                 closeModal();
-                alert('Account for Sithmini Rathnayake has been suspended.\nReason: ' + reason);
+                alert('Account for <?= htmlspecialchars($family["full_name"] ?? "Family Member") ?> has been suspended.\nReason: ' + reason);
                 confirmBtn.innerHTML = '<span class="material-symbols-outlined">block</span><span>Confirm Suspension</span>';
             }, 800);
         });

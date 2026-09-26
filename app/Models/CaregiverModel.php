@@ -467,4 +467,59 @@ class CaregiverModel extends Model
             throw $e;
         }
     }
+    public function getAllCaregivers()
+    {
+        $sql = "
+            SELECT u.id as user_id, u.full_name, u.email, u.phone, u.status,
+                   cp.caregiver_id, cp.verification_status, cp.created_at, cp.highest_qualification, cp.years_experience, cp.profile_photo
+            FROM users u
+            JOIN caregiver_profiles cp ON u.id = cp.user_id
+            WHERE u.role = 'caregiver'
+            ORDER BY cp.created_at DESC
+        ";
+        $result = $this->db->query($sql);
+        $caregivers = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $caregivers[] = $row;
+            }
+        }
+        return $caregivers;
+    }
+
+    public function getCaregiverDetails($caregiverId)
+    {
+        $sql = "
+            SELECT u.id as user_id, u.full_name, u.email, u.phone, u.nic, u.address, u.status,
+                   cp.caregiver_id, cp.gender, cp.date_of_birth, cp.district, cp.highest_qualification, 
+                   cp.years_experience, cp.certifications, cp.languages, cp.service_areas, cp.daily_rate, 
+                   cp.biography, cp.profile_photo, cp.verification_status, cp.rejection_reason, cp.created_at
+            FROM users u
+            JOIN caregiver_profiles cp ON u.id = cp.user_id
+            WHERE cp.caregiver_id = ?
+        ";
+        $stmt = $this->db->prepare($sql);
+        if (!$stmt) return null;
+        $stmt->bind_param("i", $caregiverId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $caregiver = $result->fetch_assoc();
+        $stmt->close();
+        
+        if ($caregiver) {
+            $sqlDocs = "SELECT * FROM caregiver_documents WHERE caregiver_id = ?";
+            $stmtDocs = $this->db->prepare($sqlDocs);
+            if ($stmtDocs) {
+                $stmtDocs->bind_param("i", $caregiverId);
+                $stmtDocs->execute();
+                $resDocs = $stmtDocs->get_result();
+                $caregiver['documents'] = [];
+                while ($doc = $resDocs->fetch_assoc()) {
+                    $caregiver['documents'][] = $doc;
+                }
+                $stmtDocs->close();
+            }
+        }
+        return $caregiver;
+    }
 }

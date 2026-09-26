@@ -28,7 +28,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             <div class="nav-links">
                 <a class="nav-link active" href="/safehands_mvc/caregiver/dashboard">Dashboard</a>
                 <a class="nav-link" href="/safehands_mvc/bookings">Booking Requests</a>
-                <a class="nav-link" href="/safehands_mvc/caregiver/schedule">Emergency Contact Information</a>
+                <a class="nav-link" href="/safehands_mvc/caregiver/emergencyContact">Emergency Contact Information</a>
                 <a class="nav-link" href="/safehands_mvc/caregiver/manageAvailability">Availability</a>
                 <a class="nav-link" href="/safehands_mvc/caregiver/earnings">Earnings</a>
                 <a class="nav-link" href="/safehands_mvc/caregiver/notifications">Notifications</a>
@@ -71,7 +71,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             </div>
             <span class="quick-action-label">Booking Requests</span>
         </a>
-        <a href="/safehands_mvc/caregiver/schedule" class="quick-action-card">
+        <a href="/safehands_mvc/caregiver/emergencyContact" class="quick-action-card">
             <div class="qa-icon-wrapper bg-primary-container">
                 <span class="material-symbols-outlined" data-icon="contact_phone">contact_phone</span>
             </div>
@@ -83,7 +83,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             </div>
             <span class="quick-action-label">Manage Availability</span>
         </a>
-        <a href="/safehands_mvc/bookings/pendingReports" class="quick-action-card">
+        <a href="/safehands_mvc/caregiver/pendingReports" class="quick-action-card">
             <div class="qa-icon-wrapper bg-warning-container">
                 <span class="material-symbols-outlined" data-icon="description">description</span>
             </div>
@@ -105,7 +105,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             <section class="section-container">
                 <div class="section-header">
                     <h2 class="section-title">Emergency Contact Information</h2>
-                    <a href="/safehands_mvc/caregiver/schedule" class="section-link">View Calendar</a>
+                    <a href="/safehands_mvc/caregiver/emergencyContact" class="section-link">View Calendar</a>
                 </div>
                 
                 <!-- Booking Card -->

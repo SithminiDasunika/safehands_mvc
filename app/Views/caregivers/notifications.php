@@ -50,6 +50,12 @@ $title = $data['title'] ?? 'Notifications | SafeHands';
         </nav>
 
         <div class="header-right">
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/notifications" style="color:#059669; font-weight:700; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/notificationsSi" style="color:#059669; text-decoration:none;">සිංහල</a>
+            </div>
+
 
            
 

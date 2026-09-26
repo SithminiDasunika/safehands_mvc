@@ -42,6 +42,12 @@ $availability = $availability ?? [];
         </a>
 
 
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/manageAvailability" style="color:#059669; font-weight:700; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/manageAvailabilitySi" style="color:#059669; text-decoration:none;">සිංහල</a>
+            </div>
+
         <!-- Mobile Menu Button -->
 
         <button

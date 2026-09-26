@@ -55,6 +55,12 @@ $title = $title ?? 'My Schedule | SafeHands';
         </div>
 
         <div class="navbar-right">
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/schedule" style="color:#059669; font-weight:700; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/scheduleSi" style="color:#059669; text-decoration:none;">සිංහල</a>
+            </div>
+
 
              
 

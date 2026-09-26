@@ -36,6 +36,11 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
         </div>
         
         <div class="nav-actions">
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/dashboard" style="color:#059669; font-weight:700; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/dashboardSi" style="color:#059669; text-decoration:none;">සිංහල</a>
+            </div>
             <a href="/safehands_mvc/caregiver/notifications" class="icon-btn">
                 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
             </a>

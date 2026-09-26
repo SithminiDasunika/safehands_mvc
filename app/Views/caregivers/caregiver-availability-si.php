@@ -1,12 +1,12 @@
 <?php
 
-$caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන්නා';
+$caregiverName = $caregiverName ?? 'Caregiver';
 $availability = $availability ?? [];
 
 ?>
 
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@ $availability = $availability ?? [];
     >
 
     <title>
-        <?= htmlspecialchars($title ?? 'ලබා ගත හැකි වේලාව | SafeHands') ?>
+        <?= htmlspecialchars($title ?? 'Manage Availability | SafeHands') ?>
     </title>
 
     <link
@@ -35,12 +35,18 @@ $availability = $availability ?? [];
     <header class="availability-header">
 
         <a
-            href="/safehands_mvc/caregiver/dashboardSi"
+            href="/safehands_mvc/"
             class="availability-logo"
         >
             SafeHands
         </a>
 
+
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/manageAvailability" style="color:#059669; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/manageAvailabilitySi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
+            </div>
 
         <!-- Mobile Menu Button -->
 
@@ -48,7 +54,7 @@ $availability = $availability ?? [];
             type="button"
             class="mobile-menu-btn"
             id="mobileMenuButton"
-            aria-label="සංචාලනය විවෘත කරන්න"
+            aria-label="Open navigation"
         >
             ☰
         </button>
@@ -61,18 +67,20 @@ $availability = $availability ?? [];
             id="availabilityNav"
         >
 
-              <a href="/safehands_mvc/caregiver/dashboardSi">
-    උපකරණ පුවරුව
-</a>
+            <a href="/safehands_mvc/caregiver/dashboard">
+                උපකරණ පුවරුව
+            </a>
 
- 
+            
 
-<a href="/safehands_mvc/caregiver/manageAvailabilitySi">
-    ලබා ගත හැකි වේලාව
-</a>
+            <a
+                href="/safehands_mvc/caregiver/manageAvailability"
+                class="active"
+            >
+                ලබා ගත හැකි වේලාව
+            </a>
 
- 
-         
+             
 
         </nav>
 
@@ -81,7 +89,7 @@ $availability = $availability ?? [];
 
         <div class="availability-actions">
 
-           
+             
 
 
             <div class="profile-menu">
@@ -113,11 +121,11 @@ $availability = $availability ?? [];
         <section class="page-heading">
 
             <h1>
-                ලබා ගත හැකි වේලාව
+                ලබා ගත හැකි වේලාව කළමනාකරණය
             </h1>
 
             <p>
-                පවුලේ සාමාජිකයින්ට ඔබ සත්කාර සේවාව සඳහා ලබා ගත හැකි වේලාවන් දැකගත හැකි වන පරිදි ඔබේ ලබා ගත හැකි වේලාවන් යාවත්කාලීන කරන්න.
+                Update your availability so families can see when you are available for caregiving.
             </p>
 
         </section>
@@ -201,7 +209,7 @@ $availability = $availability ?? [];
                         type="button"
                         id="previousMonth"
                     >
-                        ← පෙර
+                        ← Previous
                     </button>
 
                     <button
@@ -215,7 +223,7 @@ $availability = $availability ?? [];
                         type="button"
                         id="nextMonth"
                     >
-                        ඊළඟ →
+                        Next →
                     </button>
 
                 </div>
@@ -229,13 +237,13 @@ $availability = $availability ?? [];
 
                 <div class="calendar-weekdays">
 
-                    <div>ඉරිදා</div>
-                    <div>සඳුදා</div>
-                    <div>අඟහරුවාදා</div>
-                    <div>බදාදා</div>
-                    <div>බ්‍රහස්පතින්දා</div>
-                    <div>සිකුරාදා</div>
-                    <div>සෙනසුරාදා</div>
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
 
                 </div>
 
@@ -302,12 +310,13 @@ $availability = $availability ?? [];
                 ලබා ගත හැකි වේලාව එක් කරන්න
             </h2>
 
- <form
-    id="availabilityForm"
-    class="availability-form"
-    action="/safehands_mvc/caregiver/createAvailability"
-    method="POST"
->
+
+            <form
+                id="availabilityForm"
+                class="availability-form"
+                method="POST"
+                action="/safehands_mvc/caregiver/createAvailability"
+            >
 
                 <!-- Date -->
 
@@ -342,7 +351,7 @@ $availability = $availability ?? [];
                     >
 
                         <option value="">
-                            මුරය තෝරන්න
+                            Select Shift
                         </option>
 
                         <option value="Morning">
@@ -377,7 +386,7 @@ $availability = $availability ?? [];
                     >
 
                         <option value="">
-                            තත්ත්වය තෝරන්න
+                            Select Status
                         </option>
 
                         <option value="Available">
@@ -416,7 +425,7 @@ $availability = $availability ?? [];
             <div class="records-header">
 
                 <h2>
-                    මගේ ලබා ගත හැකි වේලාවන්
+                    My ලබා ගත හැකි වේලාව
                 </h2>
 
             </div>
@@ -490,7 +499,7 @@ $availability = $availability ?? [];
     <!-- JavaScript -->
 
     <script
-        src="/safehands_mvc/public/assets/js/caregiver-availability.js"
+        src="/safehands_mvc/public/assets/js/caregiver-availability.js?v=3"
     ></script>
 
 </body>

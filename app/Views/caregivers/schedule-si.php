@@ -1,9 +1,9 @@
 <?php
-$title = $title ?? 'මගේ උපලේඛනය | SafeHands';
+$title = $title ?? 'My Schedule | SafeHands';
 ?>
 
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -26,7 +26,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
         <div class="navbar-left">
 
             <a
-                href="/safehands_mvc/caregiver/dashboardSi"
+                href="/safehands_mvc/caregiver/dashboard"
                 class="brand"
             >
                 SafeHands
@@ -35,27 +35,34 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
             <nav class="desktop-navigation">
 
                 <a
-                    href="/safehands_mvc/caregiver/dashboardSi"
+                    href="/safehands_mvc/caregiver/dashboard"
                     class="nav-link"
                 >
                     උපකරණ පුවරුව
                 </a>
 
                 <a
-                    href="/safehands_mvc/caregiver/scheduleSi"
+                    href="/safehands_mvc/caregiver/schedule"
                     class="nav-link active"
                 >
                     මගේ උපලේඛනය
                 </a>
- 
+
+                 
 
             </nav>
 
         </div>
 
         <div class="navbar-right">
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/schedule" style="color:#059669; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/scheduleSi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
+            </div>
 
 
+             
 
             <div class="profile-avatar">
                 C
@@ -74,17 +81,17 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
 
     <nav class="breadcrumb">
 
-        <a href="/safehands_mvc/caregiver/dashboardSi">
+        <a href="/safehands_mvc/caregiver/dashboard">
             උපකරණ පුවරුව
         </a>
 
         <span>›</span>
 
-        <span>අද දින උපලේඛනය</span>
+        <span>Today's Schedule</span>
 
         <span>›</span>
 
-        <strong>දෛනික සත්කාර වාර්තාව</strong>
+        <strong>Daily Care Report</strong>
 
     </nav>
 
@@ -98,13 +105,13 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
             <div class="page-heading">
 
                 <h1>
-                    Submit දෛනික සත්කාර වාර්තාව
+                    Submit Daily Care Report
                 </h1>
 
                 <p>
-                    සේවාව අවසන් කිරීමට පෙර අද දින සත්කාර වාර්තාව සම්පූර්ණ කරන්න.
-                    සියලුම වෛද්‍ය දත්ත සහ නිරීක්ෂණ නිවැරදි බව සහතික කරන්න
-                    පවුලේ සාමාජිකයාගේ සමාලෝචනය සඳහා.
+                    Complete today's care report before ending the service.
+                    Ensure all medical data and observations are accurate
+                    for the family's review.
                 </p>
 
             </div>
@@ -127,7 +134,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                         </h3>
 
                         <p>
-                            වෙන්කිරීමේ අංකය:
+                            Booking ID:
                             <strong>BK-2026-00125</strong>
                         </p>
 
@@ -410,7 +417,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                                 type="text"
                                 id="medicationName"
                                 name="medication_name"
-                                placeholder="උදා., Lisinopril"
+                                placeholder="e.g., Lisinopril"
                             >
 
                         </div>
@@ -694,7 +701,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                                     type="text"
                                     id="bloodPressure"
                                     name="blood_pressure"
-                                    placeholder="උදා., 120/80"
+                                    placeholder="e.g., 120/80"
                                 >
 
                                 <span>
@@ -718,7 +725,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                                     type="text"
                                     id="temperature"
                                     name="temperature"
-                                    placeholder="උදා., 98.4"
+                                    placeholder="e.g., 98.4"
                                 >
 
                                 <span>
@@ -742,7 +749,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                                     type="text"
                                     id="heartRate"
                                     name="heart_rate"
-                                    placeholder="උදා., 72"
+                                    placeholder="e.g., 72"
                                 >
 
                                 <span>
@@ -783,7 +790,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                         id="additionalNotes"
                         name="additional_notes"
                         rows="5"
-                        placeholder="සේවා මුරය අතරතුර රෝගියාගේ තත්ත්වය, විශේෂ හැසිරීම් හෝ සිදුවීම් පිළිබඳ සවිස්තරාත්මක නිරීක්ෂණ ඇතුළත් කරන්න..."
+                        placeholder="Enter detailed observations about patient's status, specific behaviors, or any incidents during the shift..."
                     ></textarea>
 
                 </div>
@@ -824,7 +831,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                         </p>
 
                         <p class="upload-description">
-                            ඖෂධ සටහනේ හෝ රෝගියාගේ තත්ත්වයේ ඡායාරූප
+                            Photos of medication chart or patient condition
                             (MAX 10MB)
                         </p>
 
@@ -865,12 +872,12 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                     <span>
 
                         <strong>
-                            සපයා ඇති තොරතුරු නිවැරදි බව මම තහවුරු කරමි
+                            I confirm that the information provided is accurate
                         </strong>
 
                         <small>
-                            මෙම වාර්තාව පවුලේ සාමාජිකයා සමඟ බෙදා ගනු ලැබේ
-                            සහ අදාළ බලයලත් නිලධාරීන් සමඟ ඉදිරිපත් කිරීමෙන් පසු බෙදා ගනු ලැබේ.
+                            This report will be shared with the family member
+                            and relevant authorized personnel upon submission.
                         </small>
 
                     </span>
@@ -889,7 +896,7 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
                     id="saveDraftButton"
                     class="button secondary-button"
                 >
-                    කෙටුම්පත සුරකින්න
+                    Save Draft
                 </button>
 
                 <button
@@ -920,28 +927,28 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
             </div>
 
             <h1>
-                දෛනික සත්කාර වාර්තාව සාර්ථකව ඉදිරිපත් කරන ලදී
+                Daily Care Report Submitted Successfully
             </h1>
 
             <p>
-                පවුලේ සාමාජිකයාට දැන් අද දින සත්කාර වාර්තාව බැලිය හැක.
-                පරිපාලන සමාලෝචනය සඳහා ඩිජිටල් පිටපතක්ද සකස් කර ඇත.
+                The family member can now view today's care report.
+                A digital copy has also been prepared for administrative review.
             </p>
 
             <div class="success-actions">
 
                 <a
-                    href="/safehands_mvc/caregiver/scheduleSi"
+                    href="/safehands_mvc/caregiver/schedule"
                     class="button secondary-button"
                 >
-                    මගේ උපලේඛනය බලන්න
+                    View මගේ උපලේඛනය
                 </a>
 
                 <a
-                    href="/safehands_mvc/caregiver/dashboardSi"
+                    href="/safehands_mvc/caregiver/dashboard"
                     class="button primary-button"
                 >
-                    උපකරණ පුවරුව වෙත ආපසු යන්න
+                    Return to උපකරණ පුවරුව
                 </a>
 
             </div>
@@ -974,11 +981,11 @@ $title = $title ?? 'මගේ උපලේඛනය | SafeHands';
         <div class="footer-links">
 
             <a href="#">
-                සේවා කොන්දේසි
+                නියමයන් of Service
             </a>
 
             <a href="#">
-                පෞද්ගලිකත්ව ප්‍රතිපත්තිය
+                රහස්‍යතා ප්‍රතිපත්තිය
             </a>
 
             <a href="#">

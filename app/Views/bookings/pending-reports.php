@@ -1,3 +1,10 @@
+<div style="display:flex; justify-content:flex-end; padding:8px 0;">
+    <div style="display:flex; align-items:center; gap:8px; font-size:15px;">
+        <a href="/safehands_mvc/bookings/pendingReports" style="color:#059669; font-weight:700; text-decoration:none;">English</a>
+        <span style="color:#9ca3af;">|</span>
+        <a href="/safehands_mvc/bookings/pendingReportsSi" style="color:#059669; text-decoration:none;">සිංහල</a>
+    </div>
+</div>
 <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver/dashboard.css?v=2">
 <style>
 .booking-page-header {

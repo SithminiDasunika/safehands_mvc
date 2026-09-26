@@ -1,9 +1,9 @@
 <?php
-$title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
+$title = $data['title'] ?? 'Notifications | SafeHands';
 ?>
 
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta
@@ -26,7 +26,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
     <div class="header-container">
 
         <a
-            href="/safehands_mvc/caregiver/dashboardSi"
+            href="/safehands_mvc/caregiver/dashboard"
             class="logo"
         >
             SafeHands
@@ -34,14 +34,14 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
 
         <nav class="desktop-nav">
 
-            <a href="/safehands_mvc/caregiver/dashboardSi">
+            <a href="/safehands_mvc/caregiver/dashboard">
                 උපකරණ පුවරුව
             </a>
 
-             
+            
 
             <a
-                href="/safehands_mvc/caregiver/notificationsSi"
+                href="/safehands_mvc/caregiver/notifications"
                 class="active"
             >
                 දැනුම්දීම්
@@ -50,6 +50,14 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
         </nav>
 
         <div class="header-right">
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/notifications" style="color:#059669; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/notificationsSi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
+            </div>
+
+
+           
 
             <div class="caregiver-user">
 
@@ -57,7 +65,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
                     <strong>Caregiver</strong>
                     <span>
                         <span class="active-dot"></span>
-                        සක්‍රීය
+                        Active
                     </span>
                 </div>
 
@@ -71,7 +79,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
                 type="button"
                 id="mobileMenuButton"
                 class="mobile-menu-button"
-                aria-label="මෙනුව විවෘත කරන්න"
+                aria-label="Open menu"
             >
                 ☰
             </button>
@@ -85,24 +93,24 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
         class="mobile-nav"
     >
 
-        <a href="/safehands_mvc/caregiver/dashboardSi">
+        <a href="/safehands_mvc/caregiver/dashboard">
             උපකරණ පුවරුව
         </a>
 
-        <a href="/safehands_mvc/caregiver/scheduleSi">
+        <a href="/safehands_mvc/caregiver/schedule">
             මගේ උපලේඛනය
         </a>
 
-        <a href="/safehands_mvc/caregiver/manageලබා ගත හැකි වේලාවSi">
+        <a href="/safehands_mvc/caregiver/manageAvailability">
             ලබා ගත හැකි වේලාව
         </a>
 
-        <a href="/safehands_mvc/caregiver/earningsSi">
+        <a href="/safehands_mvc/caregiver/earnings">
             ආදායම්
         </a>
 
         <a
-            href="/safehands_mvc/caregiver/notificationsSi"
+            href="/safehands_mvc/caregiver/notifications"
             class="active"
         >
             දැනුම්දීම්
@@ -119,7 +127,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
 
     <div class="breadcrumb">
 
-        <a href="/safehands_mvc/caregiver/dashboardSi">
+        <a href="/safehands_mvc/caregiver/dashboard">
             උපකරණ පුවරුව
         </a>
 
@@ -139,8 +147,8 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <h1>දැනුම්දීම්</h1>
 
             <p>
-                ඔබගේ වෙන්කිරීම්, ගෙවීම් සහ වැදගත් ගිණුම් ක්‍රියාකාරකම්
-                පිළිබඳ යාවත්කාලීනව සිටින්න.
+                Stay updated with your bookings, payments
+                and important account activities.
             </p>
 
         </div>
@@ -150,7 +158,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             id="markAllButton"
             class="mark-all-button"
         >
-            ✓ සියල්ල කියවූ ලෙස සලකුණු කරන්න
+            ✓ Mark All as Read
         </button>
 
     </section>
@@ -167,7 +175,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <input
                 type="text"
                 id="notificationSearch"
-                placeholder="දැනුම්දීම් සොයන්න..."
+                placeholder="Search notifications..."
             >
 
         </div>
@@ -178,31 +186,31 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <select id="categoryFilter">
 
                 <option value="all">
-                    ප්‍රවර්ග: සියල්ල
+                    Categories: All
                 </option>
 
                 <option value="bookings">
-                    වෙන්කිරීම්
+                    Bookings
                 </option>
 
                 <option value="services">
-                    අද සේවා
+                    Today's Services
                 </option>
 
                 <option value="payments">
-                    ගෙවීම්
+                    Payments
                 </option>
 
                 <option value="reports">
-                    දෛනික වාර්තා
+                    Daily Reports
                 </option>
 
                 <option value="profile">
-                    පැතිකඩ
+                    Profile
                 </option>
 
                 <option value="system">
-                    පද්ධතිය
+                    System
                 </option>
 
             </select>
@@ -211,15 +219,15 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <select id="statusFilter">
 
                 <option value="all">
-                    තත්ත්වය: සියල්ල
+                    Status: All
                 </option>
 
                 <option value="unread">
-                    නොකියවූ
+                    Unread
                 </option>
 
                 <option value="read">
-                    කියවූ
+                    Read
                 </option>
 
             </select>
@@ -252,21 +260,21 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <div class="notification-content">
 
                 <div class="notification-category">
-                    අද සේවා
+                    Today's Services
                     <span class="unread-dot"></span>
                 </div>
 
                 <h3>
-                    අද රැකවරණ සේවා වාරය
+                    Today's Care Session
                 </h3>
 
                 <p>
-                    අද පෙ.ව. 8:00ට Mr. Silva සමඟ රැකවරණ සේවා වාරයක්
-                    ඔබට නියමිතව ඇත.
+                    You have a scheduled care session
+                    with Mr. Silva today at 8:00 AM.
                 </p>
 
                 <small>
-                    අද පෙ.ව. 6:45
+                    Today at 6:45 AM
                 </small>
 
             </div>
@@ -301,19 +309,20 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <div class="notification-content">
 
                 <div class="notification-category green-text">
-                    ගෙවීම්
+                    Payments
                 </div>
 
                 <h3>
-                    ගෙවීම නිකුත් කර ඇත
+                    Payment Released
                 </h3>
 
                 <p>
-                    රු. 2,500ක ඔබගේ ගෙවීම සාර්ථකව නිකුත් කර ඇත.
+                    Your payment of Rs. 2,500 has been
+                    successfully released.
                 </p>
 
                 <small>
-                    ඊයේ, ප.ව. 4:30
+                    Yesterday, 4:30 PM
                 </small>
 
             </div>
@@ -324,7 +333,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
                     type="button"
                     class="secondary-action view-earning-button"
                 >
-                    ආදායම් බලන්න
+                    View ආදායම්
                 </button>
 
             </div>
@@ -347,21 +356,21 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <div class="notification-content">
 
                 <div class="notification-category">
-                    දෛනික වාර්තා
+                    Daily Reports
                     <span class="unread-dot"></span>
                 </div>
 
                 <h3>
-                    දෛනික රැකවරණ වාර්තා මතක් කිරීම
+                    Daily Care Report Reminder
                 </h3>
 
                 <p>
-                    ඔබගේ සේවාව සම්පූර්ණ කිරීමෙන් පසු අද දින රැකවරණ වාර්තාව
-                    ඉදිරිපත් කරන්න.
+                    Please submit today's care report
+                    after completing your service.
                 </p>
 
                 <small>
-                    දැන්
+                    Just now
                 </small>
 
             </div>
@@ -395,16 +404,16 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <div class="notification-content">
 
                 <div class="notification-category">
-                    පැතිකඩ
+                    Profile
                 </div>
 
                 <h3>
-                    පැතිකඩ තහවුරු කර ඇත
+                    Profile Verified
                 </h3>
 
                 <p>
-                    පරිපාලක විසින් ඔබගේ රැකවරණ සේවා සපයන්නාගේ පැතිකඩ
-                    සාර්ථකව තහවුරු කර ඇත.
+                    Your caregiver profile has been
+                    successfully verified by the administrator.
                 </p>
 
                 <small>
@@ -419,7 +428,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
                     type="button"
                     class="secondary-action view-profile-button"
                 >
-                    පැතිකඩ බලන්න
+                    View Profile
                 </button>
 
             </div>
@@ -442,20 +451,20 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             <div class="notification-content">
 
                 <div class="notification-category red-text">
-                    වෙන්කිරීම්
+                    Bookings
                 </div>
 
                 <h3>
-                    වෙන්කිරීම අවලංගු කර ඇත
+                    Booking Cancelled
                 </h3>
 
                 <p>
-                    ජූලි 22 දිනට නියමිත වෙන්කිරීම
-                    පවුලේ සාමාජිකයා විසින් අවලංගු කර ඇත.
+                    The booking scheduled for 22 July
+                    has been cancelled by the family member.
                 </p>
 
                 <small>
-                    දින 2කට පෙර
+                    2 days ago
                 </small>
 
             </div>
@@ -484,7 +493,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
         id="noදැනුම්දීම්"
         class="no-notifications hidden"
     >
-        දැනුම්දීම් කිසිවක් හමු නොවීය.
+        No notifications found.
     </div>
 
 
@@ -497,7 +506,7 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             id="loadPreviousButton"
             class="load-more-button"
         >
-            පෙර දැනුම්දීම් පූරණය කරන්න
+            Load previous notifications
             <span>⌄</span>
         </button>
 
@@ -523,27 +532,27 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
             ×
         </button>
 
-        <h2>වෙන්කිරීමේ විස්තර</h2>
+        <h2>Booking Details</h2>
 
         <div class="booking-details">
 
             <p>
-                <strong>වෙන්කිරීමේ අංකය:</strong>
+                <strong>Booking ID:</strong>
                 <span id="modalBookingId">-</span>
             </p>
 
             <p>
-                <strong>රෝගියා:</strong>
+                <strong>Patient:</strong>
                 <span id="modalPatient">-</span>
             </p>
 
             <p>
-                <strong>දිනය:</strong>
+                <strong>Date:</strong>
                 <span id="modalDate">-</span>
             </p>
 
             <p>
-                <strong>සේවා මුරය:</strong>
+                <strong>Shift:</strong>
                 <span id="modalShift">-</span>
             </p>
 
@@ -568,8 +577,8 @@ $title = $data['title'] ?? 'දැනුම්දීම් | SafeHands';
 
     <div class="footer-links">
 
-        <a href="#">සේවා කොන්දේසි</a>
-        <a href="#">පෞද්ගලිකත්ව ප්‍රතිපත්තිය</a>
+        <a href="#">නියමයන් of Service</a>
+        <a href="#">රහස්‍යතා ප්‍රතිපත්තිය</a>
         <a href="#">සහාය අමතන්න</a>
 
     </div>

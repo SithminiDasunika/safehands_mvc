@@ -1,10 +1,9 @@
 <?php
-$caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන්නා';
+$caregiverName = $caregiverName ?? 'Caregiver';
 ?>
 
 <!DOCTYPE html>
-<html lang="si">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +11,7 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
     <title>හදිසි සම්බන්ධතා තොරතුරු | SafeHands</title>
 
     <link rel="stylesheet"
-          href="/safehands_mvc/public/assets/css/caregiver-emergency.css?v=3">
+          href="/safehands_mvc/public/assets/css/caregiver-emergency.css?v=1">
 </head>
 
 <body>
@@ -26,84 +25,64 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
 
         <div class="header-container">
 
-            <!-- SafeHands -->
-            <a href="/safehands_mvc/caregiver/dashboardSi"
+            <!-- Logo -->
+            <a href="/safehands_mvc/caregiver/dashboard"
                class="brand">
-
                 <span class="brand-icon">♥</span>
-
                 <span>SafeHands</span>
-
             </a>
-
 
             <!-- Navigation -->
             <nav class="emergency-nav">
 
-                <a href="/safehands_mvc/caregiver/dashboardSi"
+                <a href="/safehands_mvc/caregiver/dashboard"
                    class="nav-link">
-
-                     උපකරණ පුවරුව
-
+                    උපකරණ පුවරුව
                 </a>
 
-
-                <a href="/safehands_mvc/caregiver/emergencyContactSi"
+                <a href="/safehands_mvc/caregiver/emergencyContact"
                    class="nav-link emergency-nav-active">
-
                     <span class="nav-call-icon">☎</span>
-
-                    හදිසි ඇමතුම්
-
+                    හදිසි ඇමතුම
                 </a>
-
 
                 <a href="/safehands_mvc/logout"
                    class="nav-link logout-link">
-
-                    Logout
-
+                    පිටවීම
                 </a>
 
             </nav>
 
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/emergencyContact" style="color:#059669; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/emergencyContactSi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
+            </div>
 
-            <!-- Mobile menu -->
+            <!-- Mobile menu button -->
             <button type="button"
                     class="mobile-menu-button"
                     id="mobileMenuButton"
                     aria-label="Open navigation">
-
                 ☰
-
             </button>
 
         </div>
 
-
         <!-- Mobile navigation -->
-        <div class="mobile-navigation"
-             id="mobileNavigation">
+        <div class="mobile-navigation" id="mobileNavigation">
 
-            <a href="/safehands_mvc/caregiver/dashboardSi">
-
-                Dashboard
-
+            <a href="/safehands_mvc/caregiver/dashboard">
+                උපකරණ පුවරුව
             </a>
 
-
-            <a href="/safehands_mvc/caregiver/emergencyContactSi"
+            <a href="/safehands_mvc/caregiver/emergencyContact"
                class="mobile-active">
-
-                ☎ හදිසි ඇමතුම්
-
+                ☎ හදිසි ඇමතුම
             </a>
-
 
             <a href="/safehands_mvc/logout">
-
-                Logout
-
+                පිටවීම
             </a>
 
         </div>
@@ -114,11 +93,9 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
     <!-- =========================
          MAIN CONTENT
     ========================== -->
-
     <main class="emergency-main">
 
         <div class="emergency-container">
-
 
             <!-- Page heading -->
             <div class="page-heading">
@@ -128,15 +105,11 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
                 </div>
 
                 <div>
-
-                    <h1>
-                        හදිසි සම්බන්ධතා තොරතුරු
-                    </h1>
+                    <h1>හදිසි සම්බන්ධතා තොරතුරු</h1>
 
                     <p>
-                        හදිසි සේවාවක් ඉක්මනින් සොයා සම්බන්ධ වන්න.
+                        Quickly find and contact an emergency service.
                     </p>
-
                 </div>
 
             </div>
@@ -145,127 +118,111 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
             <!-- Emergency card -->
             <section class="emergency-card">
 
-
                 <div class="card-header">
 
-                    <h2>
-                        හදිසි සම්බන්ධතා
-                    </h2>
+                    <h2>හදිසි සම්බන්ධතා</h2>
 
                     <p>
-                        පහත ලැයිස්තුවෙන් හදිසි සේවාවක් තෝරා
-                        එහි සම්බන්ධතා තොරතුරු බලන්න.
+                        Select an emergency service to view its contact
+                        information.
                     </p>
 
                 </div>
 
 
                 <!-- Dropdown -->
-                <div class="form-group">
+               <!-- Emergency Service Dropdown -->
+<div class="form-group">
 
-                    <label for="emergencyContact">
+    <label for="emergencyContact">
+        Select Emergency Service
+    </label>
 
-                        හදිසි සේවාව තෝරන්න
+    <select id="emergencyContact"
+            name="emergencyContact">
 
-                    </label>
+        <option value="">
+            -- Select Emergency Service --
+        </option>
 
+        <option value="ambulance">
+            Ambulance
+        </option>
 
-                    <select id="emergencyContact"
-                            name="emergencyContact">
+        <option value="hospital">
+            Hospital
+        </option>
 
-                        <option value="">
+        <option value="police">
+            Police
+        </option>
 
-                            -- හදිසි සේවාව තෝරන්න --
+        <option value="fire">
+            Fire & Rescue
+        </option>
 
-                        </option>
+        <option value="familymember">
+            Family Member
+        </option>
 
+    </select>
 
-                        <option value="ambulance">
-
-                            ගිලන් රථ සේවාව
-
-                        </option>
-
-
-                        <option value="hospital">
-
-                            රෝහල
-
-                        </option>
-
-
-                        <option value="police">
-
-                            පොලිසිය
-
-                        </option>
+</div>
 
 
-                        <option value="fire">
-
-                            ගිනි නිවන සහ මුදාගැනීමේ සේවාව
-
-                        </option>
-                         <option value="familymember">
-    පවුලේ සාමාජිකයා
-</option>
-                    </select>
-
-                </div>
-
-<!-- Family Member Dropdown -->
+ <!-- Family Member Dropdown -->
 <div class="form-group"
      id="familyMemberSection"
      style="display: none;">
 
     <label for="familyMember">
-        පවුලේ සාමාජිකයෙකු තෝරන්න
+        Select Family Member
     </label>
 
     <select id="familyMember"
             name="familyMember">
 
         <option value="">
-            -- පවුලේ සාමාජිකයෙකු තෝරන්න --
+            -- Select Family Member --
         </option>
 
         <option value="family1"
                 data-phone="0712345678">
-            මව
+            Mother
         </option>
 
         <option value="family2"
                 data-phone="0771234567">
-            පියා
+            Father
         </option>
 
         <option value="family3"
                 data-phone="0769876543">
-            සහෝදරයා
+            Brother
         </option>
 
         <option value="family4"
                 data-phone="0755555555">
-            සහෝදරිය
+            Sister
         </option>
 
         <option value="family5"
                 data-phone="0788888888">
-            පුතා
+            Son
         </option>
 
         <option value="family6"
                 data-phone="0722222222">
-            දියණිය
+            Daughter
         </option>
 
     </select>
 
 </div>
-                <!-- Contact result -->
+
+                <!-- Contact information -->
                 <div class="contact-result"
                      id="contactResult">
-
 
                     <div class="empty-state">
 
@@ -273,15 +230,11 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
                             ☎
                         </div>
 
-
-                        <h3>
-                            හදිසි සේවාවක් තෝරන්න
-                        </h3>
-
+                        <h3>Select an Emergency Service</h3>
 
                         <p>
-                            ඉහත ලැයිස්තුවෙන් හදිසි සේවාවක්
-                            තෝරා එහි සම්බන්ධතා තොරතුරු බලන්න.
+                            Choose a service from the dropdown above
+                            to view its contact information.
                         </p>
 
                     </div>
@@ -291,25 +244,20 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
             </section>
 
 
-            <!-- Emergency notice -->
+            <!-- Emergency warning -->
             <div class="emergency-notice">
-
 
                 <div class="notice-icon">
                     !
                 </div>
 
-
                 <div class="notice-content">
 
-                    <strong>
-                        හදිසි දැනුම්දීම
-                    </strong>
-
+                    <strong>Emergency Notice</strong>
 
                     <p>
-                        යම් පුද්ගලයෙකු ක්ෂණික අනතුරක සිටී නම්,
-                        සුදුසු හදිසි සේවාව වහාම සම්බන්ධ කරන්න.
+                        If someone is in immediate danger, contact the
+                        appropriate emergency service immediately.
                     </p>
 
                 </div>
@@ -317,14 +265,12 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
             </div>
 
 
-            <!-- Back -->
+            <!-- Back button -->
             <div class="back-section">
 
-                <a href="/safehands_mvc/caregiver/dashboardSi"
+                <a href="/safehands_mvc/caregiver/dashboard"
                    class="back-button">
-
-                    ←  උපකරණ පුවරුව වෙත ආපසු
-
+                    ← Back to උපකරණ පුවරුව
                 </a>
 
             </div>
@@ -334,12 +280,14 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
     </main>
 
 
-    <!-- Footer -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
     <footer class="emergency-footer">
 
         <p>
-            © <?php echo date('Y'); ?>
-            SafeHands Caregiver Service Management System
+            © <?php echo date('Y'); ?> SafeHands Caregiver Service
+            Management System
         </p>
 
     </footer>
@@ -347,8 +295,7 @@ $caregiverName = $caregiverName ?? 'රැකවරණ සේවා සපයන
 </div>
 
 
-<script src="/safehands_mvc/public/assets/js/caregiver-emergency-si.js?v=1"></script>
+<script src="/safehands_mvc/public/assets/js/caregiver-emergency.js?v=1"></script>
 
 </body>
-
 </html>

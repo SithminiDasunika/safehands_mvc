@@ -1,9 +1,9 @@
 <?php
-$title = $title ?? 'මගේ ආදායම | SafeHands';
+$title = $title ?? 'My Earnings | SafeHands';
 ?>
 
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 
 <head>
 
@@ -42,13 +42,12 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
 
         <nav class="desktop-nav">
 
-            <a href="/safehands_mvc/caregiver/dashboardSi">
+            <a href="/safehands_mvc/caregiver/dashboard">
                 උපකරණ පුවරුව
             </a>
 
-            
-
-           
+             
+             
 
             <a
                 href="/safehands_mvc/caregiver/earnings"
@@ -57,14 +56,20 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 ආදායම්
             </a>
 
-            
+             
 
         </nav>
 
 
         <div class="header-actions">
+                        <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
+                <a href="/safehands_mvc/caregiver/earnings" style="color:#059669; text-decoration:none;">English</a>
+                <span style="color:#9ca3af;">|</span>
+                <a href="/safehands_mvc/caregiver/earningsSi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
+            </div>
 
-            
+
+             
 
             <div class="profile-circle">
                 C
@@ -74,7 +79,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 type="button"
                 class="mobile-menu-button"
                 id="mobileMenuButton"
-                aria-label="මෙනුව විවෘත කරන්න"
+                aria-label="Open menu"
             >
                 ☰
             </button>
@@ -91,15 +96,15 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
         id="mobileNav"
     >
 
-        <a href="/safehands_mvc/caregiver/dashboardSi">
+        <a href="/safehands_mvc/caregiver/dashboard">
             උපකරණ පුවරුව
         </a>
 
-        <a href="/safehands_mvc/caregiver/scheduleSi">
+        <a href="/safehands_mvc/caregiver/schedule">
             මගේ උපලේඛනය
         </a>
 
-        <a href="/safehands_mvc/caregiver/manageAvailabilitySi">
+        <a href="/safehands_mvc/caregiver/manageAvailability">
             ලබා ගත හැකි වේලාව
         </a>
 
@@ -107,10 +112,10 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             href="/safehands_mvc/caregiver/earnings"
             class="active"
         >
-          ආදායම්
+            ආදායම්
         </a>
 
-        <a href="/safehands_mvc/caregiver/notificationsSi">
+        <a href="/safehands_mvc/caregiver/notifications">
             දැනුම්දීම්
         </a>
 
@@ -130,7 +135,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
 
     <div class="breadcrumb">
 
-        <a href="/safehands_mvc/caregiver/dashboardSi">
+        <a href="/safehands_mvc/caregiver/dashboard">
             උපකරණ පුවරුව
         </a>
 
@@ -152,12 +157,12 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
         <div>
 
             <h1>
-                මගේ ආදායම
+                My ආදායම්
             </h1>
 
             <p>
-                ඔබගේ ගෙවීම්, ආදායම් සහ සම්පූර්ණ කළ රැකවරණ සේවා
-                නිරීක්ෂණය කරන්න.
+                Track your payments, earnings and completed
+                caregiving services.
             </p>
 
         </div>
@@ -171,7 +176,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 type="button"
                 id="previousMonth"
                 class="month-button"
-                aria-label="පසුගිය මාසය"
+                aria-label="Previous month"
             >
                 ‹
             </button>
@@ -187,7 +192,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 type="button"
                 id="nextMonth"
                 class="month-button"
-                aria-label="ඊළඟ මාසය"
+                aria-label="Next month"
             >
                 ›
             </button>
@@ -213,7 +218,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             </div>
 
             <div class="summary-label">
-                වත්මන් ශේෂය
+                CURRENT BALANCE
             </div>
 
             <div
@@ -224,13 +229,13 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             </div>
 
             <div class="summary-description">
-                මීළඟ ගෙවීම සඳහා ලබා ගත හැක
+                Available for next payout
             </div>
 
         </div>
 
 
-        <!-- රඳවා ඇත ගෙවීමs -->
+        <!-- Held Payments -->
 
         <div class="summary-card">
 
@@ -239,24 +244,24 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             </div>
 
             <div class="summary-label">
-                රඳවා ඇති ගෙවීම්
+                HELD PAYMENTS
             </div>
 
             <div
                 class="summary-value"
-                id="heldගෙවීමs"
+                id="heldPayments"
             >
                 Rs. 12,000
             </div>
 
             <div class="summary-description">
-                තහවුරු කිරීම අපේක්ෂාවෙන්
+                Awaiting confirmation
             </div>
 
         </div>
 
 
-        <!-- නිකුත් කර ඇත -->
+        <!-- Released -->
 
         <div class="summary-card">
 
@@ -265,18 +270,18 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             </div>
 
             <div class="summary-label">
-                නිකුත් කළ ගෙවීම්
+                RELEASED
             </div>
 
             <div
                 class="summary-value"
-                id="releasedගෙවීමs"
+                id="releasedPayments"
             >
                 Rs. 156,500
             </div>
 
             <div class="summary-description">
-                සාර්ථකව මාරු කර ඇත
+                Successfully transferred
             </div>
 
         </div>
@@ -291,7 +296,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             </div>
 
             <div class="summary-label">
-                සේවා වාර
+                SESSIONS
             </div>
 
             <div
@@ -302,7 +307,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             </div>
 
             <div class="summary-description">
-                මෙම මාසයේ සම්පූර්ණ කළ සේවා වාර
+                Completed this month
             </div>
 
         </div>
@@ -331,18 +336,18 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <section class="earnings-card performance-card">
 
                 <h2>
-                    කාර්ය සාධන තොරතුරු
+                    Performance Insights
                 </h2>
 
 
-                <!-- මෙම මාසය -->
+                <!-- This Month -->
 
                 <div class="performance-item">
 
                     <div class="performance-header">
 
                         <span id="thisMonthLabel">
-                            මෙම මාසය (July 2026)
+                            This Month (July 2026)
                         </span>
 
                         <strong id="thisMonthAmount">
@@ -364,14 +369,14 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 </div>
 
 
-                <!-- පසුගිය මාසය -->
+                <!-- Last Month -->
 
                 <div class="performance-item">
 
                     <div class="performance-header">
 
                         <span id="lastMonthLabel">
-                            පසුගිය මාසය (June 2026)
+                            Last Month (June 2026)
                         </span>
 
                         <strong id="lastMonthAmount">
@@ -400,11 +405,11 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     <div class="performance-header">
 
                         <span>
-                            සාමාන්‍ය මාසික ආදායම
+                            Average Monthly ආදායම්
                         </span>
 
                         <strong
-                            id="averageMonthlyEarnings"
+                            id="averageMonthlyආදායම්"
                             class="primary-text"
                         >
                             Rs. 39,250
@@ -436,7 +441,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 <div class="section-heading">
 
                     <h2>
-                        මෑත ගනුදෙනු
+                        Recent Transactions
                     </h2>
 
                     <button
@@ -444,7 +449,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                         id="viewAllTransactions"
                         class="text-button"
                     >
-                        සියල්ල බලන්න
+                        View All
                     </button>
 
                 </div>
@@ -477,7 +482,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                                 </h4>
 
                                 <p>
-                                    15 July 2026 • Morning සේවා මුරය
+                                    15 July 2026 • Morning Shift
                                 </p>
 
                             </div>
@@ -494,7 +499,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                                 </strong>
 
                                 <span class="status released">
-                                    නිකුත් කර ඇත
+                                    Released
                                 </span>
 
                             </div>
@@ -533,7 +538,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                                 </h4>
 
                                 <p>
-                                    18 July 2026 • Evening සේවා මුරය
+                                    18 July 2026 • Evening Shift
                                 </p>
 
                             </div>
@@ -550,7 +555,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                                 </strong>
 
                                 <span class="status held">
-                                    රඳවා ඇත
+                                    Held
                                 </span>
 
                             </div>
@@ -583,13 +588,13 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
 
 
             <!-- =================================================
-                 මීළඟ ගෙවීම
+                 NEXT PAYOUT
                  ================================================= -->
 
             <section class="payout-card">
 
                 <div class="payout-label">
-                    මීළඟ ගෙවීම
+                    NEXT PAYOUT
                 </div>
 
                 <div
@@ -599,15 +604,15 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     Rs. 18,500
                 </div>
 
-                <p id="nextPayoutදිනය">
-                    නියමිත දිනය 28 July 2026
+                <p id="nextPayoutDate">
+                    Scheduled for 28 July 2026
                 </p>
 
                 <div class="payout-status">
                     <span class="status-dot"></span>
 
                     <span>
-                        තත්ත්වය: සැකසෙමින් පවතී
+                        Status: Processing
                     </span>
 
                 </div>
@@ -622,7 +627,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <section class="payment-guide">
 
                 <h3>
-                    ගෙවීම් මාර්ගෝපදේශය
+                    Payment Guide
                 </h3>
 
 
@@ -633,11 +638,12 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     <div>
 
                         <h4>
-                            නිකුත් කර ඇත
+                            Released
                         </h4>
 
                         <p>
-                            ඔබගේ ප්‍රධාන බැංකු ගිණුමට මුදල් මාරු කර ඇත.
+                            Funds transferred to your
+                            primary bank account.
                         </p>
 
                     </div>
@@ -652,11 +658,12 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     <div>
 
                         <h4>
-                            රඳවා ඇත
+                            Held
                         </h4>
 
                         <p>
-                            රෝගියාගේ තහවුරු කිරීම හෝ සේවා මුරය තහවුරු කිරීම අපේක්ෂාවෙන්.
+                            Awaiting patient sign-off
+                            or shift verification.
                         </p>
 
                     </div>
@@ -675,7 +682,8 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                         </h4>
 
                         <p>
-                            අපගේ මූල්‍ය කණ්ඩායම විසින් කණ්ඩායම් ගෙවීම ආරම්භ කර ඇත.
+                            Batch payment initiated
+                            by our finance team.
                         </p>
 
                     </div>
@@ -692,7 +700,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <section class="quick-actions">
 
 
-                <!-- ගෙවීම් ඉතිහාසය -->
+                <!-- Payment History -->
 
                 <button
                     type="button"
@@ -707,7 +715,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                         </span>
 
                         <span>
-                            ගෙවීම් ඉතිහාසය
+                            Payment History
                         </span>
 
                     </span>
@@ -719,7 +727,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                 </button>
 
 
-                <!-- මාසික ප්‍රකාශය -->
+                <!-- Monthly Statement -->
 
                 <button
                     type="button"
@@ -734,7 +742,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                         </span>
 
                         <span>
-                            මාසික ප්‍රකාශය
+                            Monthly Statement
                         </span>
 
                     </span>
@@ -795,12 +803,12 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
         <div class="modal-header">
 
             <h2>
-                ගෙවීම් ඉතිහාසය
+                Payment History
             </h2>
 
             <button
                 type="button"
-                id="closeගෙවීමHistory"
+                id="closePaymentHistory"
                 class="modal-close"
             >
                 ×
@@ -833,7 +841,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     </strong>
 
                     <span class="status released">
-                        නිකුත් කර ඇත
+                        Released
                     </span>
 
                 </div>
@@ -862,7 +870,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     </strong>
 
                     <span class="status released">
-                        නිකුත් කර ඇත
+                        Released
                     </span>
 
                 </div>
@@ -891,7 +899,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
                     </strong>
 
                     <span class="status held">
-                        රඳවා ඇත
+                        Held
                     </span>
 
                 </div>
@@ -920,7 +928,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
         <div class="modal-header">
 
             <h2>
-                වෙන්කිරීමේ විස්තර
+                Booking Details
             </h2>
 
             <button
@@ -939,7 +947,7 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <div class="booking-detail">
 
                 <span>
-                    වෙන්කිරීමේ අංකය
+                    Booking ID
                 </span>
 
                 <strong id="modalBookingId">
@@ -952,10 +960,10 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <div class="booking-detail">
 
                 <span>
-                    රෝගියා
+                    Patient
                 </span>
 
-                <strong id="modalරෝගියා">
+                <strong id="modalPatient">
                     -
                 </strong>
 
@@ -965,10 +973,10 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <div class="booking-detail">
 
                 <span>
-                    දිනය
+                    Date
                 </span>
 
-                <strong id="modalදිනය">
+                <strong id="modalDate">
                     -
                 </strong>
 
@@ -978,10 +986,10 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <div class="booking-detail">
 
                 <span>
-                    සේවා මුරය
+                    Shift
                 </span>
 
-                <strong id="modalසේවා මුරය">
+                <strong id="modalShift">
                     -
                 </strong>
 
@@ -991,10 +999,10 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
             <div class="booking-detail">
 
                 <span>
-                    ගෙවීම
+                    Payment
                 </span>
 
-                <strong id="modalගෙවීම">
+                <strong id="modalPayment">
                     -
                 </strong>
 
@@ -1021,21 +1029,21 @@ $title = $title ?? 'මගේ ආදායම | SafeHands';
 
         <span>
             © 2024 SafeHands Premium.
-            All rights reserved.
+            සියලු හිමිකම් ඇවිරිණි.
         </span>
 
         <div class="footer-links">
 
             <a href="#">
-                පෞද්ගලිකත්ව ප්‍රතිපත්තිය
+                රහස්‍යතා ප්‍රතිපත්තිය
             </a>
 
             <a href="#">
-                සේවා කොන්දේසි
+                නියමයන් of Service
             </a>
 
             <a href="#">
-                උපකාරක මධ්‍යස්ථානය
+                උදව් මධ්‍යස්ථානය
             </a>
 
         </div>

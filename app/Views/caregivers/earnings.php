@@ -46,13 +46,8 @@ $title = $title ?? 'My Earnings | SafeHands';
                 Dashboard
             </a>
 
-            <a href="/safehands_mvc/caregiver/schedule">
-                My Schedule
-            </a>
-
-            <a href="/safehands_mvc/caregiver/manageAvailability">
-                Availability
-            </a>
+             
+             
 
             <a
                 href="/safehands_mvc/caregiver/earnings"
@@ -61,22 +56,14 @@ $title = $title ?? 'My Earnings | SafeHands';
                 Earnings
             </a>
 
-            <a href="/safehands_mvc/caregiver/notifications">
-                Notifications
-            </a>
+             
 
         </nav>
 
 
         <div class="header-actions">
 
-            <a
-                href="/safehands_mvc/caregiver/notifications"
-                class="notification-button"
-                aria-label="Notifications"
-            >
-                🔔
-            </a>
+             
 
             <div class="profile-circle">
                 C

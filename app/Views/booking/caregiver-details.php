@@ -44,8 +44,7 @@ if ($isCompleted) {
         <nav class="nav-links">
             <a href="/safehands_mvc/caregiver/dashboard">Dashboard</a>
             <a href="/safehands_mvc/bookings" class="active">Booking Requests</a>
-            <a href="/safehands_mvc/caregiver/schedule">My Schedule</a>
-            <a href="/safehands_mvc/caregiver/manageAvailability">Availability</a>
+             
         </nav>
         <div class="header-actions">
             <span class="material-symbols-outlined">notifications</span>

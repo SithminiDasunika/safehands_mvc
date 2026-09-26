@@ -65,21 +65,13 @@ $availability = $availability ?? [];
     උපකරණ පුවරුව
 </a>
 
-<a href="/safehands_mvc/caregiver/scheduleSi">
-    මගේ උපලේඛනය
-</a>
+ 
 
 <a href="/safehands_mvc/caregiver/manageAvailabilitySi">
     ලබා ගත හැකි වේලාව
 </a>
 
-<a href="/safehands_mvc/caregiver/earningsSi">
-    ආදායම්
-</a>
-
-<a href="/safehands_mvc/caregiver/notificationsSi">
-    දැනුම්දීම්
-</a>
+ 
          
 
         </nav>

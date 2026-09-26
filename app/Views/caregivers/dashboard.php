@@ -83,7 +83,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             </div>
             <span class="quick-action-label">Manage Availability</span>
         </a>
-        <a href="/safehands_mvc/caregiver/pendingReports" class="quick-action-card">
+        <a href="/safehands_mvc/bookings/pendingReports" class="quick-action-card">
             <div class="qa-icon-wrapper bg-warning-container">
                 <span class="material-symbols-outlined" data-icon="description">description</span>
             </div>

@@ -28,6 +28,673 @@
     --orange: #943700;
     --red: #ba1a1a;
 }
+/* =========================================================
+   SAFEHANDS CARE REPORT - CLEAN HEADER UI
+========================================================= */
+
+
+/* =========================================================
+   REPORT TITLE
+========================================================= */
+
+.report-title-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    width: 100%;
+}
+
+
+.report-title-row h1 {
+
+    margin: 0;
+
+    font-size: 32px;
+
+    line-height: 40px;
+
+    font-weight: 600;
+
+    letter-spacing: -0.02em;
+
+    color: var(--text);
+
+}
+
+
+/* =========================================================
+   EDIT / DELETE BUTTONS
+========================================================= */
+
+.report-header-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+}
+
+
+.report-edit-btn,
+.report-delete-btn {
+
+    min-height: 38px;
+
+    padding: 0 13px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* EDIT */
+
+.report-edit-btn {
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    border: 1px solid var(--primary);
+
+    box-shadow:
+        0 2px 5px rgba(0, 74, 198, 0.12);
+}
+
+
+.report-edit-btn:hover {
+
+    background: #003da8;
+
+    border-color: #003da8;
+
+    color: #ffffff;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(0, 74, 198, 0.18);
+}
+
+
+.report-edit-btn .material-icon {
+
+    font-size: 16px;
+}
+
+
+/* DELETE */
+
+.report-delete-btn {
+
+    background: #ffffff;
+
+    color: #dc362e;
+
+    border: 1px solid #e4b7b7;
+}
+
+
+.report-delete-btn:hover {
+
+    background: #fff5f5;
+
+    color: #c62828;
+
+    border-color: #dc362e;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 3px 8px rgba(186, 26, 26, 0.10);
+}
+
+
+.report-delete-btn .material-icon {
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   PATIENT SUMMARY
+========================================================= */
+
+.patient-summary-card {
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   PATIENT TOP AREA
+========================================================= */
+
+.patient-summary-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   PATIENT INFORMATION
+========================================================= */
+
+.patient-information {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   PATIENT AVATAR
+========================================================= */
+
+.patient-avatar {
+
+    width: 56px;
+
+    height: 56px;
+
+    min-width: 56px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background: #eaf0ff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+}
+
+
+.patient-avatar img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+.patient-avatar .avatar-initial {
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 100%;
+
+    height: 100%;
+
+    color: var(--primary);
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.patient-avatar.avatar-fallback .avatar-initial {
+
+    display: flex;
+}
+
+
+.patient-avatar.avatar-fallback img {
+
+    display: none;
+}
+
+
+/* =========================================================
+   PATIENT MAIN INFO
+========================================================= */
+
+.patient-main-info {
+
+    min-width: 0;
+
+    flex: 1;
+}
+
+
+/* =========================================================
+   PATIENT NAME + TIME
+========================================================= */
+
+.patient-name-time-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    width: 100%;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   PATIENT NAME
+========================================================= */
+
+.patient-name-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-width: 0;
+}
+
+
+.patient-name-row h2 {
+
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+
+    line-height: 24px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PATIENT ID
+========================================================= */
+
+.patient-id {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 4px 8px;
+
+    border-radius: 6px;
+
+    background: #eef3ff;
+
+    color: var(--primary);
+
+    font-size: 10px;
+
+    line-height: 14px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PATIENT TIME
+========================================================= */
+
+.patient-time {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    padding: 5px 9px;
+
+    border-radius: 6px;
+
+    background: #f7f9fc;
+
+    border: 1px solid #edf0f5;
+
+    color: #475569;
+
+    font-size: 11px;
+
+    line-height: 16px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
+}
+
+
+.patient-time .material-icon {
+
+    color: var(--primary);
+
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   BOOKING ID
+========================================================= */
+
+.patient-booking {
+
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+    line-height: 18px;
+}
+
+
+.patient-booking strong {
+
+    color: #334155;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   METADATA
+========================================================= */
+
+.metadata-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+
+.metadata-item {
+
+    min-height: 68px;
+
+    padding: 12px 13px;
+
+    background: #ffffff;
+
+    border: 1px solid #edf0f5;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 4px;
+}
+
+
+.metadata-item > span {
+
+    color: #64748b;
+
+    font-size: 9px;
+
+    line-height: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+}
+
+
+.metadata-item > strong {
+
+    color: #172033;
+
+    font-size: 12px;
+
+    line-height: 18px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   DESKTOP HEADER SPACING
+========================================================= */
+
+@media (min-width: 901px) {
+
+    .report-header-left {
+
+        gap: 14px;
+    }
+
+    .report-description {
+
+        margin-top: 0;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .report-title-row {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+
+    .report-header-actions {
+
+        justify-content: flex-start;
+    }
+
+
+    .patient-name-time-row {
+
+        gap: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .metadata-grid {
+
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .report-title-row {
+
+        align-items: flex-start;
+
+        gap: 12px;
+    }
+
+
+    .report-title-row h1 {
+
+        font-size: 26px;
+
+        line-height: 34px;
+    }
+
+
+    .report-header-actions {
+
+        width: 100%;
+
+        justify-content: flex-start;
+    }
+
+
+    .report-edit-btn,
+    .report-delete-btn {
+
+        flex: 1;
+
+        min-height: 40px;
+    }
+
+
+    .patient-summary-top {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .patient-information {
+
+        width: 100%;
+
+        align-items: flex-start;
+    }
+
+
+    .patient-name-time-row {
+
+        flex-wrap: wrap;
+
+        gap: 6px;
+    }
+
+
+    .patient-name-row h2 {
+
+        font-size: 16px;
+    }
+
+
+    .patient-time {
+
+        font-size: 10px;
+
+        padding: 4px 7px;
+    }
+
+
+    .metadata-grid {
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .patient-name-row {
+
+        flex-wrap: wrap;
+    }
+
+
+    .patient-time {
+
+        width: auto;
+    }
+
+
+    .metadata-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+}
 
 body {
     margin: 0;
@@ -1874,4 +2541,884 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+/* =========================================================
+   FIX PATIENT NAME + ID + TIME ALIGNMENT
+========================================================= */
+
+.patient-name-time-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    width: 100%;
+}
+
+
+/* Patient name + ID */
+
+.patient-name-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    flex-shrink: 1;
+}
+
+
+.patient-name-row h2 {
+    margin: 0;
+    font-size: 17px;
+    line-height: 23px;
+    font-weight: 700;
+    color: #111827;
+    white-space: nowrap;
+}
+
+
+/* Patient ID */
+
+.patient-id {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 7px;
+
+    border-radius: 6px;
+
+    background: #eef3ff;
+    color: var(--primary);
+
+    font-size: 10px;
+    line-height: 14px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
+}
+
+
+/* Time */
+
+.patient-time {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    height: 30px;
+
+    padding: 0 9px;
+
+    border-radius: 7px;
+
+    background: #f7f9fc;
+
+    border: 1px solid #e5eaf2;
+
+    color: #475569;
+
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
+
+    box-sizing: border-box;
+}
+
+
+.patient-time .material-icon {
+    color: var(--primary);
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+
+/* Patient main area */
+
+.patient-main-info {
+    min-width: 0;
+    flex: 1;
+}
+
+
+/* Booking ID */
+
+.patient-booking {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 11px;
+    line-height: 17px;
+}
+
+
+/* =========================================================
+   MAKE SUMMARY CARD MORE COMFORTABLE
+========================================================= */
+
+.patient-summary-card {
+    min-width: 0;
+}
+
+
+.patient-summary-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+.summary-status {
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   MEDIUM SCREEN
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .patient-name-row h2 {
+        font-size: 16px;
+    }
+
+    .patient-time {
+        font-size: 10px;
+        padding: 0 7px;
+    }
+
+    .patient-name-time-row {
+        gap: 7px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .patient-name-time-row {
+        flex-wrap: wrap;
+    }
+
+    .patient-time {
+        height: 28px;
+    }
+
+}
+/* =========================================================
+   CARE REPORT - PATIENT SUMMARY
+   4 INFORMATION BOXES / 2 x 2
+========================================================= */
+
+
+/* =========================================================
+   PATIENT SUMMARY
+========================================================= */
+
+.patient-summary-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   PATIENT HEADER
+========================================================= */
+
+.patient-summary-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+}
+
+
+/* =========================================================
+   PATIENT INFORMATION
+========================================================= */
+
+.patient-information {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+    flex: 1;
+}
+
+
+/* =========================================================
+   PATIENT AVATAR
+========================================================= */
+
+.patient-avatar {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background: #eaf0ff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+
+.patient-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+.patient-avatar .avatar-initial {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+    justify-content: center;
+
+    color: var(--primary);
+
+    font-size: 21px;
+    font-weight: 700;
+}
+
+
+.patient-avatar.avatar-fallback .avatar-initial {
+    display: flex;
+}
+
+
+.patient-avatar.avatar-fallback img {
+    display: none;
+}
+
+
+/* =========================================================
+   PATIENT NAME
+========================================================= */
+
+.patient-main-info {
+    min-width: 0;
+    flex: 1;
+}
+
+
+.patient-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.patient-name-row h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+    line-height: 24px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+.patient-id {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 8px;
+
+    border-radius: 6px;
+
+    background: #eef3ff;
+
+    color: var(--primary);
+
+    font-size: 10px;
+    line-height: 14px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   BOOKING ID
+========================================================= */
+
+.patient-booking {
+    margin: 5px 0 0;
+
+    color: #64748b;
+
+    font-size: 11px;
+    line-height: 18px;
+}
+
+
+.patient-booking strong {
+    color: #334155;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   SUBMITTED STATUS
+========================================================= */
+
+.summary-status {
+    flex-shrink: 0;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    background: #ecfdf5;
+
+    border: 1px solid #a7f3d0;
+
+    color: #047857;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.summary-status > span {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #059669;
+}
+
+
+/* =========================================================
+   4 INFORMATION BOXES
+========================================================= */
+
+.metadata-grid {
+    display: grid !important;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+    grid-template-rows: auto auto;
+
+    gap: 10px !important;
+
+    width: 100%;
+
+    margin-top: 18px;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   EACH BOX
+========================================================= */
+
+.metadata-item {
+    min-width: 0;
+
+    min-height: 72px;
+
+    padding: 13px 14px;
+
+    box-sizing: border-box;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7ebf0;
+
+    border-radius: 9px;
+}
+
+
+/* LABEL */
+
+.metadata-item > span {
+    color: #64748b;
+
+    font-size: 9px;
+
+    line-height: 14px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.6px;
+
+    text-transform: uppercase;
+}
+
+
+/* VALUE */
+
+.metadata-item > strong {
+    color: #172033;
+
+    font-size: 12px;
+
+    line-height: 18px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   TIME VALUE
+   KEEP 08:00 AM - 08:00 PM ON ONE LINE
+========================================================= */
+
+.metadata-item.time-box {
+    min-width: 0;
+}
+
+
+.metadata-item .report-time-value {
+    white-space: nowrap;
+
+    font-size: 12px;
+
+    line-height: 18px;
+
+    letter-spacing: 0;
+
+    overflow: visible;
+}
+
+
+/* =========================================================
+   DESKTOP - MAKE TIME BOX COMFORTABLE
+========================================================= */
+
+@media (min-width: 901px) {
+
+    .metadata-item .report-time-value {
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .patient-summary-top {
+        gap: 12px;
+    }
+
+    .patient-name-row h2 {
+        font-size: 17px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .patient-summary-top {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .patient-information {
+        width: 100%;
+    }
+
+
+    .summary-status {
+        align-self: flex-start;
+    }
+
+
+    .metadata-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+
+    .metadata-item {
+        min-height: 70px;
+
+        padding: 12px;
+    }
+
+
+    .metadata-item .report-time-value {
+        font-size: 11px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .metadata-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+}
+/* =========================================================
+   FINAL CARE REPORT ALIGNMENT FIX
+========================================================= */
+
+/* Main page container */
+.care-report-page {
+    width: 100% !important;
+    max-width: 1280px !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding: 32px 40px 48px !important;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* Keep all main report content inside the container */
+.report-header-card,
+.report-section,
+.submitted-by-card,
+.family-notice,
+.report-actions {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Header grid */
+.report-header-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 5fr)
+        minmax(0, 7fr);
+
+    gap: 24px;
+
+    box-sizing: border-box;
+}
+
+
+/* Left report content */
+.report-header-left {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Description text */
+.report-description {
+    width: 100%;
+
+    max-width: 100% !important;
+
+    margin: 8px 0 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+    line-height: 22px;
+
+    overflow-wrap: break-word;
+}
+
+
+/* Submitted information box */
+.submitted-information {
+    width: 100%;
+
+    max-width: 100%;
+
+    box-sizing: border-box;
+
+    margin-top: 4px;
+}
+
+
+/* Patient summary */
+.patient-summary-card {
+    width: 100%;
+
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* Patient information */
+.patient-information {
+    min-width: 0;
+
+    max-width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* Patient name */
+.patient-name-row {
+    min-width: 0;
+
+    max-width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.patient-name-row h2 {
+    margin: 0;
+
+    min-width: 0;
+
+    color: #111827;
+
+    font-size: 18px;
+
+    line-height: 24px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* Booking ID */
+.patient-information p {
+    margin: 4px 0 0;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 18px;
+}
+
+
+/* Four information boxes */
+.metadata-grid {
+    width: 100%;
+
+    display: grid !important;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr) !important;
+
+    gap: 10px !important;
+
+    margin-top: 18px;
+
+    box-sizing: border-box;
+}
+
+
+.metadata-item {
+    width: 100%;
+
+    min-width: 0;
+
+    min-height: 72px;
+
+    box-sizing: border-box;
+
+    padding: 13px 14px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7ebf0;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 5px;
+
+    overflow: hidden;
+}
+
+
+.metadata-item > span {
+    color: #64748b;
+
+    font-size: 9px;
+
+    line-height: 14px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.metadata-item > strong {
+    color: #172033;
+
+    font-size: 12px;
+
+    line-height: 18px;
+
+    font-weight: 650;
+
+    overflow-wrap: break-word;
+}
+
+
+/* Time must remain on one line */
+.metadata-item:nth-child(2) strong,
+.metadata-item.time-box strong,
+.report-time-value {
+    white-space: nowrap !important;
+
+    font-size: 12px;
+
+    line-height: 18px;
+}
+
+
+/* Prevent grid children from overflowing */
+.report-header-grid > *,
+.metadata-grid > * {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .care-report-page {
+        max-width: 100% !important;
+
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .care-report-page {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
+
+    .report-header-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .care-report-page {
+        padding: 20px 16px 32px !important;
+    }
+
+    .metadata-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    .report-description {
+        font-size: 13px;
+        line-height: 21px;
+    }
+
+}
+
+
+@media (max-width: 420px) {
+
+    .metadata-grid {
+        grid-template-columns: 1fr !important;
+    }
+
 }

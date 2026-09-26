@@ -22,57 +22,299 @@ $totalActivities = count($report['activities']);
 
     <!-- BREADCRUMB -->
     <nav class="breadcrumb" aria-label="Breadcrumbs">
-
-        <a href="/safehands_mvc/family">
-            <span class="material-icon">home</span>
-            Dashboard
-        </a>
-
-        <span class="breadcrumb-arrow">›</span>
-
-        <a href="/safehands_mvc/bookings">
-            My Bookings
-        </a>
-
-        <span class="breadcrumb-arrow">›</span>
-
-        <span class="current">
-            Daily Care Reports
-        </span>
-
+        <?php if(true || (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver')): ?>
+            <a href="/safehands_mvc/caregiver/dashboard">
+                <span class="material-icon">home</span> Dashboard
+            </a>
+            <span class="breadcrumb-arrow">›</span>
+            <span class="current">Submitted Report</span>
+        <?php else: ?>
+            <a href="/safehands_mvc/family">
+                <span class="material-icon">home</span> Dashboard
+            </a>
+            <span class="breadcrumb-arrow">›</span>
+            <a href="/safehands_mvc/bookings">My Bookings</a>
+            <span class="breadcrumb-arrow">›</span>
+            <span class="current">Daily Care Reports</span>
+        <?php endif; ?>
     </nav>
 
+<!-- MAIN HEADER -->
+<div class="report-header-card">
 
-    <!-- MAIN HEADER -->
-    <div class="report-header-card">
+    <div class="report-header-grid">
 
-        <div class="report-header-grid">
+        <!-- LEFT SIDE -->
+        <div class="report-header-left">
 
-            <!-- LEFT -->
-            <div class="report-header-left">
+            <!-- STATUS + REFERENCE -->
+            <div class="report-status-row">
 
-                <div class="report-status-row">
+                <span class="submitted-badge">
 
-                    <span class="submitted-badge">
-
-                        <span class="material-icon">
-                            check_circle
-                        </span>
-
-                        <?= htmlspecialchars($report['status']) ?>
-
+                    <span class="material-icon">
+                        check_circle
                     </span>
 
-                    <span class="report-reference">
-                        Ref #<?= htmlspecialchars($report['reference']) ?>
+                    <?= htmlspecialchars($report['status']) ?>
+
+                </span>
+
+                <span class="report-reference">
+                    Ref #<?= htmlspecialchars($report['reference']) ?>
+                </span>
+
+            </div>
+
+
+            <!-- TITLE -->
+            <div class="report-title-row">
+
+                <div>
+                    <h1>Daily Care Report</h1>
+                </div>
+
+                <?php if (
+                    isset($_SESSION['user_role']) &&
+                    $_SESSION['user_role'] === 'caregiver'
+                ): ?>
+
+                    <div class="report-header-actions">
+
+                        <a
+                            href="/safehands_mvc/booking/report/<?= htmlspecialchars(
+                                $patient['booking_id']
+                                    ? str_replace('BKG-', '', $patient['booking_id'])
+                                    : ''
+                            ) ?>"
+                            class="report-edit-btn"
+                        >
+
+                            <span class="material-icon">
+                                edit
+                            </span>
+
+                            <span>
+                                Edit Report
+                            </span>
+
+                        </a>
+
+
+                        <a
+                            href="/safehands_mvc/booking/deleteReport/<?= htmlspecialchars(
+                                $patient['booking_id']
+                                    ? str_replace('BKG-', '', $patient['booking_id'])
+                                    : ''
+                            ) ?>"
+                            class="report-delete-btn"
+                            onclick="return confirm('Are you sure you want to delete this report? This action cannot be undone.');"
+                        >
+
+                            <span class="material-icon">
+                                delete
+                            </span>
+
+                            <span>
+                                Delete
+                            </span>
+
+                        </a>
+
+                    </div>
+
+                <?php endif; ?>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+            <p class="report-description">
+
+                Review the care activities, health observations,
+                and clinical notes verified by your caregiver
+                for this shift.
+
+            </p>
+
+
+            <!-- SUBMITTED INFORMATION -->
+            <div class="submitted-information">
+
+                <div class="submitted-line">
+
+                    <span class="material-icon">
+                        assignment_turned_in
+                    </span>
+
+                    <span>
+
+                        Submitted by:
+
+                        <strong>
+                            <?= htmlspecialchars($caregiver['qualified_name']) ?>
+                        </strong>
+
                     </span>
 
                 </div>
 
 
-                <h1>
-                    Daily Care Report
-                </h1>
+                <div class="submitted-time">
+
+                    <span class="material-icon">
+                        schedule
+                    </span>
+
+                    <?= htmlspecialchars($report['submitted_at']) ?>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+<!-- PATIENT SUMMARY -->
+<div class="patient-summary-card">
+
+    <!-- PATIENT HEADER -->
+    <div class="patient-summary-top">
+
+        <!-- PATIENT INFORMATION -->
+        <div class="patient-information">
+
+            <!-- PATIENT AVATAR -->
+            <div class="patient-avatar">
+
+                <img
+                    src="<?= htmlspecialchars($patient['image']) ?>"
+                    alt="Patient"
+                    onerror="this.style.display='none'; this.parentElement.classList.add('avatar-fallback');"
+                >
+
+                <span class="avatar-initial">
+                    <?= strtoupper(substr($patient['name'], 0, 1)) ?>
+                </span>
+
+            </div>
+
+
+            <!-- PATIENT DETAILS -->
+            <div class="patient-main-info">
+
+                <div class="patient-name-row">
+
+                    <h2>
+                        <?= htmlspecialchars($patient['name']) ?>
+                    </h2>
+
+                    <span class="patient-id">
+                        <?= htmlspecialchars($patient['patient_id']) ?>
+                    </span>
+
+                </div>
+
+
+                <p class="patient-booking">
+
+                    Booking ID:
+
+                    <strong>
+                        <?= htmlspecialchars($patient['booking_id']) ?>
+                    </strong>
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATUS -->
+        <span class="summary-status">
+
+            <span></span>
+
+            Submitted
+
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         REPORT INFORMATION - 4 BOXES
+    ====================================================== -->
+
+    <div class="metadata-grid">
+
+        <!-- DATE -->
+        <div class="metadata-item">
+
+            <span>
+                Date
+            </span>
+
+            <strong>
+                <?= htmlspecialchars($report['date']) ?>
+            </strong>
+
+        </div>
+
+
+        <!-- TIME -->
+        <div class="metadata-item time-box">
+
+            <span>
+                Time
+            </span>
+
+            <strong class="report-time-value">
+                <?= htmlspecialchars($report['time']) ?>
+            </strong>
+
+        </div>
+
+
+        <!-- SHIFT -->
+        <div class="metadata-item">
+
+            <span>
+                Shift
+            </span>
+
+            <strong>
+                <?= htmlspecialchars($report['shift']) ?>
+            </strong>
+
+        </div>
+
+
+        <!-- CAREGIVER -->
+        <div class="metadata-item">
+
+            <span>
+                Caregiver
+            </span>
+
+            <strong>
+                <?= htmlspecialchars($caregiver['name']) ?>
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+
+</div>
+
+</div>
+                   
+                </div>
 
 
                 <p class="report-description">
@@ -134,24 +376,48 @@ $totalActivities = count($report['activities']);
 
                         <div>
 
-                            <div class="patient-name-row">
+                            <div class="patient-information">
 
-                                <h2>
-                                    <?= htmlspecialchars($patient['name']) ?>
-                                </h2>
+    <div class="patient-avatar">
+        <img
+            src="<?= htmlspecialchars($patient['image']) ?>"
+            alt="Patient"
+        >
+    </div>
 
-                                <span class="patient-id">
-                                    <?= htmlspecialchars($patient['patient_id']) ?>
-                                </span>
+    <div class="patient-main-info">
 
-                            </div>
+        <div class="patient-name-time-row">
 
-                            <p>
-                                Booking ID:
-                                <strong>
-                                    <?= htmlspecialchars($patient['booking_id']) ?>
-                                </strong>
-                            </p>
+            <div class="patient-name-row">
+
+                <h2>
+                    <?= htmlspecialchars($patient['name']) ?>
+                </h2>
+
+                <span class="patient-id">
+                    <?= htmlspecialchars($patient['patient_id']) ?>
+                </span>
+
+            </div>
+
+            <span class="patient-time">
+                <span class="material-icon">schedule</span>
+                <?= htmlspecialchars($report['time']) ?>
+            </span>
+
+        </div>
+
+        <p>
+            Booking ID:
+            <strong>
+                <?= htmlspecialchars($patient['booking_id']) ?>
+            </strong>
+        </p>
+
+    </div>
+
+</div>
 
                         </div>
 
@@ -944,35 +1210,27 @@ $totalActivities = count($report['activities']);
     <!-- ACTIONS -->
     <div class="report-actions">
 
-        <a
-            href="/safehands_mvc/care-reports"
-            class="back-button"
-        >
-
-            <span class="material-icon">
-                arrow_back
-            </span>
-
-            Back to care Reports
-
-        </a>
-
-
-        <div class="action-buttons">
-
-            <button
-                type="button"
-                class="contact-caregiver"
-                id="contactCaregiver"
-            >
-
-                <span class="material-icon">
-                    chat
-                </span>
-
-                Contact Caregiver
-
-            </button>
+        <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
+            <a href="/safehands_mvc/bookings/pendingReports" class="back-button">
+                <span class="material-icon">arrow_back</span>
+                Back to Completed Sessions
+            </a>
+            <div class="action-buttons">
+                <button type="button" class="contact-caregiver" id="contactCaregiver">
+                    <span class="material-icon">chat</span>
+                    Contact Family Member
+                </button>
+        <?php else: ?>
+            <a href="/safehands_mvc/care-reports" class="back-button">
+                <span class="material-icon">arrow_back</span>
+                Back to care Reports
+            </a>
+            <div class="action-buttons">
+                <button type="button" class="contact-caregiver" id="contactCaregiver">
+                    <span class="material-icon">chat</span>
+                    Contact Caregiver
+                </button>
+        <?php endif; ?>
 
         </div>
 

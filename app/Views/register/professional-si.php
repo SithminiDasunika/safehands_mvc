@@ -23,18 +23,7 @@
         </div>
 
         <nav class="main-navigation">
-
-            <a href="#">
-                රැකියා සොයන්න
-            </a>
-
-            <a href="#">
-                සම්පත්
-            </a>
-
-            <a href="#">
-                අප ගැන
-            </a>
+ 
 
             <a href="/safehands_mvc/register.php" class="active-nav">
                 ලියාපදිංචි වන්න
@@ -214,7 +203,7 @@
                                 <div class="form-group">
 
                                     <label for="highest_qualification">
-                                        ඉහළම අධ්‍යාපන සුදුසුකම *
+                                         අධ්‍යාපන සුදුසුකම *
                                     </label>
 
                                     <select

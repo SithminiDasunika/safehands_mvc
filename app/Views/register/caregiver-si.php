@@ -1,4 +1,6 @@
- <!DOCTYPE html>
+ <?php
+$yesterday = date('Y-m-d', strtotime('-1 day'));
+?><!DOCTYPE html>
 <html lang="si">
 
 <head>
@@ -29,18 +31,7 @@
 
             <!-- Navigation -->
             <nav class="main-navigation">
-
-                <a href="#">
-                    රැකියා සොයන්න
-                </a>
-
-                <a href="#">
-                    සම්පත්
-                </a>
-
-                <a href="#">
-                    අප ගැන
-                </a>
+ 
 
                 <a href="/safehands_mvc/register.php" class="active">
                     ලියාපදිංචි වන්න
@@ -216,7 +207,8 @@
 
                                     <input
                                         type="text"
-                                        placeholder="උදා: අංජලී පෙරේරා">
+                                        placeholder="උදා: අංජලී පෙරේරා"
+                                        value="<?= htmlspecialchars($old['full_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
                                 </div>
 
@@ -230,7 +222,11 @@
 
                                     <input
                                         type="text"
-                                        placeholder="9xxxxxxxxV">
+                                        placeholder="9xxxxxxxxV"
+                                          maxlength="12"
+                                           value="<?= htmlspecialchars($old['nic'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+       pattern="[0-9]{12}"
+       inputmode="numeric">
 
                                 </div>
 
@@ -242,7 +238,9 @@
                                         උපන් දිනය
                                     </label>
 
-                                    <input type="date">
+                                    <input type="date"
+                                     value="<?= htmlspecialchars($old['date_of_birth'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                       max="<?= $yesterday ?>">
 
                                 </div>
 
@@ -260,15 +258,15 @@
                                             ස්ත්‍රී / පුරුෂ භාවය තෝරන්න
                                         </option>
 
-                                        <option value="male">
+                                        <option value="male" <?= (($old['gender'] ?? '') === 'male') ? 'selected' : '' ?>>
                                             පුරුෂ
                                         </option>
 
-                                        <option value="female">
+                                        <option value="female" <?= (($old['gender'] ?? '') === 'female') ? 'selected' : '' ?>>
                                             ස්ත්‍රී
                                         </option>
 
-                                        <option value="other">
+                                        <option value="other"<?= (($old['gender'] ?? '') === 'other') ? 'selected' : '' ?>>
                                             වෙනත්
                                         </option>
 
@@ -306,7 +304,11 @@
 
                                     <input
                                         type="tel"
-                                        placeholder="+94 7x xxx xxxx">
+                                        placeholder="+94 7x xxx xxxx"
+                                        maxlength="10"
+                                        value="<?= htmlspecialchars($old['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+       pattern="[0-9]{10}"
+       inputmode="numeric">
 
                                 </div>
 
@@ -320,7 +322,9 @@
 
                                     <input
                                         type="email"
-                                        placeholder="anjali@example.com">
+                                        placeholder="anjali@example.com"
+                                         pattern="[a-zA-Z0-9._%+-]+@gmail\.com"
+                                          value="<?= htmlspecialchars($old['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
                                 </div>
 
@@ -334,7 +338,7 @@
 
                                     <textarea
                                         rows="2"
-                                        placeholder="වීථිය, නගරය, තැපැල් කේතය"></textarea>
+                                        placeholder="වීථිය, නගරය, තැපැල් කේතය"><?= htmlspecialchars($old['address'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
 
                                 </div>
 
@@ -352,19 +356,19 @@
                                             දිස්ත්‍රික්කය තෝරන්න
                                         </option>
 
-                                        <option value="colombo">
+                                        <option value="colombo"<?= (($old['district'] ?? '') === 'colombo') ? 'selected' : '' ?>>
                                             කොළඹ
                                         </option>
 
-                                        <option value="gampaha">
+                                        <option value="gampaha"<?= (($old['district'] ?? '') === 'gampaha') ? 'selected' : '' ?>>
                                             ගම්පහ
                                         </option>
 
-                                        <option value="kandy">
+                                        <option value="kandy"<?= (($old['district'] ?? '') === 'kandy') ? 'selected' : '' ?>>
                                             මහනුවර
                                         </option>
 
-                                        <option value="galle">
+                                        <option value="galle"<?= (($old['district'] ?? '') === 'galle') ? 'selected' : '' ?>>
                                             ගාල්ල
                                         </option>
 
@@ -516,7 +520,7 @@
                 <div class="why-image">
 
                     <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDizMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyyE6mCqkISP4R-5aKyFf26H3yR0-wlXziyQcTc"
+                        src="/safehands_mvc/public/assets/images/caregiver-1.jpg"
                         alt="සෞඛ්‍ය සේවා පරිසරයක වෘත්තීය රැකවරණ සේවකයෙකු">
 
                 </div>

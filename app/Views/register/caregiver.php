@@ -1,3 +1,6 @@
+<?php
+$yesterday = date('Y-m-d', strtotime('-1 day'));
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,18 +32,7 @@
 
             <!-- Navigation -->
             <nav class="main-navigation">
-
-                <a href="#">
-                    Find Jobs
-                </a>
-
-                <a href="#">
-                    Resources
-                </a>
-
-                <a href="#">
-                    About Us
-                </a>
+ 
 
                 <a href="/safehands_mvc/register.php" class="active">
                     Register
@@ -249,8 +241,12 @@
                                         placeholder="9xxxxxxxxV"
                                         id="nic"
                                         name="nic"
+                                         maxlength="12"
+       pattern="[0-9]{12}"
+       inputmode="numeric"
                                         value="<?= htmlspecialchars($old['nic'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                                         required>
+                                       
 
                                 </div>
 
@@ -267,6 +263,7 @@
                                         type="date"
                                         name="date_of_birth"
                                         value="<?= htmlspecialchars($old['date_of_birth'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                          max="<?= $yesterday ?>"
                                         required>
 
                                 </div>
@@ -337,6 +334,9 @@
                                         placeholder="+94 7x xxx xxxx"
                                         id="phone"
                                         name="phone"
+                                        maxlength="10"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
                                         value="<?= htmlspecialchars($old['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                                         required>
 
@@ -355,6 +355,7 @@
                                         placeholder="anjali@example.com"
                                         id="email"
                                         name="email"
+                                        pattern="[a-zA-Z0-9._%+-]+@gmail\.com"
                                         value="<?= htmlspecialchars($old['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                                         required>
 
@@ -559,7 +560,7 @@
                 <div class="why-image">
 
                     <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDizMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyyE6mCqkISP4R-5aKyFf26H3yR0-wlXziyQcTc"
+                        src="/safehands_mvc/public/assets/images/caregiver-1.jpg"
                         alt="A professional caregiver in a healthcare setting.">
 
                 </div>

@@ -159,7 +159,7 @@
                 </ul>
             </div>
             <div class="support-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDIzMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyycM" alt="Professional caregiver">
+                <img src= "/safehands_mvc/public/assets/images/caregiver-1.jpg" alt="Professional caregiver">
             </div>
         </section>
 

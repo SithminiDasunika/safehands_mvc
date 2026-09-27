@@ -24,17 +24,7 @@
 
         <nav class="main-navigation">
 
-            <a href="#">
-                Find Jobs
-            </a>
-
-            <a href="#">
-                Resources
-            </a>
-
-            <a href="#">
-                About Us
-            </a>
+             
 
             <a href="/safehands_mvc/register.php" class="active-nav">
                 Register

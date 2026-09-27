@@ -108,7 +108,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
             <section class="section-container">
                 <div class="section-header">
                     <h2 class="section-title">හදිසි සම්බන්ධතා තොරතුරු</h2>
-                    <a href="/safehands_mvc/caregiver/emergencyContact" class="section-link">දින දර්ශනය බලන්න</a>
+                  
                 </div>
                 
                 <!-- Booking Card -->
@@ -130,8 +130,9 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                                 <span class="status-badge">Confirmed</span>
                             </div>
                             <div class="action-buttons">
-                                <button class="btn-primary">Start Service</button>
-                                <button class="btn-outline">View Details</button>
+                                 <a href="/safehands_mvc/caregiver/emergencyContactSi" class="btn-primary">
+    හදිසි සම්බන්ධතාව
+</a>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
-/* =========================================================
+ /* =========================================================
    SafeHands - Caregiver Notifications
    Plain CSS - No Framework
+   Green Theme
    ========================================================= */
 
 
@@ -14,11 +15,9 @@
     padding: 0;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -27,18 +26,15 @@ body {
     min-height: 100vh;
 }
 
-
 button,
 input,
 select {
     font: inherit;
 }
 
-
 button {
     cursor: pointer;
 }
-
 
 a {
     text-decoration: none;
@@ -60,7 +56,6 @@ a {
     z-index: 1000;
 }
 
-
 .header-container {
     width: 100%;
     max-width: 1280px;
@@ -73,9 +68,8 @@ a {
     justify-content: space-between;
 }
 
-
 .logo {
-    color: #0053db;
+    color: #176b5b;
     font-size: 24px;
     font-weight: 700;
     white-space: nowrap;
@@ -94,7 +88,6 @@ a {
     margin-right: auto;
 }
 
-
 .desktop-nav a {
     position: relative;
     color: #434655;
@@ -104,16 +97,13 @@ a {
     transition: color 0.2s ease;
 }
 
-
 .desktop-nav a:hover {
-    color: #0053db;
+    color: #176b5b;
 }
-
 
 .desktop-nav a.active {
-    color: #0053db;
+    color: #176b5b;
 }
-
 
 .desktop-nav a.active::after {
     content: "";
@@ -122,7 +112,7 @@ a {
     right: 0;
     bottom: 17px;
     height: 2px;
-    background: #0053db;
+    background: #176b5b;
 }
 
 
@@ -136,7 +126,6 @@ a {
     gap: 18px;
 }
 
-
 .notification-icon-button {
     position: relative;
     width: 40px;
@@ -147,11 +136,9 @@ a {
     font-size: 20px;
 }
 
-
 .notification-icon-button:hover {
     background: #f1f5f9;
 }
-
 
 .notification-dot {
     position: absolute;
@@ -164,7 +151,6 @@ a {
     border-radius: 50%;
 }
 
-
 .caregiver-user {
     display: flex;
     align-items: center;
@@ -173,7 +159,6 @@ a {
     border-left: 1px solid #e5e7eb;
 }
 
-
 .caregiver-user-text {
     display: flex;
     flex-direction: column;
@@ -181,19 +166,16 @@ a {
     gap: 4px;
 }
 
-
 .caregiver-user-text strong {
     font-size: 14px;
     color: #111c2d;
 }
-
 
 .caregiver-user-text span {
     color: #047857;
     font-size: 12px;
     font-weight: 600;
 }
-
 
 .active-dot {
     display: inline-block;
@@ -204,23 +186,21 @@ a {
     border-radius: 50%;
 }
 
-
 .caregiver-avatar {
     width: 40px;
     height: 40px;
-    border: 2px solid #dbe5ff;
+    border: 2px solid #d1e7e1;
     border-radius: 50%;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #eff4ff;
-    color: #0053db;
+    background: #e8f5f1;
+    color: #176b5b;
     font-size: 16px;
     font-weight: 700;
 }
-
 
 .mobile-menu-button {
     display: none;
@@ -244,7 +224,6 @@ a {
     border-top: 1px solid #e5e7eb;
 }
 
-
 .mobile-nav a {
     display: block;
     padding: 14px 24px;
@@ -254,11 +233,10 @@ a {
     border-bottom: 1px solid #f1f5f9;
 }
 
-
 .mobile-nav a:hover,
 .mobile-nav a.active {
-    color: #0053db;
-    background: #f8faff;
+    color: #176b5b;
+    background: #f0f8f6;
 }
 
 
@@ -291,11 +269,9 @@ a {
     font-weight: 500;
 }
 
-
 .breadcrumb a:hover {
-    color: #0053db;
+    color: #176b5b;
 }
-
 
 .breadcrumb span:last-child {
     color: #111c2d;
@@ -316,7 +292,6 @@ a {
     margin-bottom: 30px;
 }
 
-
 .page-heading h1 {
     margin-bottom: 6px;
 
@@ -325,7 +300,6 @@ a {
     line-height: 1.25;
     font-weight: 700;
 }
-
 
 .page-heading p {
     color: #434655;
@@ -343,11 +317,11 @@ a {
 
     padding: 11px 18px;
 
-    border: 1px solid #dbe5ff;
+    border: 1px solid #cfe4de;
     border-radius: 10px;
 
-    background: #f0f4ff;
-    color: #0053db;
+    background: #edf7f4;
+    color: #176b5b;
 
     font-size: 14px;
     font-weight: 700;
@@ -357,12 +331,10 @@ a {
         color 0.2s ease;
 }
 
-
 .mark-all-button:hover {
-    background: #0053db;
+    background: #176b5b;
     color: #ffffff;
 }
-
 
 .mark-all-button.marked {
     background: #047857;
@@ -389,13 +361,11 @@ a {
     border-radius: 12px;
 }
 
-
 .search-box {
     position: relative;
     width: 100%;
     max-width: 430px;
 }
-
 
 .search-box span {
     position: absolute;
@@ -407,7 +377,6 @@ a {
     color: #737686;
     font-size: 22px;
 }
-
 
 .search-box input {
     width: 100%;
@@ -425,23 +394,19 @@ a {
     font-size: 14px;
 }
 
-
 .search-box input::placeholder {
     color: #9ca3af;
 }
 
-
 .search-box input:focus {
-    border-color: #0053db;
-    box-shadow: 0 0 0 3px rgba(0, 83, 219, 0.08);
+    border-color: #176b5b;
+    box-shadow: 0 0 0 3px rgba(23, 107, 91, 0.10);
 }
-
 
 .filter-group {
     display: flex;
     gap: 12px;
 }
-
 
 .filter-group select {
     min-width: 170px;
@@ -460,10 +425,9 @@ a {
     outline: none;
 }
 
-
 .filter-group select:focus {
-    border-color: #0053db;
-    box-shadow: 0 0 0 3px rgba(0, 83, 219, 0.08);
+    border-color: #176b5b;
+    box-shadow: 0 0 0 3px rgba(23, 107, 91, 0.10);
 }
 
 
@@ -501,7 +465,6 @@ a {
         transform 0.2s ease;
 }
 
-
 .notification-card:hover {
     box-shadow:
         0 8px 18px rgba(30, 41, 59, 0.08);
@@ -509,9 +472,8 @@ a {
     transform: translateY(-1px);
 }
 
-
 .notification-card.unread {
-    border-left: 4px solid #0053db;
+    border-left: 4px solid #176b5b;
 }
 
 
@@ -534,30 +496,25 @@ a {
     font-size: 21px;
 }
 
-
 .notification-icon.blue {
-    background: #e8efff;
-    color: #0053db;
+    background: #e8f5f1;
+    color: #176b5b;
 }
-
 
 .notification-icon.green {
     background: #e8f7f0;
     color: #047857;
 }
 
-
 .notification-icon.orange {
     background: #fff5df;
     color: #b45309;
 }
 
-
 .notification-icon.light-blue {
     background: #e8f5ff;
     color: #10b981;
 }
-
 
 .notification-icon.red {
     background: #fef0f0;
@@ -574,7 +531,6 @@ a {
     min-width: 0;
 }
 
-
 .notification-category {
     display: flex;
     align-items: center;
@@ -582,32 +538,28 @@ a {
 
     margin-bottom: 5px;
 
-    color: #0053db;
+    color: #176b5b;
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
 
-
 .notification-category.green-text {
     color: #047857;
 }
-
 
 .notification-category.red-text {
     color: #dc2626;
 }
 
-
 .unread-dot {
     width: 7px;
     height: 7px;
 
-    background: #0053db;
+    background: #176b5b;
     border-radius: 50%;
 }
-
 
 .notification-content h3 {
     margin-bottom: 5px;
@@ -618,7 +570,6 @@ a {
     font-weight: 700;
 }
 
-
 .notification-content p {
     margin-bottom: 8px;
 
@@ -626,7 +577,6 @@ a {
     font-size: 14px;
     line-height: 1.6;
 }
-
 
 .notification-content small {
     color: #737686;
@@ -641,7 +591,6 @@ a {
 .notification-action {
     flex-shrink: 0;
 }
-
 
 .notification-action button {
     min-width: 135px;
@@ -659,19 +608,16 @@ a {
         border-color 0.2s ease;
 }
 
-
 .primary-action {
-    border: 1px solid #0053db;
-    background: #0053db;
+    border: 1px solid #176b5b;
+    background: #176b5b;
     color: #ffffff;
 }
 
-
 .primary-action:hover {
-    background: #003fa8;
-    border-color: #003fa8;
+    background: #125447;
+    border-color: #125447;
 }
-
 
 .secondary-action {
     border: 1px solid #dbe2ea;
@@ -679,10 +625,9 @@ a {
     color: #434655;
 }
 
-
 .secondary-action:hover {
     background: #f1f5f9;
-    color: #0053db;
+    color: #176b5b;
     border-color: #cbd5e1;
 }
 
@@ -721,7 +666,6 @@ a {
     margin-top: 36px;
 }
 
-
 .load-more-button {
     display: flex;
     align-items: center;
@@ -730,17 +674,15 @@ a {
     border: none;
     background: transparent;
 
-    color: #0053db;
+    color: #176b5b;
 
     font-size: 14px;
     font-weight: 700;
 }
 
-
 .load-more-button:hover {
     text-decoration: underline;
 }
-
 
 .load-more-button span {
     font-size: 18px;
@@ -766,7 +708,6 @@ a {
     background: rgba(15, 23, 42, 0.45);
 }
 
-
 .modal-content {
     position: relative;
 
@@ -782,14 +723,12 @@ a {
         0 20px 50px rgba(15, 23, 42, 0.18);
 }
 
-
 .modal-content h2 {
     margin-bottom: 24px;
 
     color: #111c2d;
     font-size: 22px;
 }
-
 
 .modal-close {
     position: absolute;
@@ -809,18 +748,15 @@ a {
     line-height: 1;
 }
 
-
 .modal-close:hover {
     background: #e2e8f0;
 }
-
 
 .booking-details {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
-
 
 .booking-details p {
     display: flex;
@@ -835,11 +771,9 @@ a {
     font-size: 14px;
 }
 
-
 .booking-details p:last-child {
     border-bottom: none;
 }
-
 
 .booking-details strong {
     color: #111c2d;
@@ -863,12 +797,10 @@ a {
     border-top: 1px solid #e5e7eb;
 }
 
-
 .footer strong {
-    color: #0053db;
+    color: #176b5b;
     font-size: 20px;
 }
-
 
 .footer p {
     margin-top: 5px;
@@ -877,22 +809,19 @@ a {
     font-size: 12px;
 }
 
-
 .footer-links {
     display: flex;
     flex-wrap: wrap;
     gap: 22px;
 }
 
-
 .footer-links a {
     color: #737686;
     font-size: 12px;
 }
 
-
 .footer-links a:hover {
-    color: #0053db;
+    color: #176b5b;
 }
 
 
@@ -906,44 +835,36 @@ a {
         padding: 0 24px;
     }
 
-
     .desktop-nav {
         gap: 16px;
         margin-left: 25px;
     }
 
-
     .desktop-nav a {
         font-size: 13px;
     }
-
 
     .notifications-container {
         padding-left: 24px;
         padding-right: 24px;
     }
 
-
     .notification-filters {
         flex-direction: column;
         align-items: stretch;
     }
 
-
     .search-box {
         max-width: none;
     }
-
 
     .filter-group {
         width: 100%;
     }
 
-
     .filter-group select {
         flex: 1;
     }
-
 }
 
 
@@ -958,72 +879,58 @@ a {
         padding: 0 16px;
     }
 
-
     .logo {
         font-size: 22px;
     }
-
 
     .desktop-nav {
         display: none;
     }
 
-
     .caregiver-user {
         display: none;
     }
-
 
     .notification-icon-button {
         display: none;
     }
 
-
     .mobile-menu-button {
         display: block;
     }
-
 
     .mobile-nav.open {
         display: block;
     }
 
-
     .notifications-container {
         padding: 84px 16px 40px;
     }
-
 
     .page-heading {
         align-items: stretch;
         flex-direction: column;
     }
 
-
     .page-heading h1 {
         font-size: 26px;
     }
-
 
     .page-heading p {
         font-size: 14px;
     }
 
-
     .mark-all-button {
         width: 100%;
     }
-
 
     .filter-group {
         flex-direction: column;
     }
 
-
     .filter-group select {
         width: 100%;
     }
-
 
     .notification-card {
         align-items: flex-start;
@@ -1032,28 +939,23 @@ a {
         padding: 16px;
     }
 
-
     .notification-icon {
         width: 42px;
         height: 42px;
         font-size: 18px;
     }
 
-
     .notification-content {
         width: calc(100% - 58px);
     }
-
 
     .notification-action {
         width: 100%;
     }
 
-
     .notification-action button {
         width: 100%;
     }
-
 
     .footer {
         flex-direction: column;
@@ -1062,11 +964,9 @@ a {
         padding: 28px 16px;
     }
 
-
     .footer-links {
         justify-content: center;
     }
-
 }
 
 
@@ -1080,41 +980,33 @@ a {
         font-size: 11px;
     }
 
-
     .page-heading h1 {
         font-size: 24px;
     }
-
 
     .notification-filters {
         padding: 12px;
     }
 
-
     .notification-card {
         padding: 14px;
     }
-
 
     .notification-content h3 {
         font-size: 14px;
     }
 
-
     .notification-content p {
         font-size: 13px;
     }
-
 
     .modal {
         padding: 14px;
     }
 
-
     .modal-content {
         padding: 22px 18px;
     }
-
 
     .booking-details p {
         flex-direction: column;

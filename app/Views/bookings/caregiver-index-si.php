@@ -547,13 +547,6 @@ $stats = $stats ?? [];
                         </button>
 
 
-                        <button
-                            type="button"
-                            class="cancel-button"
-                        >
-                            අවලංගු කරන්න
-                        </button>
-
                     </div>
 
                 </div>
@@ -668,13 +661,6 @@ $stats = $stats ?? [];
                             </button>
 
 
-                            <button
-                                type="button"
-                                class="cancel-button"
-                            >
-                                අවලංගු කරන්න
-                            </button>
-
                         </div>
 
 
@@ -707,13 +693,6 @@ $stats = $stats ?? [];
                                     සම්බන්ධ වන්න
                                 </button>
 
-
-                                <button
-                                    type="button"
-                                    class="cancel-button"
-                                >
-                                    අවලංගු කරන්න
-                                </button>
 
                             </div>
 

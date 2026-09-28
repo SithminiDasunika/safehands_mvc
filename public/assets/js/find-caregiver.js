@@ -1,465 +1,157 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('searchForm');
+    const grid = document.getElementById('resultsGrid');
+    const emptyState = document.getElementById('emptyState');
+    const count = document.getElementById('resultCount');
+    const sortSelect = document.getElementById('sortSelect');
+    const cards = Array.from(document.querySelectorAll('.caregiver-card'));
+    const experienceCheckboxes = Array.from(document.querySelectorAll('.experience-filter'));
+    const genderButtons = Array.from(document.querySelectorAll('.gender-button'));
+    const languageButtons = Array.from(document.querySelectorAll('.language-tags [data-language]'));
+    const verifiedOnly = document.getElementById('verifiedOnly');
 
-    const searchForm =
-        document.getElementById("searchForm");
+    const normalize = (value) => (value || '').toString().trim().toLowerCase();
+    const experienceYears = (card) => {
+        const years = Number.parseFloat(card.dataset.experience || '0');
+        return Number.isFinite(years) ? years : 0;
+    };
 
-    const clearButton =
-        document.getElementById("clearButton");
-
-    const resultsGrid =
-        document.getElementById("resultsGrid");
-
-    const emptyState =
-        document.getElementById("emptyState");
-
-    const resultCount =
-        document.getElementById("resultCount");
-
-    const resetFilters =
-        document.getElementById("resetFilters");
-
-    const sortSelect =
-        document.getElementById("sortSelect");
-
-
-    function getCards() {
-
-        return Array.from(
-            document.querySelectorAll(".caregiver-card")
-        );
-
+    function matchesQualification(card, value) {
+        const details = normalize(card.dataset.qualification);
+        switch (value) {
+            case 'cna': return details.includes('cna') || details.includes('certified nursing assistant');
+            case 'lpn': return details.includes('lpn') || details.includes('licensed practical nurse');
+            case 'rn': return details.includes('rn') || details.includes('registered nurse');
+            case 'first_aid': return details.includes('first aid');
+            default: return true;
+        }
     }
 
+    function matchesExperienceRange(years, range) {
+        if (!range) return true;
+        if (range === '1-3') return years >= 1 && years < 3;
+        if (range === '3-5') return years >= 3 && years < 5;
+        if (range === '5-10') return years >= 5 && years < 10;
+        if (range === '10+') return years >= 10;
+        return true;
+    }
 
-    function filterCaregivers() {
+    function matchesExperienceLevel(years, level) {
+        if (level === 'Senior') return years >= 10;
+        if (level === 'Advanced') return years >= 5 && years < 10;
+        if (level === 'Experienced') return years >= 2 && years < 5;
+        return true;
+    }
 
-        const name =
-            document
-                .getElementById("name")
-                .value
-                .trim()
-                .toLowerCase();
+    function sortCards() {
+        const sortBy = sortSelect?.value || 'match';
+        const sorted = [...cards].sort((a, b) => {
+            if (sortBy === 'rating') return Number(b.dataset.rating || 0) - Number(a.dataset.rating || 0);
+            if (sortBy === 'experience') return experienceYears(b) - experienceYears(a);
+            return Number(a.dataset.order || 0) - Number(b.dataset.order || 0);
+        });
+        sorted.forEach((card) => grid.appendChild(card));
+    }
 
-        const district =
-            document
-                .getElementById("district")
-                .value;
+    function applyFilters() {
+        const name = normalize(document.getElementById('name')?.value);
+        const district = normalize(document.getElementById('district')?.value).replace(/\s+district$/, '');
+        const qualification = document.getElementById('qualification')?.value || '';
+        const selectedLanguage = normalize(document.getElementById('language')?.value);
+        const experienceRange = document.getElementById('experience')?.value || '';
+        const selectedGender = normalize(genderButtons.find((button) => button.classList.contains('selected'))?.dataset.gender);
+        const selectedLanguages = languageButtons
+            .filter((button) => button.classList.contains('selected'))
+            .map((button) => normalize(button.dataset.language));
+        if (selectedLanguage) selectedLanguages.push(selectedLanguage);
+        const selectedLevels = experienceCheckboxes
+            .filter((checkbox) => checkbox.checked)
+            .map((checkbox) => checkbox.value);
 
-        const qualification =
-            document
-                .getElementById("qualification")
-                .value
-                .toLowerCase();
-
-        const language =
-            document
-                .getElementById("language")
-                .value
-                .toLowerCase();
-
-        const experience =
-            document
-                .getElementById("experience")
-                .value;
-
-
+        sortCards();
         let visibleCount = 0;
 
+        cards.forEach((card) => {
+            const years = experienceYears(card);
+            const cardDistrict = normalize(card.dataset.district).replace(/\s+district$/, '');
+            const cardLanguages = normalize(card.dataset.languages).split(',').map((language) => language.trim());
+            const matches = (!name || normalize(card.dataset.name).includes(name))
+                && (!district || cardDistrict === district || cardDistrict.includes(district))
+                && matchesQualification(card, qualification)
+                && (!selectedLanguages.length || selectedLanguages.some((language) => cardLanguages.some((candidate) => candidate === language || candidate.includes(language))))
+                && matchesExperienceRange(years, experienceRange)
+                && (!selectedLevels.length || selectedLevels.some((level) => matchesExperienceLevel(years, level)))
+                && (!selectedGender || normalize(card.dataset.gender) === selectedGender)
+                && (!verifiedOnly?.checked || card.dataset.verified === 'true');
 
-        getCards().forEach(function (card) {
-
-            const cardName =
-                card.dataset.name.toLowerCase();
-
-            const cardDistrict =
-                card.dataset.district;
-
-            const cardText =
-                card.textContent.toLowerCase();
-
-
-            let matches = true;
-
-
-            if (
-                name !== "" &&
-                !cardName.includes(name)
-            ) {
-                matches = false;
-            }
-
-
-            if (
-                district !== "" &&
-                cardDistrict !== district
-            ) {
-                matches = false;
-            }
-
-
-            if (
-                qualification !== "" &&
-                !cardText.includes(qualification)
-            ) {
-                matches = false;
-            }
-
-
-            if (
-                language !== "" &&
-                !cardText.includes(language)
-            ) {
-                matches = false;
-            }
-
-
-            if (
-                experience !== "" &&
-                !matchesExperience(
-                    card.dataset.experience,
-                    experience
-                )
-            ) {
-                matches = false;
-            }
-
-
-            if (matches) {
-
-                card.style.display = "";
-
-                visibleCount++;
-
-            } else {
-
-                card.style.display = "none";
-
-            }
-
+            card.hidden = !matches;
+            card.style.display = matches ? '' : 'none';
+            if (matches) visibleCount += 1;
         });
 
-
-        resultCount.textContent =
-            visibleCount;
-
-
-        if (visibleCount === 0) {
-
-            resultsGrid.style.display =
-                "none";
-
-            emptyState.classList.add("show");
-
-        } else {
-
-            resultsGrid.style.display =
-                "grid";
-
-            emptyState.classList.remove("show");
-
+        if (count) count.textContent = String(visibleCount);
+        if (grid) {
+            grid.hidden = visibleCount === 0;
+            grid.style.display = visibleCount === 0 ? 'none' : '';
         }
-
+        emptyState?.classList.toggle('show', visibleCount === 0);
     }
 
-
-    function matchesExperience(
-        experience,
-        selected
-    ) {
-
-        const years =
-            parseInt(
-                experience
-                    .replace(/\D/g, "")
-            );
-
-
-        if (selected === "1-3 Years") {
-            return years >= 1 && years <= 3;
-        }
-
-        if (selected === "3-5 Years") {
-            return years >= 3 && years <= 5;
-        }
-
-        if (selected === "5-10 Years") {
-            return years >= 5 && years <= 10;
-        }
-
-        if (selected === "10+ Years") {
-            return years >= 10;
-        }
-
-        return true;
-
+    function resetAll() {
+        form?.reset();
+        if (verifiedOnly) verifiedOnly.checked = false;
+        experienceCheckboxes.forEach((checkbox) => { checkbox.checked = false; });
+        genderButtons.forEach((button) => {
+            button.classList.remove('selected');
+            button.setAttribute('aria-pressed', 'false');
+        });
+        languageButtons.forEach((button) => {
+            button.classList.remove('selected');
+            button.setAttribute('aria-pressed', 'false');
+        });
+        if (sortSelect) sortSelect.value = 'match';
+        applyFilters();
     }
 
+    form?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        applyFilters();
+    });
+    form?.addEventListener('input', applyFilters);
+    form?.addEventListener('change', applyFilters);
+    form?.addEventListener('reset', () => window.setTimeout(applyFilters, 0));
 
-    /* =========================================
-       SEARCH
-    ========================================= */
+    document.getElementById('clearButton')?.addEventListener('click', (event) => {
+        event.preventDefault();
+        resetAll();
+    });
+    document.getElementById('resetFilters')?.addEventListener('click', resetAll);
+    sortSelect?.addEventListener('change', applyFilters);
+    verifiedOnly?.addEventListener('change', applyFilters);
+    experienceCheckboxes.forEach((checkbox) => checkbox.addEventListener('change', applyFilters));
 
-    searchForm.addEventListener(
-        "submit",
-        function (event) {
-
-            event.preventDefault();
-
-            filterCaregivers();
-
-        }
-    );
-
-
-    /* =========================================
-       CLEAR
-    ========================================= */
-
-    clearButton.addEventListener(
-        "click",
-        function () {
-
-            setTimeout(
-                function () {
-
-                    resultsGrid.style.display =
-                        "grid";
-
-                    emptyState.classList.remove(
-                        "show"
-                    );
-
-
-                    getCards().forEach(
-                        function (card) {
-
-                            card.style.display =
-                                "";
-
-                        }
-                    );
-
-
-                    resultCount.textContent =
-                        getCards().length;
-
-                },
-                0
-            );
-
-        }
-    );
-
-
-    /* =========================================
-       RESET FILTERS
-    ========================================= */
-
-    resetFilters.addEventListener(
-        "click",
-        function () {
-
-            searchForm.reset();
-
-            getCards().forEach(
-                function (card) {
-
-                    card.style.display = "";
-
-                }
-            );
-
-
-            resultsGrid.style.display =
-                "grid";
-
-            emptyState.classList.remove(
-                "show"
-            );
-
-
-            resultCount.textContent =
-                getCards().length;
-
-        }
-    );
-
-
-    /* =========================================
-       GENDER BUTTONS
-    ========================================= */
-
-    document
-        .querySelectorAll(".gender-button")
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        this.classList.toggle(
-                            "selected"
-                        );
-
-                    }
-                );
-
+    genderButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const wasSelected = button.classList.contains('selected');
+            genderButtons.forEach((item) => {
+                item.classList.remove('selected');
+                item.setAttribute('aria-pressed', 'false');
+            });
+            if (!wasSelected) {
+                button.classList.add('selected');
+                button.setAttribute('aria-pressed', 'true');
             }
-        );
+            applyFilters();
+        });
+    });
 
+    languageButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('selected');
+            button.setAttribute('aria-pressed', button.classList.contains('selected') ? 'true' : 'false');
+            applyFilters();
+        });
+    });
 
-    /* =========================================
-       LANGUAGE BUTTONS
-    ========================================= */
-
-    document
-        .querySelectorAll(".language-tags button")
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        this.classList.toggle(
-                            "selected"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    /* =========================================
-       SORTING
-    ========================================= */
-
-    sortSelect.addEventListener(
-        "change",
-        function () {
-
-            const cards =
-                getCards();
-
-
-            if (this.value === "rating") {
-
-                cards.sort(
-                    function (a, b) {
-
-                        return (
-                            parseFloat(
-                                b.dataset.rating
-                            ) -
-                            parseFloat(
-                                a.dataset.rating
-                            )
-                        );
-
-                    }
-                );
-
-            }
-
-
-            if (this.value === "experience") {
-
-                cards.sort(
-                    function (a, b) {
-
-                        const aYears =
-                            parseInt(
-                                a.dataset.experience
-                                    .replace(/\D/g, "")
-                            );
-
-                        const bYears =
-                            parseInt(
-                                b.dataset.experience
-                                    .replace(/\D/g, "")
-                            );
-
-                        return bYears - aYears;
-
-                    }
-                );
-
-            }
-
-
-            if (this.value === "match") {
-
-                cards.sort(
-                    function (a, b) {
-
-                        return (
-                            parseInt(
-                                a.dataset.name
-                            ) -
-                            parseInt(
-                                b.dataset.name
-                            )
-                        );
-
-                    }
-                );
-
-            }
-
-
-            cards.forEach(
-                function (card) {
-
-                    resultsGrid.appendChild(
-                        card
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =========================================
-       PAGINATION DEMO
-    ========================================= */
-
-    document
-        .querySelectorAll(".page-number")
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        document
-                            .querySelectorAll(
-                                ".page-number"
-                            )
-                            .forEach(
-                                function (item) {
-
-                                    item.classList.remove(
-                                        "active"
-                                    );
-
-                                }
-                            );
-
-
-                        this.classList.add(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
+    applyFilters();
 });

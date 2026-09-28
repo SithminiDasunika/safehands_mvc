@@ -101,7 +101,9 @@
 
                                 <div class="document-card full-width">
                                     <div class="document-title"><span>◉</span> Profile Photo *</div>
-                                    <input type="file" name="profile_photo" accept=".jpg,.jpeg,.png" required>
+                                    <input type="file" name="profile_photo" id="verification_profile_photo" accept=".jpg,.jpeg,.png" required>
+                                    <p class="selected-file-name"></p>
+                                    <img class="photo-preview hidden" style="max-width: 150px; border-radius: 8px; margin-top: 10px; display: none;" src="">
                                 </div>
 
                             </div>
@@ -159,8 +161,7 @@
                 </ul>
             </div>
             <div class="support-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDIzMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyycM" alt="Professional caregiver">
-            </div>
+<img src="/safehands_mvc/public/assets/images/caregiver-3.jpg"            </div>
         </section>
 
     </div>

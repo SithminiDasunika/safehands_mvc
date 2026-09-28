@@ -18,7 +18,7 @@ if (!function_exists('sh_patient_initials')) {
 }
 
 $conditions = sh_split_list($patient['medical_conditions'] ?? null);
-$hasPhoto = !empty($patient['profile_photo']) && file_exists($patient['profile_photo']);
+$hasPhoto = !empty($patient['profile_photo']);
 $hasDocument = !empty($patient['medical_document']);
 $flashSuccess = $_SESSION['flash_success'] ?? null;
 unset($_SESSION['flash_success']);
@@ -27,6 +27,14 @@ $initials = sh_patient_initials($fullName);
 ?>
 
 <!-- Success Notification -->
+<?php if (!empty($errors)): ?>
+    <div class="form-error-banner" role="alert">
+        <?php foreach ($errors as $error): ?>
+            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <div class="success-banner" id="success-notification">
     <span class="material-symbols-outlined">check_circle</span>
     <p>Patient profile updated successfully. Redirecting...</p>
@@ -35,16 +43,16 @@ $initials = sh_patient_initials($fullName);
 <!-- Navigation Shell -->
 <nav class="navbar">
     <div class="nav-left">
-        <span class="nav-brand">SafeHands</span>
+        <a href="/safehands_mvc/family" class="nav-brand">SafeHands</a>
         <div class="nav-links">
-            <a href="#" class="nav-link">Dashboard</a>
+            <a href="/safehands_mvc/family" class="nav-link">Dashboard</a>
             <a href="/safehands_mvc/patient" class="nav-link active">Patients</a>
-            <a href="#" class="nav-link">Find Caregivers</a>
-            <a href="#" class="nav-link">My Bookings</a>
+            <a href="/safehands_mvc/caregiver" class="nav-link">Find Caregivers</a>
+            <a href="/safehands_mvc/bookings" class="nav-link">My Bookings</a>
         </div>
     </div>
     <div class="nav-right">
-        <button class="nav-icon-btn"><span class="material-symbols-outlined">notifications</span></button>
+        <a href="/safehands_mvc/notifications" aria-label="Notifications" class="nav-icon-btn"><span class="material-symbols-outlined">notifications</span></a>
         <div class="nav-avatar">
             <img src="https://ui-avatars.com/api/?name=Admin&background=004ac6&color=fff" alt="Admin">
         </div>
@@ -134,7 +142,7 @@ $initials = sh_patient_initials($fullName);
                             </div>
                             <div class="form-group">
                                 <label for="dob">Date of Birth</label>
-                                <input type="date" id="dob" name="dob" class="form-input" value="<?= htmlspecialchars($patient['date_of_birth'] ?? '') ?>">
+                                <input type="date" id="dob" name="dob" class="form-input" value="<?= htmlspecialchars($patient['date_of_birth'] ?? '') ?>" max="<?= date('Y-m-d') ?>">
                             </div>
                             <div class="form-group">
                                 <label for="gender">Gender</label>
@@ -166,7 +174,7 @@ $initials = sh_patient_initials($fullName);
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" class="form-input" value="<?= htmlspecialchars($patient['phone'] ?? '') ?>">
+                                <input type="tel" id="phone" name="phone" class="form-input" value="<?= htmlspecialchars($patient['phone'] ?? '') ?>" pattern="\d{10}" title="Phone number must be exactly 10 digits">
                             </div>
                             <div class="form-group col-full">
                                 <label for="address">Home Address</label>
@@ -246,11 +254,11 @@ $initials = sh_patient_initials($fullName);
                             </div>
                             <div class="form-group">
                                 <label for="emergency_contact_phone">Phone Number</label>
-                                <input type="tel" id="emergency_contact_phone" name="emergency_contact_phone" class="form-input" value="<?= htmlspecialchars($patient['emergency_contact_phone'] ?? '') ?>">
+                                <input type="tel" id="emergency_contact_phone" name="emergency_contact_phone" class="form-input" value="<?= htmlspecialchars($patient['emergency_contact_phone'] ?? '') ?>" pattern="\d{10}" title="Phone number must be exactly 10 digits">
                             </div>
                             <div class="form-group">
                                 <label for="emergency_alternative_phone">Alternative Phone</label>
-                                <input type="tel" id="emergency_alternative_phone" name="emergency_alternative_phone" class="form-input" value="<?= htmlspecialchars($patient['emergency_alternative_phone'] ?? '') ?>">
+                                <input type="tel" id="emergency_alternative_phone" name="emergency_alternative_phone" class="form-input" value="<?= htmlspecialchars($patient['emergency_alternative_phone'] ?? '') ?>" pattern="\d{10}" title="Phone number must be exactly 10 digits">
                             </div>
                         </div>
                     </section>

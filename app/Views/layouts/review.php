@@ -26,7 +26,7 @@
     <?= $content ?>
 
     <script
-        src="/safehands_mvc/public/assets/js/review.js"
+        src="/safehands_mvc/public/assets/js/review.js?v=3"
     ></script>
 
 </body>

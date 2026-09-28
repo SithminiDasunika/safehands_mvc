@@ -346,6 +346,14 @@ class LoginController extends Controller
 
                         $_SESSION['caregiver_logged_in'] = true;
 
+                        // Store the logged-in user's ID
+                        $_SESSION['user_id'] = (int) $user['id'];
+
+                        // Store basic user information
+                        $_SESSION['user_name'] = $user['full_name'];
+                        $_SESSION['user_email'] = $user['email'];
+                        $_SESSION['user_role'] = $user['role'];
+
                         header(
                             'Location: /safehands_mvc/caregiver/dashboard'
                         );

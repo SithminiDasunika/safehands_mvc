@@ -27,7 +27,7 @@
     <?= $content ?>
 
     <script
-        src="/safehands_mvc/public/assets/js/find-caregiver.js"
+        src="/safehands_mvc/public/assets/js/find-caregiver.js?v=3"
     ></script>
 
 </body>

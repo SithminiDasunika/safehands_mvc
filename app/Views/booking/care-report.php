@@ -2,13 +2,14 @@
 $booking = $booking ?? [];
 $patient = $patient ?? [];
 $caregiver = $caregiver ?? [];
+$existingReport = $existing_report ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SafeHands | Submit Daily Care Report</title>
+    <title>SafeHands | <?= $existingReport ? 'Edit' : 'Submit' ?> Daily Care Report</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=2">
@@ -48,7 +49,7 @@ $caregiver = $caregiver ?? [];
         <!-- Header Section -->
         <div class="page-header">
             <div class="header-text">
-                <h1 class="text-headline-lg">Submit Daily Care Report</h1>
+                <h1 class="text-headline-lg"><?= $existingReport ? 'Update' : 'Submit' ?> Daily Care Report</h1>
                 <p class="text-body-md">Complete today's care report before ending the service. Ensure all medical data and observations are accurate for the family's review.</p>
             </div>
             
@@ -73,7 +74,9 @@ $caregiver = $caregiver ?? [];
             </div>
         </div>
 
-        <form id="dailyReportForm" action="/safehands_mvc/booking/submitReport/<?= htmlspecialchars($booking['id'] ?? '') ?>" method="POST">
+        <form id="dailyReportForm" action="/safehands_mvc/booking/submitReport/<?= htmlspecialchars($booking['id'] ?? '') ?>/<?= (int)($booking['session_id'] ?? 0) ?>" method="POST">
+            <?php if ($existingReport): ?><p class="report-existing-notice">A report is already saved for this session. Submitting again will update this session’s report.</p><?php endif; ?>
+            <?php if (($_GET['error'] ?? '') === 'save_failed'): ?><p role="alert" class="report-existing-notice">The report could not be saved. Please review the form and try again.</p><?php endif; ?>
             
             <!-- Section 1 -->
             <section class="form-section">
@@ -254,7 +257,7 @@ $caregiver = $caregiver ?? [];
 
             <!-- Buttons -->
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Submit Report</button>
+                <button type="submit" class="btn-primary"><?= $existingReport ? 'Update Report' : 'Submit Report' ?></button>
             </div>
 
         </form>
@@ -281,7 +284,7 @@ $caregiver = $caregiver ?? [];
 <?php if (!empty($existingData)): ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const data = <?= json_encode($existingData) ?>;
+    const data = <?= json_encode($existingData, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
     
     // Populate checkboxes
     if (data.activities && Array.isArray(data.activities)) {

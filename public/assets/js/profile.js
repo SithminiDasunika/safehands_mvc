@@ -53,55 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     /*
-     * Medical History
-     */
-    document
-        .querySelector('[data-action="medical-history"]')
-        ?.addEventListener('click', function () {
-
-            showToast(
-                'Medical History will be connected later.'
-            );
-
-        });
-
-
-
-    /*
-     * View All History
-     */
-    document
-        .querySelector('[data-action="view-history"]')
-        ?.addEventListener('click', function () {
-
-            showToast(
-                'Full care history will be connected later.'
-            );
-
-        });
-
-
-
-    /*
-     * View Report
-     */
-    document
-        .querySelectorAll('.report-button')
-        .forEach(function (button) {
-
-            button.addEventListener('click', function () {
-
-                showToast(
-                    'Care report viewing will be connected later.'
-                );
-
-            });
-
-        });
-
-
-
-    /*
      * View Documents
      */
     document

@@ -37,7 +37,7 @@ $age = sh_calculate_age($patient['date_of_birth'] ?? null);
 $initials = sh_patient_initials($fullName);
 $conditions = sh_split_list($patient['medical_conditions'] ?? null);
 $specialCare = sh_split_list($patient['special_care_requirements'] ?? null);
-$hasPhoto = !empty($patient['profile_photo']) && file_exists($patient['profile_photo']);
+$hasPhoto = !empty($patient['profile_photo']);
 $hasDocument = !empty($patient['medical_document']);
 ?>
 
@@ -77,7 +77,6 @@ $hasDocument = !empty($patient['medical_document']);
       </div>
       <div class="profile-actions">
         <a href="/safehands_mvc/patient/edit/<?= (int) $patient['patient_id'] ?>" class="btn btn-outline">Edit Profile</a>
-        <button class="btn btn-primary" data-action="medical-history">View Medical History</button>
       </div>
     </section>
 
@@ -229,49 +228,6 @@ $hasDocument = !empty($patient['medical_document']);
           </div>
         </div>
 
-        <!-- Care History Table -->
-        <div class="card-table-wrapper">
-          <div class="table-header">
-            <h3 class="card-title" style="margin-bottom: 0;">
-              <span class="material-symbols-outlined">history</span> Care History & Reports
-            </h3>
-            <button class="link-btn">View All History</button>
-          </div>
-          <div class="table-overflow">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Caregiver</th>
-                  <th>Duration</th>
-                  <th>Status</th>
-                  <th class="text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>08 July 2026</td>
-                  <td style="font-weight: 500;">Nadeesha Perera</td>
-                  <td>4 Hours</td>
-                  <td><span class="badge-status">Completed</span></td>
-                  <td class="text-right"><button class="action-btn-text">View Report</button></td>
-                </tr>
-                <tr>
-                  <td>05 July 2026</td>
-                  <td style="font-weight: 500;">Sunil Jayasuriya</td>
-                  <td>8 Hours</td>
-                  <td><span class="badge-status">Completed</span></td>
-                  <td class="text-right"><button class="action-btn-text">View Report</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="report-snippet">
-            <span class="data-label" style="display: block; margin-bottom: 8px;">Recent Report Snippet</span>
-            <p class="snippet-text">"Patient was cooperative during the morning session. Completed 15 mins of light stretches. Medication adherence was perfect. Appetite was good for lunch. Slight swelling noticed in ankles." - Nadeesha P.</p>
-          </div>
-        </div>
-
         <!-- Important Documents List Card -->
         <div class="card">
           <h3 class="card-title">
@@ -326,4 +282,3 @@ $hasDocument = !empty($patient['medical_document']);
   </main>
   
   <div id="profileToast" class="profile-toast"></div>
-

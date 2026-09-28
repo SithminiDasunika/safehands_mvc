@@ -22,7 +22,7 @@
 </head>
 
 
-<body>
+<body class="<?= (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver') ? 'caregiver-bookings' : '' ?>">
 
 <header class="top-header">
 
@@ -39,7 +39,9 @@
         <nav class="main-nav">
             <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
                 <a href="/safehands_mvc/caregiver/dashboard">Dashboard</a>
-                <a href="/safehands_mvc/caregiver/schedule">Schedule</a>
+                <?php if (strpos($_SERVER['REQUEST_URI'] ?? '', '/bookings/pendingReports') === false): ?>
+                    <a href="/safehands_mvc/caregiver/schedule">Schedule</a>
+                <?php endif; ?>
                 <a href="/safehands_mvc/bookings" class="active">Booking Requests</a>
             <?php else: ?>
                 <a href="/safehands_mvc/family">Dashboard</a>
@@ -48,27 +50,6 @@
                 <a href="/safehands_mvc/bookings" class="active">My Bookings</a>
             <?php endif; ?>
         </nav>
-
-
-        <div class="header-actions">
-
-            <button
-                type="button"
-                class="header-icon"
-                id="notificationButton"
-            >
-                •
-            </button>
-
-            <button
-                type="button"
-                class="profile-button"
-            >
-                ◯
-            </button>
-
-        </div>
-
     </div>
 
 </header>

@@ -133,18 +133,18 @@ $title = $title ?? 'Pending Reports | SafeHands';
                         </div>
 
                         <div class="report-actions" style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
-                            <a href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                            <a href="/safehands_mvc/booking/details/<?= (int)($booking['id'] ?? 0) ?>/<?= (int)($booking['session_id'] ?? 0) ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
                                 View Booking
                             </a>
                             <?php if (!empty($booking['has_report'])): ?>
-                                <a href="/safehands_mvc/care-report/show/<?= htmlspecialchars($booking['id'] ?? '') ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                                <a href="/safehands_mvc/care-report/show/<?= (int)($booking['report_id'] ?? 0) ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
                                     View Report
                                 </a>
-                                <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['id'] ?? '') ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
+                                <a href="/safehands_mvc/booking/report/<?= (int)($booking['id'] ?? 0) ?>/<?= (int)($booking['session_id'] ?? 0) ?>" style="background: #e5e7eb; color: #111827; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-size: 14px;">
                                     Edit Report
                                 </a>
                             <?php else: ?>
-                                <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="complete-button">
+                                <a href="/safehands_mvc/booking/report/<?= (int)($booking['id'] ?? 0) ?>/<?= (int)($booking['session_id'] ?? 0) ?>" class="complete-button">
                                     Complete Report
                                 </a>
                             <?php endif; ?>

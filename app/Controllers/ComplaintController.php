@@ -2,47 +2,54 @@
 
 class ComplaintController extends Controller
 {
+    private function requireFamily(): int
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['user_id']) || ($_SESSION['user_role'] ?? '') !== 'family') {
+            header('Location: /safehands_mvc/login');
+            exit;
+        }
+
+        return (int)$_SESSION['user_id'];
+    }
+
     public function index($booking_id = null): void
     {
-        if (!$booking_id) {
+        $familyId = $this->requireFamily();
+        if (!$booking_id || !filter_var($booking_id, FILTER_VALIDATE_INT)) {
             header('Location: /safehands_mvc/bookings');
             exit;
         }
 
         $bookingModel = $this->model('BookingModel');
-        $booking = $bookingModel->getBookingById((int)$booking_id);
+        $booking = $bookingModel->getCompletedBookingForFamily((int)$booking_id, $familyId);
 
         if (!$booking) {
-            echo "Booking not found.";
+            header('Location: /safehands_mvc/bookings?complaint=unavailable');
             exit;
         }
-
-        $caregiverModel = $this->model('Caregiver');
-        $caregiver = $caregiverModel->getById($booking['caregiver_id']);
-
-        $patientModel = $this->model('PatientModel');
-        $patient = $patientModel->getPatientById($booking['patient_id']);
 
         $data = [
             'title' => 'Submit Complaint - SafeHands',
             'booking' => $booking,
-            'patient' => $patient,
+            'patient' => ['full_name' => $booking['patient_name']],
             'caregiver' => [
-                'user_id' => $caregiver['user_id'] ?? $booking['caregiver_id'],
-                'name' => $caregiver['name'] ?? 'Caregiver',
-                'image' => $caregiver['image'] ?? '/safehands_mvc/public/assets/images/caregiver-1.jpg'
+                'name' => $booking['caregiver_name'] ?? 'Caregiver',
+                'image' => $booking['caregiver_image'] ?? '/safehands_mvc/public/assets/images/caregiver-1.jpg'
             ]
         ];
 
         $this->view('complaint/index', $data, 'complaint');
     }
 
-        public function submit()
+    public function submit(): void
     {
+        $familyId = $this->requireFamily();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $bookingId = $_POST['booking_id'] ?? null;
-            $familyId = $_POST['family_id'] ?? null;
-            $caregiverId = $_POST['caregiver_id'] ?? null;
             
             // Map category to DB ENUM
             $rawCat = $_POST['category'] ?? 'other';
@@ -57,21 +64,26 @@ class ComplaintController extends Controller
             if ($rawUrg == 'important') $priority = 'High';
             elseif ($rawUrg == 'urgent') $priority = 'Critical';
             
-            $description = $_POST['description'] ?? '';
+            $subject = trim($_POST['subject'] ?? '');
+            $details = trim($_POST['description'] ?? '');
+            $description = $subject !== '' ? $subject . "\n\n" . $details : $details;
 
-            if ($bookingId && $familyId && $caregiverId && $description) {
+            if ($bookingId && filter_var($bookingId, FILTER_VALIDATE_INT) && $subject !== '' && $details !== '') {
                 $complaintRef = 'CMP-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
                 $complaintModel = $this->model('ComplaintModel');
-                $complaintId = $complaintModel->createComplaint([
+                $complaintId = $complaintModel->createCompletedBookingComplaint([
                     'complaint_ref' => $complaintRef,
                     'booking_id' => (int)$bookingId,
-                    'family_id' => (int)$familyId,
-                    'caregiver_id' => (int)$caregiverId,
                     'type' => $type,
                     'priority' => $priority,
                     'description' => $description
-                ]);
+                ], $familyId);
+
+                if (!$complaintId) {
+                    header('Location: /safehands_mvc/bookings?complaint=unavailable');
+                    exit;
+                }
                 
                 // Handle file upload if present
                 if ($complaintId && isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
@@ -96,7 +108,7 @@ class ComplaintController extends Controller
             } else {
                 // If validation failed, redirect back with error
                 error_log("Failed to create complaint: Missing required fields");
-                header('Location: /safehands_mvc/complaint/index/' . $bookingId . '?error=missing_fields');
+                header('Location: /safehands_mvc/complaint/index/' . (int)$bookingId . '?error=missing_fields');
                 exit;
             }
         }

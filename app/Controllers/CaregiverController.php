@@ -9,6 +9,78 @@ class CaregiverController extends Controller
         }
     }
 
+    /**
+     * Load the logged-in caregiver's profile photo and name
+     * from the database, so every view can display them.
+     */
+    private function getCaregiverProfileData(): array
+    {
+        $data = [
+            'profilePhoto' => '/safehands_mvc/public/assets/images/login-caregiver.jpg',
+            'caregiverName' => $_SESSION['user_name'] ?? 'Caregiver'
+        ];
+
+        if (!isset($_SESSION['user_id'])) {
+            return $data;
+        }
+
+        $caregiverModel = $this->model('Caregiver');
+        $profile = $caregiverModel->getByUserId((int) $_SESSION['user_id']);
+
+        if ($profile && !empty($profile['image'])) {
+            $photo = $profile['image'];
+
+            // If it's already an absolute URL or starts with /
+            if (strpos($photo, 'http') === 0 || strpos($photo, '/') === 0) {
+                $data['profilePhoto'] = $photo;
+            } else {
+                // Prepend the public base path
+                $data['profilePhoto'] = '/safehands_mvc/public/' . $photo;
+            }
+        }
+
+        if ($profile && !empty($profile['name'])) {
+            $data['caregiverName'] = $profile['name'];
+        }
+
+        return $data;
+    }
+
+    /** Return today's active session with its patient's emergency contact. */
+    private function getDashboardActiveSessions(array $bookings): array
+    {
+        $bookingModel = $this->model('BookingModel');
+        $patientModel = $this->model('PatientModel');
+        $upcoming = [];
+        $today = date('Y-m-d');
+
+        foreach ($bookings as $bookingRow) {
+            $booking = $bookingModel->getBookingById((int)$bookingRow['booking_id']);
+            if (!$booking) continue;
+            $patient = $patientModel->getPatientById((int)$booking['patient_id']) ?: [];
+
+            foreach (($booking['sessions'] ?? []) as $session) {
+                $status = strtolower(trim((string)($session['status'] ?? '')));
+                if ($status !== 'in_progress' || date('Y-m-d', strtotime((string)($session['service_date'] ?? ''))) !== $today) continue;
+                $upcoming[] = [
+                    'booking_id' => (int)$booking['booking_id'],
+                    'session_id' => (int)$session['session_id'],
+                    'patient_name' => $patient['full_name'] ?? $bookingRow['patient_name'] ?? 'Patient',
+                    'patient_image' => $patient['profile_photo'] ?? $bookingRow['patient_image'] ?? '',
+                    'service_date' => $session['service_date'] ?? '',
+                    'shift_type' => $session['shift_type'] ?? '',
+                    'status' => $status,
+                    'address' => $patient['address'] ?? '',
+                    'emergency_contact_name' => $patient['emergency_contact_name'] ?? '',
+                    'emergency_contact_relationship' => $patient['emergency_contact_relationship'] ?? '',
+                    'emergency_contact_phone' => $patient['emergency_contact_phone'] ?? '',
+                ];
+            }
+        }
+
+        return $upcoming;
+    }
+
     public function index(): void
     {
         $caregiverModel = $this->model('Caregiver');
@@ -326,6 +398,7 @@ public function dashboard(): void
     $cgId = $cgProfile ? $cgProfile['id'] : $_SESSION['user_id'];
     
     $bookings = $bookingModel->getBookingsByCaregiverId($cgId);
+    $upcomingSessions = $this->getDashboardActiveSessions($bookings);
     
     // DEBUG: remove after testing
     error_log("CG Dashboard: user_id={$_SESSION['user_id']}, cgId={$cgId}, bookings_count=" . count($bookings));
@@ -337,10 +410,11 @@ public function dashboard(): void
         $b['has_report'] = !empty($report);
     }
 
-    $data = [
+    $data = array_merge($this->getCaregiverProfileData(), [
         'title' => 'Caregiver Dashboard | SafeHands',
-        'bookings' => $bookings
-    ];
+        'bookings' => $bookings,
+        'activeSessions' => $upcomingSessions
+    ]);
 
     $this->view(
         'caregivers/dashboard',
@@ -356,9 +430,15 @@ public function dashboardSi(): void
         exit;
     }
 
-    $data = [
-        'title' => 'රැකවරණ සේවා Dashboard | SafeHands'
-    ];
+    $caregiverModel = $this->model('Caregiver');
+    $profile = $caregiverModel->getByUserId((int)$_SESSION['user_id']);
+    $cgId = $profile ? (int)$profile['id'] : (int)$_SESSION['user_id'];
+    $bookings = $this->model('BookingModel')->getBookingsByCaregiverId($cgId);
+    $data = array_merge($this->getCaregiverProfileData(), [
+        'title' => 'රැකවරණ සේවා Dashboard | SafeHands',
+        'bookings' => $bookings,
+        'activeSessions' => $this->getDashboardActiveSessions($bookings)
+    ]);
 
     $this->view(
         'caregivers/dashboard-si',
@@ -378,9 +458,9 @@ public function emergencyContact(): void
         exit;
     }
 
-    $data = [
+    $data = array_merge($this->getCaregiverProfileData(), [
         'title' => 'Emergency Contact Information | SafeHands'
-    ];
+    ]);
 
     $this->view(
         'caregivers/emergency-contact',
@@ -398,9 +478,9 @@ public function emergencyContactSi(): void
         exit;
     }
 
-    $data = [
+    $data = array_merge($this->getCaregiverProfileData(), [
         'title' => 'හදිසි සම්බන්ධතා තොරතුරු | SafeHands'
-    ];
+    ]);
 
     $this->view(
         'caregivers/emergency-contact-si',
@@ -416,9 +496,9 @@ public function schedule(): void
         exit;
     }
 
-    $data = [
+    $data = array_merge($this->getCaregiverProfileData(), [
         'title' => 'My Schedule | SafeHands'
-    ];
+    ]);
     $this->view('caregivers/schedule', $data, 'find-caregiver');
 }
 public function scheduleSi(): void
@@ -428,9 +508,9 @@ public function scheduleSi(): void
         exit;
     }
 
-    $data = [
+    $data = array_merge($this->getCaregiverProfileData(), [
         'title' => 'මගේ උපලේඛනය | SafeHands'
-    ];
+    ]);
 
     $this->view(
         'caregivers/schedule-si',
@@ -476,18 +556,19 @@ public function pendingReports(): void
     $stats = ['completed' => 0];
 
     foreach ($rawBookings as $b) {
-        $status = strtolower($b['status']);
-        if ($status === 'completed') {
+        $fullBooking = $bookingModel->getBookingById((int)$b['booking_id']);
+        foreach (($fullBooking['sessions'] ?? []) as $session) {
+            if (strtolower($session['status']) !== 'completed') continue;
+            $report = $reportModel->getReportBySessionId((int)$session['session_id']);
             $stats['completed']++;
-            
-            $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
-            
             $completed[] = [
-                'id' => $b['booking_id'],
+                'id' => (int)$b['booking_id'],
+                'session_id' => (int)$session['session_id'],
+                'report_id' => $report['id'] ?? null,
                 'patient' => $b['patient_name'] ?? 'Unknown Patient',
-                'date' => date('M d, Y', strtotime($b['created_at'])),
-                'image' => 'https://via.placeholder.com/150',
-                'has_report' => $hasReport
+                'date' => date('M d, Y', strtotime($session['service_date'])) . ' · ' . ucfirst($session['shift_type']),
+                'image' => $b['patient_image'] ?? '',
+                'has_report' => (bool)$report
             ];
         }
     }
@@ -543,18 +624,19 @@ public function pendingReportsSi(): void
     $stats = ['completed' => 0];
 
     foreach ($rawBookings as $b) {
-        $status = strtolower($b['status']);
-        if ($status === 'completed') {
+        $fullBooking = $bookingModel->getBookingById((int)$b['booking_id']);
+        foreach (($fullBooking['sessions'] ?? []) as $session) {
+            if (strtolower($session['status']) !== 'completed') continue;
+            $report = $reportModel->getReportBySessionId((int)$session['session_id']);
             $stats['completed']++;
-            
-            $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
-            
             $completed[] = [
-                'id' => $b['booking_id'],
+                'id' => (int)$b['booking_id'],
+                'session_id' => (int)$session['session_id'],
+                'report_id' => $report['id'] ?? null,
                 'patient' => $b['patient_name'] ?? 'Unknown Patient',
-                'date' => date('M d, Y', strtotime($b['created_at'])),
-                'image' => 'https://via.placeholder.com/150',
-                'has_report' => $hasReport
+                'date' => date('M d, Y', strtotime($session['service_date'])) . ' · ' . ucfirst($session['shift_type']),
+                'image' => $b['patient_image'] ?? '',
+                'has_report' => (bool)$report
             ];
         }
     }

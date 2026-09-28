@@ -152,8 +152,6 @@ document.addEventListener("DOMContentLoaded", function () {
             "submit",
             function (event) {
 
-                event.preventDefault();
-
                 const subject =
                     document.getElementById("subject");
 
@@ -162,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     subject &&
                     subject.value.trim() === ""
                 ) {
+                    event.preventDefault();
 
                     alert(
                         "Please enter a subject for your complaint."
@@ -177,6 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     description &&
                     description.value.trim() === ""
                 ) {
+                    event.preventDefault();
 
                     alert(
                         "Please describe what happened."
@@ -187,10 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
                 }
 
-
-                alert(
-                    "Complaint submitted successfully."
-                );
 
             }
         );

@@ -347,6 +347,8 @@ $registrationFee = $registrationFee ?? 1000;
                                     value="<?= htmlspecialchars(
                                         $old['phone'] ?? ''
                                     ) ?>"
+                                    pattern="\d{10}"
+                                    title="Phone number must be exactly 10 digits"
                                     required
                                 >
 
@@ -370,6 +372,8 @@ $registrationFee = $registrationFee ?? 1000;
                                     value="<?= htmlspecialchars(
                                         $old['email'] ?? ''
                                     ) ?>"
+                                    pattern=".+@gmail\.com$"
+                                    title="Email must be a @gmail.com address"
                                     required
                                 >
 

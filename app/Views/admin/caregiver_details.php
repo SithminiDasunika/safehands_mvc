@@ -202,7 +202,12 @@ if ($vs === 'verified') {
                         </div>
                         <p class="header-desc">Review the documents submitted by the caregiver before taking an accreditation decision.</p>
                     </div>
-                    <span class="badge badge-info-light">4 of 4 Submitted</span>
+                    <?php
+                    $requiredDocumentTypes = ['NIC_Front', 'NIC_Back', 'Qualification', 'Police_Clearance'];
+                    $uploadedDocumentTypes = array_unique(array_column($caregiver['documents'] ?? [], 'document_type'));
+                    $submittedRequiredCount = count(array_intersect($requiredDocumentTypes, $uploadedDocumentTypes));
+                    ?>
+                    <span class="badge badge-info-light"><?= $submittedRequiredCount ?> of <?= count($requiredDocumentTypes) ?> Submitted</span>
                 </div>
 
                 <div class="docs-grid">
@@ -218,7 +223,10 @@ if ($vs === 'verified') {
                                     <p>Provided by Caregiver</p>
                                     <span class="doc-meta">Uploaded: <?= date('d M Y', strtotime($doc['uploaded_at'])) ?></span>
                                 </div>
-                                <a href="/safehands_mvc/public/<?= htmlspecialchars($doc['file_path']) ?>" target="_blank" class="btn btn-doc" style="text-decoration:none; text-align:center;">
+                                <?php
+                                $encodedDocumentPath = rtrim(strtr(base64_encode((string)$doc['file_path']), '+/', '-_'), '=');
+                                ?>
+                                <a href="/safehands_mvc/admin/viewCaregiverDocument/<?= rawurlencode($encodedDocumentPath) ?>" target="_blank" rel="noopener" class="btn btn-doc" style="text-decoration:none; text-align:center;">
                                     <span class="material-symbols-outlined">visibility</span> View Document
                                 </a>
                             </div>

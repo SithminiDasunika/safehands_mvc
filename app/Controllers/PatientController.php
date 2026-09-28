@@ -67,6 +67,8 @@ class PatientController extends Controller
         $data = [
             'title' => 'Add New Patient | SafeHands'
         ];
+        $data['errors'] = $_SESSION['form_errors'] ?? [];
+        unset($_SESSION['form_errors']);
 
         $this->view(
             'patient/create',
@@ -126,6 +128,22 @@ class PatientController extends Controller
         // Minimal required-field check — expand as needed.
         if ($data['full_name'] === '' || $data['date_of_birth'] === '' || $data['gender'] === '' || $data['relationship'] === '') {
             $_SESSION['form_errors'] = ['Please fill in all required fields.'];
+            $_SESSION['form_data'] = $data;
+            $this->redirect('/patient/create');
+        }
+
+        $validationErrors = [];
+        if (!$this->isValidPastDateOfBirth($data['date_of_birth'])) {
+            $validationErrors[] = 'Enter a valid date of birth that is not in the future.';
+        }
+        foreach (['phone', 'emergency_contact_phone', 'emergency_alternative_phone'] as $phoneField) {
+            if (!$this->isValidTenDigitPhone($data[$phoneField], true)) {
+                $validationErrors[] = 'Phone numbers must contain exactly 10 digits.';
+                break;
+            }
+        }
+        if ($validationErrors) {
+            $_SESSION['form_errors'] = $validationErrors;
             $_SESSION['form_data'] = $data;
             $this->redirect('/patient/create');
         }
@@ -197,8 +215,10 @@ class PatientController extends Controller
 
         $data = [
             'title' => 'Edit Patient Profile | SafeHands',
-            'patient' => $patient
+            'patient' => $patient,
+            'errors' => $_SESSION['form_errors'] ?? []
         ];
+        unset($_SESSION['form_errors']);
 
         $this->view(
             'patient/edit',
@@ -259,6 +279,21 @@ class PatientController extends Controller
             'emergency_alternative_phone' => trim($_POST['emergency_alt_phone'] ?? $_POST['emergency_alternative_phone'] ?? ''),
             'medical_document' => $medicalDocument
         ];
+
+        $validationErrors = [];
+        if (!$this->isValidPastDateOfBirth($data['date_of_birth'])) {
+            $validationErrors[] = 'Enter a valid date of birth that is not in the future.';
+        }
+        foreach (['phone', 'emergency_contact_phone', 'emergency_alternative_phone'] as $phoneField) {
+            if (!$this->isValidTenDigitPhone($data[$phoneField], true)) {
+                $validationErrors[] = 'Phone numbers must contain exactly 10 digits.';
+                break;
+            }
+        }
+        if ($validationErrors) {
+            $_SESSION['form_errors'] = $validationErrors;
+            $this->redirect('/patient/edit/' . (int) $id);
+        }
 
         $this->patientModel->update((int) $id, $data);
 

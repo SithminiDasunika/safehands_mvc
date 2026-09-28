@@ -204,18 +204,18 @@ button {
 
 .caregiver-header {
     background: #ffffff;
-    border: 1px solid #f1f5f9;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e5ece9;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(17, 28, 45, 0.055);
 
-    padding: 32px;
+    padding: 28px;
     margin-bottom: 32px;
 }
 
 .caregiver-header-content {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 28px;
 }
 
 .profile-image-container {
@@ -224,13 +224,13 @@ button {
 }
 
 .profile-image {
-    width: 160px;
-    height: 160px;
+    width: 148px;
+    height: 148px;
 
     border-radius: 50%;
-    border: 4px solid #e7eeff;
+    border: 4px solid #e6f3ed;
 
-    background-color: #f0f3ff;
+    background-color: #f3f8f5;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -253,7 +253,7 @@ button {
     align-items: center;
     justify-content: center;
 
-    color: #004ac6;
+    color: #087f5b;
     font-size: 19px;
     font-weight: 700;
 }
@@ -272,6 +272,7 @@ button {
 }
 
 .caregiver-title-row h1 {
+    margin: 0;
     font-size: 32px;
     line-height: 1.2;
     font-weight: 700;
@@ -283,10 +284,10 @@ button {
     align-items: center;
     gap: 7px;
 
-    padding: 6px 12px;
+    padding: 7px 12px;
 
-    background: rgba(2, 87, 71, 0.10);
-    color: #025747;
+    background: #edf7f1;
+    color: #087f5b;
 
     border-radius: 20px;
 
@@ -298,46 +299,78 @@ button {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #025747;
+    background: #087f5b;
 }
 
 .specialization {
-    margin-bottom: 18px;
+    margin: 0;
 
-    color: #434655;
-    font-size: 18px;
+    color: #475467;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 500;
 }
 
 .caregiver-info-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #edf1ef;
 }
 
 .info-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 
     min-width: 0;
+    padding: 10px 11px;
+    border: 1px solid #edf1ef;
+    border-radius: 10px;
+    background: #fbfcfb;
 
-    font-size: 15px;
-    font-weight: 500;
     color: #434655;
 }
 
-.info-item > span:last-child {
+.info-copy {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+.info-label {
+    color: #737b86;
+    font-size: 11px;
+    line-height: 1.25;
+}
+
+.info-value {
+    color: #1b2736;
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 600;
     overflow-wrap: anywhere;
 }
 
 .info-icon {
     flex-shrink: 0;
-    color: #737686;
-    font-size: 18px;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #edf7f1;
+    color: #087f5b;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .rating-icon {
-    color: #febb02;
+    background: #fff6e5;
+    color: #c78100;
 }
 
 
@@ -829,9 +862,9 @@ button {
     }
 
     .caregiver-info-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         text-align: left;
-        gap: 12px;
+        gap: 8px;
     }
 
     .info-item {
@@ -928,6 +961,10 @@ button {
     .booking-status {
         font-size: 11px;
         padding: 5px 10px;
+    }
+
+    .caregiver-info-grid {
+        grid-template-columns: 1fr;
     }
 
     .availability-section {

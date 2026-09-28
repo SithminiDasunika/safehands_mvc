@@ -127,50 +127,6 @@ body {
     font-weight: 700;
 }
 
-.header-actions {
-    display: flex;
-
-    align-items: center;
-
-    gap: 16px;
-}
-
-.header-icon,
-.profile-button {
-    border: none;
-
-    background: transparent;
-
-    cursor: pointer;
-
-    color: var(--text-secondary);
-
-    font-size: 22px;
-}
-
-.header-icon {
-    position: relative;
-}
-
-.header-icon::after {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-
-    right: 0;
-
-    width: 7px;
-
-    height: 7px;
-
-    background: var(--primary);
-
-    border-radius: 50%;
-}
-
-
 /* MAIN */
 
 .main-content {

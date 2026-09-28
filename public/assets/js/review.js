@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const ratingDescriptor =
         document.getElementById("ratingDescriptor");
 
+    const selectedRating = document.getElementById("selectedRating");
+
     const descriptors = [
         "Poor",
         "Fair",
@@ -28,6 +30,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.dataset.value,
                     10
                 );
+
+            if (selectedRating) {
+                selectedRating.value = String(value);
+            }
 
 
             starRatings.forEach(function (star) {
@@ -138,40 +144,19 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-    const successOverlay =
-        document.getElementById(
-            "successOverlay"
-        );
-
-
     if (feedbackForm) {
 
         feedbackForm.addEventListener(
             "submit",
             function (event) {
-
-                event.preventDefault();
-
-
-                /*
-                 * For now this is frontend-only.
-                 * Backend/database submission can be
-                 * connected later.
-                 */
-
-                if (successOverlay) {
-
-                    successOverlay.classList.add(
-                        "active"
-                    );
-
+                if (!selectedRating || !selectedRating.value) {
+                    event.preventDefault();
+                    if (ratingDescriptor) {
+                        ratingDescriptor.textContent = "Please select a rating";
+                        ratingDescriptor.classList.add("selected");
+                    }
+                    return;
                 }
-
-
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth"
-                });
 
             }
         );

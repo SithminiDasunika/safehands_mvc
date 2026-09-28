@@ -1,128 +1,75 @@
-<div style="display:flex; justify-content:flex-end; padding:12px 0;">
-            <div class="language-switcher" style="display:flex; align-items:center; gap:8px; margin-right:12px; font-size:15px;">
-                <a href="/safehands_mvc/bookings/pendingReports" style="color:#059669; text-decoration:none;">English</a>
-                <span style="color:#9ca3af;">|</span>
-                <a href="/safehands_mvc/bookings/pendingReportsSi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
-            </div>
-</div>
-<link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver/dashboard.css?v=2">
-<style>
-.booking-page-header {
-    margin-bottom: 24px;
-}
-.booking-page-header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 8px;
-}
-.booking-page-header p {
-    color: #6b7280;
-    font-size: 14px;
-}
-.completed-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.completed-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-}
-.completed-person {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.caregiver-image {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-.completed-person h3 {
-    margin: 0 0 4px;
-    font-size: 16px;
-    color: #111827;
-}
-.completed-person p {
-    margin: 0;
-    color: #6b7280;
-    font-size: 14px;
-}
-.booking-actions {
-    display: flex;
-    gap: 12px;
-}
-.primary-button, .secondary-button {
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-}
-.primary-button {
-    background: #059669;
-    color: white;
-    border: none;
-}
-.secondary-button {
-    background: white;
-    color: #111827;
-    border: 1px solid #d1d5db;
-}
-</style>
+<?php
+$completedSessions = $completed ?? [];
+$pendingCount = count(array_filter($completedSessions, static fn($booking) => empty($booking['has_report'])));
+?>
 
-<div class="booking-page-header">
-    <h1>පොරොත්තු වාර්තා</h1>
-    <p>ඔබගේ අවසන් කළ සත්කාර සැසි සඳහා වාර්තා බලන්න සහ කළමනාකරණය කරන්න.</p>
-</div>
+<link rel="stylesheet" href="/safehands_mvc/public/assets/css/pending-reports.css?v=1">
 
-<section class="booking-section">
-    <div class="completed-list">
-        <?php if (empty($completed)): ?>
-            <div style="padding: 24px; text-align: center; color: #6b7280; background: white; border-radius: 12px; border: 1px solid #e5e7eb;">
-                අවසන් කළ සත්කාර සැසි කිසිවක් හමු නොවීය.
+<main class="pending-reports-page">
+    <div class="pending-reports-toolbar">
+        <span class="page-context">Caregiver workspace</span>
+        <nav class="report-language-switcher" aria-label="භාෂාව තෝරන්න">
+            <a href="/safehands_mvc/bookings/pendingReports">English</a>
+            <span aria-hidden="true"></span>
+            <a class="active" href="/safehands_mvc/bookings/pendingReportsSi" aria-current="page">සිංහල</a>
+        </nav>
+    </div>
+
+    <section class="pending-reports-heading">
+        <div>
+            <p class="section-eyebrow">සත්කාර පසු විපරම</p>
+            <h1>පොරොත්තු වාර්තා</h1>
+            <p class="heading-description">අවසන් කළ සත්කාර සැසි පරීක්ෂා කර, ඉදිරිපත් කිරීමට ඇති වාර්තා සම්පූර්ණ කරන්න.</p>
+        </div>
+        <div class="pending-count"><span class="count-dot"></span><?= $pendingCount ?> <span>වාර්තා ඉදිරිපත් කළ යුතුයි</span></div>
+    </section>
+
+    <?php if (($_GET['msg'] ?? '') === 'report_deleted'): ?>
+        <div role="status" class="reports-help-note" style="margin-top:-10px; margin-bottom:18px;">
+            <span class="help-note-icon" aria-hidden="true">✓</span>
+            <div><h2>වාර්තාව මකා ඇත</h2><p>වාර්තාව ඉවත් කර ඇත. අවසන් කළ සැසිය මෙහි පවතින අතර නැවත වාර්තාවක් ඉදිරිපත් කළ හැකිය.</p></div>
+        </div>
+    <?php endif; ?>
+
+    <section class="pending-reports-list" aria-label="අවසන් කළ සත්කාර සැසි">
+        <?php if (empty($completedSessions)): ?>
+            <div class="reports-empty-state">
+                <div class="empty-state-icon" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" fill="none"><rect x="11" y="7" width="26" height="34" rx="5"/><path d="M18 18h12M18 24h12M18 30h7"/><path d="m29 33 3 3 6-7"/></svg>
+                </div>
+                <h2>දැනට සියල්ල යාවත්කාලීනයි</h2>
+                <p>දැනට වාර්තාවක් අවශ්‍ය වන අවසන් කළ සත්කාර සැසියක් නැත. නව සැසි සූදානම් වූ විට මෙහි පෙන්වනු ඇත.</p>
+                <a class="back-to-schedule" href="/safehands_mvc/caregiver/schedule">ඔබගේ කාලසටහන බලන්න <span aria-hidden="true">→</span></a>
             </div>
         <?php else: ?>
-            <?php foreach ($completed as $booking): ?>
-                <div class="completed-card">
-                    <div class="completed-person">
-                        <img src="<?= htmlspecialchars($booking['image'] ?? 'https://via.placeholder.com/150') ?>" alt="Caregiver" class="caregiver-image">
+            <?php foreach ($completedSessions as $booking): ?>
+                <article class="completed-session-card">
+                    <div class="session-person">
+                        <img src="<?= htmlspecialchars($booking['image'] ?? 'https://via.placeholder.com/150') ?>" alt="" class="session-avatar">
                         <div>
-                            <h3><?= htmlspecialchars($booking['patient'] ?? 'Unknown Patient') ?></h3>
-                            <p><?= htmlspecialchars($booking['date'] ?? '') ?> • අවසන් කර ඇත</p>
+                            <h2><?= htmlspecialchars($booking['patient'] ?? 'නොදන්නා රෝගියා') ?></h2>
+                            <p><?= htmlspecialchars($booking['date'] ?? '') ?> <span class="session-separator">·</span> සත්කාර සැසිය අවසන්</p>
                         </div>
                     </div>
-                    
-                    <div class="booking-actions">
-                        <a href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="primary-button">
-                            වෙන්කිරීම බලන්න
-                        </a>
+                    <div class="session-actions">
+                        <a href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="session-secondary-button">වෙන්කිරීම බලන්න</a>
                         <?php if (!empty($booking['has_report'])): ?>
-                            <a href="/safehands_mvc/care-report/index/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="primary-button">
-                                වාර්තාව බලන්න
-                            </a>
-                            <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="secondary-button">
-                                වාර්තාව සංස්කරණය කරන්න
-                            </a>
-                            <a href="/safehands_mvc/booking/deleteReport/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="secondary-button" style="color:#dc2626; border-color:#dc2626;" onclick="return confirm('ඔබට විශ්වාසද මෙම සත්කාර වාර්තාව මැකීමට අවශ්‍ය බව?');">
-                                වාර්තාව මකන්න
-                            </a>
+                            <a href="/safehands_mvc/care-report/show/<?= (int)($booking['report_id'] ?? 0) ?>" class="session-primary-button">වාර්තාව බලන්න</a>
+                            <a href="/safehands_mvc/booking/report/<?= (int)($booking['id'] ?? 0) ?>/<?= (int)($booking['session_id'] ?? 0) ?>" class="session-secondary-button">වාර්තාව සංස්කරණය</a>
+                            <form class="session-delete-form" method="POST" action="/safehands_mvc/booking/deleteReport/<?= (int)($booking['id'] ?? 0) ?>/<?= (int)($booking['session_id'] ?? 0) ?>" onsubmit="return confirm('මෙම සැසියේ වාර්තාව මකා දමන්නද? සැසිය කාලසටහනේ පවතින අතර වාර්තාව නැවත ඉදිරිපත් කළ හැක.');">
+                                <button type="submit" class="session-delete-button">මකන්න</button>
+                            </form>
                         <?php else: ?>
-                            <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['id'] ?? '') ?>" class="secondary-button" style="background:#fef3c7; border-color:#f59e0b; color:#92400e;">
-                                වාර්තාව ඉදිරිපත් කරන්න
-                            </a>
+                            <a href="/safehands_mvc/booking/report/<?= (int)($booking['id'] ?? 0) ?>/<?= (int)($booking['session_id'] ?? 0) ?>" class="session-primary-button">වාර්තාව සම්පූර්ණ කරන්න <span aria-hidden="true">→</span></a>
                         <?php endif; ?>
                     </div>
-                </div>
+                </article>
             <?php endforeach; ?>
         <?php endif; ?>
-    </div>
-</section>
+    </section>
+
+    <aside class="reports-help-note">
+        <span class="help-note-icon" aria-hidden="true">i</span>
+        <div><h2>පොරොත්තු වාර්තා ගැන</h2><p>සෑම සත්කාර සැසියකටම පසු දෛනික වාර්තාව සම්පූර්ණ කිරීමෙන් සත්කාර ක්‍රියාකාරකම් සහ නිරීක්ෂණ පිළිබඳව පවුල දැනුවත් කළ හැකිය.</p></div>
+    </aside>
+</main>

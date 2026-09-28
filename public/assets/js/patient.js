@@ -918,6 +918,64 @@ function updateMedicalConditions() {
 
 /*
 |--------------------------------------------------------------------------
+| PROFILE PHOTO
+|--------------------------------------------------------------------------
+*/
+
+function setupProfilePhoto() {
+    var photoInput = document.getElementById("profile_photo");
+    var photoFileName = document.getElementById("profileFileName");
+    var photoPreviewContainer = document.getElementById("profilePhotoPreview");
+    var previewImage = document.getElementById("profilePreviewImage");
+    var removeButton = document.getElementById("removeProfilePhoto");
+
+    if (!photoInput) return;
+
+    photoInput.addEventListener("change", function () {
+        if (!this.files || !this.files.length) {
+            return;
+        }
+
+        var file = this.files[0];
+
+        var allowedPhotoTypes = ["image/jpeg", "image/png"];
+        if (allowedPhotoTypes.indexOf(file.type) === -1) {
+            alert("Profile photo must be JPG or PNG.");
+            this.value = "";
+            return;
+        }
+
+        if (file.size > 2 * 1024 * 1024) {
+            alert("Profile photo must be smaller than 2 MB.");
+            this.value = "";
+            return;
+        }
+
+        if (photoFileName) {
+            photoFileName.textContent = file.name;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            if (previewImage) previewImage.src = e.target.result;
+            if (photoPreviewContainer) photoPreviewContainer.classList.add("show");
+        };
+        reader.readAsDataURL(file);
+    });
+
+    if (removeButton) {
+        removeButton.addEventListener("click", function() {
+            photoInput.value = "";
+            if (photoFileName) photoFileName.textContent = "";
+            if (previewImage) previewImage.src = "";
+            if (photoPreviewContainer) photoPreviewContainer.classList.remove("show");
+        });
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
 | MEDICAL DOCUMENT
 |--------------------------------------------------------------------------
 */
@@ -1243,6 +1301,14 @@ document.addEventListener(
         */
 
         setupMedicalDocument();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Initialize profile photo
+        |--------------------------------------------------------------------------
+        */
+
+        setupProfilePhoto();
 
 
         /*

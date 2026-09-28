@@ -21,7 +21,7 @@
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/care-report.css?v=2"
+        href="/safehands_mvc/public/assets/css/care-report.css?v=3"
     >
 
 </head>

@@ -411,6 +411,13 @@
                                     class="selected-file-name hidden">
                                 </p>
 
+                                <img
+                                    id="profile-photo-preview"
+                                    src=""
+                                    class="hidden"
+                                    style="max-width: 150px; border-radius: 8px; margin-top: 10px; display: none;"
+                                >
+
                             </div>
 
                         </div>

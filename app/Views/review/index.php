@@ -1,10 +1,10 @@
 <?php
 $b = $booking ?? [];
 // Set up variables
-$cg_image = '/safehands_mvc/public/assets/images/caregiver-1.jpg'; // placeholder
+$cg_image = $b['caregiver_image'] ?? '/safehands_mvc/public/assets/images/caregiver-1.jpg';
 $cg_name = $b['caregiver_name'] ?? 'Caregiver';
-$cg_rating = '4.9'; 
-$cg_reviews = '124'; 
+$cg_rating = (int)($b['caregiver_reviews'] ?? 0) > 0 ? number_format((float)$b['caregiver_rating'], 1) : 'New';
+$cg_reviews = (int)($b['caregiver_reviews'] ?? 0);
 $patient = $b['patient_name'] ?? 'Patient';
 ?>
 
@@ -167,7 +167,7 @@ $patient = $b['patient_name'] ?? 'Patient';
 
 
                     <p class="caregiver-qualification">
-                        <?= htmlspecialchars($caregiver['qualification'] ?? 'Registered Nurse (RN)') ?>
+                            <?= htmlspecialchars($b['qualification'] ?? 'Caregiver') ?>
                     </p>
 
 
@@ -289,8 +289,7 @@ $patient = $b['patient_name'] ?? 'Patient';
 
                 <form id="feedbackForm" class="feedback-form" method="POST" action="/safehands_mvc/review/submit">
                     <input type="hidden" name="booking_id" value="<?= htmlspecialchars($b['booking_id'] ?? '') ?>">
-                    <input type="hidden" name="family_id" value="<?= htmlspecialchars($b['family_user_id'] ?? '') ?>">
-                    <input type="hidden" name="caregiver_id" value="<?= htmlspecialchars($b['caregiver_id'] ?? '') ?>">
+                    <input type="hidden" name="rating" id="selectedRating" value="">
 
 
                     <!-- =================================================
@@ -671,6 +670,7 @@ $patient = $b['patient_name'] ?? 'Patient';
                                 id="writtenReview"
                                 name="written_review"
                                 rows="5"
+                                minlength="20"
                                 placeholder="Share more details about the quality of care provided..."
                             ></textarea>
 

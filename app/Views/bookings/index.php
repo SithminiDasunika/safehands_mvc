@@ -3,6 +3,7 @@
 $active = $active ?? [];
 $upcoming = $upcoming ?? [];
 $completed = $completed ?? [];
+$cancelled = $cancelled ?? [];
 $stats = $stats ?? [];
 
 ?>
@@ -547,15 +548,59 @@ $stats = $stats ?? [];
                         </button>
 
 
-                        <button
-                            type="button"
-                            class="cancel-button"
-                        >
-                            Cancel
-                        </button>
-
                     </div>
 
+                </div>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         CANCELLED BOOKINGS
+    ========================================== -->
+
+    <section
+        class="booking-section"
+        data-section="cancelled"
+    >
+
+        <h2>
+            Cancelled
+        </h2>
+
+        <div class="completed-list">
+
+            <?php foreach ($cancelled as $booking): ?>
+
+                <div
+                    class="completed-card searchable-booking"
+                    data-status="cancelled"
+                    data-search="<?= htmlspecialchars(strtolower(($booking['caregiver'] ?? '') . ' ' . ($booking['date'] ?? ''))) ?>"
+                >
+                    <div class="completed-person">
+                        <img
+                            src="<?= htmlspecialchars($booking['image'] ?? '') ?>"
+                            alt="Caregiver"
+                            class="caregiver-image small"
+                        >
+                        <div>
+                            <h3><?= htmlspecialchars($booking['caregiver'] ?? '') ?></h3>
+                            <p><?= htmlspecialchars($booking['date'] ?? '') ?> · <?= htmlspecialchars($booking['status'] ?? 'Cancelled') ?></p>
+                        </div>
+                    </div>
+
+                    <div class="booking-actions">
+                        <a
+                            href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
+                            class="primary-button view-booking-button"
+                        >
+                            View Booking
+                        </a>
+                    </div>
                 </div>
 
             <?php endforeach; ?>
@@ -639,87 +684,24 @@ $stats = $stats ?? [];
 
 
 
-                    <?php if (
-                        empty($booking['reviewed'])
-                    ): ?>
+                    <div class="booking-actions">
+                        <a
+                            href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
+                            class="primary-button view-booking-button"
+                        >
+                            View Booking
+                        </a>
 
+                        <?php if (($booking['status'] ?? '') === 'Completed' && !empty($booking['can_rate'])): ?>
+                            <?php if (empty($booking['reviewed'])): ?>
+                                <a href="/safehands_mvc/review/index/<?= (int)$booking['id'] ?>" class="secondary-button">Rate Caregiver</a>
+                            <?php else: ?>
+                                <span class="secondary-button" aria-label="Rating submitted">Rating Submitted</span>
+                            <?php endif; ?>
 
-                        <div class="booking-actions">
-
-
-                            <!-- =================================
-                                 VIEW BOOKING
-                                 CONNECTED TO BOOKING DETAILS
-                            ================================== -->
-
-                            <a
-                                href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
-                                class="primary-button view-booking-button"
-                            >
-                                View Booking
-                            </a>
-
-
-                            <button
-                                type="button"
-                                class="secondary-button contact-button"
-                            >
-                                Contact
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="cancel-button"
-                            >
-                                Cancel
-                            </button>
-
-                        </div>
-
-
-                    <?php else: ?>
-
-
-                        <div class="reviewed-area">
-
-
-                            <div class="booking-actions">
-
-
-                                <!-- =================================
-                                     VIEW BOOKING
-                                     CONNECTED TO BOOKING DETAILS
-                                ================================== -->
-
-                                <a
-                                    href="/safehands_mvc/booking/details/<?= htmlspecialchars($booking['id'] ?? '') ?>"
-                                    class="primary-button view-booking-button"
-                                >
-                                    View Booking
-                                </a>
-
-
-                                <button
-                                    type="button"
-                                    class="secondary-button contact-button"
-                                >
-                                    Contact
-                                </button>
-
-
-                                <button
-                                    type="button"
-                                    class="cancel-button"
-                                >
-                                    Cancel
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    <?php endif; ?>
+                            <a href="/safehands_mvc/complaint/index/<?= (int)$booking['id'] ?>" class="secondary-button">Submit Complaint</a>
+                        <?php endif; ?>
+                    </div>
 
 
                 </div>

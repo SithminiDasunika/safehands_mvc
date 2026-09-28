@@ -1,3 +1,16 @@
+<?php
+$availableLanguages = [];
+foreach ($caregivers as $caregiverRecord) {
+    foreach (($caregiverRecord['languages'] ?? []) as $caregiverLanguage) {
+        $caregiverLanguage = trim((string) $caregiverLanguage);
+        if ($caregiverLanguage !== '') {
+            $availableLanguages[strtolower($caregiverLanguage)] = $caregiverLanguage;
+        }
+    }
+}
+natcasesort($availableLanguages);
+?>
+
 <header class="top-navbar">
 
     <nav class="navbar-container">
@@ -170,19 +183,19 @@
                         All Levels
                     </option>
 
-                    <option>
+                    <option value="cna">
                         Certified Nursing Assistant (CNA)
                     </option>
 
-                    <option>
+                    <option value="lpn">
                         Licensed Practical Nurse (LPN)
                     </option>
 
-                    <option>
+                    <option value="rn">
                         Registered Nurse (RN)
                     </option>
 
-                    <option>
+                    <option value="first_aid">
                         First Aid Certified
                     </option>
 
@@ -203,18 +216,11 @@
                         Any Language
                     </option>
 
-                    <option>
-                        English
-                    </option>
-
-                    <option>
-                        Sinhala
-                    </option>
-
-                    <option>
-                        Tamil
-                    </option>
-
+                    <?php foreach ($availableLanguages as $languageValue => $languageLabel): ?>
+                        <option value="<?= htmlspecialchars($languageValue, ENT_QUOTES, 'UTF-8') ?>">
+                            <?= htmlspecialchars($languageLabel, ENT_QUOTES, 'UTF-8') ?>
+                        </option>
+                    <?php endforeach; ?>
 
                 </select>
 
@@ -233,21 +239,13 @@
                         Any Experience
                     </option>
 
-                    <option>
-                        1-3 Years
-                    </option>
+                    <option value="1-3">1-3 Years</option>
 
-                    <option>
-                        3-5 Years
-                    </option>
+                    <option value="3-5">3-5 Years</option>
 
-                    <option>
-                        5-10 Years
-                    </option>
+                    <option value="5-10">5-10 Years</option>
 
-                    <option>
-                        10+ Years
-                    </option>
+                    <option value="10+">10+ Years</option>
 
                 </select>
 
@@ -396,6 +394,8 @@
                     <button
                         type="button"
                         class="gender-button"
+                        data-gender="female"
+                        aria-pressed="false"
                     >
                         Female
                     </button>
@@ -403,6 +403,8 @@
                     <button
                         type="button"
                         class="gender-button"
+                        data-gender="male"
+                        aria-pressed="false"
                     >
                         Male
                     </button>
@@ -421,21 +423,11 @@
 
                 <div class="language-tags">
 
-                    <button type="button">
-                        English
-                    </button>
-
-                    <button type="button">
-                        Spanish
-                    </button>
-
-                    <button type="button">
-                        Mandarin
-                    </button>
-
-                    <button type="button">
-                        Arabic
-                    </button>
+                    <?php foreach ($availableLanguages as $languageValue => $languageLabel): ?>
+                        <button type="button" data-language="<?= htmlspecialchars($languageValue, ENT_QUOTES, 'UTF-8') ?>" aria-pressed="false">
+                            <?= htmlspecialchars($languageLabel, ENT_QUOTES, 'UTF-8') ?>
+                        </button>
+                    <?php endforeach; ?>
 
                 </div>
 
@@ -488,7 +480,7 @@
                 id="resultsGrid"
             >
 
-                <?php foreach ($caregivers as $caregiver): ?>
+                <?php foreach ($caregivers as $cardIndex => $caregiver): ?>
 
                     <article
                         class="caregiver-card"
@@ -496,6 +488,11 @@
                         data-district="<?= htmlspecialchars($caregiver['district']) ?>"
                         data-rating="<?= htmlspecialchars($caregiver['rating']) ?>"
                         data-experience="<?= htmlspecialchars($caregiver['experience']) ?>"
+                        data-order="<?= (int) $cardIndex ?>"
+                        data-qualification="<?= htmlspecialchars(strtolower(($caregiver['education'] ?? '') . ' ' . ($caregiver['specialization'] ?? '')), ENT_QUOTES, 'UTF-8') ?>"
+                        data-gender="<?= htmlspecialchars(strtolower($caregiver['gender'] ?? ''), ENT_QUOTES, 'UTF-8') ?>"
+                        data-languages="<?= htmlspecialchars(strtolower(implode(',', $caregiver['languages'] ?? [])), ENT_QUOTES, 'UTF-8') ?>"
+                        data-verified="<?= strtolower($caregiver['verification_status'] ?? '') === 'verified' ? 'true' : 'false' ?>"
                     >
 
                         <div class="card-content">
@@ -511,7 +508,8 @@
                                         class="profile-image"
                                     >
 
-                                    <span class="verified-badge">
+                                    <?php if (strtolower($caregiver['verification_status'] ?? '') === 'verified'): ?>
+                                    <span class="verified-badge" title="Verified caregiver">
 
                                         <svg viewBox="0 0 24 24">
 
@@ -522,6 +520,7 @@
                                         </svg>
 
                                     </span>
+                                    <?php endif; ?>
 
                                 </div>
 
@@ -544,9 +543,7 @@
 
                                             </svg>
 
-                                            <span>
-                                                <?= htmlspecialchars($caregiver['rating']) ?>
-                                            </span>
+                                            <span><?= (int) ($caregiver['reviews_count'] ?? 0) > 0 ? htmlspecialchars($caregiver['rating']) : 'New' ?></span>
 
                                         </div>
 

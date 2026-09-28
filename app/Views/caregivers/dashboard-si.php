@@ -1,12 +1,5 @@
 <?php
 $caregiverName = $caregiverName ?? ($_SESSION['caregiver_name'] ?? 'Caregiver');
-$caregiverId = $caregiverId ?? ($_SESSION['caregiver_id'] ?? null);
-
-$profileUrl = $caregiverId
-    ? '/safehands_mvc/caregiver/profile/' . (int)$caregiverId
-    : '/safehands_mvc/caregivers';
-
-$profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-caregiver.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,15 +34,7 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
                 <span style="color:#9ca3af;">|</span>
                 <a href="/safehands_mvc/caregiver/dashboardSi" style="color:#059669; font-weight:700; text-decoration:none;">සිංහල</a>
             </div>
-            <a href="/safehands_mvc/caregiver/notifications" class="icon-btn">
-                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-            </a>
-            <a href="/safehands_mvc/login/logout" class="icon-btn">
-                <span class="material-symbols-outlined" data-icon="logout">logout</span>
-            </a>
-            <div class="profile-avatar">
-                <img alt="Caregiver profile" src="<?= htmlspecialchars($profilePhoto) ?>">
-            </div>
+            <a href="/safehands_mvc/login/logout" class="header-logout">පිටවන්න</a>
         </div>
     </nav>
 </header>
@@ -106,38 +91,49 @@ $profilePhoto = $profilePhoto ?? '/safehands_mvc/public/assets/images/login-care
         <!-- Main Content Area (8 Columns) -->
         <div class="main-column">
             
-            <!-- හදිසි සම්බන්ධතා තොරතුරු -->
+            <!-- ඉදිරි සත්කාර සැසි -->
             <section class="section-container">
                 <div class="section-header">
-                    <h2 class="section-title">හදිසි සම්බන්ධතා තොරතුරු</h2>
-                    <a href="/safehands_mvc/caregiver/emergencyContact" class="section-link">දින දර්ශනය බලන්න</a>
+                    <h2 class="section-title">අද සක්‍රිය සත්කාර සැසිය</h2>
+                    <a href="/safehands_mvc/caregiver/manageAvailability" class="section-link">දින දර්ශනය බලන්න</a>
                 </div>
-                
-                <!-- Booking Card -->
-                <div class="card card-no-pad">
-                    <div class="status-indicator-left"></div>
-                    <div style="padding: 1.5rem;" class="schedule-card">
-                        <div class="client-avatar-large">
-                            <img alt="Mr. Silva" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6XEdrc0nXc3xIj-Kb6mR-Puo88Cks7w67ymcy3zDC66S08KwIF2Bp2iZVi6vWvt0Fy8KAKHm3tZeH_L7oWWPHpmxO8lZol5i-zjQMWtuAj4QfJenH6zN6_PKADaxCO6Rhw1e2X9eov7E6RIaIr2g1tT4EdqhaomguYkRtp9Y29W1WHDsb_Ns5-RuICOPTVYTcQu4J9OYUXXr5Zj_Yv14khK1ygw_OlYFUKjDeoMrLdVfHQzB5xFfpkC4Y179mbUq5lQk9hfcAdYY">
-                        </div>
-                        <div class="schedule-details">
-                            <div class="schedule-header">
-                                <div>
-                                    <h3 class="schedule-title">Mr. Silva - Post-Op Care</h3>
-                                    <div class="schedule-meta">
-                                        <span class="meta-item"><span class="material-symbols-outlined" style="font-size:18px;" data-icon="schedule">schedule</span> 8:00 AM – 12:00 PM</span>
-                                        <span class="meta-item"><span class="material-symbols-outlined" style="font-size:18px;" data-icon="location_on">location_on</span> Colombo 07</span>
+                <?php if (!empty($activeSessions)): ?>
+                    <?php foreach ($activeSessions as $session): ?>
+                        <?php $bookingUrl = '/safehands_mvc/booking/details/' . (int)$session['booking_id'] . '/' . (int)$session['session_id']; ?>
+                        <div class="card card-no-pad" style="margin-bottom:14px;">
+                            <div class="status-indicator-left"></div>
+                            <div style="padding:1.5rem;" class="schedule-card">
+                                <div class="client-avatar-large">
+                                    <img alt="<?= htmlspecialchars($session['patient_name']) ?>" src="<?= htmlspecialchars($session['patient_image'] ?: '/safehands_mvc/public/assets/images/patient-placeholder.png') ?>" onerror="this.src='/safehands_mvc/public/assets/images/login-caregiver.jpg'">
+                                </div>
+                                <div class="schedule-details">
+                                    <div class="schedule-header">
+                                        <div>
+                                            <h3 class="schedule-title"><?= htmlspecialchars($session['patient_name']) ?></h3>
+                                            <div class="schedule-meta">
+                                                <span class="meta-item"><span class="material-symbols-outlined" style="font-size:18px;">calendar_today</span> <?= htmlspecialchars(date('D, M j, Y', strtotime($session['service_date']))) ?> · <?= htmlspecialchars(ucfirst($session['shift_type'])) ?> shift</span>
+                                                <?php if ($session['address'] !== ''): ?><span class="meta-item"><span class="material-symbols-outlined" style="font-size:18px;">location_on</span> <?= htmlspecialchars($session['address']) ?></span><?php endif; ?>
+                                            </div>
+                                            <?php if ($session['emergency_contact_name'] !== ''): ?>
+                                                <p style="margin:10px 0 0;color:#52645d;">හදිසි සම්බන්ධතාව: <strong><?= htmlspecialchars($session['emergency_contact_name']) ?></strong><?php if ($session['emergency_contact_relationship'] !== ''): ?> (<?= htmlspecialchars($session['emergency_contact_relationship']) ?>)<?php endif; ?><?php if ($session['emergency_contact_phone'] !== ''): ?> · <a href="tel:<?= htmlspecialchars(preg_replace('/[^0-9+]/', '', $session['emergency_contact_phone'])) ?>" style="color:#07815f;font-weight:700;"><?= htmlspecialchars($session['emergency_contact_phone']) ?></a><?php endif; ?></p>
+                                            <?php else: ?>
+                                                <p style="margin:10px 0 0;color:#687b74;">මෙම රෝගියා සඳහා හදිසි සම්බන්ධතා විස්තර ඇතුළත් කර නැත.</p>
+                                            <?php endif; ?>
+                                        </div>
+                                        <span class="status-badge"><?= htmlspecialchars(ucfirst(str_replace('_', ' ', $session['status']))) ?></span>
+                                    </div>
+                                    <div class="action-buttons">
+                                        <a class="btn-primary" href="<?= htmlspecialchars($bookingUrl) ?>" style="display:inline-flex;align-items:center;text-decoration:none;">සක්‍රිය සැසිය විවෘත කරන්න</a>
+                                        <a class="btn-outline" href="/safehands_mvc/caregiver/emergencyContactSi" style="display:inline-flex;align-items:center;text-decoration:none;">හදිසි සම්බන්ධතා තොරතුරු</a>
+                                        <a class="btn-outline" href="<?= htmlspecialchars($bookingUrl) ?>" style="display:inline-flex;align-items:center;text-decoration:none;">විස්තර බලන්න</a>
                                     </div>
                                 </div>
-                                <span class="status-badge">Confirmed</span>
-                            </div>
-                            <div class="action-buttons">
-                                <button class="btn-primary">Start Service</button>
-                                <button class="btn-outline">View Details</button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="card" style="padding:24px;color:#687b74;">අද සක්‍රිය සත්කාර සැසියක් නොමැත.</div>
+                <?php endif; ?>
             </section>
 
             <!-- ලබා ගත හැකි වේලාව Summary -->

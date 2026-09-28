@@ -14,7 +14,7 @@ class CareReportController extends Controller
         }
     }
 
-    public function index($booking_id = null): void
+    public function index($booking_id = null, $session_id = null): void
     {
         if (!$booking_id) {
             header('Location: /safehands_mvc/bookings');
@@ -22,7 +22,9 @@ class CareReportController extends Controller
         }
 
         $reportModel = $this->model('CareReportModel');
-        $dbReport = $reportModel->getReportByBookingId((int)$booking_id);
+        $dbReport = $session_id !== null
+            ? $reportModel->getReportBySessionId((int)$session_id)
+            : $reportModel->getReportByBookingId((int)$booking_id);
 
         if (!$dbReport) {
             echo "Care report not submitted yet.";
@@ -31,12 +33,31 @@ class CareReportController extends Controller
 
         $bookingModel = $this->model('BookingModel');
         $booking = $bookingModel->getBookingById((int)$booking_id);
+        if (!$booking || (int)$dbReport['booking_id'] !== (int)$booking_id) {
+            http_response_code(404);
+            echo 'Care report not found.';
+            exit;
+        }
+        if (($_SESSION['user_role'] ?? '') === 'family' && (int)$booking['family_user_id'] !== (int)$_SESSION['user_id']) {
+            http_response_code(403);
+            echo 'Unauthorized.';
+            exit;
+        }
+        if (($_SESSION['user_role'] ?? '') === 'caregiver') {
+            $caregiverProfile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+            if (!$caregiverProfile || (int)$caregiverProfile['id'] !== (int)$booking['caregiver_id']) {
+                http_response_code(403);
+                echo 'Unauthorized.';
+                exit;
+            }
+        }
 
         $patientModel = $this->model('PatientModel');
         $patientData = $patientModel->getPatientById((int)$dbReport['patient_id']);
 
         $caregiverModel = $this->model('Caregiver');
         $cgData = $caregiverModel->getById((int)$booking['caregiver_id']); // using caregiver_profiles id
+        $session = $session_id !== null ? $bookingModel->getSessionById((int)$session_id, (int)$booking_id) : null;
 
         $medicalNotes = json_decode(base64_decode($dbReport['encrypted_medical_notes']), true) ?: [];
 
@@ -69,8 +90,8 @@ class CareReportController extends Controller
             'status' => $dbReport['status'] ?? 'Submitted',
             'reference' => $dbReport['report_ref'] ?? 'CR-Unknown',
             'submitted_at' => date('d M Y, h:i A', strtotime($dbReport['check_out_time'] ?? 'now')),
-            'date' => date('d M Y', strtotime($dbReport['check_in_time'] ?? 'now')),
-            'shift' => 'Day Shift',
+            'date' => $session ? date('d M Y', strtotime($session['service_date'])) : date('d M Y', strtotime($dbReport['check_in_time'] ?? 'now')),
+            'shift' => $session ? ucfirst($session['shift_type']) . ' Shift' : 'Day Shift',
             'time' => '08:00 AM - 08:00 PM',
             'notes' => $dbReport['shift_summary'] ?? 'No notes provided.',
             'attachments' => [],
@@ -81,14 +102,17 @@ class CareReportController extends Controller
                 'name' => $patientData['full_name'] ?? $dbReport['patient_name'] ?? 'Patient',
                 'patient_id' => 'PID-' . str_pad($dbReport['patient_id'], 4, '0', STR_PAD_LEFT),
                 'booking_id' => 'BKG-' . str_pad($booking_id, 4, '0', STR_PAD_LEFT),
-                'image' => '/safehands_mvc/public/assets/images/patient.jpg'
+                'session_id' => $session ? (int)$session['session_id'] : null,
+                'image' => !empty($patientData['profile_photo'])
+                    ? $patientData['profile_photo']
+                    : (!empty($dbReport['patient_image']) ? $dbReport['patient_image'] : '')
             ],
             'caregiver' => [
                 'name' => $cgData['name'] ?? $dbReport['caregiver_name'] ?? 'Caregiver',
                 'qualified_name' => ($cgData['name'] ?? $dbReport['caregiver_name'] ?? 'Caregiver') . ', ' . ($cgData['education'] ?? 'RN'),
                 'id' => 'CG-' . str_pad($cgData['id'] ?? $dbReport['caregiver_id'], 4, '0', STR_PAD_LEFT),
                 'registration' => 'SLMC-' . rand(10000, 99999),
-                'image' => $cgData['image'] ?? '/safehands_mvc/public/assets/images/caregiver-1.jpg'
+                'image' => !empty($cgData['image']) ? $cgData['image'] : ''
             ],
             'medication' => [
                 'status' => $med_status,
@@ -157,6 +181,27 @@ class CareReportController extends Controller
 
         $bookingModel = $this->model("BookingModel");
         $booking = $bookingModel->getBookingById((int)$booking_id);
+        if (!$booking) {
+            http_response_code(404);
+            echo 'Booking not found.';
+            exit;
+        }
+        if (($_SESSION['user_role'] ?? '') === 'family' && (int)$booking['family_user_id'] !== (int)$_SESSION['user_id']) {
+            http_response_code(403);
+            echo 'Unauthorized.';
+            exit;
+        }
+        if (($_SESSION['user_role'] ?? '') === 'caregiver') {
+            $profile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+            if (!$profile || (int)$profile['id'] !== (int)$booking['caregiver_id']) {
+                http_response_code(403);
+                echo 'Unauthorized.';
+                exit;
+            }
+        }
+        $session = !empty($dbReport['session_id'])
+            ? $bookingModel->getSessionById((int)$dbReport['session_id'], (int)$booking_id)
+            : null;
 
         $patientModel = $this->model("PatientModel");
         $patientData = $patientModel->getPatientById((int)$dbReport["patient_id"]);
@@ -195,8 +240,8 @@ class CareReportController extends Controller
             "status" => $dbReport["status"] ?? "Submitted",
             "reference" => $dbReport["report_ref"] ?? "CR-Unknown",
             "submitted_at" => date("d M Y, h:i A", strtotime($dbReport["check_out_time"] ?? "now")),
-            "date" => date("d M Y", strtotime($dbReport["check_in_time"] ?? "now")),
-            "shift" => "Day Shift",
+            "date" => $session ? date("d M Y", strtotime($session['service_date'])) : date("d M Y", strtotime($dbReport["check_in_time"] ?? "now")),
+            "shift" => $session ? ucfirst($session['shift_type']) . ' Shift' : "Day Shift",
             "time" => "08:00 AM - 08:00 PM",
             "notes" => $dbReport["shift_summary"] ?? "No notes provided.",
             "attachments" => [],
@@ -207,6 +252,7 @@ class CareReportController extends Controller
                 "name" => $patientData["full_name"] ?? $dbReport["patient_name"] ?? "Patient",
                 "patient_id" => "PID-" . str_pad($dbReport["patient_id"], 4, "0", STR_PAD_LEFT),
                 "booking_id" => "BKG-" . str_pad($booking_id, 4, "0", STR_PAD_LEFT),
+                "session_id" => $session ? (int)$session['session_id'] : null,
                 "image" => "/safehands_mvc/public/assets/images/patient.jpg"
             ],
             "caregiver" => [
@@ -267,22 +313,33 @@ class CareReportController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $bookingId = $_POST['booking_id'] ?? null;
-            $caregiverId = $_POST['caregiver_id'] ?? null;
-            $patientId = $_POST['patient_id'] ?? null;
             $shiftSummary = $_POST['shift_summary'] ?? '';
             $medicalNotes = $_POST['medical_notes'] ?? ''; // will be encrypted
             
             // Dummy encryption for demonstration
             $encryptedNotes = base64_encode($medicalNotes);
 
-            if ($bookingId && $caregiverId && $patientId) {
+            if ($bookingId && ($_SESSION['user_role'] ?? '') === 'caregiver') {
+                $bookingModel = $this->model('BookingModel');
+                $booking = $bookingModel->getBookingById((int)$bookingId);
+                $caregiverModel = $this->model('Caregiver');
+                $profile = $caregiverModel->getByUserId((int)$_SESSION['user_id']);
+
+                if (!$booking || !$profile || (int)$profile['id'] !== (int)$booking['caregiver_id']) {
+                    http_response_code(403);
+                    echo 'This booking is not available for reporting.';
+                    exit;
+                }
+
+                $caregiverUserId = (int)$profile['user_id'];
+                $patientId = (int)$booking['patient_id'];
                 $reportRef = 'CR-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
 
                 $reportModel = $this->model('CareReportModel');
                 $reportModel->createReport([
                     'report_ref' => $reportRef,
                     'booking_id' => (int)$bookingId,
-                    'caregiver_id' => (int)$caregiverId,
+                    'caregiver_id' => $caregiverUserId,
                     'patient_id' => (int)$patientId,
                     'shift_summary' => $shiftSummary,
                     'encrypted_medical_notes' => $encryptedNotes,

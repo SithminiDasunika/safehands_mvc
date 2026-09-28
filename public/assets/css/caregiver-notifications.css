@@ -75,7 +75,7 @@ a {
 
 
 .logo {
-    color: #0053db;
+    color: #059669;
     font-size: 24px;
     font-weight: 700;
     white-space: nowrap;
@@ -106,12 +106,12 @@ a {
 
 
 .desktop-nav a:hover {
-    color: #0053db;
+    color: #059669;
 }
 
 
 .desktop-nav a.active {
-    color: #0053db;
+    color: #059669;
 }
 
 
@@ -122,7 +122,7 @@ a {
     right: 0;
     bottom: 17px;
     height: 2px;
-    background: #0053db;
+    background: #059669;
 }
 
 
@@ -208,15 +208,15 @@ a {
 .caregiver-avatar {
     width: 40px;
     height: 40px;
-    border: 2px solid #dbe5ff;
+    border: 2px solid #cde9dc;
     border-radius: 50%;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #eff4ff;
-    color: #0053db;
+    background: #edf8f2;
+    color: #059669;
     font-size: 16px;
     font-weight: 700;
 }
@@ -257,8 +257,8 @@ a {
 
 .mobile-nav a:hover,
 .mobile-nav a.active {
-    color: #0053db;
-    background: #f8faff;
+    color: #059669;
+    background: #f0faf4;
 }
 
 
@@ -293,7 +293,7 @@ a {
 
 
 .breadcrumb a:hover {
-    color: #0053db;
+    color: #059669;
 }
 
 
@@ -343,11 +343,11 @@ a {
 
     padding: 11px 18px;
 
-    border: 1px solid #dbe5ff;
+    border: 1px solid #cde9dc;
     border-radius: 10px;
 
-    background: #f0f4ff;
-    color: #0053db;
+    background: #f0faf4;
+    color: #059669;
 
     font-size: 14px;
     font-weight: 700;
@@ -359,7 +359,7 @@ a {
 
 
 .mark-all-button:hover {
-    background: #0053db;
+    background: #059669;
     color: #ffffff;
 }
 
@@ -432,8 +432,8 @@ a {
 
 
 .search-box input:focus {
-    border-color: #0053db;
-    box-shadow: 0 0 0 3px rgba(0, 83, 219, 0.08);
+    border-color: #059669;
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
 }
 
 
@@ -462,8 +462,8 @@ a {
 
 
 .filter-group select:focus {
-    border-color: #0053db;
-    box-shadow: 0 0 0 3px rgba(0, 83, 219, 0.08);
+    border-color: #059669;
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
 }
 
 
@@ -511,7 +511,7 @@ a {
 
 
 .notification-card.unread {
-    border-left: 4px solid #0053db;
+    border-left: 4px solid #059669;
 }
 
 
@@ -536,8 +536,8 @@ a {
 
 
 .notification-icon.blue {
-    background: #e8efff;
-    color: #0053db;
+    background: #e8f7f0;
+    color: #059669;
 }
 
 
@@ -554,8 +554,8 @@ a {
 
 
 .notification-icon.light-blue {
-    background: #e8f5ff;
-    color: #10b981;
+    background: #e8f7f0;
+    color: #059669;
 }
 
 
@@ -582,7 +582,7 @@ a {
 
     margin-bottom: 5px;
 
-    color: #0053db;
+    color: #059669;
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
@@ -604,7 +604,7 @@ a {
     width: 7px;
     height: 7px;
 
-    background: #0053db;
+    background: #059669;
     border-radius: 50%;
 }
 
@@ -661,15 +661,15 @@ a {
 
 
 .primary-action {
-    border: 1px solid #0053db;
-    background: #0053db;
+    border: 1px solid #059669;
+    background: #059669;
     color: #ffffff;
 }
 
 
 .primary-action:hover {
-    background: #003fa8;
-    border-color: #003fa8;
+    background: #047857;
+    border-color: #047857;
 }
 
 
@@ -682,7 +682,7 @@ a {
 
 .secondary-action:hover {
     background: #f1f5f9;
-    color: #0053db;
+    color: #059669;
     border-color: #cbd5e1;
 }
 
@@ -730,7 +730,7 @@ a {
     border: none;
     background: transparent;
 
-    color: #0053db;
+    color: #059669;
 
     font-size: 14px;
     font-weight: 700;
@@ -865,7 +865,7 @@ a {
 
 
 .footer strong {
-    color: #0053db;
+    color: #059669;
     font-size: 20px;
 }
 
@@ -892,7 +892,7 @@ a {
 
 
 .footer-links a:hover {
-    color: #0053db;
+    color: #059669;
 }
 
 

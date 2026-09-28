@@ -29,18 +29,18 @@ if (!function_exists('sh_split_list')) {
 <!-- TopNavBar -->
 <nav class="navbar">
     <div class="nav-left">
-        <a href="/safehands_mvc" class="nav-brand">SafeHands</a>
+        <a href="/safehands_mvc/family" class="nav-brand">SafeHands</a>
         <div class="nav-links">
-            <a href="#" class="nav-link">Dashboard</a>
+            <a href="/safehands_mvc/family" class="nav-link">Dashboard</a>
             <a href="/safehands_mvc/patient" class="nav-link active">Patients</a>
-            <a href="#" class="nav-link">Find Caregivers</a>
-            <a href="#" class="nav-link">My Bookings</a>
+            <a href="/safehands_mvc/caregiver" class="nav-link">Find Caregivers</a>
+            <a href="/safehands_mvc/bookings" class="nav-link">My Bookings</a>
         </div>
     </div>
     <div class="nav-right">
-        <button aria-label="Notifications" class="nav-icon-btn">
+        <a aria-label="Notifications" class="nav-icon-btn" href="/safehands_mvc/notifications" title="Notifications">
             <span class="material-symbols-outlined">notifications</span>
-        </button>
+        </a>
         <div class="nav-avatar">
             <img src="https://ui-avatars.com/api/?name=Admin&background=004ac6&color=fff" alt="User profile photo">
         </div>
@@ -125,12 +125,12 @@ if (!function_exists('sh_split_list')) {
                 </div>
             <?php else: ?>
                 <?php foreach ($patients as $index => $patient): 
-                    $age = sh_calculate_age($patient['date_of_birth'] ?? null);
-                    $conditions = sh_split_list($patient['medical_conditions'] ?? null);
-                    $hasPhoto = !empty($patient['profile_photo']) && file_exists($patient['profile_photo']);
-                    $fullName = $patient['full_name'] ?? 'Unknown Patient';
-                    $isFirst = $index === 0;
-                ?>
+    $age = sh_calculate_age($patient['date_of_birth'] ?? null);
+    $conditions = sh_split_list($patient['medical_conditions'] ?? null);
+    $hasPhoto = !empty($patient['profile_photo']);
+    $fullName = $patient['full_name'] ?? 'Unknown Patient';
+    $isFirst = $index === 0;
+?>
                     <div class="patient-card">
                         <div class="patient-card-header">
                             <div class="patient-info">
@@ -182,7 +182,7 @@ if (!function_exists('sh_split_list')) {
 
                         <div class="patient-actions">
                             <a href="/safehands_mvc/patient/profile/<?= (int) $patient['patient_id'] ?>" class="btn-outline">View Profile</a>
-                            <a href="/safehands_mvc/care-reports" class="btn-fill">Daily Care Reports</a>
+                            <a href="/safehands_mvc/care-reports/index/<?= (int) $patient['patient_id'] ?>" class="btn-fill">Daily Care Reports</a>
                         </div>
                     </div>
                 <?php endforeach; ?>

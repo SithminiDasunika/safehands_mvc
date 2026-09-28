@@ -27,6 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         profileInput.addEventListener("change", function () {
 
+            const previewImg = document.getElementById("profile-photo-preview");
+
             if (this.files && this.files.length > 0) {
 
                 selectedFileName.textContent =
@@ -34,10 +36,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 selectedFileName.classList.remove("hidden");
 
+                if (previewImg) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.classList.remove("hidden");
+                        previewImg.style.display = "block";
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+
             } else {
 
                 selectedFileName.textContent = "";
                 selectedFileName.classList.add("hidden");
+
+                if (previewImg) {
+                    previewImg.src = "";
+                    previewImg.classList.add("hidden");
+                    previewImg.style.display = "none";
+                }
 
             }
 

@@ -306,8 +306,6 @@ $p = $patient ?? [];
 
                 <form class="complaint-form" id="complaintForm" method="POST" enctype="multipart/form-data" action="/safehands_mvc/complaint/submit">
                     <input type="hidden" name="booking_id" value="<?= htmlspecialchars($b['booking_id'] ?? '') ?>">
-                    <input type="hidden" name="family_id" value="<?= htmlspecialchars($b['family_user_id'] ?? '') ?>">
-                    <input type="hidden" name="caregiver_id" value="<?= htmlspecialchars($cg['user_id'] ?? $b['caregiver_id'] ?? '') ?>">
 
 
                     <!-- =================================

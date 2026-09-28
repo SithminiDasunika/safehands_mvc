@@ -2,6 +2,7 @@
 $booking = $booking ?? [];
 $patient = $patient ?? [];
 $caregiver = $caregiver ?? [];
+$sessionReports = $session_reports ?? [];
 
 $rawStatus = strtolower($booking['status'] ?? 'pending');
 $isCompleted = ($rawStatus === 'completed');
@@ -33,7 +34,7 @@ if ($isCompleted) {
     <title>Booking Details | SafeHands Caregiver</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=2">
+    <link rel="stylesheet" href="/safehands_mvc/public/assets/css/caregiver-booking.css?v=4">
 </head>
 <body>
 
@@ -48,7 +49,10 @@ if ($isCompleted) {
         </nav>
         <div class="header-actions">
             <span class="material-symbols-outlined">notifications</span>
-            <img class="profile-pic" src="<?= htmlspecialchars($caregiver['image'] ?? 'https://via.placeholder.com/40') ?>">
+            <div class="header-profile-avatar">
+                <img class="profile-pic" src="<?= htmlspecialchars($caregiver['image'] ?? '') ?>" alt="<?= htmlspecialchars($caregiver['name'] ?? 'Caregiver') ?>" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                <span class="avatar-initial-fallback" aria-hidden="true" style="display:none;"><?= htmlspecialchars(mb_strtoupper(mb_substr($caregiver['name'] ?? 'C', 0, 1))) ?></span>
+            </div>
         </div>
     </div>
 </header>
@@ -69,7 +73,7 @@ if ($isCompleted) {
                 <span class="status-badge" id="status-badge" style="background: <?= $statusBg ?>; color: <?= $statusColor ?>;"><?= htmlspecialchars($statusText) ?></span>
                 
                 <!-- End Session button right next to status badge -->
-                <form id="end-session-form" action="/safehands_mvc/booking/endSession/<?= $booking['booking_id'] ?>" method="POST" style="margin:0; display: <?= $isInProgress ? 'inline-flex' : 'none' ?>;" onsubmit="return confirm('Are you sure you want to end this care session? The session will be marked as completed.');">
+                <form id="end-session-form" action="/safehands_mvc/booking/endSession/<?= $booking['booking_id'] ?>/<?= (int)($booking['selected_session']['session_id'] ?? 0) ?>" method="POST" style="margin:0; display: <?= $isInProgress ? 'inline-flex' : 'none' ?>;" onsubmit="return confirm('Are you sure you want to end this care session? The session will be marked as completed.');">
                     <button type="submit" id="btn-end-session" style="padding: 5px 14px; background: #dc2626; color: #ffffff; border: none; border-radius: 9999px; font-size: 12px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 1px 3px rgba(220,38,38,0.3); transition: background-color 0.2s;" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
                         <span class="material-symbols-outlined" style="font-size: 15px;">stop_circle</span>
                         End Session
@@ -83,6 +87,38 @@ if ($isCompleted) {
         </div>
     </div>
 
+    <?php if (!empty($booking['sessions'])): ?>
+        <section class="card" style="margin:20px 0;">
+            <h2 class="card-title">Booked care sessions</h2>
+            <div style="display:grid;gap:10px;">
+                <?php foreach ($booking['sessions'] as $bookedSession):
+                    $selected = (int)($booking['selected_session']['session_id'] ?? 0) === (int)$bookedSession['session_id'];
+                    $sessionReport = !empty($sessionReports[(int)$bookedSession['session_id']]);
+                ?>
+                    <div class="booked-session-row<?= $selected ? ' is-selected' : '' ?>">
+                        <div class="booked-session-info">
+                            <strong><?= htmlspecialchars(date('D, d M Y', strtotime($bookedSession['service_date']))) ?></strong>
+                            <span class="booked-session-separator">·</span>
+                            <span><?= htmlspecialchars(ucfirst($bookedSession['shift_type'])) ?> shift</span>
+                            <span class="booked-session-status">
+                                <span class="booked-session-status-dot" aria-hidden="true"></span>
+                                <?= htmlspecialchars(ucfirst(str_replace('_', ' ', $bookedSession['status']))) ?><?= $sessionReport ? ' · Report submitted' : '' ?>
+                            </span>
+                        </div>
+                        <div class="booked-session-actions">
+                            <a class="session-action-button session-action-primary" href="/safehands_mvc/booking/details/<?= (int)$booking['booking_id'] ?>/<?= (int)$bookedSession['session_id'] ?>">
+                                <span class="material-symbols-outlined" aria-hidden="true">event_note</span>Open session
+                            </a>
+                            <?php if ($sessionReport): ?><a class="session-action-button session-action-secondary" href="/safehands_mvc/care-report/index/<?= (int)$booking['booking_id'] ?>/<?= (int)$bookedSession['session_id'] ?>">
+                                <span class="material-symbols-outlined" aria-hidden="true">description</span>View report
+                            </a><?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
+
     <!-- Layout Grid -->
     <div class="grid-layout">
         <!-- Left Column: Information -->
@@ -90,7 +126,10 @@ if ($isCompleted) {
             <!-- Patient Information Card -->
             <section class="card">
                 <div class="patient-header">
-                    <img class="patient-avatar" src="https://via.placeholder.com/96">
+                    <div class="patient-avatar-wrap">
+                        <img class="patient-avatar" src="<?= htmlspecialchars($patient['image'] ?? '') ?>" alt="<?= htmlspecialchars($patient['name'] ?? 'Patient') ?>" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                        <span class="avatar-initial-fallback" aria-hidden="true" style="display:none;"><?= htmlspecialchars(mb_strtoupper(mb_substr($patient['name'] ?? 'P', 0, 1))) ?></span>
+                    </div>
                     <div style="flex:1;">
                         <h2 style="font-size:24px; margin:0;"><?= htmlspecialchars($patient['name'] ?? 'Mr. Silva') ?></h2>
                         <div class="patient-tags">
@@ -276,7 +315,7 @@ if ($isCompleted) {
                         </div>
 
                         <!-- End Session Form Button -->
-                        <form action="/safehands_mvc/booking/endSession/<?= $booking['booking_id'] ?>" method="POST" style="margin-bottom:12px;" onsubmit="return confirm('Are you sure you want to end this care session? The status will be marked as completed in the database.');">
+                        <form action="/safehands_mvc/booking/endSession/<?= $booking['booking_id'] ?>/<?= (int)($booking['selected_session']['session_id'] ?? 0) ?>" method="POST" style="margin-bottom:12px;" onsubmit="return confirm('Are you sure you want to end this care session? The status will be marked as completed in the database.');">
                             <button type="submit" class="btn-primary" style="background:#dc2626; width:100%; border:none; display:flex; align-items:center; justify-content:center; gap:8px; padding:14px; font-weight:600; border-radius:12px; cursor:pointer;">
                                 <span class="material-symbols-outlined" style="font-size:18px;">stop_circle</span>
                                 End Session
@@ -293,7 +332,11 @@ if ($isCompleted) {
                         </div>
                         <h4 style="margin:0;font-size:24px;color:var(--status-success);margin-bottom:8px;">Session Completed</h4>
                         <p style="color:var(--on-surface-variant);font-size:14px;margin-bottom:24px;">The care session has ended. You can now submit the daily care report.</p>
-                        <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($booking['booking_id']) ?>" class="btn-primary" style="display:block;text-align:center;padding:14px;text-decoration:none;font-weight:600;margin-bottom:12px;">Submit Care Report</a>
+                        <?php if (!empty($sessionReports[(int)($booking['selected_session']['session_id'] ?? 0)])): ?>
+                            <a href="/safehands_mvc/care-report/index/<?= (int)$booking['booking_id'] ?>/<?= (int)($booking['selected_session']['session_id'] ?? 0) ?>" class="btn-primary" style="display:block;text-align:center;padding:14px;text-decoration:none;font-weight:600;margin-bottom:12px;">View Care Report</a>
+                        <?php else: ?>
+                            <a href="/safehands_mvc/booking/report/<?= (int)$booking['booking_id'] ?>/<?= (int)($booking['selected_session']['session_id'] ?? 0) ?>" class="btn-primary" style="display:block;text-align:center;padding:14px;text-decoration:none;font-weight:600;margin-bottom:12px;">Submit Care Report</a>
+                        <?php endif; ?>
                         <a href="/safehands_mvc/caregiver/dashboard" style="display:block;text-align:center;padding:14px;background:var(--surface-muted);color:var(--on-surface-variant);border-radius:12px;text-decoration:none;font-weight:600;">Return to Dashboard</a>
                     </div>
                 </div>
@@ -330,7 +373,7 @@ if ($isCompleted) {
                 loadingView.classList.remove('hidden');
 
                 // Call server to verify OTP and mark status in DB
-                fetch('/safehands_mvc/booking/verifyOtp/<?= $booking['booking_id'] ?>', {
+                fetch('/safehands_mvc/booking/verifyOtp/<?= $booking['booking_id'] ?>/<?= (int)($booking['selected_session']['session_id'] ?? 0) ?>', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'otp=' + encodeURIComponent(otp)
@@ -367,7 +410,7 @@ if ($isCompleted) {
         if (btnStart) {
             btnStart.addEventListener('click', () => {
                 // Update status in DB to in_progress / active
-                fetch('/safehands_mvc/booking/startSession/<?= $booking['booking_id'] ?>', {
+                fetch('/safehands_mvc/booking/startSession/<?= $booking['booking_id'] ?>/<?= (int)($booking['selected_session']['session_id'] ?? 0) ?>', {
                     method: 'POST'
                 }).catch(err => console.error(err));
 

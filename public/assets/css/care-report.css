@@ -375,6 +375,74 @@ body {
     letter-spacing: -0.02em;
 }
 
+.report-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.report-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.report-action-button {
+    min-height: 54px;
+    padding: 14px 22px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    box-shadow: 0 5px 12px rgba(17, 28, 45, 0.14);
+    transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.report-action-button:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(17, 28, 45, 0.2);
+}
+
+.report-action-button .material-icon {
+    font-size: 21px;
+}
+
+.report-action-button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.3);
+    outline-offset: 2px;
+}
+
+.report-edit-button {
+    background: linear-gradient(135deg, #0aa174, #07815f);
+    border-color: #07815f;
+}
+
+.report-edit-button:hover {
+    background: #047857;
+}
+
+.report-delete-button {
+    background: linear-gradient(135deg, #ed433a, #cb2e28);
+    border-color: #cb2e28;
+}
+
+.report-delete-button:hover {
+    background: #b4231c;
+}
+
 .report-description {
     margin: 6px 0 0;
 
@@ -486,6 +554,17 @@ body {
     object-fit: cover;
 }
 
+.avatar-initial-fallback {
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    border-radius: 50%;
+    background: #e8f7f0;
+    color: #047857;
+    font-size: 18px;
+    font-weight: 700;
+}
+
 .patient-name-row {
     display: flex;
 
@@ -558,7 +637,7 @@ body {
 .metadata-grid {
     display: grid;
 
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 
     gap: 12px;
 
@@ -566,13 +645,15 @@ body {
 }
 
 .metadata-item {
-    background: white;
+    min-height: 86px;
+    background: #fff;
 
-    border: 1px solid var(--border-light);
+    border: 1px solid #e8edf5;
 
-    border-radius: 8px;
+    border-radius: 12px;
 
-    padding: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 5px rgba(17, 28, 45, 0.025);
 }
 
 .metadata-item span {
@@ -580,7 +661,7 @@ body {
 
     color: var(--text-secondary);
 
-    font-size: 10px;
+    font-size: 11px;
 
     font-weight: 700;
 
@@ -592,11 +673,12 @@ body {
 .metadata-item strong {
     display: block;
 
-    margin-top: 2px;
+    margin-top: 5px;
 
-    font-size: 12px;
+    font-size: 15px;
 
     font-weight: 600;
+    overflow-wrap: anywhere;
 }
 
 
@@ -1467,6 +1549,10 @@ body {
     object-fit: cover;
 }
 
+.caregiver-avatar .avatar-initial-fallback {
+    font-size: 16px;
+}
+
 .caregiver-name-row {
     display: flex;
 
@@ -1745,6 +1831,11 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .report-title-row {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
     .metadata-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -1802,7 +1893,15 @@ body {
     }
 
     .metadata-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .report-header-actions {
+        width: 100%;
+    }
+
+    .report-action-button {
+        flex: 1 1 auto;
     }
 
     .patient-summary-top {

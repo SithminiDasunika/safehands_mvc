@@ -266,6 +266,7 @@
                                         id="date_of_birth"
                                         type="date"
                                         name="date_of_birth"
+                                        max="<?= date('Y-m-d') ?>"
                                         value="<?= htmlspecialchars($old['date_of_birth'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
                                         required>
 
@@ -338,6 +339,10 @@
                                         id="phone"
                                         name="phone"
                                         value="<?= htmlspecialchars($old['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                        inputmode="numeric"
+                                        maxlength="10"
+                                        pattern="[0-9]{10}"
+                                        title="Phone number must be exactly 10 digits"
                                         required>
 
                                 </div>
@@ -558,8 +563,7 @@
 
                 <div class="why-image">
 
-                    <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDizMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyyE6mCqkISP4R-5aKyFf26H3yR0-wlXziyQcTc"
+                    <img src="/safehands_mvc/public/assets/images/caregiver-3.jpg"
                         alt="A professional caregiver in a healthcare setting.">
 
                 </div>

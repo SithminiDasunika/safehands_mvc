@@ -57,13 +57,14 @@ $unreadCount = $unreadCount ?? 0;
 
         <!-- Account -->
         <a
-            href="#"
+            href="/safehands_mvc/login/logout"
             class="nav-icon-button"
-            aria-label="Account"
+            aria-label="Log out"
+            title="Log out"
         >
 
             <span class="account-icon">
-                ●
+                ↪
             </span>
 
         </a>
@@ -164,7 +165,7 @@ $unreadCount = $unreadCount ?? 0;
 
             <button
                 class="filter-tab"
-                data-filter="care"
+                data-filter="report"
                 type="button"
             >
                 Care
@@ -225,7 +226,7 @@ $unreadCount = $unreadCount ?? 0;
 
                 <div class="notification-items">
 
-                    <?php foreach ($items as $notification): ?>
+                    <?php foreach ($items as $notificationIndex => $notification): ?>
 
                         <article
                             class="
@@ -234,6 +235,7 @@ $unreadCount = $unreadCount ?? 0;
                                 type-<?= htmlspecialchars($notification['type']) ?>
                             "
                             data-type="<?= htmlspecialchars($notification['type']) ?>"
+                            data-id="<?= htmlspecialchars(strtolower($group) . '-' . $notificationIndex) ?>"
                         >
 
                             <?php if ($notification['unread']): ?>
@@ -322,45 +324,3 @@ $unreadCount = $unreadCount ?? 0;
     </div>
 
 </main>
-
-
-<!-- Footer -->
-
-<footer class="footer">
-
-    <div class="footer-brand">
-        SafeHands
-    </div>
-
-
-    <p>
-        © 2024 SafeHands Healthcare Systems.
-        All rights reserved.
-    </p>
-
-
-    <div class="footer-links">
-
-        <a href="#">
-            Privacy Policy
-        </a>
-
-        <a href="#">
-            Terms of Service
-        </a>
-
-        <a href="#">
-            Contact Support
-        </a>
-
-        <a href="#">
-            HIPAA Compliance
-        </a>
-
-        <a href="#">
-            Emergency Resources
-        </a>
-
-    </div>
-
-</footer>

@@ -2,6 +2,7 @@
 
 $summary = $summary ?? [];
 $reports = $reports ?? [];
+$selectedPatient = $selected_patient ?? null;
 
 ?>
 
@@ -104,8 +105,12 @@ $reports = $reports ?? [];
         </h1>
 
         <p>
-            Review reports submitted by caregivers after each
-            completed care session.
+            <?php if ($selectedPatient): ?>
+                Reports for <?= htmlspecialchars($selectedPatient['full_name']) ?>.
+            <?php else: ?>
+                Review reports submitted by caregivers after each
+                completed care session.
+            <?php endif; ?>
         </p>
 
     </section>
@@ -374,7 +379,7 @@ $reports = $reports ?? [];
         <div
             id="noReports"
             class="no-reports"
-            style="display:none;"
+            style="display:<?= empty($reports) ? 'block' : 'none' ?>;"
         >
 
             <div class="no-report-icon">
@@ -382,11 +387,17 @@ $reports = $reports ?? [];
             </div>
 
             <h3>
-                No reports found
+                <?= empty($reports) ? 'No reports yet' : 'No reports found' ?>
             </h3>
 
             <p>
-                Try changing your search or filter.
+                <?php if (empty($reports) && $selectedPatient): ?>
+                    No care reports have been submitted for this patient yet.
+                <?php elseif (empty($reports)): ?>
+                    No care reports have been submitted yet.
+                <?php else: ?>
+                    Try changing your search or filter.
+                <?php endif; ?>
             </p>
 
         </div>

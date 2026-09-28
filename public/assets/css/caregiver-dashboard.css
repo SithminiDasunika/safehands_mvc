@@ -129,6 +129,18 @@ body {
   gap: 1rem;
 }
 
+.header-logout {
+  color: var(--on-surface-variant);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.header-logout:hover {
+  color: var(--primary);
+}
+
 .icon-btn {
   padding: 8px;
   color: var(--on-surface-variant);

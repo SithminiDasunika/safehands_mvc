@@ -12,6 +12,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const unreadBadge =
         document.querySelector(".unread-badge");
+    const readStorageKey = "safehands.family.notifications.read";
+    let readNotificationIds = new Set();
+
+    try {
+        readNotificationIds = new Set(
+            JSON.parse(localStorage.getItem(readStorageKey) || "[]")
+        );
+    } catch (error) {
+        readNotificationIds = new Set();
+    }
+
+    notificationCards.forEach(function (card) {
+        if (readNotificationIds.has(card.dataset.id)) {
+            markAsRead(card);
+        }
+    });
+    updateUnreadCount();
+
+    function saveReadState() {
+        try {
+            localStorage.setItem(readStorageKey, JSON.stringify([...readNotificationIds]));
+        } catch (error) {
+            // The read state still updates for this page view if storage is unavailable.
+        }
+    }
+
+    function markAsRead(card) {
+        if (!card || !card.classList.contains("unread")) return;
+        card.classList.remove("unread");
+        card.classList.add("read");
+        const indicator = card.querySelector(".unread-indicator");
+        if (indicator) indicator.remove();
+        if (card.dataset.id) readNotificationIds.add(card.dataset.id);
+        saveReadState();
+    }
 
 
     /* =========================================
@@ -87,28 +122,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                 unreadCards.forEach(function (card) {
-
-                    card.classList.remove("unread");
-
-                    card.classList.add("read");
-
-                    const indicator =
-                        card.querySelector(
-                            ".unread-indicator"
-                        );
-
-                    if (indicator) {
-                        indicator.remove();
-                    }
-
+                    markAsRead(card);
                 });
 
-
-                /* Update badge */
-
-                if (unreadBadge) {
-                    unreadBadge.textContent = "0 Unread";
-                }
+                updateUnreadCount();
 
             }
         );
@@ -126,42 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function (event) {
 
-                /*
-                 * Do not interfere with the actual
-                 * notification link.
-                 */
-
-                if (
-                    event.target.closest(
-                        ".notification-link"
-                    )
-                ) {
-                    return;
-                }
-
-
-                /*
-                 * Mark the notification as read
-                 * when the card itself is clicked.
-                 */
-
-                if (card.classList.contains("unread")) {
-
-                    card.classList.remove("unread");
-
-                    card.classList.add("read");
-
-                    const indicator =
-                        card.querySelector(
-                            ".unread-indicator"
-                        );
-
-                    if (indicator) {
-                        indicator.remove();
-                    }
-
-                    updateUnreadCount();
-                }
+                markAsRead(card);
+                updateUnreadCount();
 
             }
         );

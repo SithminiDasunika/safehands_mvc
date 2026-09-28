@@ -41,6 +41,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 fileNameElement.textContent = fileName;
             }
 
+            let previewElement = this.parentElement.querySelector(".photo-preview");
+            if (previewElement) {
+                if (this.files && this.files.length > 0) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewElement.src = e.target.result;
+                        previewElement.style.display = "block";
+                        previewElement.classList.remove("hidden");
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    previewElement.src = "";
+                    previewElement.style.display = "none";
+                    previewElement.classList.add("hidden");
+                }
+            }
+
         });
 
     });

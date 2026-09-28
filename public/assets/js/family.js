@@ -38,19 +38,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (helplineButton && helplineMenu) {
 
+        const helplineDropdown = helplineButton.closest(".emergency-dropdown");
+
         helplineButton.addEventListener("click", function (event) {
 
             event.stopPropagation();
 
-            helplineMenu.classList.toggle("show");
+            const isOpen = helplineDropdown.classList.toggle("open");
+            helplineButton.setAttribute("aria-expanded", String(isOpen));
 
         });
 
 
         document.addEventListener("click", function () {
 
-            helplineMenu.classList.remove("show");
+            helplineDropdown.classList.remove("open");
+            helplineButton.setAttribute("aria-expanded", "false");
 
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                helplineDropdown.classList.remove("open");
+                helplineButton.setAttribute("aria-expanded", "false");
+            }
         });
 
 

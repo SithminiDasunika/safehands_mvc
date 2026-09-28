@@ -46,6 +46,7 @@ body {
     font-weight: 500;
 }
 .nav-icons { display: flex; gap: 1rem; align-items: center; }
+.nav-icons a { color: inherit; display: flex; align-items: center; text-decoration: none; }
 .nav-icons span { color: #434655; cursor: pointer; }
 
 /* Main Layout */

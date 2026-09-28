@@ -76,6 +76,58 @@ class AdminController extends Controller
         $this->view('admin/caregiver_details', $data, 'admin'); 
     }
 
+    /** Stream the latest caregiver verification upload to an authenticated admin. */
+    public function viewCaregiverDocument($encodedPath = null): void
+    {
+        $encodedPath = (string)$encodedPath;
+        $base64 = strtr($encodedPath, '-_', '+/');
+        $base64 .= str_repeat('=', (4 - strlen($base64) % 4) % 4);
+        $relativePath = base64_decode($base64, true);
+        if (!is_string($relativePath) || strpos($relativePath, "\0") !== false) {
+            http_response_code(404);
+            exit('Document not found.');
+        }
+
+        $relativePath = str_replace('\\', '/', $relativePath);
+        $relativePath = preg_replace('#^(?:/safehands_mvc/)?public/#', '', $relativePath);
+        if (strpos($relativePath, 'uploads/caregiver-documents/') === 0) {
+            $relativePath = substr($relativePath, strlen('uploads/caregiver-documents/'));
+        } elseif (strpos($relativePath, 'caregiver-documents/') === 0) {
+            $relativePath = substr($relativePath, strlen('caregiver-documents/'));
+        } else {
+            http_response_code(404);
+            exit('Document not found.');
+        }
+
+        if ($relativePath === '' || preg_match('#(^|/)\.\.?(/|$)#', $relativePath)) {
+            http_response_code(404);
+            exit('Document not found.');
+        }
+
+        $documentsRoot = realpath(__DIR__ . '/../../public/uploads/caregiver-documents');
+        $filePath = $documentsRoot === false ? false : realpath($documentsRoot . DIRECTORY_SEPARATOR . $relativePath);
+        if ($documentsRoot === false || $filePath === false || strpos($filePath, $documentsRoot . DIRECTORY_SEPARATOR) !== 0 || !is_file($filePath)) {
+            http_response_code(404);
+            exit('Document not found.');
+        }
+
+        $mimeType = (new finfo(FILEINFO_MIME_TYPE))->file($filePath);
+        $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+        if (!in_array($mimeType, $allowedTypes, true)) {
+            http_response_code(415);
+            exit('Unsupported document type.');
+        }
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . filesize($filePath));
+        header('Content-Disposition: inline; filename*=UTF-8\'\'' . rawurlencode(basename($filePath)));
+        header('Cache-Control: private, no-store, no-cache, must-revalidate, max-age=0');
+        header('Pragma: no-cache');
+        header('X-Content-Type-Options: nosniff');
+        readfile($filePath);
+        exit;
+    }
+
     public function families()
     {
         require_once __DIR__ . '/../Models/FamilyModel.php';

@@ -87,6 +87,37 @@ body {
     object-fit: cover;
     border: 1px solid var(--outline-variant);
 }
+.header-profile-avatar,
+.patient-avatar-wrap {
+    position: relative;
+    flex: 0 0 auto;
+}
+.header-profile-avatar {
+    width: 40px;
+    height: 40px;
+}
+.patient-avatar-wrap {
+    width: 96px;
+    height: 96px;
+}
+.header-profile-avatar .profile-pic,
+.patient-avatar-wrap .patient-avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.avatar-initial-fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border: 2px solid #cde9dc;
+    border-radius: 50%;
+    background: #e8f7f0;
+    color: #047857;
+    font-size: 20px;
+    font-weight: 700;
+}
 
 /* Main */
 .main-container {
@@ -353,6 +384,99 @@ body {
     margin: 0 auto 16px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Booked-session actions */
+.booked-session-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+    transition: border-color .18s ease, box-shadow .18s ease, background-color .18s ease;
+}
+.booked-session-row:hover {
+    border-color: #b7dfd0;
+    box-shadow: 0 3px 12px rgba(2, 87, 71, .07);
+}
+.booked-session-row.is-selected {
+    border-color: #b7dfd0;
+    background: #f3fbf7;
+}
+.booked-session-info {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px;
+    color: var(--on-surface);
+    font-size: 15px;
+}
+.booked-session-info > strong { font-weight: 700; }
+.booked-session-separator { color: #94a3b8; }
+.booked-session-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: 100%;
+    margin-top: 5px;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+}
+.booked-session-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #94a3b8;
+}
+.booked-session-row.is-selected .booked-session-status-dot { background: var(--primary); }
+.booked-session-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 9px;
+    flex-shrink: 0;
+}
+.session-action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 9px 14px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+.session-action-button .material-symbols-outlined { font-size: 17px; }
+.session-action-button:hover { transform: translateY(-1px); }
+.session-action-button:focus-visible { outline: 3px solid rgba(5, 150, 105, .25); outline-offset: 2px; }
+.session-action-primary {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(5, 150, 105, .16);
+}
+.session-action-primary:hover { background: #047857; }
+.session-action-secondary {
+    border-color: #cfe5db;
+    background: #fff;
+    color: #056b50;
+}
+.session-action-secondary:hover { border-color: #8fcab2; background: #f2fbf7; }
+
+@media (max-width: 640px) {
+    .booked-session-row { align-items: stretch; flex-direction: column; }
+    .booked-session-actions { justify-content: flex-start; }
+    .session-action-button { flex: 1 1 auto; }
+}
 
 
 @media (max-width: 1440px) {

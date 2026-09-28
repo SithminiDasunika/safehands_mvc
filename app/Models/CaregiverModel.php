@@ -507,16 +507,21 @@ class CaregiverModel extends Model
         $stmt->close();
         
         if ($caregiver) {
-            $sqlDocs = "SELECT * FROM caregiver_documents WHERE caregiver_id = ?";
+            $sqlDocs = "SELECT * FROM caregiver_documents WHERE caregiver_id = ? ORDER BY uploaded_at DESC";
             $stmtDocs = $this->db->prepare($sqlDocs);
             if ($stmtDocs) {
                 $stmtDocs->bind_param("i", $caregiverId);
                 $stmtDocs->execute();
                 $resDocs = $stmtDocs->get_result();
                 $caregiver['documents'] = [];
+                $latestByType = [];
                 while ($doc = $resDocs->fetch_assoc()) {
-                    $caregiver['documents'][] = $doc;
+                    // Newer uploads replace older files of the same type in the admin view.
+                    if (!isset($latestByType[$doc['document_type']])) {
+                        $latestByType[$doc['document_type']] = $doc;
+                    }
                 }
+                $caregiver['documents'] = array_values($latestByType);
                 $stmtDocs->close();
             }
         }

@@ -58,6 +58,8 @@ class BookingsController extends Controller
         $active = null;
         $upcoming = [];
         $completed = [];
+        $cancelled = [];
+        $reviewModel = $role === 'family' ? $this->model('ReviewModel') : null;
 
         foreach ($rawBookings as $b) {
             // Get proper status
@@ -73,8 +75,13 @@ class BookingsController extends Controller
                 'status' => ucfirst($status),
                 'date' => date('M d, Y', strtotime($b['created_at'])),
                 'time' => '08:00 AM - 04:00 PM', // Placeholder unless we join sessions
-                'image' => 'https://via.placeholder.com/150', // Placeholder
-                'reviewed' => false
+                'image' => $role === 'caregiver'
+                    ? ($b['patient_image'] ?? 'https://via.placeholder.com/150')
+                    : ($b['caregiver_image'] ?? 'https://via.placeholder.com/150'),
+                'reviewed' => $role === 'family' && $status === 'completed'
+                    ? $reviewModel->hasReviewForBooking((int)$b['booking_id'], $userId)
+                    : false,
+                'can_rate' => $role === 'family'
             ];
 
             if ($status === 'active') {
@@ -94,7 +101,7 @@ class BookingsController extends Controller
                 $completed[] = $item;
             } elseif ($status === 'cancelled' || $status === 'rejected') {
                 $stats['cancelled']++;
-                $completed[] = $item; // Add to completed list for history
+                $cancelled[] = $item;
             }
         }
 
@@ -103,7 +110,8 @@ class BookingsController extends Controller
             'stats' => $stats,
             'active' => $active,
             'upcoming' => $upcoming,
-            'completed' => $completed
+            'completed' => $completed,
+            'cancelled' => $cancelled
         ];
 
         if ($role === 'caregiver') {
@@ -167,6 +175,7 @@ public function indexSi(): void
         $active = null;
         $upcoming = [];
         $completed = [];
+        $cancelled = [];
 
         foreach ($rawBookings as $b) {
             // Get proper status
@@ -182,7 +191,9 @@ public function indexSi(): void
                 'status' => ucfirst($status),
                 'date' => date('M d, Y', strtotime($b['created_at'])),
                 'time' => '08:00 AM - 04:00 PM', // Placeholder unless we join sessions
-                'image' => 'https://via.placeholder.com/150', // Placeholder
+                'image' => $role === 'caregiver'
+                    ? ($b['patient_image'] ?? 'https://via.placeholder.com/150')
+                    : ($b['caregiver_image'] ?? 'https://via.placeholder.com/150'),
                 'reviewed' => false
             ];
 
@@ -203,7 +214,7 @@ public function indexSi(): void
                 $completed[] = $item;
             } elseif ($status === 'cancelled' || $status === 'rejected') {
                 $stats['cancelled']++;
-                $completed[] = $item; // Add to completed list for history
+                $cancelled[] = $item;
             }
         }
 
@@ -212,7 +223,8 @@ public function indexSi(): void
             'stats' => $stats,
             'active' => $active,
             'upcoming' => $upcoming,
-            'completed' => $completed
+            'completed' => $completed,
+            'cancelled' => $cancelled
         ];
 
         if ($role === 'caregiver') {
@@ -272,18 +284,19 @@ public function indexSi(): void
         $stats = ['completed' => 0];
 
         foreach ($rawBookings as $b) {
-            $status = strtolower($b['status']);
-            if ($status === 'completed') {
+            $fullBooking = $bookingModel->getBookingById((int)$b['booking_id']);
+            foreach (($fullBooking['sessions'] ?? []) as $session) {
+                if (strtolower($session['status']) !== 'completed') continue;
+                $report = $reportModel->getReportBySessionId((int)$session['session_id']);
                 $stats['completed']++;
-                
-                $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
-                
                 $completed[] = [
-                    'id' => $b['booking_id'],
+                    'id' => (int)$b['booking_id'],
+                    'session_id' => (int)$session['session_id'],
+                    'report_id' => $report['id'] ?? null,
                     'patient' => $b['patient_name'] ?? 'Unknown Patient',
-                    'date' => date('M d, Y', strtotime($b['created_at'])),
-                    'image' => 'https://via.placeholder.com/150', // Placeholder
-                    'has_report' => $hasReport
+                    'date' => date('M d, Y', strtotime($session['service_date'])) . ' · ' . ucfirst($session['shift_type']),
+                    'image' => $b['patient_image'] ?? 'https://via.placeholder.com/150',
+                    'has_report' => (bool)$report
                 ];
             }
         }
@@ -331,16 +344,19 @@ public function indexSi(): void
         $stats = ['completed' => 0];
 
         foreach ($rawBookings as $b) {
-            $status = strtolower($b['status']);
-            if ($status === 'completed') {
+            $fullBooking = $bookingModel->getBookingById((int)$b['booking_id']);
+            foreach (($fullBooking['sessions'] ?? []) as $session) {
+                if (strtolower($session['status']) !== 'completed') continue;
+                $report = $reportModel->getReportBySessionId((int)$session['session_id']);
                 $stats['completed']++;
-                $hasReport = $reportModel->getReportByBookingId($b['booking_id']) ? true : false;
                 $completed[] = [
-                    'id' => $b['booking_id'],
+                    'id' => (int)$b['booking_id'],
+                    'session_id' => (int)$session['session_id'],
+                    'report_id' => $report['id'] ?? null,
                     'patient' => $b['patient_name'] ?? 'Unknown Patient',
-                    'date' => date('M d, Y', strtotime($b['created_at'])),
-                    'image' => 'https://via.placeholder.com/150',
-                    'has_report' => $hasReport
+                    'date' => date('M d, Y', strtotime($session['service_date'])) . ' · ' . ucfirst($session['shift_type']),
+                    'image' => $b['patient_image'] ?? 'https://via.placeholder.com/150',
+                    'has_report' => (bool)$report
                 ];
             }
         }

@@ -32,7 +32,7 @@ class BookingController extends Controller
      * ==========================================
      * Fetches and displays details for a specific booking.
      */
-    public function details($booking_id = null): void
+    public function details($booking_id = null, $session_id = null): void
     {
         if (!$booking_id) {
             header('Location: /safehands_mvc/bookings');
@@ -46,9 +46,32 @@ class BookingController extends Controller
             echo "Booking not found.";
             return;
         }
+        $selectedSession = $session_id !== null
+            ? $bookingModel->getSessionById((int)$session_id, (int)$booking_id)
+            : ($booking['sessions'][0] ?? null);
+        if ($session_id !== null && !$selectedSession) {
+            echo 'Care session not found.';
+            return;
+        }
+        $booking['selected_session'] = $selectedSession;
+        $booking['parent_status'] = strtolower(trim((string)($booking['status'] ?? 'pending')));
+        if ($selectedSession) {
+            if ($booking['parent_status'] !== 'cancelled') {
+                $booking['status'] = strtolower(trim((string)$selectedSession['status']));
+            }
+            $booking['service_date'] = $selectedSession['service_date'];
+            $booking['service_time'] = ucfirst(str_replace('_', ' ', (string)$selectedSession['shift_type']));
+        }
 
         $role = $_SESSION['user_role'] ?? 'family';
         $userId = (int)$_SESSION['user_id'];
+        $caregiverData = null;
+
+        if ($role === 'family' && (int)$booking['family_user_id'] !== $userId) {
+            http_response_code(403);
+            echo 'Unauthorized.';
+            return;
+        }
 
         if ($role === 'caregiver') {
             $caregiverModel = $this->model('Caregiver');
@@ -57,18 +80,39 @@ class BookingController extends Controller
                 echo "Unauthorized.";
                 return;
             }
+            $caregiverData = $caregiverProfile;
         }
 
         $patientModel = $this->model('PatientModel');
         $patientData = $patientModel->getPatientById($booking['patient_id']);
+        if ($role === 'family') {
+            $caregiverData = $this->model('Caregiver')->getById((int)$booking['caregiver_id']) ?? [];
+        }
+        $sessions = $booking['sessions'] ?? [];
+        $canCancel = $role === 'family'
+            && $booking['parent_status'] === 'pending'
+            && !empty($sessions)
+            && count(array_filter($sessions, static fn(array $session): bool => strtolower(trim((string)($session['status'] ?? ''))) !== 'scheduled')) === 0;
+        $reportModel = $this->model('CareReportModel');
+        $sessionReports = [];
+        foreach (($booking['sessions'] ?? []) as $sessionRow) {
+            if ($reportModel->getReportBySessionId((int)$sessionRow['session_id'])) {
+                $sessionReports[(int)$sessionRow['session_id']] = true;
+            }
+        }
 
         $data = [
             'title' => 'Booking Details | SafeHands',
             'booking' => $booking,
+            'can_cancel' => $canCancel,
+            'session_reports' => $sessionReports,
             'patient' => [
                 'name' => $patientData['full_name'] ?? 'Patient',
-                'image' => $patientData['image'] ?? 'https://via.placeholder.com/150'
-            ]
+                'image' => !empty($patientData['profile_photo']) ? $patientData['profile_photo'] : '',
+                'address' => $patientData['address'] ?? '',
+                'care_notes' => $patientData['special_care_requirements'] ?? ''
+            ],
+            'caregiver' => $caregiverData ?? []
         ];
 
         if ($role === 'caregiver') {
@@ -78,7 +122,7 @@ class BookingController extends Controller
         }
     }
 
-    public function report($booking_id = null): void
+    public function report($booking_id = null, $session_id = null): void
     {
         if (!$booking_id ) {
             header('Location: /safehands_mvc/bookings');
@@ -92,6 +136,67 @@ class BookingController extends Controller
             echo "Booking not found.";
             return;
         }
+        if (($_SESSION['user_role'] ?? '') !== 'caregiver') {
+            http_response_code(403);
+            echo 'Only the assigned caregiver can submit this report.';
+            return;
+        }
+
+        $session = $session_id !== null
+            ? $bookingModel->getSessionById((int)$session_id, (int)$booking_id)
+            : ($booking['sessions'][0] ?? null);
+        if (!$session) {
+            echo 'Care session not found.';
+            return;
+        }
+        if ($session_id === null) {
+            header('Location: /safehands_mvc/booking/report/' . (int)$booking_id . '/' . (int)$session['session_id']);
+            exit;
+        }
+        if (($_SESSION['user_role'] ?? '') === 'caregiver') {
+            $profile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+            if (!$profile || (int)$profile['id'] !== (int)$booking['caregiver_id']) {
+                http_response_code(403);
+                echo 'Unauthorized.';
+                return;
+            }
+        }
+        if (strtolower($session['status']) !== 'completed') {
+            echo 'A report can be submitted after this care session is completed.';
+            return;
+        }
+        $existingReport = $this->model('CareReportModel')->getReportBySessionId((int)$session['session_id']);
+
+        $existingData = null;
+        if ($existingReport) {
+            $decodedNotes = base64_decode((string)($existingReport['encrypted_medical_notes'] ?? ''), true);
+            $existingData = is_string($decodedNotes) ? json_decode($decodedNotes, true) : null;
+            if (!is_array($existingData)) {
+                $existingData = json_decode((string)($existingReport['encrypted_medical_notes'] ?? ''), true);
+            }
+            if (!is_array($existingData)) $existingData = [];
+            $existingData['activities'] = json_decode((string)($existingReport['activities'] ?? ''), true)
+                ?: ($existingData['activities'] ?? []);
+            $existingData['medication'] = array_merge([
+                'status' => $existingReport['med_status'] ?? '',
+                'name' => $existingReport['med_name'] ?? '',
+                'time' => $existingReport['med_time'] ?? '',
+            ], $existingData['medication'] ?? []);
+            $existingData['meal'] = array_merge([
+                'breakfast' => $existingReport['meal_breakfast'] ?? '',
+                'water' => $existingReport['meal_water'] ?? '',
+            ], $existingData['meal'] ?? []);
+            $existingData['condition'] = array_merge([
+                'status' => $existingReport['condition_status'] ?? '',
+                'mood' => $existingReport['condition_mood'] ?? '',
+            ], $existingData['condition'] ?? []);
+            $existingData['vitals'] = array_merge([
+                'bp' => $existingReport['vitals_bp'] ?? '',
+                'temp' => $existingReport['vitals_temp'] ?? '',
+                'hr' => $existingReport['vitals_hr'] ?? '',
+            ], $existingData['vitals'] ?? []);
+            $existingData['shift_summary'] = $existingReport['shift_summary'] ?? '';
+        }
 
         $caregiverModel = $this->model('Caregiver');
         $caregiver = $caregiverModel->getById($booking['caregiver_id']);
@@ -103,15 +208,20 @@ class BookingController extends Controller
             'title' => 'Submit Daily Care Report | SafeHands',
             'booking' => [
                 'id' => $booking['booking_id'],
-                'service_date' => count($booking['sessions']) > 0 ? $booking['sessions'][0]['service_date'] : 'N/A',
-                'service_time' => count($booking['sessions']) > 0 ? ucfirst($booking['sessions'][0]['shift_type']) : 'N/A',
+                'service_date' => $session['service_date'],
+                'service_time' => ucfirst($session['shift_type']),
+                'session_id' => (int)$session['session_id'],
+                'status' => $session['status'],
             ],
+            'session' => $session,
+            'existing_report' => $existingReport,
+            'existingData' => $existingData,
             'patient' => [
                 'name' => $patientData['full_name'] ?? 'Patient',
-                'image' => $patientData['image'] ?? 'https://via.placeholder.com/150'
+                'image' => !empty($patientData['profile_photo']) ? $patientData['profile_photo'] : ''
             ],
             'caregiver' => [
-                'image' => $caregiver['image'] ?? 'https://via.placeholder.com/150'
+                'image' => !empty($caregiver['image']) ? $caregiver['image'] : ''
             ]
         ];
 
@@ -124,11 +234,11 @@ class BookingController extends Controller
      * ==========================================
      * Updates booking status via OTP submission.
      */
-    public function verifyOtp($booking_id = null): void
+    public function verifyOtp($booking_id = null, $session_id = null): void
     {
         header('Content-Type: application/json');
         error_reporting(0);
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id || !$session_id) {
             http_response_code(400);
             echo json_encode(['success' => false, 'message' => 'Invalid request']);
             return;
@@ -136,8 +246,15 @@ class BookingController extends Controller
 
         $otp = $_POST['otp'] ?? '';
         $bookingModel = $this->model('BookingModel');
+        $booking = $bookingModel->getBookingById((int)$booking_id);
+        $profile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+        if (!$booking || !$profile || (int)$profile['id'] !== (int)$booking['caregiver_id'] || !$bookingModel->getSessionById((int)$session_id, (int)$booking_id)) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+            return;
+        }
         
-        if ($bookingModel->verifyOtp((int)$booking_id, $otp)) {
+        if ($bookingModel->verifyOtp((int)$booking_id, (int)$session_id, $otp)) {
             echo json_encode(['success' => true]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid OTP']);
@@ -150,16 +267,28 @@ class BookingController extends Controller
      * ==========================================
      * Submits a report and updates booking status to completed.
      */
-    public function submitReport($booking_id = null): void
+    public function submitReport($booking_id = null, $session_id = null): void
     {
         try {
-            if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id || !$session_id) {
                 header('Location: /safehands_mvc/bookings');
                 exit;
             }
 
             $bookingModel = $this->model('BookingModel');
             $booking = $bookingModel->getBookingById((int)$booking_id);
+            if (!$booking) {
+                echo 'Booking not found.';
+                exit;
+            }
+            $session = $bookingModel->getSessionById((int)$session_id, (int)$booking_id);
+            $caregiverModel = $this->model('Caregiver');
+            $profile = $caregiverModel->getByUserId((int)$_SESSION['user_id']);
+            if (!$session || strtolower($session['status']) !== 'completed' || ($_SESSION['user_role'] ?? '') !== 'caregiver' || !$profile || (int)$profile['id'] !== (int)$booking['caregiver_id']) {
+                http_response_code(403);
+                echo 'This session is not available for reporting.';
+                exit;
+            }
 
             $activities = $_POST['activities'] ?? [];
             $structuredActivities = [];
@@ -197,12 +326,10 @@ class BookingController extends Controller
             $encryptedNotes = base64_encode($medicalNotes); 
             $shiftSummary = $_POST['shift_summary'] ?? '';
 
-            $caregiverModel = $this->model('Caregiver');
-            $cgProfile = $caregiverModel->getById((int)$booking['caregiver_id']);
-            $realCaregiverUserId = $cgProfile['user_id'] ?? $booking['caregiver_id'];
+            $realCaregiverUserId = (int)$profile['user_id'];
 
             $reportModel = $this->model('CareReportModel');
-            $existingReport = $reportModel->getReportByBookingId((int)$booking_id);
+            $existingReport = $reportModel->getReportBySessionId((int)$session_id);
             
             $dbData = [
                 'shift_summary' => $shiftSummary,
@@ -221,20 +348,29 @@ class BookingController extends Controller
             ];
 
             if ($existingReport) {
-                $reportModel->updateReport($existingReport['id'], $dbData);
+                $saved = $reportModel->updateReport(
+                    (int)$existingReport['id'], $dbData, (int)$session_id,
+                    (int)$booking_id, (int)$realCaregiverUserId
+                );
             } else {
                 $dbData['report_ref'] = 'CR-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
                 $dbData['booking_id'] = (int)$booking_id;
-                $dbData['caregiver_id'] = (int)$booking['caregiver_id'];
+                $dbData['session_id'] = (int)$session_id;
+                // care_reports.caregiver_id references users.id. Booking rows
+                // store caregiver_profiles.caregiver_id, so use the mapped user ID.
+                $dbData['caregiver_id'] = (int)$realCaregiverUserId;
                 $dbData['patient_id'] = (int)$booking['patient_id'];
                 $dbData['check_in_time'] = date('Y-m-d H:i:s', strtotime('-8 hours'));
                 $dbData['check_out_time'] = date('Y-m-d H:i:s');
-                $reportModel->createReport($dbData);
+                $saved = $reportModel->createReport($dbData);
             }
 
-            $bookingModel->updateStatus((int)$booking_id, 'completed');
+            if (!$saved) {
+                header('Location: /safehands_mvc/booking/report/' . (int)$booking_id . '/' . (int)$session_id . '?error=save_failed');
+                exit;
+            }
 
-            header('Location: /safehands_mvc/care-report/index/' . (int)$booking_id);
+            header('Location: /safehands_mvc/care-report/index/' . (int)$booking_id . '/' . (int)$session_id);
             exit;
         } catch (Throwable $e) {
             echo "Error saving report: " . $e->getMessage();
@@ -250,31 +386,40 @@ class BookingController extends Controller
      */
     public function cancel($booking_id = null): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id || ($_SESSION['user_role'] ?? '') !== 'family') {
             header('Location: /safehands_mvc/bookings');
             exit;
         }
 
         $bookingModel = $this->model('BookingModel');
-        $bookingModel->cancelBooking((int)$booking_id);
+        $cancelled = $bookingModel->cancelPendingBookingForFamily((int)$booking_id, (int)$_SESSION['user_id']);
 
-        header('Location: /safehands_mvc/booking/details/' . (int)$booking_id);
+        header('Location: /safehands_mvc/booking/details/' . (int)$booking_id . '?cancelled=' . ($cancelled ? '1' : '0'));
         exit;
     }
-    public function deleteReport($booking_id = null): void
+    public function deleteReport($booking_id = null, $session_id = null): void
     {
-        if (!$booking_id) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id || !$session_id || ($_SESSION['user_role'] ?? '') !== 'caregiver') {
             header('Location: /safehands_mvc/caregiver/dashboard');
             exit;
         }
         
-        $reportModel = $this->model('CareReportModel');
-        $reportModel->deleteReportByBookingId((int)$booking_id);
-        
         $bookingModel = $this->model('BookingModel');
-        $bookingModel->updateStatus((int)$booking_id, 'active');
+        $booking = $bookingModel->getBookingById((int)$booking_id);
+        $profile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+        if (!$booking || !$profile || (int)$profile['id'] !== (int)$booking['caregiver_id'] || !$session_id || !$bookingModel->getSessionById((int)$session_id, (int)$booking_id)) {
+            http_response_code(403);
+            echo 'Unauthorized.';
+            return;
+        }
+        $reportModel = $this->model('CareReportModel');
+        $report = $reportModel->getReportBySessionId((int)$session_id);
+        if (!$report || (int)$report['booking_id'] !== (int)$booking_id || !$reportModel->deleteReportBySessionId((int)$session_id, (int)$booking_id)) {
+            header('Location: /safehands_mvc/care-report/index/' . (int)$booking_id . '/' . (int)$session_id . '?error=delete_failed');
+            exit;
+        }
         
-        header('Location: /safehands_mvc/caregiver/dashboard?msg=report_deleted');
+        header('Location: /safehands_mvc/bookings/pendingReports?msg=report_deleted');
         exit;
     }
 
@@ -284,15 +429,21 @@ class BookingController extends Controller
      * ==========================================
      * Marks the booking session as completed in the database.
      */
-    public function endSession($booking_id = null): void
+    public function endSession($booking_id = null, $session_id = null): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id) {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$booking_id || !$session_id) {
             header('Location: /safehands_mvc/caregiver/dashboard');
             exit;
         }
 
         $bookingModel = $this->model('BookingModel');
-        $bookingModel->updateStatus((int)$booking_id, 'completed');
+        $booking = $bookingModel->getBookingById((int)$booking_id);
+        $profile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+        if (!$booking || !$profile || (int)$profile['id'] !== (int)$booking['caregiver_id'] || !$bookingModel->updateSessionStatus((int)$session_id, (int)$booking_id, 'completed')) {
+            http_response_code(403);
+            echo 'Unable to complete this care session.';
+            return;
+        }
 
         header('Location: /safehands_mvc/caregiver/dashboard?msg=session_completed');
         exit;
@@ -304,9 +455,9 @@ class BookingController extends Controller
      * ==========================================
      * Updates booking status to in_progress / active in the database.
      */
-    public function startSession($booking_id = null): void
+    public function startSession($booking_id = null, $session_id = null): void
     {
-        if (!$booking_id) {
+        if (!$booking_id || !$session_id) {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'message' => 'Missing booking ID']);
@@ -317,7 +468,19 @@ class BookingController extends Controller
         }
 
         $bookingModel = $this->model('BookingModel');
-        $bookingModel->updateStatus((int)$booking_id, 'in_progress');
+        $booking = $bookingModel->getBookingById((int)$booking_id);
+        $session = $bookingModel->getSessionById((int)$session_id, (int)$booking_id);
+        $profile = $this->model('Caregiver')->getByUserId((int)$_SESSION['user_id']);
+        if (!$booking || !$session || $session['status'] !== 'otp_verified' || !$profile || (int)$profile['id'] !== (int)$booking['caregiver_id'] || !$bookingModel->updateSessionStatus((int)$session_id, (int)$booking_id, 'in_progress')) {
+            http_response_code(403);
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'Unable to start this session']);
+            } else {
+                echo 'Unable to start this session.';
+            }
+            return;
+        }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Content-Type: application/json');

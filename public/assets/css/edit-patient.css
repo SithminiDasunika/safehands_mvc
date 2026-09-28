@@ -1,5 +1,17 @@
 
 /* --- CSS Variables & Theme Setup --- */
+.form-error-banner {
+    max-width: 900px;
+    margin: 18px auto;
+    padding: 12px 16px;
+    border: 1px solid #f2c6c2;
+    border-radius: 10px;
+    background: #fff6f5;
+    color: #9f2f28;
+}
+
+.form-error-banner p + p { margin-top: 4px; }
+
 :root {
   --font-family: 'Inter', sans-serif;
   --color-primary: #004ac6;

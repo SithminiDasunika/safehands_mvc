@@ -17,7 +17,11 @@ class Caregiver extends Model
                 cp.years_experience as experience, 
                 cp.languages, 
                 cp.biography as description, 
-                cp.profile_photo as image
+                cp.profile_photo as image,
+                cp.gender,
+                cp.verification_status,
+                COALESCE((SELECT AVG(r.rating) FROM reviews r WHERE r.caregiver_id = cp.caregiver_id), 0) as rating,
+                (SELECT COUNT(*) FROM reviews r WHERE r.caregiver_id = cp.caregiver_id) as reviews_count
             FROM users u
             JOIN caregiver_profiles cp ON u.id = cp.user_id
             WHERE u.role = 'caregiver' AND u.status = 'active'
@@ -32,8 +36,10 @@ class Caregiver extends Model
 
         $caregivers = [];
         while ($row = $result->fetch_assoc()) {
-            $row['languages'] = !empty($row['languages']) ? explode(',', $row['languages']) : ['English'];
-            $row['rating'] = '4.8';
+            $row['languages'] = !empty($row['languages'])
+                ? array_values(array_filter(array_map('trim', explode(',', $row['languages']))))
+                : [];
+            $row['rating'] = number_format((float) $row['rating'], 1, '.', '');
             $caregivers[] = $row;
         }
 
@@ -55,7 +61,9 @@ class Caregiver extends Model
                 cp.years_experience as experience, 
                 cp.languages, 
                 cp.biography as description, 
-                cp.profile_photo as image
+                cp.profile_photo as image,
+                COALESCE((SELECT AVG(r.rating) FROM reviews r WHERE r.caregiver_id = cp.caregiver_id), 0) AS rating,
+                (SELECT COUNT(*) FROM reviews r WHERE r.caregiver_id = cp.caregiver_id) AS reviews_count
             FROM users u
             JOIN caregiver_profiles cp ON u.id = cp.user_id
             WHERE u.role = 'caregiver' AND cp.caregiver_id = ?
@@ -76,7 +84,7 @@ class Caregiver extends Model
 
         if ($caregiver) {
             $caregiver['languages'] = !empty($caregiver['languages']) ? explode(',', $caregiver['languages']) : ['English'];
-            $caregiver['rating'] = '4.8';
+            $caregiver['rating'] = number_format((float)$caregiver['rating'], 1, '.', '');
             return $caregiver;
         }
 
@@ -98,7 +106,9 @@ class Caregiver extends Model
                 cp.years_experience as experience, 
                 cp.languages, 
                 cp.biography as description, 
-                cp.profile_photo as image
+                cp.profile_photo as image,
+                COALESCE((SELECT AVG(r.rating) FROM reviews r WHERE r.caregiver_id = cp.caregiver_id), 0) AS rating,
+                (SELECT COUNT(*) FROM reviews r WHERE r.caregiver_id = cp.caregiver_id) AS reviews_count
             FROM users u
             JOIN caregiver_profiles cp ON u.id = cp.user_id
             WHERE u.role = 'caregiver' AND u.id = ?
@@ -118,7 +128,7 @@ class Caregiver extends Model
 
         if ($caregiver) {
             $caregiver['languages'] = !empty($caregiver['languages']) ? explode(',', $caregiver['languages']) : ['English'];
-            $caregiver['rating'] = '4.8';
+            $caregiver['rating'] = number_format((float)$caregiver['rating'], 1, '.', '');
             return $caregiver;
         }
 

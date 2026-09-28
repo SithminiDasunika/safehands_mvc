@@ -101,7 +101,9 @@
 
                                 <div class="document-card full-width">
                                     <div class="document-title"><span>◉</span> පැතිකඩ ඡායාරූපය *</div>
-                                    <input type="file" name="profile_photo" accept=".jpg,.jpeg,.png" required>
+                                    <input type="file" name="profile_photo" id="verification_profile_photo" accept=".jpg,.jpeg,.png" required>
+                                    <p class="selected-file-name"></p>
+                                    <img class="photo-preview hidden" style="max-width: 150px; border-radius: 8px; margin-top: 10px; display: none;" src="">
                                 </div>
 
                             </div>

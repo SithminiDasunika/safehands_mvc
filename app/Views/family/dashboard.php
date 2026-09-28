@@ -7,10 +7,9 @@
 
         <div class="family-nav-inner">
 
-            <div class="family-brand">
-                
+            <a class="family-brand" href="/safehands_mvc/family" aria-label="SafeHands family dashboard">
                 <span>SafeHands</span>
-            </div>
+            </a>
 
             <div class="family-nav-links">
 
@@ -29,7 +28,7 @@
                     Find Caregivers
                 </a>
 
-                <a href="/safehands_mvc/booking">
+                <a href="/safehands_mvc/bookings">
                     My Bookings
                 </a>
 
@@ -37,16 +36,17 @@
 
             <div class="family-nav-right">
 
-                <button
-                    type="button"
+                <a
+                    href="/safehands_mvc/notifications"
                     class="notification-button"
                     title="Notifications"
+                    aria-label="Notifications"
                 >
                     <svg viewBox="0 0 24 24">
                         <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
-                </button>
+                </a>
 
                 <div class="family-avatar">
                     <?= strtoupper(substr($family['name'], 0, 1)) ?>
@@ -326,6 +326,7 @@
 
                     <div class="sessions-list">
 
+                        <?php if (!empty($family['sessions'])): ?>
                         <?php foreach ($family['sessions'] as $session): ?>
 
                             <div class="session-card">
@@ -348,7 +349,7 @@
                                     <div class="session-meta">
 
                                         <span class="session-status">
-                                            <?= htmlspecialchars($session['status']) ?>
+                                            <?= htmlspecialchars($session['date_label']) ?>
                                         </span>
 
                                         <span>
@@ -367,31 +368,30 @@
                                             <?= htmlspecialchars($session['patient']) ?>
                                         </strong>
                                     </p>
+                                    <span class="session-state-label"><?= htmlspecialchars($session['status_label']) ?></span>
 
                                 </div>
 
 
                                 <div class="session-actions">
 
-                                    <button
-                                        type="button"
-                                        class="secondary-button"
-                                    >
+                                    <a href="/safehands_mvc/booking/details/<?= (int)$session['booking_id'] ?>/<?= (int)$session['session_id'] ?>"
+                                        class="secondary-button">
                                         Details
-                                    </button>
+                                    </a>
 
-                                    <button
-                                        type="button"
-                                        class="primary-button"
-                                    >
-                                        Contact
-                                    </button>
+                                    <?php if (!empty($session['caregiver_phone'])): ?>
+                                        <a href="tel:<?= htmlspecialchars(preg_replace('/[^0-9+]/', '', $session['caregiver_phone'])) ?>" class="primary-button">Contact</a>
+                                    <?php endif; ?>
 
                                 </div>
 
                             </div>
 
                         <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="dashboard-empty-state">No upcoming care sessions are scheduled.</div>
+                        <?php endif; ?>
 
                     </div>
 
@@ -423,6 +423,8 @@
                                 type="button"
                                 id="helplineButton"
                                 class="helpline-button"
+                                aria-expanded="false"
+                                aria-controls="helplineMenu"
                             >
                                 <span>
                                     Call Helpline
@@ -437,7 +439,10 @@
                             <div
                                 id="helplineMenu"
                                 class="helpline-menu"
+                                aria-labelledby="helplineButton"
                             >
+
+                                <p class="helpline-group-title">Emergency services</p>
 
                                 <a href="tel:1990">
 
@@ -462,6 +467,8 @@
                                     </strong>
 
                                 </a>
+
+                                <p class="helpline-group-title helpline-group-hospital">Hospital contact</p>
 
                                 <a href="tel:1566">
 
@@ -502,6 +509,7 @@
 
                     <div class="patient-list">
 
+                        <?php if (!empty($family['patients'])): ?>
                         <?php foreach ($family['patients'] as $patient): ?>
 
                             <div class="patient-card">
@@ -509,7 +517,12 @@
                                 <div class="patient-top">
 
                                     <div class="patient-avatar">
-                                        <?= htmlspecialchars($patient['initials']) ?>
+                                        <?php if (!empty($patient['image'])): ?>
+                                            <img src="<?= htmlspecialchars($patient['image']) ?>" alt="<?= htmlspecialchars($patient['name']) ?>" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+                                            <span class="patient-avatar-fallback" style="display:none;"><?= htmlspecialchars($patient['initials']) ?></span>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($patient['initials']) ?>
+                                        <?php endif; ?>
                                     </div>
 
                                     <div>
@@ -519,8 +532,7 @@
                                         </h3>
 
                                         <p>
-                                            Age <?= htmlspecialchars($patient['age']) ?>
-                                            •
+                                            <?= $patient['age'] !== null ? 'Age ' . htmlspecialchars((string)$patient['age']) . ' • ' : '' ?>
                                             <?= htmlspecialchars($patient['condition']) ?>
                                         </p>
 
@@ -539,15 +551,18 @@
 
                                     </span>
 
-                                    <button type="button">
+                                    <a href="/safehands_mvc/patient/profile/<?= (int)$patient['patient_id'] ?>" class="patient-view-link">
                                         View Patient
-                                    </button>
+                                    </a>
 
                                 </div>
 
                             </div>
 
                         <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="dashboard-empty-state">No patients are registered under this family account yet.</div>
+                        <?php endif; ?>
 
                     </div>
 

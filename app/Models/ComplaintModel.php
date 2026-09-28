@@ -19,26 +19,37 @@ class ComplaintModel
      * @param array $data Contains complaint_ref, booking_id, family_id, caregiver_id, type, priority, description
      * @return int|null Returns the newly created complaint ID or null on failure
      */
-    public function createComplaint(array $data): ?int
+    public function createCompletedBookingComplaint(array $data, int $familyId): ?int
     {
         $stmt = $this->conn->prepare("
-            INSERT INTO complaints (complaint_ref, booking_id, family_id, caregiver_id, type, priority, description) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO complaints (complaint_ref, booking_id, family_id, caregiver_id, type, priority, description)
+            SELECT ?, b.booking_id, b.family_user_id, cp.user_id, ?, ?, ?
+            FROM bookings b
+            JOIN caregiver_profiles cp ON b.caregiver_id = cp.caregiver_id
+            WHERE b.booking_id = ?
+              AND b.family_user_id = ?
+              AND LOWER(TRIM(b.status)) = 'completed'
+            LIMIT 1
         ");
-        $stmt->bind_param("siiiiss", 
-            $data['complaint_ref'], 
-            $data['booking_id'], 
-            $data['family_id'], 
-            $data['caregiver_id'], 
-            $data['type'], 
-            $data['priority'], 
-            $data['description']
-        );
-        
-        if ($stmt->execute()) {
-            return $this->conn->insert_id;
+        if (!$stmt) {
+            return null;
         }
-        return null;
+
+        $stmt->bind_param(
+            'ssssii',
+            $data['complaint_ref'],
+            $data['type'],
+            $data['priority'],
+            $data['description'],
+            $data['booking_id'],
+            $familyId
+        );
+
+        $success = $stmt->execute() && $stmt->affected_rows === 1;
+        $complaintId = $success ? (int)$this->conn->insert_id : null;
+        $stmt->close();
+
+        return $complaintId;
     }
 
     /**
@@ -50,7 +61,7 @@ class ComplaintModel
     public function getAllComplaints()
     {
         $sql = "
-            SELECT c.*, f.full_name as family_name, cg.full_name as caregiver_name
+            SELECT c.*, f.full_name AS family_name, cg.full_name AS caregiver_name
             FROM complaints c
             JOIN users f ON c.family_id = f.id
             JOIN users cg ON c.caregiver_id = cg.id
@@ -69,7 +80,7 @@ class ComplaintModel
     public function getComplaintById(int $id)
     {
         $stmt = $this->conn->prepare("
-            SELECT c.*, f.full_name as family_name, cg.full_name as caregiver_name
+            SELECT c.*, f.full_name AS family_name, cg.full_name AS caregiver_name
             FROM complaints c
             JOIN users f ON c.family_id = f.id
             JOIN users cg ON c.caregiver_id = cg.id

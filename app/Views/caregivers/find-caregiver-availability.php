@@ -7,6 +7,7 @@ $specialization = $caregiver['specialization'] ?? 'Caregiver';
 $district = $caregiver['district'] ?? 'Not specified';
 $experience = $caregiver['experience'] ?? 'Not specified';
 $rating = $caregiver['rating'] ?? '0.0';
+$reviewsCount = (int)($caregiver['reviews_count'] ?? 0);
 $languages = $caregiver['languages'] ?? [];
 $image = $caregiver['image'] ?? '';
 
@@ -30,7 +31,7 @@ $image = $caregiver['image'] ?? '';
 
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/availability.css?v=2"
+        href="/safehands_mvc/public/assets/css/availability.css?v=3"
     >
 
 </head>
@@ -220,12 +221,12 @@ $image = $caregiver['image'] ?? '';
 
                     <div class="info-item">
 
-                        <span class="info-icon rating-icon">
-                            ★
-                        </span>
-
-                        <span>
-                            <?= htmlspecialchars($rating) ?>
+                        <span class="info-icon rating-icon" aria-hidden="true">★</span>
+                        <span class="info-copy">
+                            <span class="info-label">Rating</span>
+                            <strong class="info-value">
+                                <?= $reviewsCount > 0 ? htmlspecialchars($rating) . ' · ' . $reviewsCount . ' ' . ($reviewsCount === 1 ? 'review' : 'reviews') : 'New caregiver' ?>
+                            </strong>
                         </span>
 
                     </div>
@@ -235,12 +236,10 @@ $image = $caregiver['image'] ?? '';
 
                     <div class="info-item">
 
-                        <span class="info-icon">
-                            📍
-                        </span>
-
-                        <span>
-                            <?= htmlspecialchars($district) ?>
+                        <span class="info-icon" aria-hidden="true">⌖</span>
+                        <span class="info-copy">
+                            <span class="info-label">Location</span>
+                            <strong class="info-value"><?= htmlspecialchars($district) ?></strong>
                         </span>
 
                     </div>
@@ -250,14 +249,12 @@ $image = $caregiver['image'] ?? '';
 
                     <div class="info-item">
 
-                        <span class="info-icon">
-                            A
-                        </span>
-
-                        <span>
-                            <?= htmlspecialchars(
-                                implode(', ', $languages)
-                            ) ?>
+                        <span class="info-icon language-icon" aria-hidden="true">A</span>
+                        <span class="info-copy">
+                            <span class="info-label">Languages</span>
+                            <strong class="info-value">
+                                <?= htmlspecialchars(implode(', ', $languages) ?: 'Not listed') ?>
+                            </strong>
                         </span>
 
                     </div>
@@ -267,12 +264,12 @@ $image = $caregiver['image'] ?? '';
 
                     <div class="info-item">
 
-                        <span class="info-icon">
-                            ◷
-                        </span>
-
-                        <span>
-                            <?= htmlspecialchars($experience) ?>
+                        <span class="info-icon experience-icon" aria-hidden="true">◷</span>
+                        <span class="info-copy">
+                            <span class="info-label">Experience</span>
+                            <strong class="info-value">
+                                <?= htmlspecialchars(is_numeric($experience) ? $experience . ' years' : $experience) ?>
+                            </strong>
                         </span>
 
                     </div>

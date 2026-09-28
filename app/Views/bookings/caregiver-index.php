@@ -547,13 +547,6 @@ $stats = $stats ?? [];
                         </button>
 
 
-                        <button
-                            type="button"
-                            class="cancel-button"
-                        >
-                            Cancel
-                        </button>
-
                     </div>
 
                 </div>
@@ -668,13 +661,6 @@ $stats = $stats ?? [];
                             </button>
 
 
-                            <button
-                                type="button"
-                                class="cancel-button"
-                            >
-                                Cancel
-                            </button>
-
                         </div>
 
 
@@ -707,13 +693,6 @@ $stats = $stats ?? [];
                                     Contact
                                 </button>
 
-
-                                <button
-                                    type="button"
-                                    class="cancel-button"
-                                >
-                                    Cancel
-                                </button>
 
                             </div>
 

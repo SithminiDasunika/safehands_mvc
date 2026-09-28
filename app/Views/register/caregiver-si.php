@@ -1,4 +1,6 @@
- <!DOCTYPE html>
+<?php
+$yesterday = date('Y-m-d', strtotime('-1 day'));
+?><!DOCTYPE html>
 <html lang="si">
 
 <head>
@@ -30,17 +32,6 @@
             <!-- Navigation -->
             <nav class="main-navigation">
 
-                <a href="#">
-                    රැකියා සොයන්න
-                </a>
-
-                <a href="#">
-                    සම්පත්
-                </a>
-
-                <a href="#">
-                    අප ගැන
-                </a>
 
                 <a href="/safehands_mvc/register.php" class="active">
                     ලියාපදිංචි වන්න
@@ -185,10 +176,16 @@
 
                 <div class="registration-content">
 
-                    <form
-                        action="/safehands_mvc/register/professional.php"
-                        method="GET"
-                        class="registration-form">
+                    <?php if (!empty($errors)): ?>
+                        <div class="form-errors" role="alert">
+                            <?php foreach ($errors as $error): ?>
+                                <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form action="/safehands_mvc/register/savePersonal" method="POST" class="registration-form">
+                        <input type="hidden" name="language" value="si">
 
 
                         <!-- Personal Details -->
@@ -216,7 +213,11 @@
 
                                     <input
                                         type="text"
-                                        placeholder="උදා: අංජලී පෙරේරා">
+                                        id="full_name"
+                                        name="full_name"
+                                        placeholder="උදා: අංජලී පෙරේරා"
+                                        required
+                                        value="<?= htmlspecialchars($old['full_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
                                 </div>
 
@@ -230,7 +231,13 @@
 
                                     <input
                                         type="text"
-                                        placeholder="9xxxxxxxxV">
+                                        id="nic"
+                                        name="nic"
+                                        placeholder="9xxxxxxxxV"
+                                          maxlength="12"
+                                           value="<?= htmlspecialchars($old['nic'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+       pattern="([0-9]{9}[VvXx]|[0-9]{12})"
+       required>
 
                                 </div>
 
@@ -242,7 +249,12 @@
                                         උපන් දිනය
                                     </label>
 
-                                    <input type="date">
+                                    <input type="date"
+                                     id="date_of_birth"
+                                     name="date_of_birth"
+                                     value="<?= htmlspecialchars($old['date_of_birth'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                       max="<?= date('Y-m-d') ?>"
+                                       required>
 
                                 </div>
 
@@ -254,21 +266,21 @@
                                         ස්ත්‍රී / පුරුෂ භාවය
                                     </label>
 
-                                    <select>
+                                    <select id="gender" name="gender" required>
 
                                         <option value="">
                                             ස්ත්‍රී / පුරුෂ භාවය තෝරන්න
                                         </option>
 
-                                        <option value="male">
+                                        <option value="male" <?= (($old['gender'] ?? '') === 'male') ? 'selected' : '' ?>>
                                             පුරුෂ
                                         </option>
 
-                                        <option value="female">
+                                        <option value="female" <?= (($old['gender'] ?? '') === 'female') ? 'selected' : '' ?>>
                                             ස්ත්‍රී
                                         </option>
 
-                                        <option value="other">
+                                        <option value="other"<?= (($old['gender'] ?? '') === 'other') ? 'selected' : '' ?>>
                                             වෙනත්
                                         </option>
 
@@ -306,7 +318,14 @@
 
                                     <input
                                         type="tel"
-                                        placeholder="+94 7x xxx xxxx">
+                                        placeholder="+94 7x xxx xxxx"
+                                        maxlength="10"
+                                        value="<?= htmlspecialchars($old['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+       pattern="[0-9]{10}"
+       inputmode="numeric"
+       id="phone"
+       name="phone"
+       required>
 
                                 </div>
 
@@ -320,7 +339,11 @@
 
                                     <input
                                         type="email"
-                                        placeholder="anjali@example.com">
+                                        id="email"
+                                        name="email"
+                                        placeholder="anjali@example.com"
+                                          value="<?= htmlspecialchars($old['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                          required>
 
                                 </div>
 
@@ -333,8 +356,11 @@
                                     </label>
 
                                     <textarea
+                                        id="address"
+                                        name="address"
                                         rows="2"
-                                        placeholder="වීථිය, නගරය, තැපැල් කේතය"></textarea>
+                                        placeholder="වීථිය, නගරය, තැපැල් කේතය"
+                                        required><?= htmlspecialchars($old['address'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
 
                                 </div>
 
@@ -346,25 +372,25 @@
                                         දිස්ත්‍රික්කය
                                     </label>
 
-                                    <select>
+                                    <select id="district" name="district" required>
 
                                         <option value="">
                                             දිස්ත්‍රික්කය තෝරන්න
                                         </option>
 
-                                        <option value="colombo">
+                                        <option value="colombo"<?= (($old['district'] ?? '') === 'colombo') ? 'selected' : '' ?>>
                                             කොළඹ
                                         </option>
 
-                                        <option value="gampaha">
+                                        <option value="gampaha"<?= (($old['district'] ?? '') === 'gampaha') ? 'selected' : '' ?>>
                                             ගම්පහ
                                         </option>
 
-                                        <option value="kandy">
+                                        <option value="kandy"<?= (($old['district'] ?? '') === 'kandy') ? 'selected' : '' ?>>
                                             මහනුවර
                                         </option>
 
-                                        <option value="galle">
+                                        <option value="galle"<?= (($old['district'] ?? '') === 'galle') ? 'selected' : '' ?>>
                                             ගාල්ල
                                         </option>
 
@@ -402,7 +428,11 @@
 
                                     <input
                                         type="password"
-                                        placeholder="අවම අක්ෂර 8ක්">
+                                        id="password"
+                                        name="password"
+                                        placeholder="අවම අක්ෂර 8ක්"
+                                        minlength="8"
+                                        required>
 
                                 </div>
 
@@ -416,7 +446,11 @@
 
                                     <input
                                         type="password"
-                                        placeholder="මුරපදය නැවත ඇතුළත් කරන්න">
+                                        id="confirm_password"
+                                        name="confirm_password"
+                                        placeholder="මුරපදය නැවත ඇතුළත් කරන්න"
+                                        minlength="8"
+                                        required>
 
                                 </div>
 
@@ -438,8 +472,7 @@
 
 
                             <button
-                                type="button"
-                                onclick="window.location.href='/safehands_mvc/register/professionalSi'"
+                                type="submit"
                                 class="next-button">
 
                                 ඊළඟ
@@ -516,7 +549,7 @@
                 <div class="why-image">
 
                     <img
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDizMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyyE6mCqkISP4R-5aKyFf26H3yR0-wlXziyQcTc"
+                        src="/safehands_mvc/public/assets/images/caregiver-3.jpg"
                         alt="සෞඛ්‍ය සේවා පරිසරයක වෘත්තීය රැකවරණ සේවකයෙකු">
 
                 </div>
@@ -543,7 +576,7 @@
                 </span>
 
                 <p>
-                    © 2024 SafeHands Healthcare Services.
+                    ©️ 2024 SafeHands Healthcare Services.
                     සියලු හිමිකම් ඇවිරිණි.
                 </p>
 

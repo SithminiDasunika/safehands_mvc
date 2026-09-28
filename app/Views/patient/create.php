@@ -4,6 +4,14 @@
 // Backend/database connection will be added later.
 ?>
 
+<?php if (!empty($errors)): ?>
+    <div class="form-error-banner" role="alert">
+        <?php foreach ($errors as $error): ?>
+            <p><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 <header class="top-nav">
 
     <div class="nav-container">
@@ -41,7 +49,7 @@
                 </a>
 
                 <a
-                    href="/safehands_mvc/booking"
+                href="/safehands_mvc/bookings"
                     class="nav-link"
                 >
                     My Bookings
@@ -59,7 +67,7 @@
             <!-- Notifications -->
 
             <a
-                href="/safehands_mvc/notification"
+                href="/safehands_mvc/notifications"
                 class="header-icon"
                 aria-label="Notifications"
                 title="Notifications"
@@ -134,7 +142,7 @@
 
 
                     <a
-                        href="/safehands_mvc/logout"
+                        href="/safehands_mvc/login/logout"
                         class="logout-link"
                     >
 
@@ -507,6 +515,7 @@
                                 id="date_of_birth"
                                 name="date_of_birth"
                                 class="form-control"
+                                max="<?= date('Y-m-d') ?>"
                                 required
                             >
 
@@ -635,7 +644,9 @@
                                 id="phone"
                                 name="phone"
                                 class="form-control"
-                                placeholder="+94 77 123 4567"
+                                placeholder="0771234567"
+                                pattern="\d{10}"
+                                title="Phone number must be exactly 10 digits"
                             >
 
                         </div>
@@ -1126,7 +1137,9 @@
                                     id="emergency_contact_phone"
                                     name="emergency_contact_phone"
                                     class="form-control"
-                                    placeholder="+94 77 123 4567"
+                                    placeholder="0771234567"
+                                    pattern="\d{10}"
+                                    title="Phone number must be exactly 10 digits"
                                 >
 
                             </div>
@@ -1143,7 +1156,9 @@
                                     id="emergency_alternative_phone"
                                     name="emergency_alternative_phone"
                                     class="form-control"
-                                    placeholder="+94 77 123 4567"
+                                    placeholder="0771234567"
+                                    pattern="\d{10}"
+                                    title="Phone number must be exactly 10 digits"
                                 >
 
                             </div>

@@ -3,6 +3,18 @@ $booking = $booking ?? [];
 $caregiver = $caregiver ?? [];
 $patient = $patient ?? [];
 $payment = $payment ?? [];
+$sessions = $booking['sessions'] ?? [];
+$selectedSession = $booking['selected_session'] ?? null;
+$bookingStatus = strtolower(trim((string)($booking['status'] ?? 'pending')));
+$statusLabel = ucwords(str_replace('_', ' ', $bookingStatus));
+$canCancel = !empty($can_cancel);
+$showDemoOtp = !in_array($bookingStatus, ['cancelled', 'completed'], true);
+$cancelResult = isset($_GET['cancelled']) ? (string)$_GET['cancelled'] : null;
+$formatDate = static function (?string $date): string {
+    if (!$date) return 'Date not set';
+    $timestamp = strtotime($date);
+    return $timestamp ? date('D, d M Y', $timestamp) : $date;
+};
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -161,6 +173,9 @@ $payment = $payment ?? [];
             text-align: center;
             margin-bottom: 24px;
         }
+        .otp-demo-note { color:#667085; font-size:.8rem; line-height:1.5; margin:0 0 16px; }
+        .otp-demo-badge { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:5px 10px; background:#fff4d8; color:#805b00; font-size:.7rem; font-weight:700; margin-bottom:12px; }
+        .otp-box .btn-action { width:100%; padding:14px; font-size:1rem; }
         .otp-code {
             font-size: 2.5rem;
             font-weight: 800;
@@ -169,6 +184,16 @@ $payment = $payment ?? [];
             margin: 16px 0;
             display: none;
         }
+        .session-list { display: grid; gap: 10px; }
+        .session-row { display:flex; justify-content:space-between; align-items:center; gap:16px; padding:14px 16px; border:1px solid #e5eaf2; border-radius:10px; background:#fff; }
+        a.session-row { color:inherit; text-decoration:none; transition:border-color .15s, background .15s; }
+        a.session-row:hover { border-color:#9ab7ef; background:#f5f8ff; }
+        .session-row.selected { border-color:#9ab7ef; background:#f5f8ff; }
+        .session-row .session-meta { color:#596579; font-size:.875rem; margin-top:4px; }
+        .session-status { border-radius:999px; background:#eef2f7; color:#465365; padding:5px 10px; font-size:.75rem; font-weight:700; white-space:nowrap; }
+        .session-status.scheduled, .session-status.pending { color:#087653; background:#e9f8f1; }
+        .cancel-note { color:#667085; font-size:.8rem; margin-top:10px; line-height:1.5; }
+        @media(max-width:700px) { .session-row { align-items:flex-start; flex-direction:column; } .action-grid { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
@@ -180,11 +205,11 @@ $payment = $payment ?? [];
             <a href="/safehands_mvc/family">Dashboard</a>
             <a href="/safehands_mvc/patient">Patients</a>
             <a href="/safehands_mvc/caregiver">Find Caregivers</a>
-            <a href="/safehands_mvc/booking" style="color: #004ac6; font-weight:700;">My Bookings</a>
+            <a href="/safehands_mvc/bookings" style="color: #004ac6; font-weight:700;">My Bookings</a>
         </nav>
         <div class="nav-icons">
-            <span class="material-symbols-outlined">notifications</span>
-            <span class="material-symbols-outlined">account_circle</span>
+            <a href="/safehands_mvc/notifications" aria-label="Notifications" title="Notifications"><span class="material-symbols-outlined">notifications</span></a>
+            <a href="/safehands_mvc/login/logout" aria-label="Log out" title="Log out"><span class="material-symbols-outlined">logout</span></a>
         </div>
     </div>
 </header>
@@ -193,7 +218,7 @@ $payment = $payment ?? [];
     <div class="breadcrumb-container">
         <nav class="breadcrumb">
             <a href="/safehands_mvc/family" style="text-decoration:none; color:inherit;">Dashboard</a> <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
-            <a href="/safehands_mvc/booking" style="text-decoration:none; color:inherit;">My Bookings</a> <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
+            <a href="/safehands_mvc/bookings" style="text-decoration:none; color:inherit;">My Bookings</a> <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
             <span class="active">Booking Details</span>
         </nav>
     </div>
@@ -207,38 +232,44 @@ $payment = $payment ?? [];
                     <h2 class="details-card-title">
                         Booking Reference: #<?= htmlspecialchars($booking['booking_id'] ?? '1250') ?>
                     </h2>
-                    <div class="status-tag <?= (isset($booking['status']) && $booking['status'] == 'Active') ? 'active' : '' ?>">
+                    <div class="status-tag <?= in_array($bookingStatus, ['active', 'in_progress'], true) ? 'active' : '' ?>">
                         <span class="material-symbols-outlined" style="font-size:18px;">
-                            <?= (isset($booking['status']) && $booking['status'] == 'Active') ? 'verified' : 'pending_actions' ?>
+                            <?= in_array($bookingStatus, ['active', 'in_progress', 'completed'], true) ? 'verified' : ($bookingStatus === 'cancelled' ? 'event_busy' : 'pending_actions') ?>
                         </span>
-                        <?= htmlspecialchars($booking['status'] ?? 'Scheduled') ?>
+                        <?= htmlspecialchars($statusLabel) ?>
                     </div>
-                </div>
+    </div>
+
+    <?php if ($cancelResult === '1'): ?>
+        <div class="details-card" style="color:#087653;background:#e9f8f1;">Booking cancelled. Its scheduled sessions are no longer active.</div>
+    <?php elseif ($cancelResult === '0'): ?>
+        <div class="details-card" style="color:#8a4b08;background:#fff7e8;">This booking can’t be cancelled because it is no longer pending or one of its sessions has started.</div>
+    <?php endif; ?>
 
                 <!-- Caregiver Profile Snippet -->
                 <div style="display:flex; gap:20px; align-items:center; margin-bottom: 24px;">
                     <div style="width:72px; height:72px; border-radius:50%; overflow:hidden; background:#e7eeff;">
-                        <img src="<?= htmlspecialchars($caregiver['image'] ?? 'https://via.placeholder.com/72') ?>" style="width:100%; height:100%; object-fit:cover;">
+                        <?php if (!empty($caregiver['image'])): ?><img src="<?= htmlspecialchars($caregiver['image']) ?>" alt="Caregiver" style="width:100%; height:100%; object-fit:cover;"><?php else: ?><span class="material-symbols-outlined" style="font-size:42px;color:#5574b8;display:grid;place-items:center;height:100%;">person</span><?php endif; ?>
                     </div>
                     <div style="flex:1;">
-                        <div style="font-size:1.25rem; font-weight:700; color:#111c2d; margin-bottom:4px;"><?= htmlspecialchars($caregiver['name'] ?? 'Nadeesha Perera') ?></div>
+                        <div style="font-size:1.25rem; font-weight:700; color:#111c2d; margin-bottom:4px;"><?= htmlspecialchars($caregiver['name'] ?? 'Caregiver details unavailable') ?></div>
                         <div style="color:#434655; font-size:0.875rem; font-weight:500;">
-                            <?= htmlspecialchars($caregiver['role'] ?? 'Senior Caregiver') ?> · ★ 4.8
+                            <?= htmlspecialchars($caregiver['education'] ?? 'Caregiver') ?> · ★ <?= htmlspecialchars((string)($caregiver['rating'] ?? '0.0')) ?>
                         </div>
                     </div>
-                    <a href="/safehands_mvc/caregiver/profile/<?= htmlspecialchars($caregiver['id'] ?? 1) ?>" class="btn-action btn-outline">
+                    <?php if (!empty($caregiver['id'])): ?><a href="/safehands_mvc/caregiver/profile/<?= (int)$caregiver['id'] ?>" class="btn-action btn-outline">
                         <span class="material-symbols-outlined">person</span> View Profile
-                    </a>
+                    </a><?php endif; ?>
                 </div>
 
                 <div class="info-grid">
                     <div class="info-item">
                         <div class="label">Patient</div>
-                        <div class="val"><?= htmlspecialchars($patient['name'] ?? 'Sunil Mendis (Father)') ?></div>
+                        <div class="val"><?= htmlspecialchars($patient['name'] ?? 'Patient details unavailable') ?></div>
                     </div>
                     <div class="info-item">
                         <div class="label">Location</div>
-                        <div class="val"><?= htmlspecialchars($booking['location'] ?? 'Colombo 07, Sri Lanka') ?></div>
+                        <div class="val"><?= htmlspecialchars($patient['address'] ?: 'Address not provided') ?></div>
                     </div>
                 </div>
             </div>
@@ -248,23 +279,23 @@ $payment = $payment ?? [];
                 <h2 class="details-card-title" style="margin-bottom:16px;">
                     <span class="material-symbols-outlined">speaker_notes</span> Service Notes
                 </h2>
-                <div class="service-notes">
-                    "<?= htmlspecialchars($booking['service_notes'] ?? 'Requires assistance with morning stretches and light walking. Please ensure medications are taken at 9:00 AM with breakfast. Mr. Silva prefers gentle conversational engagement during his walk.') ?>"
-                </div>
+                <div class="service-notes"><?= !empty($patient['care_notes']) ? nl2br(htmlspecialchars($patient['care_notes'])) : 'No additional care instructions were provided for this patient.' ?></div>
             </div>
 
-            <!-- Map -->
+            <!-- Sessions attached to this booking -->
             <div class="details-card">
-                <h2 class="details-card-title" style="margin-bottom:16px;">
-                    <span class="material-symbols-outlined">map</span> Location Verification
-                </h2>
-                <div class="map-container">
-                    <div class="map-lines"></div>
-                    <span class="material-symbols-outlined map-pin">location_on</span>
-                </div>
-                <div class="map-verification">
-                    <span class="material-symbols-outlined">verified_user</span>
-                    Caregiver verified for this zone
+                <h2 class="details-card-title" style="margin-bottom:16px;"><span class="material-symbols-outlined">event_note</span> Booked care sessions</h2>
+                <div class="session-list">
+                    <?php foreach ($sessions as $session): $isSelected = $selectedSession && (int)$selectedSession['session_id'] === (int)$session['session_id']; $sessionStatus = ($booking['parent_status'] ?? '') === 'cancelled' ? 'cancelled' : strtolower((string)($session['status'] ?? 'scheduled')); ?>
+                        <a class="session-row <?= $isSelected ? 'selected' : '' ?>" href="/safehands_mvc/booking/details/<?= (int)$booking['booking_id'] ?>/<?= (int)$session['session_id'] ?>">
+                            <div>
+                                <strong><?= htmlspecialchars($formatDate($session['service_date'] ?? null)) ?> · <?= htmlspecialchars(ucfirst(str_replace('_', ' ', (string)($session['shift_type'] ?? 'Shift')))) ?></strong>
+                                <div class="session-meta"><?= htmlspecialchars(ucwords(str_replace('_', ' ', $sessionStatus))) ?></div>
+                            </div>
+                            <span class="session-status <?= htmlspecialchars($sessionStatus) ?>"><?= htmlspecialchars(ucwords(str_replace('_', ' ', $sessionStatus))) ?></span>
+                        </a>
+                    <?php endforeach; ?>
+                    <?php if (!$sessions): ?><p>No care sessions are attached to this booking.</p><?php endif; ?>
                 </div>
             </div>
 
@@ -287,19 +318,19 @@ $payment = $payment ?? [];
 
         <!-- Sidebar -->
         <aside>
-            <!-- OTP Box -->
-            <div class="details-card" style="text-align:center;">
-                <h2 class="details-card-title" style="justify-content:center; margin-bottom:16px;">
+            <?php if ($showDemoOtp): ?>
+            <div class="details-card otp-box">
+                <span class="otp-demo-badge"><span class="material-symbols-outlined" style="font-size:15px;">science</span> Presentation demo</span>
+                <h2 class="details-card-title" style="justify-content:center; margin-bottom:12px;">
                     <span class="material-symbols-outlined">security</span> Arrival Verification
                 </h2>
-                <p style="font-size:0.875rem; color:#434655; margin-bottom:16px;">
-                    Provide this OTP to the caregiver only after they arrive at the location.
-                </p>
-                <button id="generateOtpBtn" class="btn-action btn-primary" style="width:100%; font-size:1rem; padding:16px;">
-                    <span class="material-symbols-outlined">key</span> Generate OTP
+                <p class="otp-demo-note">Generate a sample arrival code for the presentation. This demo code is not sent to anyone or verified by the system.</p>
+                <button id="generateDemoOtpBtn" type="button" class="btn-action btn-primary">
+                    <span class="material-symbols-outlined">key</span> Generate Demo Code
                 </button>
-                <div id="otpCodeDisplay" class="otp-code"></div>
+                <div id="demoOtpCode" class="otp-code" aria-live="polite"></div>
             </div>
+            <?php endif; ?>
 
             <!-- Sidebar Summary -->
             <div class="summary-card">
@@ -308,34 +339,36 @@ $payment = $payment ?? [];
                 </div>
                 <div class="summary-body">
                     <div class="info-item" style="margin-bottom:16px;">
-                        <div class="label">Service Date & Time</div>
-                        <div class="val" style="color:#004ac6;">
-                            <?= htmlspecialchars($booking['service_date'] ?? 'Tomorrow, Oct 14') ?> • <?= htmlspecialchars($booking['service_time'] ?? '08:00 AM') ?>
-                        </div>
-                    </div>
-                    
-                    <div class="info-item" style="margin-bottom:16px;">
-                        <div class="label">Duration</div>
-                        <div class="val"><?= htmlspecialchars($booking['duration'] ?? '7 Days') ?></div>
+                        <div class="label">Booked sessions</div>
+                        <div class="val"><?= count($sessions) ?> <?= count($sessions) === 1 ? 'session' : 'sessions' ?></div>
                     </div>
 
                     <div class="info-item" style="margin-bottom:24px;">
-                        <div class="label">Type</div>
-                        <div class="val"><?= htmlspecialchars($booking['type'] ?? 'Day Care') ?></div>
+                        <div class="label"><?= $selectedSession ? 'Selected session' : 'Next session' ?></div>
+                        <?php $summarySession = $selectedSession ?? ($sessions[0] ?? null); ?>
+                        <div class="val" style="color:#004ac6;">
+                            <?php if ($summarySession): ?><?= htmlspecialchars($formatDate($summarySession['service_date'] ?? null)) ?> · <?= htmlspecialchars(ucfirst(str_replace('_', ' ', (string)($summarySession['shift_type'] ?? 'Shift')))) ?><?php else: ?>No session scheduled<?php endif; ?>
+                        </div>
                     </div>
 
                     <div style="height:1px; background:#F1F5F9; margin-bottom:16px;"></div>
 
                     <div class="grand-total">
-                        <span class="label">Total Paid</span>
-                        <span class="val">LKR <?= number_format((float)($payment['total'] ?? $booking['total'] ?? 51300), 2) ?></span>
+                        <span class="label">Booking total</span>
+                        <span class="val">LKR <?= number_format((float)($payment['total'] ?? $booking['total_amount'] ?? 0), 2) ?></span>
                     </div>
 
+                    <?php if ($canCancel): ?>
                     <div style="text-align:center; margin-top:24px;">
-                        <form method="POST" action="/safehands_mvc/booking/cancel/<?= (int)$booking['booking_id'] ?>"><button type="submit" class="btn-action btn-danger" style="width:100%; border:1px solid #ba1a1a; background:white; color:#ba1a1a;">
+                        <form method="POST" action="/safehands_mvc/booking/cancel/<?= (int)$booking['booking_id'] ?>" onsubmit="return confirm('Cancel this booking and all its scheduled sessions?');">
+                        <button type="submit" class="btn-action btn-danger" style="width:100%; border:1px solid #ba1a1a; background:white; color:#ba1a1a;">
                             Cancel Booking
-                        </button>
+                        </button></form>
+                        <p class="cancel-note">You can cancel while the booking and all its sessions are still pending.</p>
                     </div>
+                    <?php elseif ($bookingStatus === 'cancelled'): ?>
+                        <p class="cancel-note" style="text-align:center;">This booking has been cancelled.</p>
+                    <?php endif; ?>
                     
                     <div style="text-align:center; margin-top:24px; font-size:0.75rem;">
                         <a href="#" style="color:#004ac6; text-decoration:none; font-weight:700; display:flex; align-items:center; justify-content:center; gap:4px;">
@@ -352,20 +385,18 @@ $payment = $payment ?? [];
     © 2024 SafeHands Healthcare Services. Professional Healthcare Solutions.
 </footer>
 
+<?php if ($showDemoOtp): ?>
 <script>
-    document.getElementById('generateOtpBtn').addEventListener('click', function() {
-        const otpBox = document.getElementById('otpCodeDisplay');
-        const btn = this;
-        
-        btn.innerHTML = '<span class="material-symbols-outlined">sync</span> Generating...';
-        
-        setTimeout(() => {
-            btn.style.display = 'none';
-            otpBox.style.display = 'block';
-            otpBox.textContent = Math.floor(100000 + Math.random() * 900000).toString().match(/.{1,3}/g).join(' ');
-        }, 800);
+    document.getElementById('generateDemoOtpBtn').addEventListener('click', function () {
+        const codeBytes = new Uint32Array(1);
+        window.crypto.getRandomValues(codeBytes);
+        const demoCode = String(codeBytes[0] % 1000000).padStart(6, '0');
+        const codeDisplay = document.getElementById('demoOtpCode');
+        codeDisplay.textContent = demoCode.slice(0, 3) + ' ' + demoCode.slice(3);
+        codeDisplay.style.display = 'block';
     });
 </script>
+<?php endif; ?>
 
 </body>
 </html>

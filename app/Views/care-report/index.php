@@ -67,16 +67,18 @@ $totalActivities = count($report['activities']);
                 </div>
 
 
-                <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="report-title-row">
                     <h1>Daily Care Report</h1>
                     <?php if(isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'caregiver'): ?>
-                        <div style="display:flex; gap:12px;">
-                            <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($patient['booking_id'] ? str_replace('BKG-', '', $patient['booking_id']) : '') ?>" class="btn-action" style="padding:8px 16px; background:var(--primary); color:white; border-radius:8px; text-decoration:none; display:flex; align-items:center; gap:8px;">
+                        <div class="report-header-actions">
+                            <a href="/safehands_mvc/booking/report/<?= htmlspecialchars($patient['booking_id'] ? str_replace('BKG-', '', $patient['booking_id']) : '') ?>/<?= (int)($patient['session_id'] ?? 0) ?>" class="report-action-button report-edit-button">
                                 <span class="material-icon">edit</span> Edit Report
                             </a>
-                            <a href="/safehands_mvc/booking/deleteReport/<?= htmlspecialchars($patient['booking_id'] ? str_replace('BKG-', '', $patient['booking_id']) : '') ?>" class="btn-action btn-danger" style="padding:8px 16px; background:#DC362E; color:white; border-radius:8px; text-decoration:none; display:flex; align-items:center; gap:8px;" onclick="return confirm('Are you sure you want to delete this report? This action cannot be undone.');">
-                                <span class="material-icon">delete</span> Delete
-                            </a>
+                            <form method="POST" action="/safehands_mvc/booking/deleteReport/<?= htmlspecialchars($patient['booking_id'] ? str_replace('BKG-', '', $patient['booking_id']) : '') ?>/<?= (int)($patient['session_id'] ?? 0) ?>" onsubmit="return confirm('Delete this session’s report? The completed session will stay on the schedule, and a report can be submitted again.');" style="display:inline;">
+                                <button type="submit" class="report-action-button report-delete-button">
+                                    <span class="material-icon">delete</span> Delete
+                                </button>
+                            </form>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -133,8 +135,10 @@ $totalActivities = count($report['activities']);
 
                             <img
                                 src="<?= htmlspecialchars($patient['image']) ?>"
-                                alt="Patient"
+                                alt="<?= htmlspecialchars($patient['name']) ?>"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
                             >
+                            <span class="avatar-initial-fallback" aria-hidden="true" style="display:none;"><?= htmlspecialchars(mb_strtoupper(mb_substr($patient['name'] ?? 'P', 0, 1))) ?></span>
 
                         </div>
 
@@ -853,8 +857,10 @@ $totalActivities = count($report['activities']);
 
                 <img
                     src="<?= htmlspecialchars($caregiver['image']) ?>"
-                    alt="Caregiver"
+                    alt="<?= htmlspecialchars($caregiver['name']) ?>"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
                 >
+                <span class="avatar-initial-fallback" aria-hidden="true" style="display:none;"><?= htmlspecialchars(mb_strtoupper(mb_substr($caregiver['name'] ?? 'C', 0, 1))) ?></span>
 
             </div>
 

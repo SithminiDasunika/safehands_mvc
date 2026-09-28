@@ -20,7 +20,7 @@
     <!-- Dashboard CSS LAST -->
     <link
         rel="stylesheet"
-        href="/safehands_mvc/public/assets/css/family.css?v=2"
+        href="/safehands_mvc/public/assets/css/family.css?v=5"
     >
 
     <!-- Material Symbols -->

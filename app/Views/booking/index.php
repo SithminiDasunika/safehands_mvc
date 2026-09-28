@@ -112,18 +112,18 @@
 
 <header class="navbar">
     <div class="nav-container">
-        <a href="/safehands_mvc/<?= $role === 'caregiver' ? 'caregiver-dashboard' : 'family' ?>" class="nav-logo" style="text-decoration:none;">SafeHands</a>
+        <a href="/safehands_mvc/<?= $role === 'caregiver' ? 'caregiver/dashboard' : 'family' ?>" class="nav-logo" style="text-decoration:none;">SafeHands</a>
         <nav class="nav-links">
-            <a href="/safehands_mvc/<?= $role === 'caregiver' ? 'caregiver-dashboard' : 'family' ?>">Dashboard</a>
+            <a href="/safehands_mvc/<?= $role === 'caregiver' ? 'caregiver/dashboard' : 'family' ?>">Dashboard</a>
             <?php if($role !== 'caregiver'): ?>
                 <a href="/safehands_mvc/patient">Patients</a>
                 <a href="/safehands_mvc/caregiver">Find Caregivers</a>
             <?php endif; ?>
-            <a href="/safehands_mvc/booking" style="color: #004ac6; font-weight:700;">My Bookings</a>
+            <a href="/safehands_mvc/bookings" style="color: #004ac6; font-weight:700;">My Bookings</a>
         </nav>
         <div class="nav-icons">
-            <span class="material-symbols-outlined">notifications</span>
-            <span class="material-symbols-outlined">account_circle</span>
+            <a href="/safehands_mvc/notifications" aria-label="Notifications" title="Notifications"><span class="material-symbols-outlined">notifications</span></a>
+            <a href="/safehands_mvc/login/logout" aria-label="Log out" title="Log out"><span class="material-symbols-outlined">logout</span></a>
         </div>
     </div>
 </header>

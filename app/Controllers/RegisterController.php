@@ -105,6 +105,8 @@ class RegisterController extends Controller
 
             if ($phone === '') {
                 $errors[] = 'Phone number is required.';
+            } elseif (!$this->isValidTenDigitPhone($phone)) {
+                $errors[] = 'Phone number must contain exactly 10 digits.';
             }
 
             if ($email === '') {
@@ -757,11 +759,14 @@ public function caregiverSi(): void
 public function savePersonal(): void
 {
     $this->startSession();
+    $isSinhala = ($_POST['language'] ?? '') === 'si';
+    $personalView = $isSinhala ? 'register/caregiver-si' : 'register/caregiver';
+    $personalTitle = $isSinhala ? 'රැකවරණ සේවා සපයන්නා ලියාපදිංචිය' : 'Caregiver Registration';
 
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
         header(
-            'Location: /safehands_mvc/register/caregiver'
+            'Location: /safehands_mvc/register/' . ($isSinhala ? 'caregiverSi' : 'caregiver')
         );
 
         exit;
@@ -841,6 +846,9 @@ public function savePersonal(): void
     if ($phone === '') {
         $errors[] =
             'Phone number is required.';
+    } elseif (!$this->isValidTenDigitPhone($phone)) {
+        $errors[] =
+            'Phone number must contain exactly 10 digits.';
     }
 
 
@@ -903,23 +911,8 @@ public function savePersonal(): void
     |--------------------------------------------------------------------------
     */
 
-    if ($dateOfBirth !== '') {
-
-        $dateObject =
-            DateTime::createFromFormat(
-                'Y-m-d',
-                $dateOfBirth
-            );
-
-        if (
-            !$dateObject ||
-            $dateObject->format('Y-m-d')
-                !== $dateOfBirth
-        ) {
-
-            $errors[] =
-                'Please enter a valid date of birth.';
-        }
+    if ($dateOfBirth !== '' && !$this->isValidPastDateOfBirth($dateOfBirth)) {
+        $errors[] = 'Please enter a valid date of birth that is not in the future.';
     }
 
 
@@ -978,7 +971,7 @@ public function savePersonal(): void
         $data = [
 
             'title' =>
-                'Caregiver Registration',
+                $personalTitle,
 
             'css' =>
                 'caregiver-register.css?v=3',
@@ -991,11 +984,7 @@ public function savePersonal(): void
         ];
 
 
-        $this->view(
-            'register/caregiver',
-            $data,
-            'register'
-        );
+        $this->view($personalView, $data, 'register');
 
         return;
     }
@@ -1046,9 +1035,7 @@ public function savePersonal(): void
     |--------------------------------------------------------------------------
     */
 
-    header(
-        'Location: /safehands_mvc/register/professional'
-    );
+    header('Location: /safehands_mvc/register/' . ($isSinhala ? 'professionalSi' : 'professional'));
 
     exit;
 }

@@ -586,7 +586,7 @@ $history = $history ?? [];
             <div class="page-actions">
 
                 <a
-                    href="/safehands_mvc/booking"
+                    href="/safehands_mvc/bookings"
                     class="action-button back-button"
                 >
 

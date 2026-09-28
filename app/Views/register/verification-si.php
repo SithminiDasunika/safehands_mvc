@@ -12,9 +12,6 @@
     <div class="brand">SafeHands</div>
 
     <nav class="main-navigation">
-        <a href="#">රැකියා සොයන්න</a>
-        <a href="#">සම්පත්</a>
-        <a href="#">අප ගැන</a>
         <a href="/safehands_mvc/register.php" class="active">ලියාපදිංචි වන්න</a>
     </nav>
 
@@ -35,12 +32,12 @@
         <nav class="breadcrumb">
             <a href="/safehands_mvc/register.php">ලියාපදිංචිය</a>
             <span>›</span>
-            <span>Caregiver ලෙස ලියාපදිංචි වන්න</span>
+            <span>රැකවරණ සේවා සපයන්නෙකු ලෙස ලියාපදිංචි වන්න</span>
         </nav>
 
         <section class="page-header">
-            <h1>SafeHands Caregiver කෙනෙකු වන්න</h1>
-            <p>සත්‍යාපිත Caregiver කෙනෙකු ලෙස අයදුම් කිරීමට පහත පියවර සම්පූර්ණ කරන්න.</p>
+            <h1>SafeHands රැකවරණ සේවා සපයන්නෙකු කෙනෙකු වන්න</h1>
+            <p>සත්‍යාපිත රැකවරණ සේවා සපයන්නෙකු කෙනෙකු ලෙස අයදුම් කිරීමට පහත පියවර සම්පූර්ණ කරන්න.</p>
         </section>
 
         <section class="steps">
@@ -163,7 +160,7 @@
                 </ul>
             </div>
             <div class="support-image">
-                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwMEcLjLCFh5GSxfaDIzMqanqf78_bQz7xKP7TJdYHQVwzPwK8H7Z3Tni6lfocHMdt1d5UqxngPBrOwhWQV7vLOlKC0mo4I2l0bf7BAY3SzgoO2t47cXP_OzylVca2p2SUkN9lMH_307AfN5ly5C3G2_Re-lFRj3zUmv7lYgAkNC1JGFFgHNb5MiBHfIlwf7BtS901iJhwwU5YXONquq1ijP259qyWLDtgHrk0IyycM" alt="Professional caregiver">
+                <img src= "/safehands_mvc/public/assets/images/caregiver-1.jpg" alt="Professional caregiver">
             </div>
         </section>
 
